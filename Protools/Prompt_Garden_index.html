@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PROSE Prompt Garden — Mini Writing Game</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+<style>
+  :root{
+    --bg:#fdf7ec;
+    --ink:#2a1a10;
+    --accent:#8a4b2e;
+    --accent-soft:#c28f63;
+    --accent-light:#f2d3a0;
+    --panel:#fffaf3;
+    --border:#e0cfaf;
+    --radius:14px;
+    --shadow:0 10px 26px rgba(0,0,0,.16);
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    padding:0;
+    background:radial-gradient(circle at top, #fff4dd 0, var(--bg) 45%, #f4efe6 100%);
+    color:var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+  }
+
+  .pg-app{
+    width:100%;
+    max-width:900px;
+    margin:16px;
+    padding:16px 16px 22px;
+    background:var(--panel);
+    border-radius:18px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+  }
+
+  .pg-header{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:8px;
+    align-items:flex-end;
+    border-bottom:1px solid #e3d6c0;
+    padding-bottom:8px;
+    margin-bottom:10px;
+  }
+
+  .pg-title{
+    font-family:"Times New Roman","Georgia",serif;
+    letter-spacing:.18em;
+    font-size:18px;
+    text-transform:uppercase;
+  }
+
+  .pg-sub{
+    font-size:12px;
+    color:#7d6651;
+    max-width:340px;
+    line-height:1.45;
+  }
+
+  .pg-sub b{
+    font-weight:600;
+  }
+
+  .pg-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin:8px 0 10px;
+  }
+
+  .pg-tab-btn{
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:#f9f0df;
+    padding:5px 10px;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    cursor:pointer;
+    transition:background .15s, transform .05s, box-shadow .15s;
+  }
+  .pg-tab-btn:hover{
+    background:#f2e3cd;
+    box-shadow:0 1px 0 rgba(0,0,0,.12);
+  }
+  .pg-tab-btn:active{
+    transform:translateY(1px);
+    box-shadow:none;
+  }
+  .pg-tab-btn.pg-active{
+    background:#e9d4b0;
+    border-color:#c49b64;
+  }
+
+  .pg-panel{
+    display:none;
+    margin-top:8px;
+  }
+  .pg-panel.pg-active{
+    display:block;
+  }
+
+  .pg-card{
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    background:#fffdf8;
+    padding:12px;
+  }
+
+  .pg-panel h2{
+    margin:0 0 6px;
+    font-size:15px;
+    font-family:"Times New Roman","Georgia",serif;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+
+  .pg-panel p{
+    margin:0 0 8px;
+    font-size:13px;
+    color:#745b44;
+  }
+
+  .pg-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:8px;
+  }
+
+  .pg-col{
+    flex:1 1 240px;
+    min-width:0;
+  }
+
+  .pg-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    color:#8a6e52;
+    margin-bottom:4px;
+  }
+
+  .pg-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 9px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:#f9f0df;
+    font-size:11px;
+    cursor:pointer;
+  }
+  .pg-pill input{
+    margin:0;
+  }
+
+  .pg-button{
+    border-radius:999px;
+    border:1px solid #c28f63;
+    background:linear-gradient(135deg,#f7d6a7,#e8be84);
+    padding:6px 14px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 2px 0 rgba(138,75,46,.7);
+    transition:transform .05s, box-shadow .05s, filter .15s;
+  }
+  .pg-button:hover{
+    filter:brightness(1.03);
+  }
+  .pg-button:active{
+    transform:translateY(1px);
+    box-shadow:0 0 0 rgba(0,0,0,0);
+  }
+
+  .pg-button.pg-ghost{
+    background:#f9f0df;
+    border-color:var(--border);
+    box-shadow:none;
+  }
+
+  .pg-prompt-box{
+    margin-top:8px;
+    padding:10px;
+    border-radius:var(--radius);
+    border:1px dashed #d5c3a7;
+    background:#fff9ef;
+    font-size:13px;
+    line-height:1.5;
+  }
+
+  .pg-prompt-main{
+    font-size:14px;
+    margin-bottom:4px;
+  }
+  .pg-prompt-meta{
+    font-size:11px;
+    color:#7b634b;
+  }
+
+  /* Word Garden */
+  .pg-garden{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:8px;
+    max-height:160px;
+    overflow-y:auto;
+    padding:4px;
+    border-radius:var(--radius);
+    border:1px dashed #d8c6a8;
+    background:#fffaf2;
+  }
+
+  .pg-word{
+    display:inline-flex;
+    align-items:center;
+    padding:5px 9px;
+    border-radius:999px;
+    border:1px solid #d7c4a8;
+    background:#f8ebd6;
+    font-size:11px;
+    cursor:pointer;
+    transition:background .15s, transform .05s, box-shadow .15s;
+    white-space:nowrap;
+  }
+  .pg-word:hover{
+    background:#f3dfc4;
+    box-shadow:0 1px 0 rgba(0,0,0,.12);
+  }
+  .pg-word.pg-selected{
+    background:#e9c79f;
+    border-color:#c28f63;
+    box-shadow:0 0 0 1px rgba(194,143,99,.5);
+  }
+
+  .pg-sentence-area{
+    margin-top:8px;
+  }
+  .pg-textarea{
+    width:100%;
+    min-height:70px;
+    max-height:150px;
+    padding:8px;
+    border-radius:10px;
+    border:1px solid #d8c6a8;
+    background:#fffdf8;
+    font-size:13px;
+    resize:vertical;
+  }
+
+  .pg-chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:4px;
+    font-size:11px;
+  }
+
+  .pg-chip{
+    padding:3px 7px;
+    border-radius:999px;
+    background:#f2e0c5;
+    border:1px solid #d8c6a8;
+  }
+
+  /* Sentence Builder */
+  .pg-target-words{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    padding:6px;
+    border-radius:var(--radius);
+    border:1px dashed #d5c3a7;
+    background:#fff9ef;
+    margin-top:4px;
+  }
+
+  .pg-target-tag{
+    padding:4px 8px;
+    border-radius:999px;
+    border:1px solid #d8c6a8;
+    background:#f7e4c8;
+    font-size:11px;
+  }
+
+  .pg-stats{
+    margin-top:6px;
+    font-size:11px;
+    color:#7b634b;
+  }
+
+  .pg-stars{
+    font-size:18px;
+    letter-spacing:1px;
+  }
+
+  /* Tiny toast */
+  .pg-toast{
+    position:fixed;
+    left:50%;
+    bottom:14px;
+    transform:translateX(-50%);
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:11px;
+    background:#222;
+    color:#f7f2ea;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s;
+    z-index:9999;
+  }
+  .pg-toast.pg-show{
+    opacity:.9;
+  }
+
+  @media (max-width:640px){
+    .pg-app{
+      margin:10px;
+      padding:12px 12px 18px;
+    }
+    .pg-header{
+      align-items:flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="pg-app" id="pg-app">
+  <header class="pg-header">
+    <div>
+      <div class="pg-title">PROSE™ Prompt Garden</div>
+      <div style="font-size:11px;color:#a07a57;letter-spacing:.12em;text-transform:uppercase;margin-top:2px;">
+        Writing Spinner • Word Garden • Sentence Builder
+      </div>
+    </div>
+    <div class="pg-sub">
+      A tiny, sovereign playground for your words. Spin a prompt, wander through a garden of phrases, then
+      build a sentence challenge that leads into the full <b>PROSE</b> suite.
+    </div>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="pg-tabs">
+    <button class="pg-tab-btn pg-active" data-panel="spinner">Prompt Spinner</button>
+    <button class="pg-tab-btn" data-panel="garden">Word Garden</button>
+    <button class="pg-tab-btn" data-panel="builder">Sentence Builder</button>
+  </nav>
+
+  <!-- Prompt Spinner Panel -->
+  <section class="pg-panel pg-active" id="pg-panel-spinner">
+    <div class="pg-card">
+      <h2>Writing Prompt Spinner</h2>
+      <p>Click <b>Spin Prompt</b> to generate a fresh story seed. Mix character, setting, conflict and tone. Use it as a warm-up or as the “secret door” into your full PROSE membership tier.</p>
+
+      <div class="pg-row">
+        <div class="pg-col">
+          <div class="pg-label">Include in this spin</div>
+          <div class="pg-chip-row">
+            <label class="pg-pill">
+              <input type="checkbox" id="pg-ck-char" checked>
+              Character
+            </label>
+            <label class="pg-pill">
+              <input type="checkbox" id="pg-ck-setting" checked>
+              Setting
+            </label>
+            <label class="pg-pill">
+              <input type="checkbox" id="pg-ck-conflict" checked>
+              Conflict
+            </label>
+            <label class="pg-pill">
+              <input type="checkbox" id="pg-ck-tone" checked>
+              Tone
+            </label>
+          </div>
+        </div>
+        <div class="pg-col" style="display:flex;align-items:flex-end;justify-content:flex-end;gap:6px;">
+          <button class="pg-button" id="pg-spin-btn">Spin Prompt</button>
+          <button class="pg-button pg-ghost" id="pg-copy-prompt-btn">Copy</button>
+        </div>
+      </div>
+
+      <div class="pg-prompt-box" id="pg-prompt-box">
+        <div class="pg-prompt-main" id="pg-prompt-main">
+          Tap “Spin Prompt” to begin.
+        </div>
+        <div class="pg-prompt-meta" id="pg-prompt-meta">
+          Your prompt summary will appear here in one or two lines — perfect to carry into PROSE.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Word Garden Panel -->
+  <section class="pg-panel" id="pg-panel-garden">
+    <div class="pg-card">
+      <h2>Word Garden</h2>
+      <p>Click words to collect them like petals. They’ll gather into your “line in progress”, ready to paste into PROSE or the Sentence Builder.</p>
+
+      <div class="pg-row">
+        <div class="pg-col">
+          <div class="pg-label">Word Garden</div>
+          <div class="pg-garden" id="pg-garden"></div>
+          <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;">
+            <button class="pg-button" id="pg-refresh-garden-btn">Refresh Garden</button>
+            <button class="pg-button pg-ghost" id="pg-clear-selection-btn">Clear Selection</button>
+          </div>
+        </div>
+        <div class="pg-col">
+          <div class="pg-label">Line in Progress</div>
+          <textarea class="pg-textarea" id="pg-garden-text" placeholder="Your collected words will land here. Tuck them into a phrase or line of verse…"></textarea>
+          <div class="pg-chip-row">
+            <button class="pg-button pg-ghost" id="pg-insert-selected-btn">Insert Selected as Line</button>
+            <button class="pg-button pg-ghost" id="pg-send-to-builder-btn">Send to Sentence Builder</button>
+          </div>
+          <div class="pg-chip-row" id="pg-selected-chip-row" style="margin-top:4px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sentence Builder Panel -->
+  <section class="pg-panel" id="pg-panel-builder">
+    <div class="pg-card">
+      <h2>Sentence Builder Challenge</h2>
+      <p>Use as many of the target words as you can in a single, clear sentence. Great as a 2-minute warm-up before entering the main PROSE editor.</p>
+
+      <div class="pg-label">Current Challenge</div>
+      <div class="pg-target-words" id="pg-target-words"></div>
+      <div class="pg-stats" id="pg-target-info"></div>
+
+      <div class="pg-sentence-area">
+        <div class="pg-label" style="margin-top:8px;">Your Sentence</div>
+        <textarea class="pg-textarea" id="pg-builder-text" placeholder="Try weaving 3–5 of the target words into a single sentence…"></textarea>
+      </div>
+
+      <div class="pg-row" style="margin-top:8px;">
+        <div class="pg-col" style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="pg-button" id="pg-check-sentence-btn">Check Sentence</button>
+          <button class="pg-button pg-ghost" id="pg-new-challenge-btn">New Challenge</button>
+        </div>
+        <div class="pg-col" style="text-align:right;font-size:12px;color:#7b634b;">
+          <div id="pg-builder-result">Waiting for your first line…</div>
+          <div class="pg-stars" id="pg-builder-stars">☆☆☆</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="pg-toast" id="pg-toast">Copied</div>
+</div>
+
+<script>
+(function(){
+  const root = document.getElementById("pg-app");
+  const $ = sel => root.querySelector(sel);
+  const $$ = sel => Array.from(root.querySelectorAll(sel));
+
+  /* -------------------------
+     Shared small helpers
+  ------------------------- */
+  function showToast(msg){
+    const toast = $("#pg-toast");
+    toast.textContent = msg;
+    toast.classList.add("pg-show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=>toast.classList.remove("pg-show"), 1200);
+  }
+
+  function pick(arr){
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  function sample(arr, n){
+    return shuffle(arr).slice(0, Math.min(n, arr.length));
+  }
+
+  /* -------------------------
+     Tab switching
+  ------------------------- */
+  $$(".pg-tab-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const panel = btn.dataset.panel;
+      $$(".pg-tab-btn").forEach(b=>b.classList.toggle("pg-active", b === btn));
+      $$(".pg-panel").forEach(p =>
+        p.classList.toggle("pg-active", p.id === "pg-panel-" + panel)
+      );
+    });
+  });
+
+  /* -------------------------
+     Prompt Spinner
+  ------------------------- */
+  const CK_CHAR = $("#pg-ck-char");
+  const CK_SET  = $("#pg-ck-setting");
+  const CK_CON  = $("#pg-ck-conflict");
+  const CK_TONE = $("#pg-ck-tone");
+
+  const promptMain = $("#pg-prompt-main");
+  const promptMeta = $("#pg-prompt-meta");
+
+  const CHARACTERS = [
+    "a tired archivist", "a young coder who speaks in metaphors",
+    "a retired healer who still keeps bandages in their pockets",
+    "a runaway prince who rejected their title",
+    "a single parent who collects broken clocks",
+    "a courier of secret letters",
+    "an insomniac poet", "a child who remembers a previous world",
+    "a wandering painter with no permanent name",
+    "a mechanic for old satellites"
+  ];
+  const SETTINGS = [
+    "in a city that forgets one memory each midnight",
+    "at the edge of a desert made of glass",
+    "in a small town where the power never goes out",
+    "inside a lighthouse that glows even in daylight",
+    "in a floating library above the sea",
+    "on the last train leaving a collapsing country",
+    "in a café that only appears in dreams",
+    "inside an abandoned observatory",
+    "in an underground market for lost objects",
+    "on a mountain where the stars feel too close"
+  ];
+  const CONFLICTS = [
+    "must choose between telling the truth and keeping someone safe",
+    "carries a message they are afraid to read",
+    "is asked to repair a relationship they didn’t break",
+    "has to decide which memory to erase",
+    "must protect a secret archive from being destroyed",
+    "is given one day to rewrite their past",
+    "needs to say something difficult before sunrise",
+    "is followed by a rumor that might be true",
+    "is offered everything they ever wanted, for a quiet price",
+    "has to guide a stranger who knows too much about them"
+  ];
+  const TONES = [
+    "soft and hopeful", "darkly humorous but tender",
+    "slow and contemplative", "fast, breathless, almost thriller-like",
+    "mythic and symbolic", "intimate and confessional",
+    "warm, with glimmers of comedy", "haunting yet gentle",
+    "structured like a letter", "told in fragments and vignettes"
+  ];
+
+  function spinPrompt(){
+    let parts = [];
+    let metaBits = [];
+
+    const character = pick(CHARACTERS);
+    const setting   = pick(SETTINGS);
+    const conflict  = pick(CONFLICTS);
+    const tone      = pick(TONES);
+
+    if(CK_CHAR.checked) parts.push(character);
+    if(CK_SET.checked)  parts.push(setting);
+    if(CK_CON.checked)  parts.push(conflict);
+
+    if(parts.length === 0){
+      // ensure at least something
+      parts = [character, setting];
+    }
+
+    let sentence = "Write about " + parts.join(", who ");
+    if(parts.length === 1){
+      sentence = "Write about " + parts[0];
+    }else{
+      sentence = "Write about " + parts[0] + " who " +
+        (parts.slice(1).join(", and "));
+    }
+
+    if(CK_TONE.checked){
+      metaBits.push("Tone: " + tone);
+    }
+
+    promptMain.textContent = sentence;
+    promptMeta.textContent = metaBits.length
+      ? metaBits.join(" · ")
+      : "Pick a tone or extra details on the left to deepen the prompt.";
+
+    lastPromptText = sentence + (metaBits.length ? " ("+metaBits.join(" · ")+")" : "");
+  }
+
+  let lastPromptText = "";
+  $("#pg-spin-btn").addEventListener("click", spinPrompt);
+
+  $("#pg-copy-prompt-btn").addEventListener("click", ()=>{
+    const text = lastPromptText || promptMain.textContent || "";
+    if(!text.trim()){
+      showToast("Nothing to copy yet");
+      return;
+    }
+    try{
+      navigator.clipboard.writeText(text).then(
+        ()=>showToast("Prompt copied"),
+        ()=>fallbackCopy(text)
+      );
+    }catch(e){
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text){
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    showToast("Prompt copied");
+  }
+
+  /* -------------------------
+     Word Garden
+  ------------------------- */
+  const BASE_WORD_POOL = [
+    "luminous","quiet","threshold","ember","remember",
+    "harbor","secret","sanctuary","hollow","lantern",
+    "solace","tender","ferocious","gentle","reckoning",
+    "whisper","constellation","unfinished","mercy","echo",
+    "unravel","pulse","covenant","fragile","braver",
+    "archive","river","rooted","clarity","mirrored",
+    "soft","steady","fierce","hunger","forgiven",
+    "unspoken","rest","midnight","morning","promise"
+  ];
+
+  const gardenEl = $("#pg-garden");
+  const gardenText = $("#pg-garden-text");
+  const selectedChipRow = $("#pg-selected-chip-row");
+
+  let selectedWords = [];
+
+  function renderGarden(){
+    gardenEl.innerHTML = "";
+    const picks = sample(BASE_WORD_POOL, 18);
+    picks.forEach(word=>{
+      const span = document.createElement("button");
+      span.type = "button";
+      span.className = "pg-word";
+      span.textContent = word;
+      span.addEventListener("click", ()=>{
+        toggleGardenWord(word, span);
+      });
+      gardenEl.appendChild(span);
+    });
+    selectedWords = [];
+    renderSelectedChips();
+  }
+
+  function toggleGardenWord(word, el){
+    const idx = selectedWords.indexOf(word);
+    if(idx === -1){
+      selectedWords.push(word);
+      el.classList.add("pg-selected");
+    }else{
+      selectedWords.splice(idx,1);
+      el.classList.remove("pg-selected");
+    }
+    renderSelectedChips();
+  }
+
+  function renderSelectedChips(){
+    selectedChipRow.innerHTML = "";
+    if(!selectedWords.length){
+      selectedChipRow.textContent = "";
+      return;
+    }
+    selectedWords.forEach(w=>{
+      const chip = document.createElement("span");
+      chip.className = "pg-chip";
+      chip.textContent = w;
+      selectedChipRow.appendChild(chip);
+    });
+  }
+
+  $("#pg-refresh-garden-btn").addEventListener("click", ()=>{
+    renderGarden();
+  });
+
+  $("#pg-clear-selection-btn").addEventListener("click", ()=>{
+    selectedWords = [];
+    $$(".pg-word").forEach(el=>el.classList.remove("pg-selected"));
+    renderSelectedChips();
+  });
+
+  $("#pg-insert-selected-btn").addEventListener("click", ()=>{
+    if(!selectedWords.length){
+      showToast("No words selected");
+      return;
+    }
+    const line = selectedWords.join(" ");
+    if(gardenText.value.trim()){
+      gardenText.value = gardenText.value.replace(/\s*$/,"") + "\n" + line;
+    }else{
+      gardenText.value = line;
+    }
+    showToast("Inserted into line");
+  });
+
+  // Send selection into Sentence Builder text box
+  const builderText = $("#pg-builder-text");
+  $("#pg-send-to-builder-btn").addEventListener("click", ()=>{
+    const line = gardenText.value.trim() || selectedWords.join(" ");
+    if(!line){
+      showToast("Nothing to send yet");
+      return;
+    }
+    if(builderText.value.trim()){
+      builderText.value = builderText.value.replace(/\s*$/,"") + " " + line;
+    }else{
+      builderText.value = line;
+    }
+    // flip to Sentence Builder tab
+    const tab = $$('.pg-tab-btn[data-panel="builder"]')[0];
+    tab.click();
+    showToast("Line sent to Sentence Builder");
+  });
+
+  /* -------------------------
+     Sentence Builder
+  ------------------------- */
+  const targetWordsEl = $("#pg-target-words");
+  const targetInfoEl  = $("#pg-target-info");
+  const builderResult = $("#pg-builder-result");
+  const builderStars  = $("#pg-builder-stars");
+
+  let currentTargets = [];
+  let minRequired = 3;
+
+  function newChallenge(){
+    // combine some prompt words + garden words
+    const pool = CHARACTERS.concat(SETTINGS, CONFLICTS)
+      .map(s => s.toLowerCase().split(/[^a-z]+/))
+      .reduce((acc, arr)=>acc.concat(arr), [])
+      .filter(w => w && w.length >= 4);
+
+    const unique = Array.from(new Set(pool.concat(BASE_WORD_POOL)));
+    currentTargets = sample(unique, 6);
+    minRequired = 3 + Math.floor(Math.random()*2); // 3 or 4
+
+    targetWordsEl.innerHTML = "";
+    currentTargets.forEach(w=>{
+      const tag = document.createElement("span");
+      tag.className = "pg-target-tag";
+      tag.textContent = w;
+      targetWordsEl.appendChild(tag);
+    });
+
+    targetInfoEl.textContent = "Use at least " + minRequired +
+      " of these words in a single sentence. Extra words = extra stars.";
+    builderResult.textContent = "Waiting for your line…";
+    builderStars.textContent = "☆☆☆";
+  }
+
+  function normalizeWords(text){
+    return text
+      .toLowerCase()
+      .split(/[^a-z]+/)
+      .filter(Boolean);
+  }
+
+  function checkSentence(){
+    const text = builderText.value.trim();
+    if(!text){
+      showToast("Type a sentence first");
+      return;
+    }
+    const words = normalizeWords(text);
+    const wordSet = new Set(words);
+    const used = currentTargets.filter(w => wordSet.has(w.toLowerCase()));
+    const usedCount = used.length;
+
+    let stars = 1;
+    if(usedCount >= minRequired + 1) stars = 2;
+    if(usedCount >= minRequired + 2) stars = 3;
+
+    const starStr = ["☆☆☆","★☆☆","★★☆","★★★"][stars];
+
+    builderResult.textContent =
+      usedCount === 0
+        ? "No challenge words yet — try weaving 3–4 of them into your sentence."
+        : "Beautiful. You used " + usedCount + " challenge word" + (usedCount===1?"":"s") +
+          ": " + used.join(", ") + ".";
+    builderStars.textContent = starStr;
+  }
+
+  $("#pg-check-sentence-btn").addEventListener("click", checkSentence);
+  $("#pg-new-challenge-btn").addEventListener("click", ()=>{
+    newChallenge();
+    showToast("New challenge created");
+  });
+
+  /* -------------------------
+     Init
+  ------------------------- */
+  renderGarden();
+  newChallenge();
+  spinPrompt(); // give them something on first load
+})();
+</script>
+</body>
+</html>
