@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KhaeZip™ v3.2 — Sovereign Offline Edition</title>
+<style>
+/* ============================================================
+   KhaeZip v3.2 — Sovereign Offline Edition
+   Night Sky Nebula Theme • No external JS/CDN
+   ============================================================ */
+
+:root{
+  --nebula1:#0b0427;
+  --nebula2:#1a0b47;
+  --accent1:#7ac9ff;
+  --accent2:#b6bfff;
+  --panel-bg:rgba(15,20,35,0.85);
+  --border-glow:rgba(122,201,255,0.45);
+  --radius:14px;
+  --shadow:0 0 24px rgba(0,0,0,0.6);
+  --font-main:'Brandon Grotesque',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  font-family:var(--font-main);
+  color:#fff;
+  background:radial-gradient(circle at 50% 20%,var(--nebula2) 0%,var(--nebula1) 100%);
+  /* Allow vertical scroll for embeds + mobile, but lock X */
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* ---------- Starfield Canvas ---------- */
+#starfield{
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+  background:transparent;
+}
+
+/* ---------- Main Application Panel ---------- */
+.app{
+  position:relative;
+  z-index:2;
+  max-width:1000px;
+  margin:32px auto;
+  padding:24px;
+  border-radius:var(--radius);
+  background:var(--panel-bg);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--border-glow);
+}
+
+h1{
+  font-size:28px;
+  margin:0 0 12px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-align:center;
+  letter-spacing:1px;
+}
+
+p.lead{
+  text-align:center;
+  color:#c5d9ff;
+  font-size:16px;
+  margin-bottom:24px;
+}
+
+/* ---------- Control Panels ---------- */
+.panel-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+
+.panel{
+  flex:1 1 420px;
+  background:rgba(255,255,255,0.04);
+  border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:20px;
+  box-shadow:inset 0 0 12px rgba(255,255,255,0.05);
+}
+
+.panel h2{
+  font-size:18px;
+  color:#b7ccff;
+  margin-top:0;
+  margin-bottom:10px;
+}
+
+label{
+  font-size:13px;
+  color:#b8c8e8;
+}
+
+input,select{
+  background:rgba(0,0,0,0.3);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:8px;
+  color:#fff;
+  padding:6px 10px;
+  margin-top:4px;
+}
+
+input::placeholder{
+  color:#888;
+}
+
+button{
+  background:linear-gradient(180deg,#3a8dff,#0066ff);
+  border:none;
+  border-radius:8px;
+  padding:10px 16px;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 8px rgba(58,141,255,0.5);
+  transition:all .2s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 14px rgba(58,141,255,0.8);
+}
+
+button.secondary{
+  background:linear-gradient(180deg,#404860,#2a2f45);
+  color:#c5d9ff;
+  box-shadow:none;
+}
+
+button.small{
+  font-size:13px;
+  padding:6px 10px;
+}
+
+/* Dropzone */
+.dropzone{
+  border:2px dashed rgba(255,255,255,0.25);
+  border-radius:var(--radius);
+  text-align:center;
+  padding:24px;
+  color:#bcd0ff;
+  cursor:pointer;
+  transition:border-color .2s, background .2s;
+}
+.dropzone.drag-over{
+  border-color:var(--accent1);
+  background:rgba(122,201,255,0.08);
+}
+.dropzone:focus{
+  outline:2px solid var(--accent1);
+  outline-offset:3px;
+}
+
+/* File lists */
+.files-list{
+  max-height:200px;
+  overflow-y:auto;
+  background:rgba(0,0,0,0.25);
+  border-radius:var(--radius);
+  margin-top:10px;
+  padding:10px;
+  font-size:13px;
+}
+
+.files-list ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.files-list li{
+  border-bottom:1px dashed rgba(255,255,255,0.1);
+  padding:6px 0;
+}
+
+/* Progress bars */
+.progress{
+  width:100%;
+  height:8px;
+  background:rgba(255,255,255,0.1);
+  border-radius:10px;
+  margin-top:8px;
+  overflow:hidden;
+}
+
+.progress>i{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#4aa3ff,#7ac9ff);
+}
+
+/* ---------- Footer ---------- */
+footer{
+  text-align:center;
+  color:#b8c8e8;
+  font-size:13px;
+  margin-top:40px;
+}
+
+footer a{
+  color:#9dd2ff;
+  text-decoration:none;
+}
+
+footer a:hover{
+  text-decoration:underline;
+}
+
+/* ---------- Glow Animations ---------- */
+@keyframes pulseGlow{
+  0%{box-shadow:0 0 8px rgba(58,141,255,0.4);}
+  50%{box-shadow:0 0 16px rgba(58,141,255,0.9);}
+  100%{box-shadow:0 0 8px rgba(58,141,255,0.4);}
+}
+
+.glow-pulse{
+  animation:pulseGlow 2.5s infinite ease-in-out;
+}
+</style>
+</head>
+<body>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<div class="app" role="application" aria-label="KhaeZip Sovereign Archive Tool">
+  <h1>KhaeZip™ v3.2 — Sovereign Offline Edition</h1>
+  <p class="lead">
+    Free & sovereign browser archive tool — no cloud, no trackers, no CDN.<br>
+    Everything runs locally in your browser.
+  </p>
+
+  <div class="panel-row">
+    <!-- CREATE ARCHIVE PANEL -->
+    <div class="panel" id="compressPanel">
+      <h2>Create Archive</h2>
+
+      <div id="drop" class="dropzone" tabindex="0">
+        Drop files here or click to browse
+      </div>
+      <input id="fileInput" type="file" multiple style="margin-top:10px;">
+
+      <div id="fileList" class="files-list" aria-live="polite">
+        <ul></ul>
+      </div>
+
+      <div style="margin-top:12px;">
+        <label>
+          Compression Mode
+          <select id="level">
+            <option value="0" selected>Standard (store only)</option>
+          </select>
+        </label>
+        <div style="font-size:11px;color:#7f8fb5;margin-top:3px;">
+          Offline edition uses ZIP “store” mode (no size reduction yet) for maximum compatibility.
+        </div>
+      </div>
+
+      <div style="margin-top:10px;">
+        <label>Password (optional)</label><br>
+        <input id="pwd" type="password" placeholder="Encrypt with password">
+      </div>
+
+      <div style="margin-top:10px;">
+        <label>Split size (MB)</label><br>
+        <input id="splitSize" type="number" min="0" step="1" value="0" style="width:90px;">
+        <div style="font-size:11px;color:#7f8fb5;margin-top:3px;">
+          Leave at 0 for a single file. Split parts must be re-joined manually.
+        </div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <button id="zipBtn" class="glow-pulse">Create Archive</button>
+        <button id="clearBtn" class="secondary small">Clear</button>
+
+        <div id="sizeInfo" style="font-size:13px;margin-top:8px;color:#b8c8e8;">
+          Files: 0 • Total: 0 B
+        </div>
+
+        <div class="progress" aria-hidden="true">
+          <i id="progressBar"></i>
+        </div>
+
+        <div id="status" style="font-size:12px;color:#b8c8e8;margin-top:6px;"></div>
+      </div>
+    </div>
+
+    <!-- OPEN ARCHIVE PANEL -->
+    <div class="panel" id="openPanel">
+      <h2>Open Archive</h2>
+
+      <input id="openInput" type="file" accept=".zip,.kz">
+      <div id="openStatus" style="font-size:13px;margin-top:6px;color:#b8c8e8;">
+        No archive loaded.
+      </div>
+
+      <div id="entries" class="files-list" aria-live="polite"></div>
+
+      <div style="margin-top:10px;">
+        <input id="openPwd" type="password" placeholder="Password for .kz (if used)">
+      </div>
+
+      <div style="margin-top:14px;">
+        <button id="openBtn">Open</button>
+        <button id="repairBtn" class="secondary small">Repair</button>
+        <button id="downloadAllBtn" class="secondary small" style="display:none;margin-left:8px;">
+          Download All
+        </button>
+
+        <div class="progress" aria-hidden="true">
+          <i id="openBar"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>
+      © 2025 Khaemenes Academy & Bazaar Art LLC • Sovereign Offline Edition v3.2 •
+      <a href="#">Privacy First</a>
+    </p>
+  </footer>
+</div>
+
+<!-- ===== Starfield + Voice Init ===== -->
+<script>
+/* Simple starfield background (local-only, no assets) */
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resizeStarfield(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = [];
+  for(let i=0;i<180;i++){
+    stars.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*1.6+0.2,
+      dx:(Math.random()-0.5)*0.1,
+      dy:(Math.random()-0.5)*0.1,
+      alpha:Math.random()*0.8+0.2
+    });
+  }
+}
+window.addEventListener('resize',resizeStarfield);
+resizeStarfield();
+
+function drawStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(const s of stars){
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+    ctx.fill();
+    s.x += s.dx;
+    s.y += s.dy;
+    if(s.x<0) s.x = canvas.width;
+    if(s.x>canvas.width) s.x = 0;
+    if(s.y<0) s.y = canvas.height;
+    if(s.y>canvas.height) s.y = 0;
+  }
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* Voice feedback system (optional) */
+window.KhaeVoice = {
+  speak(msg){
+    try{
+      if(!('speechSynthesis' in window) || !msg) return;
+      const utter = new SpeechSynthesisUtterance(msg);
+      utter.rate = 1;
+      utter.pitch = 1.1;
+      utter.volume = 0.9;
+      const voices = speechSynthesis.getVoices() || [];
+      const v = voices.find(v => v.lang && v.lang.startsWith('en'));
+      if(v) utter.voice = v;
+      speechSynthesis.speak(utter);
+    }catch(e){
+      // Silent fail; no voice available
+    }
+  }
+};
+</script>
+
+<script>
+/* ============================================================
+   KhaeZip v3.2 – Sovereign Offline Edition  (no external JS)
+   Custom ZIP (store only) + AES-GCM + IndexedDB Vault
+   ============================================================ */
+
+const KHAEZIP_VERSION = "3.2.0";
+
+/* ---------- Element Shortcuts ---------- */
+const fileInput   = document.getElementById("fileInput");
+const drop        = document.getElementById("drop");
+const fileListBox = document.getElementById("fileList");
+const fileListUl  = fileListBox.querySelector("ul");
+const sizeInfo    = document.getElementById("sizeInfo");
+const zipBtn      = document.getElementById("zipBtn");
+const clearBtn    = document.getElementById("clearBtn");
+const levelSelect = document.getElementById("level");
+const pwdInput    = document.getElementById("pwd");
+const splitInput  = document.getElementById("splitSize");
+const progressBar = document.getElementById("progressBar");
+const status      = document.getElementById("status");
+
+const openInput   = document.getElementById("openInput");
+const openBtn     = document.getElementById("openBtn");
+const openPwd     = document.getElementById("openPwd");
+const entriesBox  = document.getElementById("entries");
+const openStatus  = document.getElementById("openStatus");
+const repairBtn   = document.getElementById("repairBtn");
+const openBar     = document.getElementById("openBar");
+const downloadAllBtn = document.getElementById("downloadAllBtn");
+
+let filesToZip = [];
+
+/* ---------- Utility Helpers ---------- */
+function human(bytes){
+  if(bytes === 0) return "0 B";
+  const units = ["B","KB","MB","GB","TB"];
+  let i = 0;
+  while(bytes >= 1024 && i < units.length - 1){
+    bytes /= 1024;
+    i++;
+  }
+  return bytes.toFixed(2) + " " + units[i];
+}
+
+function setProgress(el,p){
+  const pct = Math.max(0, Math.min(100, p));
+  el.style.width = pct + "%";
+}
+
+function sleep(ms){
+  return new Promise(r=>setTimeout(r,ms));
+}
+
+/* ---------- File List Handling ---------- */
+function refreshList(){
+  fileListUl.innerHTML = "";
+  let total = 0;
+  for(const f of filesToZip){
+    const li = document.createElement("li");
+    li.textContent = `${f.name} • ${human(f.size)}`;
+    fileListUl.appendChild(li);
+    total += f.size;
+  }
+  sizeInfo.textContent = `Files: ${filesToZip.length} • Total: ${human(total)}`;
+}
+
+/* ---------- Drop / Input ---------- */
+drop.addEventListener("click",()=>fileInput.click());
+
+drop.addEventListener("dragover",e=>{
+  e.preventDefault();
+  drop.classList.add("drag-over");
+});
+
+drop.addEventListener("dragleave",e=>{
+  e.preventDefault();
+  drop.classList.remove("drag-over");
+});
+
+drop.addEventListener("drop",e=>{
+  e.preventDefault();
+  drop.classList.remove("drag-over");
+  if(e.dataTransfer && e.dataTransfer.files){
+    addFiles(e.dataTransfer.files);
+  }
+});
+
+/* Keyboard activation for accessibility */
+drop.addEventListener("keydown",e=>{
+  if(e.key === "Enter" || e.key === " "){
+    e.preventDefault();
+    fileInput.click();
+  }
+});
+
+fileInput.addEventListener("change",()=>addFiles(fileInput.files));
+
+function addFiles(list){
+  for(let i=0;i<list.length;i++){
+    filesToZip.push(list[i]);
+  }
+  refreshList();
+}
+
+/* ---------- Clear ---------- */
+clearBtn.addEventListener("click",()=>{
+  filesToZip = [];
+  refreshList();
+  status.textContent = "";
+  sizeInfo.textContent = "Files: 0 • Total: 0 B";
+  fileInput.value = "";
+  setProgress(progressBar,0);
+  downloadAllBtn.style.display = "none";
+});
+
+/* ============================================================
+   MANIFEST + EVENT HOOKS
+   ============================================================ */
+async function buildManifest(){
+  const now = new Date().toISOString();
+  const manifest = {
+    version: KHAEZIP_VERSION,
+    createdAt: now,
+    files: filesToZip.map(f=>({
+      name: f.name,
+      size: f.size,
+      type: f.type || "unknown"
+    }))
+  };
+  return JSON.stringify(manifest,null,2);
+}
+
+function emitEvent(type,detail){
+  window.dispatchEvent(new CustomEvent("khaezip:"+type,{detail}));
+  if(window.KhaeVoice && detail && detail.voice){
+    window.KhaeVoice.speak(detail.voice);
+  }
+}
+
+/* ============================================================
+   CRC32 + ZIP (STORE-ONLY) IMPLEMENTATION
+   ============================================================ */
+
+let crcTable = null;
+function makeCRCTable(){
+  let c;
+  const table = [];
+  for(let n=0;n<256;n++){
+    c = n;
+    for(let k=0;k<8;k++){
+      if(c & 1){
+        c = 0xEDB88320 ^ (c >>> 1);
+      }else{
+        c = c >>> 1;
+      }
+    }
+    table[n] = c >>> 0;
+  }
+  return table;
+}
+
+function crc32(buf){
+  if(!crcTable) crcTable = makeCRCTable();
+  let crc = 0 ^ (-1);
+  for(let i=0;i<buf.length;i++){
+    crc = (crc >>> 8) ^ crcTable[(crc ^ buf[i]) & 0xFF];
+  }
+  return (crc ^ (-1)) >>> 0;
+}
+
+function writeUint16LE(arr,offset,value){
+  arr[offset]   = value & 0xFF;
+  arr[offset+1] = (value >>> 8) & 0xFF;
+}
+
+function writeUint32LE(arr,offset,value){
+  arr[offset]   = value & 0xFF;
+  arr[offset+1] = (value >>> 8) & 0xFF;
+  arr[offset+2] = (value >>> 16) & 0xFF;
+  arr[offset+3] = (value >>> 24) & 0xFF;
+}
+
+function readUint16LE(buf,offset){
+  return buf[offset] | (buf[offset+1] << 8);
+}
+
+function readUint32LE(buf,offset){
+  return (buf[offset] |
+         (buf[offset+1] << 8) |
+         (buf[offset+2] << 16) |
+         (buf[offset+3] << 24)) >>> 0;
+}
+
+/**
+ * entries: [{name: string, data: Uint8Array}]
+ * Returns Blob of a ZIP archive (store-only, no compression).
+ */
+async function createZipBlob(entries){
+  const filesCount = entries.length;
+  const locals = [];
+  const centrals = [];
+  let offset = 0;
+  const encoder = new TextEncoder();
+
+  // Using zero DOS date/time for simplicity
+  const dosTime = 0;
+  const dosDate = 0;
+
+  for(const ent of entries){
+    const nameBytes = encoder.encode(ent.name);
+    const data = ent.data;
+    const crc = crc32(data);
+    const size = data.length;
+
+    // Local file header
+    const localHeader = new Uint8Array(30 + nameBytes.length);
+    writeUint32LE(localHeader, 0, 0x04034b50);  // signature
+    writeUint16LE(localHeader, 4, 20);          // version needed
+    writeUint16LE(localHeader, 6, 0);           // flags
+    writeUint16LE(localHeader, 8, 0);           // compression = 0 (store)
+    writeUint16LE(localHeader,10,dosTime);      // time
+    writeUint16LE(localHeader,12,dosDate);      // date
+    writeUint32LE(localHeader,14,crc);          // crc32
+    writeUint32LE(localHeader,18,size);         // comp size
+    writeUint32LE(localHeader,22,size);         // uncomp size
+    writeUint16LE(localHeader,26,nameBytes.length); // name len
+    writeUint16LE(localHeader,28,0);                 // extra len
+    localHeader.set(nameBytes,30);
+
+    locals.push(localHeader);
+    locals.push(data);
+
+    // Central directory entry
+    const central = new Uint8Array(46 + nameBytes.length);
+    writeUint32LE(central, 0, 0x02014b50);  // central signature
+    writeUint16LE(central, 4, 20);          // version made by
+    writeUint16LE(central, 6, 20);          // version needed
+    writeUint16LE(central, 8, 0);           // flags
+    writeUint16LE(central,10,0);            // compression
+    writeUint16LE(central,12,dosTime);      // time
+    writeUint16LE(central,14,dosDate);      // date
+    writeUint32LE(central,16,crc);          // crc32
+    writeUint32LE(central,20,size);         // comp size
+    writeUint32LE(central,24,size);         // uncomp size
+    writeUint16LE(central,28,nameBytes.length); // file name len
+    writeUint16LE(central,30,0);            // extra len
+    writeUint16LE(central,32,0);            // comment len
+    writeUint16LE(central,34,0);            // disk start
+    writeUint16LE(central,36,0);            // internal attr
+    writeUint32LE(central,38,0);            // external attr
+    writeUint32LE(central,42,offset);       // local header offset
+    central.set(nameBytes,46);
+
+    centrals.push(central);
+
+    offset += localHeader.length + size;
+  }
+
+  const centralDirSize = centrals.reduce((sum,c)=>sum+c.length,0);
+  const centralDirOffset = offset;
+
+  const eocd = new Uint8Array(22);
+  writeUint32LE(eocd,0,0x06054b50);           // EOCD signature
+  writeUint16LE(eocd,4,0);                    // disk
+  writeUint16LE(eocd,6,0);                    // start disk
+  writeUint16LE(eocd,8,filesCount);           // entries on disk
+  writeUint16LE(eocd,10,filesCount);          // total entries
+  writeUint32LE(eocd,12,centralDirSize);      // size of central dir
+  writeUint32LE(eocd,16,centralDirOffset);    // offset of central dir
+  writeUint16LE(eocd,20,0);                   // comment len
+
+  const totalSize = offset + centralDirSize + eocd.length;
+  const out = new Uint8Array(totalSize);
+  let p = 0;
+  for(const part of locals){
+    out.set(part,p);
+    p += part.length;
+  }
+  for(const central of centrals){
+    out.set(central,p);
+    p += central.length;
+  }
+  out.set(eocd,p);
+
+  return new Blob([out], {type:"application/zip"});
+}
+
+/* ============================================================
+   ENCRYPTION (AES-GCM, PBKDF2) + SPLIT
+   ============================================================ */
+
+async function deriveKey(password,salt){
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    {name:"PBKDF2"},
+    false,
+    ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    {
+      name:"PBKDF2",
+      salt,
+      iterations:150000,
+      hash:"SHA-256"
+    },
+    keyMaterial,
+    {name:"AES-GCM",length:256},
+    false,
+    ["encrypt","decrypt"]
+  );
+}
+
+async function encryptBlob(blob,password){
+  const iv   = crypto.getRandomValues(new Uint8Array(12));
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key  = await deriveKey(password,salt);
+  const data = new Uint8Array(await blob.arrayBuffer());
+  const cipher = await crypto.subtle.encrypt({name:"AES-GCM",iv},key,data);
+  const header = new TextEncoder().encode("KZ3");
+  const out = new Uint8Array(header.length + salt.length + iv.length + cipher.byteLength);
+  out.set(header,0);
+  out.set(salt,header.length);
+  out.set(iv,header.length+salt.length);
+  out.set(new Uint8Array(cipher),header.length+salt.length+iv.length);
+  return new Blob([out],{type:"application/octet-stream"});
+}
+
+async function decryptBlob(blob,password){
+  const buf = new Uint8Array(await blob.arrayBuffer());
+  if(buf.length < 32){
+    throw new Error("Not a valid KhaeZip archive (too small).");
+  }
+  const magic = new TextDecoder().decode(buf.slice(0,3));
+  if(magic !== "KZ3"){
+    throw new Error("This file is not a KhaeZip .kz archive.");
+  }
+  const salt   = buf.slice(3,19);
+  const iv     = buf.slice(19,31);
+  const cipher = buf.slice(31);
+  const key    = await deriveKey(password,salt);
+  try{
+    const plain = await crypto.subtle.decrypt({name:"AES-GCM",iv},key,cipher);
+    return new Blob([plain],{type:"application/zip"});
+  }catch(e){
+    throw new Error("Decryption failed. Check that your password is correct.");
+  }
+}
+
+/* Split helper */
+function splitBlob(blob,partSize){
+  if(!partSize || partSize <= 0) return [blob];
+  const parts = [];
+  let offset = 0;
+  while(offset < blob.size){
+    const end = Math.min(offset+partSize,blob.size);
+    parts.push(blob.slice(offset,end));
+    offset = end;
+  }
+  return parts;
+}
+
+/* ============================================================
+   SAVE FILE + VAULT (IndexedDB)
+   ============================================================ */
+async function saveFile(blob,name){
+  const supports = "showSaveFilePicker" in window;
+  if(supports){
+    try{
+      const handle = await showSaveFilePicker({suggestedName:name});
+      const w = await handle.createWritable();
+      await w.write(blob);
+      await w.close();
+      return;
+    }catch(e){
+      if(e.name !== "AbortError") console.warn(e);
+    }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  },1000);
+}
+
+/* Vault */
+const DB_NAME  = "KhaeZipVault";
+const DB_STORE = "archives";
+let db;
+
+function openDB(){
+  return new Promise((res,rej)=>{
+    const req = indexedDB.open(DB_NAME,1);
+    req.onupgradeneeded = () => {
+      req.result.createObjectStore(DB_STORE,{keyPath:"name"});
+    };
+    req.onsuccess = () => {
+      db = req.result;
+      res();
+    };
+    req.onerror = () => rej(req.error);
+  });
+}
+
+async function vaultAdd(rec){
+  if(!db) await openDB();
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(DB_STORE,"readwrite");
+    tx.objectStore(DB_STORE).put(rec);
+    tx.oncomplete = () => res();
+    tx.onerror    = () => rej(tx.error);
+  });
+}
+
+async function vaultList(){
+  if(!db) await openDB();
+  return new Promise(res=>{
+    const tx  = db.transaction(DB_STORE,"readonly");
+    const req = tx.objectStore(DB_STORE).getAll();
+    req.onsuccess = () => res(req.result || []);
+  });
+}
+
+/* ============================================================
+   MAIN ZIP CREATION FLOW
+   ============================================================ */
+
+zipBtn.addEventListener("click",async()=>{
+  if(!filesToZip.length){
+    alert("Add files first.");
+    return;
+  }
+
+  zipBtn.disabled = true;
+  status.textContent = "Preparing files…";
+  setProgress(progressBar,0);
+
+  try{
+    const entries = [];
+    const enc = new TextEncoder();
+
+    // Manifest
+    const manifest = await buildManifest();
+    entries.push({name:"manifest.json", data: enc.encode(manifest)});
+
+    // User files
+    let processed = 0;
+    for(const f of filesToZip){
+      const buf = new Uint8Array(await f.arrayBuffer());
+      entries.push({name:f.name, data:buf});
+      processed++;
+      setProgress(progressBar, processed / filesToZip.length * 40);
+      await sleep(5);
+    }
+
+    status.textContent = "Building archive…";
+    setProgress(progressBar,60);
+    const zipBlob = await createZipBlob(entries);
+
+    let finalBlob = zipBlob;
+    let ext   = ".zip";
+    let label = "Archive created.";
+    const pwd = pwdInput.value.trim();
+
+    if(pwd){
+      if(!crypto || !crypto.subtle){
+        alert("Encryption is not available in this browser. Creating a normal ZIP instead.");
+      }else{
+        status.textContent = "Encrypting archive…";
+        finalBlob = await encryptBlob(zipBlob,pwd);
+        ext = ".kz";
+        label = "Encrypted archive created.";
+      }
+    }
+
+    const partMB = parseInt(splitInput.value || "0",10);
+    const parts  = splitBlob(finalBlob, partMB * 1024 * 1024);
+    const baseName = "khaezip_" + new Date().toISOString().replace(/[:.]/g,"-");
+
+    for(let i=0;i<parts.length;i++){
+      const suffix = parts.length > 1 ? `.part${i+1}` : "";
+      await saveFile(parts[i], `${baseName}${suffix}${ext}`);
+    }
+
+    setProgress(progressBar,100);
+    status.textContent = label;
+
+    emitEvent("archiveCreated",{
+      name: baseName,
+      encrypted: !!pwd,
+      count: filesToZip.length,
+      voice: "Archive created successfully."
+    });
+
+    await vaultAdd({
+      name: baseName,
+      ts: Date.now(),
+      encrypted: !!pwd,
+      files: filesToZip.length,
+      size: finalBlob.size
+    });
+
+  }catch(e){
+    console.error(e);
+    alert("Error: " + (e && e.message ? e.message : e));
+  }finally{
+    zipBtn.disabled = false;
+  }
+});
+
+/* ============================================================
+   ZIP READER (STORE-ONLY) FOR OPEN PANEL
+   ============================================================ */
+
+let currentZipBuffer = null;
+let currentEntries = [];
+let currentArchiveName = "";
+
+function findEndOfCentralDirectory(buf){
+  // EOCD min size = 22 bytes
+  for(let i = buf.length - 22; i >= 0; i--){
+    if(buf[i]   === 0x50 &&
+       buf[i+1] === 0x4b &&
+       buf[i+2] === 0x05 &&
+       buf[i+3] === 0x06){
+      return i;
+    }
+  }
+  return -1;
+}
+
+function parseZip(buf){
+  const eocdOffset = findEndOfCentralDirectory(buf);
+  if(eocdOffset < 0){
+    throw new Error("End of central directory not found (not a valid ZIP).");
+  }
+
+  const totalEntries = readUint16LE(buf, eocdOffset + 10);
+  const centralDirOffset = readUint32LE(buf, eocdOffset + 16);
+
+  let p = centralDirOffset;
+  const entries = [];
+  for(let i=0;i<totalEntries;i++){
+    const sig = readUint32LE(buf,p);
+    if(sig !== 0x02014b50){
+      throw new Error("Bad central directory signature.");
+    }
+    const compression = readUint16LE(buf, p+10);
+    const crc32Val    = readUint32LE(buf, p+16);
+    const compSize    = readUint32LE(buf, p+20);
+    const uncompSize  = readUint32LE(buf, p+24);
+    const nameLen     = readUint16LE(buf, p+28);
+    const extraLen    = readUint16LE(buf, p+30);
+    const commentLen  = readUint16LE(buf, p+32);
+    const localHeaderOffset = readUint32LE(buf, p+42);
+    const nameBytes = buf.slice(p+46, p+46+nameLen);
+    const name = new TextDecoder().decode(nameBytes);
+
+    entries.push({
+      name,
+      compression,
+      crc32: crc32Val,
+      compSize,
+      uncompSize,
+      localHeaderOffset
+    });
+
+    p += 46 + nameLen + extraLen + commentLen;
+  }
+  return entries;
+}
+
+function extractEntry(buf,entry){
+  if(entry.compression !== 0){
+    throw new Error("This offline edition can only extract uncompressed entries.");
+  }
+  const off = entry.localHeaderOffset;
+  const sig = readUint32LE(buf, off);
+  if(sig !== 0x04034b50){
+    throw new Error("Bad local file header.");
+  }
+  const nameLen  = readUint16LE(buf, off+26);
+  const extraLen = readUint16LE(buf, off+28);
+  const dataStart = off + 30 + nameLen + extraLen;
+  const dataEnd   = dataStart + entry.compSize;
+  const data = buf.slice(dataStart, dataEnd);
+  return new Blob([data]);
+}
+
+/* ============================================================
+   OPEN ARCHIVE FLOW
+   ============================================================ */
+
+openBtn.addEventListener("click",async()=>{
+  const f = openInput.files[0];
+  if(!f){
+    alert("Choose a file.");
+    return;
+  }
+
+  openBtn.disabled = true;
+  setProgress(openBar,0);
+  openStatus.textContent = "Loading…";
+  entriesBox.innerHTML = "";
+  downloadAllBtn.style.display = "none";
+
+  try{
+    let blob = f;
+
+    if(f.name.endsWith(".kz")){
+      if(!crypto || !crypto.subtle){
+        throw new Error("This browser does not support decryption.");
+      }
+      const p = openPwd.value.trim();
+      if(!p) throw new Error("Password required to open this .kz archive.");
+      openStatus.textContent = "Decrypting…";
+      blob = await decryptBlob(f,p);
+    }
+
+    setProgress(openBar,30);
+    openStatus.textContent = "Parsing archive…";
+    const buf = new Uint8Array(await blob.arrayBuffer());
+    const parsedEntries = parseZip(buf);
+
+    currentZipBuffer = buf;
+    currentEntries = parsedEntries;
+    currentArchiveName = f.name;
+
+    const supportedCount = parsedEntries.filter(e=>e.compression === 0 && !e.name.endsWith("/")).length;
+    openStatus.textContent = `${parsedEntries.length} entr${parsedEntries.length === 1 ? "y" : "ies"} (${supportedCount} directly extractable)`;
+    setProgress(openBar,100);
+
+    // Render entry list
+    entriesBox.innerHTML = "";
+    let hasUnsupported = false;
+
+    parsedEntries.forEach(entry=>{
+      const row = document.createElement("div");
+      row.style.padding = "6px 0";
+      row.style.borderBottom = "1px dashed rgba(255,255,255,0.1)";
+
+      const label = document.createElement("span");
+      label.style.fontSize = "13px";
+
+      if(entry.name.endsWith("/")){
+        label.textContent = entry.name + " (folder)";
+      }else if(entry.compression !== 0){
+        label.textContent = entry.name + " (unsupported compression)";
+        hasUnsupported = true;
+      }else{
+        label.textContent = entry.name;
+        const btn = document.createElement("button");
+        btn.textContent = "Download";
+        btn.className = "small secondary";
+        btn.style.marginLeft = "10px";
+        btn.onclick = async()=>{
+          try{
+            const outBlob = extractEntry(currentZipBuffer,entry);
+            const simpleName = entry.name.split("/").pop() || entry.name;
+            await saveFile(outBlob,simpleName);
+          }catch(err){
+            console.error(err);
+            alert("Download failed: " + (err && err.message ? err.message : err));
+          }
+        };
+        row.appendChild(btn);
+      }
+
+      row.appendChild(label);
+      entriesBox.appendChild(row);
+    });
+
+    if(hasUnsupported){
+      const note = document.createElement("div");
+      note.style.fontSize = "11px";
+      note.style.color = "#f4b4b4";
+      note.style.marginTop = "6px";
+      note.textContent = "Note: This offline edition can only extract uncompressed entries (store method). Compressed files remain visible but not directly extractable.";
+      entriesBox.appendChild(note);
+    }
+
+    if(supportedCount > 0){
+      downloadAllBtn.style.display = "inline-block";
+      downloadAllBtn.disabled = false;
+    }
+
+    emitEvent("archiveOpened",{
+      name: f.name,
+      voice: "Archive opened successfully."
+    });
+
+  }catch(e){
+    console.error(e);
+    alert("Error: " + (e && e.message ? e.message : e));
+    openStatus.textContent = "Failed to open archive.";
+  }finally{
+    openBtn.disabled = false;
+  }
+});
+
+downloadAllBtn.onclick = async()=>{
+  if(!currentZipBuffer || !currentEntries.length){
+    alert("No archive loaded.");
+    return;
+  }
+  try{
+    downloadAllBtn.disabled = true;
+    openStatus.textContent = "Preparing combined ZIP…";
+    if(window.KhaeVoice){
+      window.KhaeVoice.speak("Preparing your download package.");
+    }
+
+    const enc = new TextEncoder();
+    const entries = [];
+    for(const e of currentEntries){
+      if(e.name.endsWith("/") || e.compression !== 0) continue;
+      const blob = extractEntry(currentZipBuffer,e);
+      const arr  = new Uint8Array(await blob.arrayBuffer());
+      entries.push({
+        name: e.name.split("/").pop() || e.name,
+        data: arr
+      });
+    }
+
+    if(!entries.length){
+      alert("No supported files to download.");
+      openStatus.textContent = "No extractable entries.";
+      return;
+    }
+
+    const outBlob = await createZipBlob(entries);
+    const outName = currentArchiveName.replace(/\.[^.]+$/, "_extracted.zip");
+    await saveFile(outBlob,outName);
+    openStatus.textContent = "All supported files downloaded as a ZIP.";
+
+  }catch(err){
+    console.error(err);
+    alert("Download all failed: " + (err && err.message ? err.message : err));
+    openStatus.textContent = "Download all failed.";
+  }finally{
+    downloadAllBtn.disabled = false;
+  }
+};
+
+/* ---------- Repair (placeholder) ---------- */
+repairBtn.addEventListener("click",()=>{
+  alert("Basic repair placeholder — advanced recovery coming soon in a future build.");
+});
+
+/* ============================================================
+   SERVICE WORKER / PWA  (optional, local-only)
+   ============================================================ */
+if("serviceWorker" in navigator){
+  const code = `
+    self.addEventListener('install',e=>self.skipWaiting());
+    self.addEventListener('fetch',()=>{});
+  `;
+  const blob = new Blob([code],{type:"text/javascript"});
+  navigator.serviceWorker
+    .register(URL.createObjectURL(blob))
+    .catch(()=>{ /* ignore SW failures in embedded contexts */ });
+}
+
+/* ============================================================
+   Local API Exposure
+   ============================================================ */
+window.KhaeZip = {
+  version: KHAEZIP_VERSION,
+  compress: () => zipBtn.click(),
+  listVault: () => vaultList(),
+  openDB: () => openDB()
+};
+
+if(window.KhaeVoice){
+  window.KhaeVoice.speak("KhaeZip Sovereign Offline Edition initialized.");
+}
+emitEvent("ready",{
+  version: KHAEZIP_VERSION,
+  voice: "KhaeZip is ready."
+});
+</script>
+</body>
+</html>
