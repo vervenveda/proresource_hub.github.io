@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KhaeClean™ — Mini Code Lab</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --nebula1:#0b0427;
+      --nebula2:#1a0b47;
+      --accent1:#7ac9ff;
+      --accent2:#b6bfff;
+      --panel-bg:rgba(15,20,35,0.9);
+      --border-glow:rgba(122,201,255,0.45);
+      --radius:14px;
+      --shadow:0 0 24px rgba(0,0,0,0.6);
+      --font-main:'Montserrat','Brandon Grotesque',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family:var(--font-main);
+      color:#fff;
+      background:radial-gradient(circle at 50% 20%,var(--nebula2) 0%,var(--nebula1) 100%);
+      overflow:hidden;
+    }
+
+    /* Starfield */
+    #kcStarfield{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:0;
+    }
+
+    /* Main app shell */
+    .kc-shell{
+      position:relative;
+      z-index:2;
+      max-width:980px;
+      margin:40px auto;
+      padding:26px 24px 22px;
+      border-radius:var(--radius);
+      background:var(--panel-bg);
+      box-shadow:var(--shadow);
+      border:1px solid var(--border-glow);
+      box-sizing:border-box;
+    }
+
+    .kc-title{
+      margin:0 0 4px;
+      font-size:24px;
+      text-align:center;
+      letter-spacing:1px;
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .kc-sub{
+      margin:0 0 18px;
+      text-align:center;
+      font-size:13px;
+      color:#c5d9ff;
+    }
+
+    /* Panels row */
+    .kc-panels{
+      display:flex;
+      gap:18px;
+      align-items:stretch;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .kc-panel{
+      flex:1 1 0;
+      min-width:0;
+      background:rgba(255,255,255,0.03);
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,0.12);
+      padding:16px 14px 14px;
+      box-shadow:inset 0 0 12px rgba(0,0,0,0.45);
+      box-sizing:border-box;
+    }
+    .kc-panel-title{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:#b7ccff;
+      margin-bottom:8px;
+    }
+    .kc-panel-caption{
+      font-size:11px;
+      color:#8fa2d4;
+      margin-bottom:8px;
+    }
+
+    /* BIGGER code & preview areas */
+    .kc-codearea{
+      width:100%;
+      min-height:360px;
+      max-height:460px;
+      resize:vertical;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.18);
+      background:#050817;
+      color:#e5ecff;
+      font-family:"Fira Mono","Consolas",monospace;
+      font-size:13px;
+      padding:10px 11px;
+      box-sizing:border-box;
+      line-height:1.45;
+    }
+
+    .kc-preview-frame{
+      width:100%;
+      height:360px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.18);
+      background:#050817;
+      box-sizing:border-box;
+    }
+
+    /* Buttons */
+    .kc-btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .kc-btn{
+      flex:1 1 0;
+      min-width:90px;
+      padding:9px 10px;
+      border-radius:9px;
+      border:none;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:600;
+      font-family:var(--font-main);
+      color:#04121f;
+      background:linear-gradient(180deg,#7ac9ff,#3a8dff);
+      box-shadow:0 0 8px rgba(58,141,255,0.55);
+      transition:all .18s;
+    }
+    .kc-btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 0 14px rgba(58,141,255,0.9);
+    }
+    .kc-btn.secondary{
+      background:linear-gradient(180deg,#262b42,#151826);
+      color:#c5d9ff;
+      box-shadow:none;
+    }
+
+    /* Snippet row */
+    .kc-snippet-row{
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      align-items:center;
+      font-size:11px;
+      color:#9bb0e5;
+    }
+    .kc-snippet-input{
+      flex:1 1 120px;
+      min-width:0;
+      padding:6px 8px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.25);
+      background:rgba(5,8,23,0.9);
+      color:#e5ecff;
+      font-size:11px;
+      font-family:var(--font-main);
+      box-sizing:border-box;
+    }
+    .kc-snippet-select{
+      flex:1 1 120px;
+      min-width:0;
+      padding:6px 8px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.25);
+      background:rgba(5,8,23,0.9);
+      color:#e5ecff;
+      font-size:11px;
+      font-family:var(--font-main);
+      box-sizing:border-box;
+    }
+    .kc-snippet-meta{
+      margin-top:4px;
+      font-size:10px;
+      color:#7f93cd;
+    }
+
+    /* AI section */
+    .kc-ai{
+      margin-top:18px;
+      padding:14px 14px 12px;
+      background:rgba(0,0,0,0.45);
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow:inset 0 0 10px rgba(0,0,0,0.5);
+      font-size:12px;
+    }
+    .kc-ai-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:8px;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .kc-ai-title{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:#b7ccff;
+    }
+    .kc-ai-controls{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .kc-ai-label{
+      font-size:11px;
+      color:#93a7dd;
+      display:flex;
+      gap:4px;
+      align-items:center;
+      white-space:nowrap;
+    }
+    .kc-ai-label input{
+      accent-color:#7ac9ff;
+    }
+    .kc-ai-output{
+      margin-top:6px;
+      padding:8px 10px;
+      background:#050817;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.18);
+      min-height:60px;
+      color:#e5ecff;
+      line-height:1.5;
+      font-size:11.5px;
+      overflow-y:auto;
+      max-height:180px;
+    }
+
+    .kc-footer{
+      margin-top:10px;
+      text-align:center;
+      font-size:11px;
+      color:#8fa2d4;
+    }
+
+    @media (max-width:900px){
+      body{overflow:auto;}
+      .kc-shell{
+        margin:18px auto;
+        max-width:94vw;
+        padding:18px 14px;
+      }
+      .kc-panels{
+        flex-direction:column;
+      }
+      .kc-codearea,.kc-preview-frame{
+        min-height:260px;
+        height:260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="kcStarfield" aria-hidden="true"></canvas>
+
+  <div class="kc-shell">
+    <h1 class="kc-title">KhaeClean™ — Mini Code Lab</h1>
+    <p class="kc-sub">
+      Paste your HTML/CSS/JS · Preview it live · Let the mini AI spotlight common issues — all in your browser.
+      <br><span style="font-size:11px;color:#9bb0e5;">Tip: Press <strong>Ctrl+Enter</strong> (or ⌘+Enter) to preview quickly.</span>
+    </p>
+
+    <div class="kc-panels">
+      <!-- CODE PANEL -->
+      <section class="kc-panel">
+        <div class="kc-panel-title">Code Input</div>
+        <div class="kc-panel-caption">Paste your embed code here (Wix, Notion, PLERA tools, etc.).</div>
+        <textarea id="codeInput" class="kc-codearea" spellcheck="false"
+          placeholder="Paste any HTML, CSS, or JavaScript here...&#10;&#10;&lt;div&gt;Hello from KhaeClean™&lt;/div&gt;"></textarea>
+
+        <!-- SNIPPET BAR -->
+        <div class="kc-snippet-row">
+          <input id="snippetName" class="kc-snippet-input" placeholder="Snippet name…" />
+          <select id="snippetList" class="kc-snippet-select">
+            <option value="">Saved snippets…</option>
+          </select>
+          <button class="kc-btn secondary" id="saveSnippetBtn" style="flex:0 0 auto;padding:6px 10px;font-size:11px;">Save</button>
+          <button class="kc-btn secondary" id="deleteSnippetBtn" style="flex:0 0 auto;padding:6px 10px;font-size:11px;">Delete</button>
+        </div>
+        <div id="snippetMeta" class="kc-snippet-meta"></div>
+
+        <div class="kc-btn-row">
+          <button class="kc-btn" id="previewBtn">Preview</button>
+          <button class="kc-btn secondary" id="copyBtn">Copy Code</button>
+          <button class="kc-btn secondary" id="clearBtn">Clear</button>
+        </div>
+      </section>
+
+      <!-- PREVIEW PANEL -->
+      <section class="kc-panel">
+        <div class="kc-panel-title">Live Preview</div>
+        <div class="kc-panel-caption">Whatever you paste will run here in an isolated frame.</div>
+        <iframe id="previewFrame" class="kc-preview-frame"></iframe>
+      </section>
+    </div>
+
+    <!-- MINI AI CODE GUIDE -->
+    <section class="kc-ai">
+      <div class="kc-ai-header">
+        <div class="kc-ai-title">Mini AI Code Guide · Local / Offline</div>
+        <div class="kc-ai-controls">
+          <button class="kc-btn secondary" id="analyzeBtn" style="padding:5px 9px;font-size:11px;">Analyze Code</button>
+          <label class="kc-ai-label">
+            <input type="checkbox" id="tidyCheckbox"> Tidy whitespace
+          </label>
+          <label class="kc-ai-label">
+            <input type="checkbox" id="autoAnalyzeCheckbox"> Auto after Preview
+          </label>
+        </div>
+      </div>
+      <div id="analysisBox" class="kc-ai-output">
+        Paste some code, click <strong>Preview</strong>, then tap <strong>Analyze Code</strong> for a quick local report.
+      </div>
+    </section>
+
+    <div class="kc-footer">
+      KhaeClean™ is a sister tool to KhaeZip™ Sovereign Edition. 100% browser-local · No cloud, no tracking. © 2025 Verve N Veda.
+    </div>
+  </div>
+
+  <script>
+    // --- Starfield (soft, like KhaeZip) ---
+    const kcCanvas = document.getElementById('kcStarfield');
+    const kcCtx = kcCanvas.getContext('2d');
+    let kcStars = [];
+    function kcResize(){
+      kcCanvas.width = window.innerWidth;
+      kcCanvas.height = window.innerHeight;
+      kcStars = [];
+      for(let i=0;i<140;i++){
+        kcStars.push({
+          x:Math.random()*kcCanvas.width,
+          y:Math.random()*kcCanvas.height,
+          r:Math.random()*1.6+0.2,
+          dx:(Math.random()-0.5)*0.08,
+          dy:(Math.random()-0.5)*0.08,
+          a:Math.random()*0.7+0.3
+        });
+      }
+    }
+    window.addEventListener('resize',kcResize);
+    kcResize();
+    (function kcLoop(){
+      kcCtx.clearRect(0,0,kcCanvas.width,kcCanvas.height);
+      for(const s of kcStars){
+        kcCtx.beginPath();
+        kcCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        kcCtx.fillStyle=`rgba(255,255,255,${s.a})`;
+        kcCtx.fill();
+        s.x+=s.dx; s.y+=s.dy;
+        if(s.x<0) s.x = kcCanvas.width;
+        if(s.x>kcCanvas.width) s.x = 0;
+        if(s.y<0) s.y = kcCanvas.height;
+        if(s.y>kcCanvas.height) s.y = 0;
+      }
+      requestAnimationFrame(kcLoop);
+    })();
+
+    // --- Core tool logic ---
+    const codeInput        = document.getElementById('codeInput');
+    const preview          = document.getElementById('previewFrame');
+    const previewBtn       = document.getElementById('previewBtn');
+    const copyBtn          = document.getElementById('copyBtn');
+    const clearBtn         = document.getElementById('clearBtn');
+    const analyzeBtn       = document.getElementById('analyzeBtn');
+    const tidyCheckbox     = document.getElementById('tidyCheckbox');
+    const autoAnalyzeBox   = document.getElementById('autoAnalyzeCheckbox');
+    const analysisBox      = document.getElementById('analysisBox');
+
+    const snippetNameInput = document.getElementById('snippetName');
+    const snippetList      = document.getElementById('snippetList');
+    const saveSnippetBtn   = document.getElementById('saveSnippetBtn');
+    const deleteSnippetBtn = document.getElementById('deleteSnippetBtn');
+    const snippetMeta      = document.getElementById('snippetMeta');
+
+    const SNIPPET_KEY = 'khaecleanSnippets';
+    const CODE_KEY    = 'khaecleanCode';
+
+    // --- Snippet storage helpers ---
+    function loadSnippets(){
+      try{
+        const raw = localStorage.getItem(SNIPPET_KEY);
+        return raw ? JSON.parse(raw) : [];
+      }catch(e){
+        console.warn('Snippet parse error',e);
+        return [];
+      }
+    }
+    function saveSnippets(list){
+      localStorage.setItem(SNIPPET_KEY, JSON.stringify(list));
+    }
+    function refreshSnippetSelect(selectedName){
+      const snippets = loadSnippets();
+      snippetList.innerHTML = '<option value="">Saved snippets…</option>';
+      snippets.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.name;
+        opt.textContent = s.name;
+        if(selectedName && s.name === selectedName) opt.selected = true;
+        snippetList.appendChild(opt);
+      });
+    }
+    function formatTime(ts){
+      const d = new Date(ts);
+      if(isNaN(d.getTime())) return '';
+      return d.toLocaleString();
+    }
+
+    // Initial restore
+    const savedCode = localStorage.getItem(CODE_KEY);
+    if(savedCode){ codeInput.value = savedCode; }
+    refreshSnippetSelect();
+
+    function runPreview() {
+      const code = codeInput.value || '';
+      preview.srcdoc = code;
+      localStorage.setItem(CODE_KEY, code);
+      if(autoAnalyzeBox.checked){
+        analyzeCode();
+      }
+    }
+
+    function copyCode() {
+      codeInput.select();
+      document.execCommand('copy');
+      alert('Code copied to clipboard.');
+    }
+
+    function clearInput() {
+      codeInput.value = '';
+      preview.srcdoc = '';
+      localStorage.removeItem(CODE_KEY);
+      analysisBox.innerHTML = 'Cleared. Paste fresh code to begin a new check.';
+    }
+
+    previewBtn.addEventListener('click', runPreview);
+    copyBtn.addEventListener('click', copyCode);
+    clearBtn.addEventListener('click', clearInput);
+
+    // Keyboard shortcut: Ctrl+Enter or Cmd+Enter => Preview
+    window.addEventListener('keydown', (e) => {
+      if((e.metaKey || e.ctrlKey) && e.key === 'Enter'){
+        e.preventDefault();
+        runPreview();
+      }
+    });
+
+    /* =====================================================
+       UPDATED ANALYSIS ENGINE — v1.1 (Local-only Heuristics)
+       ===================================================== */
+
+    function escapeHtml(str){
+      return str.replace(/[&<>]/g, c => (
+        c === '&' ? '&amp;' :
+        c === '<' ? '&lt;' :
+        c === '>' ? '&gt;' : c
+      ));
+    }
+
+    function collectTagCounts(code){
+      const tagCounts = {};
+      const voidTags = {
+        br:1,img:1,input:1,hr:1,meta:1,link:1,source:1,area:1,
+        base:1,col:1,embed:1,param:1,track:1,wbr:1
+      };
+      const re = /<\/?([a-zA-Z0-9\-]+)(\s|>)/g;
+      let m;
+      while((m = re.exec(code))){
+        const full = m[0];
+        const name = m[1].toLowerCase();
+        if(voidTags[name]) continue;
+        const isClosing = full[1] === '/';
+        if(!tagCounts[name]) tagCounts[name] = {open:0,close:0};
+        if(isClosing) tagCounts[name].close++;
+        else tagCounts[name].open++;
+      }
+      return tagCounts;
+    }
+
+    function simpleTidy(html){
+      const lines = html.split('\n');
+      const out = [];
+      let indent = 0;
+      const indentStr = '  ';
+      const openRe  = /^<([a-zA-Z0-9]+)(\s|>)/;
+      const closeRe = /^<\/([a-zA-Z0-9]+)>/;
+      const voidTags = {
+        br:1,img:1,input:1,hr:1,meta:1,link:1,source:1,area:1,
+        base:1,col:1,embed:1,param:1,track:1,wbr:1
+      };
+
+      for(let raw of lines){
+        let line = raw.trim();
+        if(!line){
+          continue;
+        }
+
+        if(closeRe.test(line)){
+          indent = Math.max(indent - 1, 0);
+        }
+
+        out.push(indentStr.repeat(indent) + line);
+
+        const openMatch = line.match(openRe);
+        const closeMatch = line.match(closeRe);
+        if(openMatch && !closeMatch){
+          const tag = openMatch[1].toLowerCase();
+          const selfClosing = /\/>\s*$/.test(line);
+          if(!voidTags[tag] && !selfClosing){
+            indent++;
+          }
+        }
+      }
+      return out.join('\n');
+    }
+
+    function analyzeCode() {
+      let rawCode = codeInput.value || '';
+      if(!rawCode.trim()){
+        analysisBox.innerHTML = '<em>No code detected. Paste something first.</em>';
+        return;
+      }
+
+      let code = rawCode;
+      if(tidyCheckbox.checked){
+        // Soft tidy for analysis only
+        code = code.replace(/\t/g,'  ')
+                   .replace(/\s+\n/g,'\n')
+                   .replace(/\n{3,}/g,'\n\n');
+      }
+
+      const lines = code.split('\n');
+      const chars = code.length;
+
+      const hasHTML   = /<html[\s>]/i.test(code);
+      const hasHead   = /<head[\s>]/i.test(code);
+      const hasBody   = /<body[\s>]/i.test(code);
+      const hasScript = /<script[\s>]/i.test(code);
+      const hasIframe = /<iframe[\s>]/i.test(code);
+      const hasDoctype= /<!doctype\s+html/i.test(code);
+
+      const looksFullDoc = hasHTML && hasHead && hasBody;
+
+      const info = [];
+      info.push(`Length: <strong>${lines.length}</strong> lines, <strong>${chars}</strong> characters.`);
+      info.push(looksFullDoc
+        ? 'Looks like a <strong>full HTML document</strong>.'
+        : 'Looks like a <strong>partial snippet</strong> (good for embeds).');
+      info.push(hasDoctype ? '&lt;!doctype html&gt; detected.' : 'No &lt;!doctype html&gt; found.');
+      info.push(hasHead ? '&lt;head&gt; section present.' : 'No &lt;head&gt; section detected.');
+      info.push(hasBody ? '&lt;body&gt; section present.' : 'No &lt;body&gt; section detected.');
+      info.push(hasScript ? 'JavaScript detected.' : 'No &lt;script&gt; tags detected.');
+      info.push(hasIframe ? 'Iframe detected — good for hosted widgets.' : 'No iframe detected.');
+
+      const notes = [];
+
+      // Basic pattern issues
+      if(hasScript && !/<\/script>/i.test(code)){
+        notes.push('A &lt;script&gt; tag may be missing its closing &lt;/script&gt;.');
+      }
+      if(hasIframe && !/<\/iframe>/i.test(code)){
+        notes.push('An &lt;iframe&gt; tag may be missing its closing &lt;/iframe&gt;.');
+      }
+      if(lines.length > 300 || chars > 12000){
+        notes.push('This snippet is quite large. Consider moving heavy logic into a standalone file and embedding via &lt;iframe&gt; for cleaner pages.');
+      }
+      if(/document\.write\(/i.test(code)){
+        notes.push('<code>document.write()</code> can break pages inside Wix / modern sites. Prefer <code>appendChild</code>, <code>innerHTML</code>, or other DOM APIs.');
+      }
+      if(/console\.log\(/i.test(code)){
+        notes.push('<code>console.log</code> calls found — good for debugging, but consider removing or guarding them for production.');
+      }
+      if(/alert\(/i.test(code)){
+        notes.push('<code>alert()</code> calls found — may annoy users; consider softer UI feedback.');
+      }
+
+      // Sovereignty / embed checks
+      if(/=['"]http:\/\//i.test(code)){
+        notes.push('Found <code>http://</code> links. For secure + modern embeds, switch to <code>https://</code> to avoid mixed-content blocking.');
+      }
+      if(/fonts\.googleapis\.com/i.test(code)){
+        notes.push('External Google Fonts detected. For fully sovereign / offline use, consider packaging fonts locally.');
+      }
+      if(looksFullDoc){
+        notes.push('Inside Wix or similar HTML embed widgets, a full <code>&lt;html&gt;</code> document can cause double-HTML issues. Often you only need the inner <code>&lt;body&gt;</code> portion.');
+      }
+
+      // Duplicate IDs
+      const idRegex = /id\s*=\s*["']([^"']+)["']/gi;
+      const idCounts = {};
+      let idMatch;
+      while((idMatch = idRegex.exec(code))){
+        const id = idMatch[1];
+        idCounts[id] = (idCounts[id] || 0) + 1;
+      }
+      Object.keys(idCounts).forEach(id => {
+        if(idCounts[id] > 1){
+          notes.push(`ID <code>${escapeHtml(id)}</code> appears <strong>${idCounts[id]}</strong> times. IDs should be unique on a page.`);
+        }
+      });
+
+      // Inline event handlers
+      if(/on[a-zA-Z]+\s*=/.test(code)){
+        notes.push('Inline event handlers like <code>onclick=""</code> or <code>onload=""</code> detected. They work, but can conflict with frameworks; consider using <code>addEventListener</code> instead.');
+      }
+
+      // Deprecated tags
+      if(/<(font|center|marquee)\b/i.test(code)){
+        notes.push('Deprecated tags (<code>&lt;font&gt;</code>, <code>&lt;center&gt;</code>, or <code>&lt;marquee&gt;</code>) detected. Prefer modern CSS instead.');
+      }
+
+      // Tag balance check
+      const tagCounts = collectTagCounts(code);
+      const unbalanced = [];
+      Object.keys(tagCounts).forEach(tag => {
+        const t = tagCounts[tag];
+        if(t.open !== t.close){
+          unbalanced.push(`&lt;${tag}&gt; open: ${t.open}, close: ${t.close}`);
+        }
+      });
+      if(unbalanced.length){
+        notes.push('Possible open/close mismatches:<br>• ' + unbalanced.join('<br>• '));
+      }
+
+      if(notes.length === 0){
+        notes.push('No obvious structural issues from this quick scan. Still test inside your real page or Wix embed to be sure.');
+      }
+
+      let tidyPreviewHtml = '';
+      if(tidyCheckbox.checked){
+        const tidied = simpleTidy(code);
+        tidyPreviewHtml = `
+          <br><br>
+          <strong>Tidied preview (does not change your editor):</strong><br>
+          <pre style="white-space:pre-wrap;margin-top:4px;max-height:160px;overflow:auto;font-size:11px;">${escapeHtml(tidied)}</pre>
+        `;
+      }
+
+      analysisBox.innerHTML = `
+        <strong>Quick Scan Report</strong><br>
+        ${info.join('<br>')}
+        <br><br>
+        <strong>Notes &amp; Suggestions:</strong><br>
+        • ${notes.join('<br>• ')}
+        ${tidyPreviewHtml}
+      `;
+    }
+
+    analyzeBtn.addEventListener('click', analyzeCode);
+
+    // --- Snippet actions ---
+    saveSnippetBtn.addEventListener('click', () => {
+      const name = (snippetNameInput.value || '').trim();
+      if(!name){
+        alert('Give this snippet a name first.');
+        return;
+      }
+      const code = codeInput.value || '';
+      const snippets = loadSnippets();
+      const existing = snippets.find(s => s.name === name);
+      const now = Date.now();
+      if(existing){
+        existing.code = code;
+        existing.ts = now;
+      } else {
+        snippets.push({name, code, ts: now});
+      }
+      saveSnippets(snippets);
+      refreshSnippetSelect(name);
+      snippetMeta.textContent = `Saved “${name}” at ${formatTime(now)}.`;
+    });
+
+    snippetList.addEventListener('change', () => {
+      const name = snippetList.value;
+      if(!name) return;
+      const snippets = loadSnippets();
+      const s = snippets.find(x => x.name === name);
+      if(!s) return;
+      codeInput.value = s.code || '';
+      preview.srcdoc = s.code || '';
+      localStorage.setItem(CODE_KEY, s.code || '');
+      snippetNameInput.value = s.name;
+      snippetMeta.textContent = `Loaded “${s.name}” (saved ${formatTime(s.ts)}).`;
+    });
+
+    deleteSnippetBtn.addEventListener('click', () => {
+      const current = snippetList.value || snippetNameInput.value.trim();
+      if(!current){
+        alert('Select a snippet to delete.');
+        return;
+      }
+      if(!confirm(`Delete snippet “${current}”? This only affects this browser.`)) return;
+      let snippets = loadSnippets();
+      snippets = snippets.filter(s => s.name !== current);
+      saveSnippets(snippets);
+      refreshSnippetSelect('');
+      snippetMeta.textContent = `Snippet “${current}” deleted.`;
+    });
+  </script>
+</body>
+</html>
