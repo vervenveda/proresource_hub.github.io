@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>SixBit Bun™ — Sovereign Offline Edition</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+:root{
+  --nebula1:#0b0427;
+  --nebula2:#1a0b47;
+  --accent1:#7ac9ff;
+  --accent2:#b6bfff;
+  --panel-bg:rgba(15,20,35,0.92);
+  --border-glow:rgba(122,201,255,0.45);
+  --radius:14px;
+  --shadow:0 0 24px rgba(0,0,0,0.6);
+  --font-main:'Brandon Grotesque',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --card-bg:rgba(5,10,25,0.96);
+  --card-border:rgba(151,176,230,0.32);
+}
+
+/* Background */
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100vh;
+  font-family:var(--font-main);
+  color:#f5f7ff;
+  background:radial-gradient(circle at 50% 20%,var(--nebula2) 0%,var(--nebula1) 100%);
+}
+
+#starfield{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  background:transparent;
+}
+
+/* App shell */
+#app{
+  position:relative;
+  z-index:2;
+  max-width:960px;
+  margin:40px auto;
+  padding:24px 20px 22px;
+  border-radius:var(--radius);
+  background:var(--panel-bg);
+  box-shadow:var(--shadow);
+  border:1px solid var(--border-glow);
+  backdrop-filter:blur(16px);
+}
+
+header{
+  text-align:center;
+  margin-bottom:16px;
+}
+h1{
+  margin:0 0 4px;
+  font-size:26px;
+  letter-spacing:1.3px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+header small{
+  color:#c5d9ff;
+  font-size:13px;
+}
+header .tagline{
+  margin-top:2px;
+  color:#9fb0db;
+  font-size:12px;
+}
+
+/* Layout */
+.main-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+}
+.left, .right{
+  flex:1 1 320px;
+}
+
+/* Dropzone & controls */
+.drop{
+  background:rgba(10,18,40,0.96);
+  border:2px dashed rgba(151,176,230,0.6);
+  border-radius:var(--radius);
+  text-align:center;
+  padding:26px 10px 22px;
+  font-size:14px;
+  color:#c0cff8;
+  cursor:pointer;
+  transition:border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  position:relative;
+}
+.drop small{
+  display:block;
+  margin-top:6px;
+  color:#8fa2d0;
+}
+.drop.dragover{
+  border-color:var(--accent1);
+  box-shadow:0 0 18px rgba(122,201,255,0.7);
+  background:rgba(10,26,60,0.98);
+}
+input[type="file"]{display:none;}
+
+.controls{
+  margin-top:14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 12px;
+  font-size:12.5px;
+  color:#c1ceef;
+  align-items:center;
+}
+.controls label{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.controls input[type="number"]{
+  width:52px;
+  padding:4px 6px;
+  border-radius:7px;
+  border:1px solid rgba(153,175,218,0.7);
+  background:rgba(3,8,20,0.9);
+  color:#f5f7ff;
+  font-size:12px;
+}
+.controls select{
+  padding:4px 6px;
+  border-radius:7px;
+  border:1px solid rgba(153,175,218,0.7);
+  background:rgba(3,8,20,0.9);
+  color:#f5f7ff;
+  font-size:12px;
+}
+.controls input[type="checkbox"]{
+  accent-color:var(--accent1);
+}
+
+/* Buttons */
+button{
+  background:linear-gradient(180deg,#3a8dff,#0066ff);
+  border:none;
+  border-radius:9px;
+  padding:8px 15px;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 8px rgba(58,141,255,0.55);
+  font-size:13px;
+  transition:all 0.18s;
+  white-space:nowrap;
+}
+button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 0 12px rgba(58,141,255,0.9);
+}
+button.secondary{
+  background:linear-gradient(180deg,#3a3f5c,#242636);
+  color:#c5d9ff;
+  box-shadow:none;
+}
+button.copy-done{
+  background:linear-gradient(180deg,#31b66c,#15803d);
+  box-shadow:0 0 10px rgba(49,182,108,0.8);
+}
+button.small{
+  padding:5px 9px;
+  font-size:12px;
+}
+
+/* Gallery cards */
+.gallery{
+  margin-top:10px;
+  display:grid;
+  gap:14px;
+}
+.card{
+  background:var(--card-bg);
+  border-radius:12px;
+  border:1px solid var(--card-border);
+  padding:10px 11px 13px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  box-shadow:0 0 12px rgba(0,0,0,0.45);
+}
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.card .name{
+  font-size:13px;
+  color:#e2e7ff;
+  font-weight:600;
+  word-break:break-all;
+}
+.card .meta{
+  font-size:11px;
+  color:#9fb0db;
+}
+.card img{
+  max-width:100px;
+  max-height:100px;
+  margin:4px 0 4px;
+  border-radius:8px;
+  align-self:flex-start;
+  box-shadow:0 0 10px rgba(0,0,0,0.45);
+}
+.card .status{
+  font-size:11.5px;
+  color:#9fd1ff;
+}
+textarea{
+  width:100%;
+  border-radius:8px;
+  border:1px solid rgba(151,176,230,0.6);
+  background:rgba(3,10,28,0.96);
+  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New", monospace;
+  font-size:12px;
+  min-height:90px;
+  padding:7px;
+  resize:vertical;
+  color:#f5f7ff;
+  word-break:break-all;
+}
+textarea.nowrap{white-space:pre;}
+.card .actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:4px;
+}
+
+/* Right column: history + notes */
+.info-panel{
+  background:rgba(255,255,255,0.03);
+  border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:12px 13px 13px;
+  box-shadow:inset 0 0 10px rgba(0,0,0,0.35);
+  font-size:12.5px;
+  color:#d5e0ff;
+}
+.info-panel h2{
+  font-size:14px;
+  margin:0 0 6px;
+  color:#b7ccff;
+}
+.info-panel p{
+  margin:4px 0 6px;
+}
+.info-panel ul{
+  padding-left:18px;
+  margin:6px 0;
+}
+.info-panel li{
+  margin-bottom:4px;
+}
+
+/* Guide Modal */
+#guideModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:40;
+  background:rgba(2,4,18,0.72);
+  align-items:center;
+  justify-content:center;
+}
+#guideModal.open{display:flex;}
+.guide-card{
+  background:rgba(8,16,40,0.98);
+  border-radius:14px;
+  padding:20px 22px 16px;
+  max-width:420px;
+  box-shadow:0 0 28px rgba(0,0,0,0.8);
+  border:1px solid rgba(151,176,230,0.8);
+  color:#e2e7ff;
+  font-size:13px;
+}
+.guide-card h2{
+  margin:0 0 8px;
+  color:#b7ccff;
+  font-size:15px;
+}
+.guide-card ul{
+  margin:6px 0 10px;
+  padding-left:20px;
+}
+.guide-card li{
+  margin-bottom:5px;
+}
+.guide-close{
+  float:right;
+  border:none;
+  border-radius:7px;
+  padding:5px 10px;
+  background:linear-gradient(180deg,#3a3f5c,#242636);
+  color:#e2e7ff;
+  font-size:12px;
+  cursor:pointer;
+}
+.guide-close:hover{
+  box-shadow:0 0 10px rgba(122,201,255,0.7);
+}
+
+/* Mascot chip */
+.logo-chip{
+  position:absolute;
+  right:18px;
+  top:15px;
+  font-size:11px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:radial-gradient(circle at 20% 20%,#ffe5ff,#f9b8ff);
+  color:#3b1044;
+  font-weight:700;
+  box-shadow:0 0 14px rgba(255,184,255,0.55);
+}
+
+/* Footer */
+footer{
+  text-align:center;
+  color:#9fb0db;
+  font-size:11px;
+  margin-top:16px;
+}
+footer span{
+  display:block;
+  line-height:1.5;
+}
+
+@media(max-width:720px){
+  #app{
+    margin:18px 10px;
+    padding:18px 12px 16px;
+  }
+  .main-row{
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+<body>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<div id="app">
+  <div class="logo-chip">SixBit Bun™</div>
+  <header>
+    <h1>SixBit Bun™ — Sovereign Offline Edition</h1>
+    <small>Batch image → base64 converter for your KhaeZip toolchain</small>
+    <div class="tagline">Local, offline, sovereign. Perfect for Prose, ARSHIF, and Pearls Gamut embeds.</div>
+  </header>
+
+  <div class="main-row">
+    <!-- LEFT: converter -->
+    <div class="left">
+      <div class="drop" id="dropzone" tabindex="0">
+        Drop images here or click to browse
+        <small>(PNG, JPG, GIF, WebP, SVG — all stay on your device)</small>
+        <input type="file" id="fileInput" multiple accept="image/*,.svg">
+      </div>
+      <div class="controls">
+        <label>
+          Resize max width:
+          <input type="number" id="resizeWidth" min="0" placeholder="auto">
+        </label>
+        <label>
+          JPEG Q:
+          <input type="number" id="jpegQ" min="20" max="100" step="5" value="85">
+        </label>
+        <label>
+          Output:
+          <select id="outputMode">
+            <option value="data">Data URL</option>
+            <option value="img">&lt;img&gt; tag</option>
+            <option value="css">CSS background</option>
+          </select>
+        </label>
+        <label><input type="checkbox" id="stripPrefix">Strip prefix</label>
+        <label><input type="checkbox" id="minifySvg">Minify SVG</label>
+        <label><input type="checkbox" id="wrapLines">Wrap lines</label>
+        <button id="convertBtn">Convert All</button>
+        <button class="secondary small" id="clearBtn">Clear</button>
+        <button class="secondary small" id="historyBtn">History</button>
+      </div>
+
+      <div class="gallery" id="gallery"></div>
+    </div>
+
+    <!-- RIGHT: info, BunLink concept, guide -->
+    <div class="right">
+      <div class="info-panel">
+        <h2>BunLinks &amp; KhaeZip</h2>
+        <p>
+          Each converted image can create a <b>BunLink</b> file:
+        </p>
+        <ul>
+          <li>Small <code>.sbbun.json</code> files with a short <code>sixbit://</code> ID.</li>
+          <li>Include image name, mime type, and base64 payload.</li>
+          <li>Designed to bundle inside <b>KhaeZip™ Sovereign Edition</b> archives.</li>
+        </ul>
+        <p>
+          Later, your own tools can read those JSON files to hydrate images on demand,
+          using the short ID instead of copying long base64 blobs everywhere.
+        </p>
+        <p style="font-size:11px;color:#9fb0db;">
+          Note: <b>Strip prefix</b> applies to the “Data URL” output and BunLink payloads.
+          &lt;img&gt; and CSS snippets always include the full <code>data:</code> prefix.
+        </p>
+        <p>
+          <button class="secondary small" onclick="openGuide()">How to use SixBit Bun</button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>🐰 SixBit Bun™ Sovereign Offline Edition v3.1 — By Jenny Pearl • My Art Gallery &amp; Khaemenes Academy.</span>
+    <span>No uploads. No tracking. B64 &amp; BunLink files zip perfectly in KhaeZip™.</span>
+  </footer>
+</div>
+
+<!-- Guide Modal -->
+<div id="guideModal">
+  <div class="guide-card">
+    <button class="guide-close" onclick="closeGuide()">✕</button>
+    <h2>Using SixBit Bun™</h2>
+    <ul>
+      <li><b>1.</b> Drag in or click to choose images (PNG, JPG, GIF, WebP, SVG).</li>
+      <li><b>2.</b> (Optional) Set <b>max width</b> or <b>JPEG quality</b>. SVG can be minified.</li>
+      <li><b>3.</b> Choose output: <b>Data URL</b>, <b>&lt;img&gt; tag</b>, or <b>CSS background</b>.</li>
+      <li><b>4.</b> Click <b>Convert All</b>. Preview and base64/code appear for each image.</li>
+      <li><b>5.</b> Use <b>Copy</b>, <b>Download</b>, or <b>BunLink</b> on any card.</li>
+      <li><b>6.</b> BunLink saves a small <code>.sbbun.json</code> mapping file with a short ID + base64.</li>
+      <li><b>7.</b> Drop those BunLink files into <b>KhaeZip™</b> and archive them for your sovereign asset vault.</li>
+      <li><b>8.</b> All work is local. Nothing is uploaded or shared.</li>
+    </ul>
+    <b>Tip:</b> Use <b>Strip prefix</b> when you want only the raw base64 for direct HTML/CSS logic.
+  </div>
+</div>
+
+<script>
+/* === Starfield (matching KhaeZip) === */
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars=[];
+function resizeStarfield(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars=[];
+  for(let i=0;i<180;i++){
+    stars.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*1.6+0.2,
+      dx:(Math.random()-0.5)*0.1,
+      dy:(Math.random()-0.5)*0.1,
+      alpha:Math.random()*0.8+0.2
+    });
+  }
+}
+window.addEventListener('resize',resizeStarfield);
+resizeStarfield();
+(function drawStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(const s of stars){
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;
+    ctx.fill();
+    s.x+=s.dx; s.y+=s.dy;
+    if(s.x<0)s.x=canvas.width; if(s.x>canvas.width)s.x=0;
+    if(s.y<0)s.y=canvas.height; if(s.y>canvas.height)s.y=0;
+  }
+  requestAnimationFrame(drawStars);
+})();
+
+/* === Core SixBit Bun Logic (with BunLink + persistence) === */
+const el = id => document.getElementById(id);
+
+const dz        = el('dropzone'),
+      fi        = el('fileInput'),
+      gal       = el('gallery'),
+      resizeInp = el('resizeWidth'),
+      strip     = el('stripPrefix'),
+      minifySvg = el('minifySvg'),
+      wrapLines = el('wrapLines'),
+      jpegQInp  = el('jpegQ'),
+      histBtn   = el('historyBtn'),
+      outputSel = el('outputMode');
+
+const SETTINGS_KEY = 'sixbitBunSettings';
+const HISTORY_KEY  = 'sixbitBunHistory';
+
+let files   = [];
+let results = [];   // display snippets
+let rawData = [];   // raw data URLs (with prefix)
+let history = [];
+
+/* Settings persistence */
+function saveSettings(){
+  try{
+    const s = {
+      resize: resizeInp.value || '',
+      jpegQ: jpegQInp.value || '85',
+      stripPrefix: !!strip.checked,
+      minifySvg: !!minifySvg.checked,
+      wrapLines: !!wrapLines.checked,
+      outputMode: outputSel.value || 'data'
+    };
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+  }catch(e){
+    console.warn('Settings save failed', e);
+  }
+}
+function loadSettings(){
+  try{
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    if(s.resize !== undefined) resizeInp.value = s.resize;
+    if(s.jpegQ !== undefined) jpegQInp.value = s.jpegQ;
+    if(s.stripPrefix !== undefined) strip.checked = !!s.stripPrefix;
+    if(s.minifySvg !== undefined) minifySvg.checked = !!s.minifySvg;
+    if(s.wrapLines !== undefined) wrapLines.checked = !!s.wrapLines;
+    if(s.outputMode) outputSel.value = s.outputMode;
+  }catch(e){
+    console.warn('Settings load failed', e);
+  }
+}
+function saveHistory(){
+  try{
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  }catch(e){
+    console.warn('History save failed', e);
+  }
+}
+function loadHistory(){
+  try{
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if(!raw) return;
+    const parsed = JSON.parse(raw);
+    if(Array.isArray(parsed)) history = parsed;
+  }catch(e){
+    history = [];
+  }
+}
+
+// init settings/history
+loadSettings();
+loadHistory();
+
+// track setting changes
+[resizeInp, jpegQInp, strip, minifySvg, wrapLines, outputSel].forEach(ctrl=>{
+  ctrl.addEventListener('change', saveSettings);
+});
+
+/* Helpers */
+function humanSize(bytes){
+  if (bytes === 0) return '0 B';
+  const units=['B','KB','MB','GB'];
+  let i=0;
+  let value=bytes;
+  while (value >= 1024 && i < units.length - 1){
+    value /= 1024;
+    i++;
+  }
+  return (Math.round(value*100)/100)+' '+units[i];
+}
+function updateStatus(i, txt){
+  const st = el('st'+i);
+  if (st) st.textContent = txt;
+}
+function copyText(txt, btn){
+  if (!txt) { alert('Nothing to copy yet.'); return; }
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.classList.add('copy-done');
+    btn.textContent = 'Copied!';
+    setTimeout(()=>{
+      btn.classList.remove('copy-done');
+      btn.textContent = 'Copy';
+    }, 900);
+  }).catch(()=>{
+    alert('Copy failed – your browser may be blocking clipboard access.');
+  });
+}
+function downloadText(txt, name){
+  const blob = new Blob([txt || ''], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function safeAltName(name){
+  if(!name) return 'image';
+  return name.replace(/\.[a-zA-Z0-9]+$/,'').slice(0,60);
+}
+function escapeAttr(str){
+  return String(str).replace(/"/g,'&quot;');
+}
+
+/* File Input / Drag-Drop */
+dz.addEventListener('click', () => fi.click());
+dz.addEventListener('dragover', e => {
+  e.preventDefault();
+  dz.classList.add('dragover');
+});
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+dz.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    fi.click();
+  }
+});
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+fi.addEventListener('change', e => handleFiles(e.target.files));
+
+function handleFiles(list){
+  files = [...list].filter(f =>
+    /image|svg\+xml/.test(f.type) || f.name.toLowerCase().endsWith('.svg')
+  );
+  gal.innerHTML = '';
+  results = [];
+  rawData = [];
+  if(!files.length){
+    return;
+  }
+  files.forEach((f, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const isSvg = f.name.toLowerCase().endsWith('.svg') || f.type === 'image/svg+xml';
+    const url = !isSvg ? URL.createObjectURL(f) : null;
+    card.innerHTML = `
+      <div class="card-header">
+        <div>
+          <div class="name">${f.name}</div>
+          <div class="meta">${f.type || 'unknown type'} • ${humanSize(f.size)}</div>
+        </div>
+      </div>
+      ${url ? `<img src="${url}" alt="">` : ''}
+      <div class="status" id="st${i}">Ready</div>
+      <textarea id="ta${i}" class="nowrap" placeholder="Base64 or snippet will appear here"></textarea>
+      <div class="actions">
+        <button class="copyBtn" data-i="${i}">Copy</button>
+        <button class="secondary small dlBtn" data-i="${i}">Download</button>
+        <button class="secondary small linkBtn" data-i="${i}">BunLink</button>
+      </div>
+    `;
+    gal.appendChild(card);
+  });
+}
+
+/* Convert All */
+el('convertBtn').onclick = async () => {
+  if (!files.length) { alert('No images selected'); return; }
+  results = [];
+  rawData = [];
+
+  const maxWidth = parseInt(resizeInp.value || '0', 10) || 0;
+  const jpegQ = Math.min(1, Math.max(0.2, (parseInt(jpegQInp.value || '85',10) || 85)/100));
+  const mode = outputSel.value || 'data';
+
+  for (let i=0; i<files.length; i++){
+    updateStatus(i,'Converting…');
+    const f = files[i];
+    const isSvg = f.name.toLowerCase().endsWith('.svg') || f.type === 'image/svg+xml';
+
+    let base64;
+    try{
+      base64 = isSvg
+        ? await svgToBase64(f, minifySvg.checked)
+        : await imgToBase64(f, maxWidth, jpegQ);
+    }catch(err){
+      console.error(err);
+      updateStatus(i,'Error during conversion');
+      continue;
+    }
+
+    rawData[i] = base64;
+
+    let out;
+    if(mode === 'img'){
+      out = `<img src="${base64}" alt="${escapeAttr(safeAltName(f.name))}">`;
+    }else if(mode === 'css'){
+      out = `background-image: url('${base64}');`;
+    }else{ // data URL only
+      out = strip.checked
+        ? base64
+            .replace(/^data:image\/[a-zA-Z0-9\+\-\.]+;base64,/,'')
+            .replace(/^data:image\/svg\+xml;base64,/,'')
+        : base64;
+    }
+
+    results[i] = out;
+
+    const ta = el('ta'+i);
+    if (!ta) continue;
+    let display = out;
+    if (wrapLines.checked){
+      display = display.replace(/(.{88})/g,'$1\n');
+      ta.classList.remove('nowrap');
+    } else {
+      ta.classList.add('nowrap');
+    }
+    ta.value = display;
+    updateStatus(i,'Done ✓');
+  }
+
+  history.unshift({
+    date: new Date().toLocaleString(),
+    files: files.map(f => f.name),
+    mode,
+    stripPrefix: !!strip.checked,
+    codes: [...results]
+  });
+  if (history.length > 20) history.length = 20;
+  saveHistory();
+
+  alert('Conversion complete.');
+};
+
+/* Gallery actions: copy / download / BunLink */
+gal.onclick = e => {
+  const i = +e.target.dataset.i;
+  if (Number.isNaN(i)) return;
+
+  if (e.target.classList.contains('copyBtn')){
+    const ta = el('ta'+i);
+    copyText(ta ? ta.value : '', e.target);
+  }
+  if (e.target.classList.contains('dlBtn')){
+    const ta = el('ta'+i);
+    const name = (files[i]?.name || 'image') + '.b64.txt';
+    downloadText(ta ? ta.value : '', name);
+  }
+  if (e.target.classList.contains('linkBtn')){
+    createBunLink(i);
+  }
+};
+
+/* BunLink: short-id + JSON mapping file */
+function createBunLink(i){
+  const f = files[i];
+  if (!f){ alert('Missing file for this card.'); return; }
+
+  const raw = (rawData[i] || '').replace(/\s+/g,'');
+  if(!raw){
+    alert('No base64 yet for this image. Convert first, then create BunLink.');
+    return;
+  }
+
+  // Decide whether to store prefix or not, according to current toggle
+  let baseField;
+  let hasPrefix = true;
+  if(strip.checked){
+    baseField = raw
+      .replace(/^data:image\/[a-zA-Z0-9\+\-\.]+;base64,/,'')
+      .replace(/^data:image\/svg\+xml;base64,/,'');
+    hasPrefix = false;
+  }else{
+    baseField = raw;
+    hasPrefix = true;
+  }
+
+  const slugName = (f.name || 'image')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+
+  const idCore = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,7);
+  const linkId = 'sixbit://' + idCore;
+
+  const payload = {
+    type: "sixbit-bunlink",
+    id: linkId,
+    name: f.name,
+    mime: f.type || "application/octet-stream",
+    hasPrefix,
+    base64: baseField
+  };
+
+  const json = JSON.stringify(payload,null,2);
+  const fname = (slugName || 'image') + '.' + idCore + '.sbbun.json';
+
+  const blob = new Blob([json], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fname;
+  a.click();
+  URL.revokeObjectURL(a.href);
+
+  updateStatus(i, 'BunLink created: ' + linkId);
+}
+
+/* Clear & History */
+el('clearBtn').onclick = () => {
+  files = [];
+  results = [];
+  rawData = [];
+  gal.innerHTML = '';
+  fi.value = '';
+};
+histBtn.onclick = () => {
+  if (!history.length) {
+    alert('No conversion history stored yet for this browser.');
+    return;
+  }
+  const msg = history.map((h, idx)=>{
+    const idxLabel = '#' + (history.length - idx);
+    const modeLabel = h.mode ? ` [${h.mode}]` : '';
+    return `${idxLabel} — ${h.date}${modeLabel}\n` +
+      (h.files || []).map(fName=>'   '+fName).join('\n');
+  }).join('\n\n');
+  alert("Recent Conversions (this browser):\n\n" + msg);
+};
+
+/* Conversion Engines */
+function imgToBase64(file, maxWidth, jpegQuality){
+  return new Promise((res, rej)=>{
+    const reader = new FileReader();
+    reader.onerror = () => rej(reader.error || new Error('File read error'));
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onerror = () => rej(new Error('Image load error'));
+      img.onload = ()=>{
+        let w = img.width;
+        let h = img.height;
+        if (maxWidth && w > maxWidth){
+          h = h * maxWidth / w;
+          w = maxWidth;
+        }
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const ctx2 = c.getContext('2d');
+        ctx2.drawImage(img,0,0,w,h);
+        let out;
+        if (/jpe?g/i.test(file.type)){
+          out = c.toDataURL('image/jpeg', jpegQuality || 0.85);
+        } else if (/webp/i.test(file.type)){
+          out = c.toDataURL('image/webp', jpegQuality || 0.92);
+        } else {
+          out = c.toDataURL('image/png');
+        }
+        res(out);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function svgToBase64(file, minify){
+  return new Promise((res, rej)=>{
+    const reader = new FileReader();
+    reader.onerror = () => rej(reader.error || new Error('File read error'));
+    reader.onload = ()=>{
+      let txt = reader.result;
+      try{
+        if (minify){
+          txt = txt.replace(/<!--[\s\S]*?-->/g,'')
+                   .replace(/[\r\n\t]+/g,' ')
+                   .replace(/\s{2,}/g,' ')
+                   .replace(/> </g,'><');
+        }
+        txt = txt.replace(/<\?xml.*?\?>/g,'');
+        const b64 = btoa(unescape(encodeURIComponent(txt)));
+        res('data:image/svg+xml;base64,' + b64);
+      }catch(err){
+        rej(err);
+      }
+    };
+    reader.readAsText(file);
+  });
+}
+
+/* Guide Modal */
+function openGuide(){ el('guideModal').classList.add('open'); }
+function closeGuide(){ el('guideModal').classList.remove('open'); }
+window.openGuide = openGuide;
+window.closeGuide = closeGuide;
+
+window.addEventListener('keydown', e=>{
+  if (e.key === 'Escape') closeGuide();
+});
+el('guideModal').onclick = e=>{
+  if (e.target === e.currentTarget) closeGuide();
+};
+</script>
+</body>
+</html>
