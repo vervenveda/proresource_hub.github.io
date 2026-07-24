@@ -3,1184 +3,810 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>KhaeZip™ v3.2 — Sovereign Offline Edition</title>
+<meta name="description" content="KhaeZip Protected Archive Edition — a sovereign, offline-first ZIP and encrypted KhaeZip archive utility." />
+<title>KhaeZip™ — Protected Archive Edition</title>
 <style>
-/* ============================================================
-   KhaeZip v3.2 — Sovereign Offline Edition
-   Night Sky Nebula Theme • No external JS/CDN
-   ============================================================ */
-
 :root{
-  --nebula1:#0b0427;
-  --nebula2:#1a0b47;
-  --accent1:#7ac9ff;
-  --accent2:#b6bfff;
-  --panel-bg:rgba(15,20,35,0.85);
-  --border-glow:rgba(122,201,255,0.45);
-  --radius:14px;
-  --shadow:0 0 24px rgba(0,0,0,0.6);
-  --font-main:'Brandon Grotesque',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --nebula1:#08031f;
+  --nebula2:#1b0d4b;
+  --panel:rgba(13,19,39,.92);
+  --panel2:rgba(7,12,28,.94);
+  --line:rgba(143,183,255,.28);
+  --line-strong:rgba(122,201,255,.62);
+  --accent:#7ac9ff;
+  --accent2:#b9c2ff;
+  --good:#77e0a0;
+  --warn:#ffd479;
+  --bad:#ff8f9d;
+  --text:#f5f7ff;
+  --muted:#afc1eb;
+  --radius:15px;
+  --shadow:0 22px 60px rgba(0,0,0,.48);
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
-
-html,body{
-  margin:0;
-  padding:0;
-  height:100%;
-  font-family:var(--font-main);
-  color:#fff;
-  background:radial-gradient(circle at 50% 20%,var(--nebula2) 0%,var(--nebula1) 100%);
-  /* Allow vertical scroll for embeds + mobile, but lock X */
+*{box-sizing:border-box}
+html{color-scheme:dark;scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;font-family:var(--font);color:var(--text);
+  background:radial-gradient(circle at 50% 12%,var(--nebula2),var(--nebula1) 72%);
   overflow-x:hidden;
-  overflow-y:auto;
 }
-
-/* ---------- Starfield Canvas ---------- */
-#starfield{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:0;
-  background:transparent;
+a{color:#b9dcff}
+a:hover{color:#fff}
+button,input,select{font:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,.dropzone:focus-visible,a:focus-visible{
+  outline:3px solid var(--accent);outline-offset:3px;
 }
-
-/* ---------- Main Application Panel ---------- */
+#starfield{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.shell{position:relative;z-index:2;max-width:1180px;margin:24px auto;padding:0 16px 28px}
+.breadcrumbs{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px;
+  padding:10px 12px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(5,10,27,.82);backdrop-filter:blur(10px);font-size:13px;
+}
+.breadcrumbs a{
+  display:inline-flex;align-items:center;gap:6px;text-decoration:none;padding:7px 10px;
+  border:1px solid rgba(153,194,255,.25);border-radius:9px;background:rgba(83,120,189,.12);
+}
+.breadcrumbs .current{color:var(--muted)}
 .app{
-  position:relative;
-  z-index:2;
-  max-width:1000px;
-  margin:32px auto;
-  padding:24px;
-  border-radius:var(--radius);
-  background:var(--panel-bg);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(14px);
-  border:1px solid var(--border-glow);
+  border:1px solid var(--line-strong);border-radius:20px;background:var(--panel);
+  box-shadow:var(--shadow);backdrop-filter:blur(15px);padding:24px;
 }
-
+.hero{text-align:center;margin-bottom:20px;position:relative}
 h1{
-  font-size:28px;
-  margin:0 0 12px;
-  background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-align:center;
-  letter-spacing:1px;
+  margin:0;font-size:clamp(26px,4vw,40px);letter-spacing:.035em;
+  background:linear-gradient(90deg,var(--accent),#e6e9ff,var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-
-p.lead{
-  text-align:center;
-  color:#c5d9ff;
-  font-size:16px;
-  margin-bottom:24px;
+.hero p{max-width:790px;margin:9px auto 0;color:#c5d6fa;line-height:1.55}
+.badges{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin-top:12px}
+.badge{font-size:11px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);color:#cfe0ff}
+.settingsbar{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  margin:0 0 18px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.17);
 }
-
-/* ---------- Control Panels ---------- */
-.panel-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:20px;
-  justify-content:center;
-}
-
+.settingsbar .group{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.toggle{display:inline-flex;gap:7px;align-items:center;font-size:12px;color:var(--muted)}
+.toggle input{accent-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .panel{
-  flex:1 1 420px;
-  background:rgba(255,255,255,0.04);
-  border-radius:var(--radius);
-  border:1px solid rgba(255,255,255,0.1);
-  padding:20px;
-  box-shadow:inset 0 0 12px rgba(255,255,255,0.05);
+  min-width:0;padding:18px;border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(0,0,0,.13));
+  box-shadow:inset 0 0 18px rgba(255,255,255,.018);
 }
-
-.panel h2{
-  font-size:18px;
-  color:#b7ccff;
-  margin-top:0;
-  margin-bottom:10px;
-}
-
-label{
-  font-size:13px;
-  color:#b8c8e8;
-}
-
-input,select{
-  background:rgba(0,0,0,0.3);
-  border:1px solid rgba(255,255,255,0.2);
-  border-radius:8px;
-  color:#fff;
-  padding:6px 10px;
-  margin-top:4px;
-}
-
-input::placeholder{
-  color:#888;
-}
-
-button{
-  background:linear-gradient(180deg,#3a8dff,#0066ff);
-  border:none;
-  border-radius:8px;
-  padding:10px 16px;
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  box-shadow:0 0 8px rgba(58,141,255,0.5);
-  transition:all .2s;
-}
-
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 14px rgba(58,141,255,0.8);
-}
-
-button.secondary{
-  background:linear-gradient(180deg,#404860,#2a2f45);
-  color:#c5d9ff;
-  box-shadow:none;
-}
-
-button.small{
-  font-size:13px;
-  padding:6px 10px;
-}
-
-/* Dropzone */
+.panel.wide{grid-column:1/-1}
+.panel h2{margin:0 0 5px;color:#c4d7ff;font-size:19px}
+.panel-intro{margin:0 0 12px;color:var(--muted);font-size:12.5px;line-height:1.45}
 .dropzone{
-  border:2px dashed rgba(255,255,255,0.25);
-  border-radius:var(--radius);
-  text-align:center;
-  padding:24px;
-  color:#bcd0ff;
-  cursor:pointer;
-  transition:border-color .2s, background .2s;
+  min-height:102px;display:grid;place-items:center;text-align:center;padding:18px;
+  border:2px dashed rgba(166,197,255,.38);border-radius:13px;color:#c8d8fa;
+  background:rgba(4,9,25,.48);cursor:pointer;transition:.18s ease;
 }
-.dropzone.drag-over{
-  border-color:var(--accent1);
-  background:rgba(122,201,255,0.08);
+.dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:rgba(54,112,184,.14);box-shadow:0 0 18px rgba(122,201,255,.18)}
+.dropzone strong{display:block;font-size:14px;color:#ecf4ff}
+.dropzone small{display:block;margin-top:5px;color:#91a8d8}
+.hidden-input{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-size:12px;color:#c0d0ee}
+input,select{
+  width:100%;min-width:0;border:1px solid rgba(163,190,242,.38);border-radius:9px;
+  background:rgba(1,6,19,.72);color:#fff;padding:8px 10px;
 }
-.dropzone:focus{
-  outline:2px solid var(--accent1);
-  outline-offset:3px;
+input::placeholder{color:#788caf}
+input[type="checkbox"]{width:auto;min-width:auto;margin:0;accent-color:var(--accent)}
+.help{font-size:10.5px;color:#869cc8;line-height:1.35}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px;align-items:center}
+button{
+  border:0;border-radius:9px;padding:9px 14px;color:#fff;font-weight:700;cursor:pointer;
+  background:linear-gradient(180deg,#3d93ff,#0865e8);box-shadow:0 0 10px rgba(58,141,255,.34);
+  transition:transform .12s ease,filter .12s ease,opacity .12s ease;
 }
-
-/* File lists */
-.files-list{
-  max-height:200px;
-  overflow-y:auto;
-  background:rgba(0,0,0,0.25);
-  border-radius:var(--radius);
-  margin-top:10px;
-  padding:10px;
-  font-size:13px;
+button:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.08)}
+button.secondary{background:linear-gradient(180deg,#424d6b,#293049);color:#d7e2ff;box-shadow:none}
+button.danger{background:linear-gradient(180deg,#b7495a,#802637)}
+button.good{background:linear-gradient(180deg,#2f9b67,#187246)}
+button.small{padding:6px 9px;font-size:11.5px}
+button:disabled{opacity:.48;cursor:not-allowed;transform:none}
+.filebox{
+  margin-top:10px;max-height:220px;overflow:auto;border:1px solid rgba(160,189,243,.2);
+  border-radius:11px;background:rgba(0,0,0,.2);padding:7px;
 }
-
-.files-list ul{
-  list-style:none;
-  margin:0;
-  padding:0;
+.empty{padding:12px;text-align:center;color:#7e92bd;font-size:12px}
+.file-row,.entry-row,.vault-row,.part-row{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;
+  padding:8px;border-bottom:1px dashed rgba(255,255,255,.1);
 }
-
-.files-list li{
-  border-bottom:1px dashed rgba(255,255,255,0.1);
-  padding:6px 0;
-}
-
-/* Progress bars */
-.progress{
-  width:100%;
-  height:8px;
-  background:rgba(255,255,255,0.1);
-  border-radius:10px;
-  margin-top:8px;
-  overflow:hidden;
-}
-
-.progress>i{
-  display:block;
-  height:100%;
-  width:0;
-  background:linear-gradient(90deg,#4aa3ff,#7ac9ff);
-}
-
-/* ---------- Footer ---------- */
-footer{
-  text-align:center;
-  color:#b8c8e8;
-  font-size:13px;
-  margin-top:40px;
-}
-
-footer a{
-  color:#9dd2ff;
-  text-decoration:none;
-}
-
-footer a:hover{
-  text-decoration:underline;
-}
-
-/* ---------- Glow Animations ---------- */
-@keyframes pulseGlow{
-  0%{box-shadow:0 0 8px rgba(58,141,255,0.4);}
-  50%{box-shadow:0 0 16px rgba(58,141,255,0.9);}
-  100%{box-shadow:0 0 8px rgba(58,141,255,0.4);}
-}
-
-.glow-pulse{
-  animation:pulseGlow 2.5s infinite ease-in-out;
-}
+.file-row:last-child,.entry-row:last-child,.vault-row:last-child,.part-row:last-child{border-bottom:0}
+.name{overflow-wrap:anywhere;font-size:12.5px;color:#edf3ff}
+.meta{font-size:10.5px;color:#8fa5d2;margin-top:3px}
+.row-actions{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}
+.statusline{min-height:20px;margin-top:9px;font-size:12px;color:#c5d5f5;line-height:1.45}
+.statusline.good{color:var(--good)}.statusline.warn{color:var(--warn)}.statusline.bad{color:var(--bad)}
+.progress-wrap{margin-top:8px}
+.progress{height:9px;background:rgba(255,255,255,.09);border-radius:999px;overflow:hidden}
+.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3c91ff,#83d7ff);transition:width .18s ease}
+.summary{margin-top:8px;padding:9px 10px;border-radius:9px;background:rgba(0,0,0,.18);font-size:11.5px;color:#b7c9ec;line-height:1.45}
+.warning{margin-top:8px;padding:9px 10px;border:1px solid rgba(255,205,103,.4);border-radius:9px;background:rgba(105,72,8,.18);color:#ffdfa1;font-size:11.5px;line-height:1.4}
+.integrity-good{color:var(--good)}.integrity-warn{color:var(--warn)}.integrity-bad{color:var(--bad)}
+.report{white-space:pre-wrap;max-height:240px;overflow:auto;margin-top:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#030817;color:#cfe0ff;font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.privacy{margin-top:18px;padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(1,7,21,.4);color:#b7c8ea;font-size:12px;line-height:1.55}
+.privacy h2{font-size:15px;color:#d4e1ff;margin:0 0 5px}
+footer{text-align:center;margin-top:18px;color:#93a8d1;font-size:11.5px;line-height:1.55}
+footer a{text-decoration:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.panel.wide{grid-column:auto}.app{padding:17px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+@media(max-width:520px){.shell{padding:0 8px 18px}.app{padding:13px}.breadcrumbs{gap:5px}.breadcrumbs a{padding:6px 8px}.file-row,.entry-row,.vault-row,.part-row{grid-template-columns:1fr}.row-actions{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <canvas id="starfield" aria-hidden="true"></canvas>
+<div class="shell">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="https://vervenveda.github.io/" aria-label="Return to Verve N Veda home">⌂ Home</a>
+    <span aria-hidden="true">›</span>
+    <a href="https://vervenveda.github.io/proresource_hub.github.io/" aria-label="Return to ProReSources">← ProReSources</a>
+    <span aria-hidden="true">›</span>
+    <span class="current" aria-current="page">KhaeZip™</span>
+  </nav>
 
-<div class="app" role="application" aria-label="KhaeZip Sovereign Archive Tool">
-  <h1>KhaeZip™ v3.2 — Sovereign Offline Edition</h1>
-  <p class="lead">
-    Free & sovereign browser archive tool — no cloud, no trackers, no CDN.<br>
-    Everything runs locally in your browser.
-  </p>
-
-  <div class="panel-row">
-    <!-- CREATE ARCHIVE PANEL -->
-    <div class="panel" id="compressPanel">
-      <h2>Create Archive</h2>
-
-      <div id="drop" class="dropzone" tabindex="0">
-        Drop files here or click to browse
+  <main class="app">
+    <header class="hero">
+      <h1>KhaeZip™</h1>
+      <p>Protected Archive Edition — create, encrypt, inspect, verify, split, join, recover, and preserve archives locally in your browser.</p>
+      <div class="badges" aria-label="Core protections">
+        <span class="badge">Offline-first</span><span class="badge">CRC verification</span><span class="badge">AES-GCM</span>
+        <span class="badge">UTF-8 paths</span><span class="badge">Split joining</span><span class="badge">No CDN</span>
       </div>
-      <input id="fileInput" type="file" multiple style="margin-top:10px;">
+    </header>
 
-      <div id="fileList" class="files-list" aria-live="polite">
-        <ul></ul>
+    <section class="settingsbar" aria-label="Accessibility and application settings">
+      <div class="group">
+        <label class="toggle"><input id="voiceToggle" type="checkbox"> Voice feedback</label>
+        <label class="toggle"><input id="motionToggle" type="checkbox" checked> Starfield motion</label>
       </div>
+      <div class="group">
+        <button id="guideBtn" class="secondary small" type="button">Safety Guide</button>
+        <span id="globalStatus" class="statusline" role="status" aria-live="polite"></span>
+      </div>
+    </section>
 
-      <div style="margin-top:12px;">
-        <label>
-          Compression Mode
-          <select id="level">
-            <option value="0" selected>Standard (store only)</option>
-          </select>
-        </label>
-        <div style="font-size:11px;color:#7f8fb5;margin-top:3px;">
-          Offline edition uses ZIP “store” mode (no size reduction yet) for maximum compatibility.
+    <div class="grid">
+      <section class="panel" aria-labelledby="createTitle">
+        <h2 id="createTitle">Create Protected Archive</h2>
+        <p class="panel-intro">Creates compatible store-mode ZIP files or a password-protected KhaeZip wrapper. Files remain on this device.</p>
+        <div id="createDrop" class="dropzone" tabindex="0" role="button" aria-controls="createInput">
+          <div><strong>Drop files here or click to browse</strong><small>Up to 100 files • 256 MB each • 512 MB total</small></div>
         </div>
-      </div>
+        <input id="createInput" class="hidden-input" type="file" multiple>
+        <div id="createFiles" class="filebox" aria-live="polite"><div class="empty">No files selected.</div></div>
 
-      <div style="margin-top:10px;">
-        <label>Password (optional)</label><br>
-        <input id="pwd" type="password" placeholder="Encrypt with password">
-      </div>
-
-      <div style="margin-top:10px;">
-        <label>Split size (MB)</label><br>
-        <input id="splitSize" type="number" min="0" step="1" value="0" style="width:90px;">
-        <div style="font-size:11px;color:#7f8fb5;margin-top:3px;">
-          Leave at 0 for a single file. Split parts must be re-joined manually.
+        <div class="form-grid">
+          <div class="field full"><label for="archiveName">Archive name</label><input id="archiveName" value="khaezip_archive" maxlength="100"><span class="help">A safe .zip or .kz extension is added automatically.</span></div>
+          <div class="field"><label for="compressionMode">Compression</label><select id="compressionMode"><option value="store">Store only — maximum compatibility</option></select></div>
+          <div class="field"><label for="splitSize">Split size (MB)</label><input id="splitSize" type="number" min="0" max="512" step="1" value="0"><span class="help">0 creates one file. Split archives include a verification manifest.</span></div>
+          <div class="field"><label for="createPwd">Password (optional)</label><input id="createPwd" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div>
+          <div class="field"><label for="confirmPwd">Confirm password</label><input id="confirmPwd" type="password" autocomplete="new-password" placeholder="Repeat password"></div>
+          <div class="field full"><label class="toggle"><input id="showPasswords" type="checkbox"> Show passwords</label></div>
+          <div class="field full"><label class="toggle"><input id="storeVault" type="checkbox"> Store a local copy in the KhaeZip Vault</label><span class="help">Vault files stay in this browser’s IndexedDB and may use substantial storage.</span></div>
         </div>
-      </div>
-
-      <div style="margin-top:14px;">
-        <button id="zipBtn" class="glow-pulse">Create Archive</button>
-        <button id="clearBtn" class="secondary small">Clear</button>
-
-        <div id="sizeInfo" style="font-size:13px;margin-top:8px;color:#b8c8e8;">
-          Files: 0 • Total: 0 B
+        <div id="createSummary" class="summary">Files: 0 • Total: 0 B • Estimated peak memory: 0 B</div>
+        <div id="memoryWarning" class="warning" hidden></div>
+        <div class="actions">
+          <button id="createBtn" type="button">Create Archive</button>
+          <button id="cancelCreateBtn" class="danger" type="button" hidden>Cancel</button>
+          <button id="clearCreateBtn" class="secondary" type="button">Clear</button>
         </div>
-
-        <div class="progress" aria-hidden="true">
-          <i id="progressBar"></i>
+        <div class="progress-wrap">
+          <div id="createProgress" class="progress" role="progressbar" aria-label="Archive creation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
         </div>
+        <div id="createStatus" class="statusline" role="status" aria-live="polite"></div>
+      </section>
 
-        <div id="status" style="font-size:12px;color:#b8c8e8;margin-top:6px;"></div>
-      </div>
+      <section class="panel" aria-labelledby="openTitle">
+        <h2 id="openTitle">Open, Verify & Recover</h2>
+        <p class="panel-intro">Inspects ZIP and KhaeZip archives using strict bounds checks. Store entries and supported DEFLATE entries can be extracted.</p>
+        <div class="field"><label for="openInput">Archive file</label><input id="openInput" type="file" accept=".zip,.kz,application/zip,application/octet-stream"></div>
+        <div class="field" style="margin-top:9px"><label for="openPwd">KhaeZip password</label><input id="openPwd" type="password" autocomplete="current-password" placeholder="Only needed for encrypted .kz files"></div>
+        <div class="actions">
+          <button id="openBtn" type="button">Open Archive</button>
+          <button id="scanBtn" class="secondary" type="button" disabled>Integrity Scan</button>
+          <button id="repairBtn" class="secondary" type="button" disabled>Repair & Recover</button>
+          <button id="downloadAllBtn" class="good" type="button" hidden>Download Verified Files</button>
+          <button id="clearOpenBtn" class="secondary" type="button">Clear</button>
+        </div>
+        <div class="progress-wrap">
+          <div id="openProgress" class="progress" role="progressbar" aria-label="Archive inspection progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+        </div>
+        <div id="openStatus" class="statusline" role="status" aria-live="polite">No archive loaded.</div>
+        <div id="openEntries" class="filebox" aria-live="polite"><div class="empty">Archive entries will appear here.</div></div>
+        <div id="repairReport" class="report" hidden></div>
+        <div class="actions">
+          <button id="downloadRepairReportBtn" class="secondary small" type="button" hidden>Download Repair Report</button>
+          <button id="downloadRecoveredBtn" class="good small" type="button" hidden>Download Recovered ZIP</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="joinTitle">
+        <h2 id="joinTitle">Join Split Archive</h2>
+        <p class="panel-intro">Select every numbered part plus the optional <code>.kzparts.json</code> manifest. KhaeZip checks order, missing pieces, sizes, and SHA-256 hashes.</p>
+        <div class="field"><label for="partsInput">Split parts and manifest</label><input id="partsInput" type="file" multiple></div>
+        <div id="partsList" class="filebox" aria-live="polite"><div class="empty">No parts selected.</div></div>
+        <div class="actions"><button id="joinBtn" type="button">Verify & Join</button><button id="clearPartsBtn" class="secondary" type="button">Clear</button></div>
+        <div class="progress-wrap"><div id="joinProgress" class="progress" role="progressbar" aria-label="Split join progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div></div>
+        <div id="joinStatus" class="statusline" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="vaultTitle">
+        <h2 id="vaultTitle">Local Vault</h2>
+        <p class="panel-intro">A visible IndexedDB vault for optional local archive copies and archive-history records. Nothing is synchronized externally.</p>
+        <div class="actions"><button id="refreshVaultBtn" type="button">Refresh Vault</button><button id="exportVaultBtn" class="secondary" type="button">Export Vault Log</button><button id="clearVaultBtn" class="danger" type="button">Clear Vault</button></div>
+        <div id="vaultStatus" class="statusline" role="status" aria-live="polite"></div>
+        <div id="vaultList" class="filebox" aria-live="polite"><div class="empty">Refresh to view local records.</div></div>
+      </section>
     </div>
 
-    <!-- OPEN ARCHIVE PANEL -->
-    <div class="panel" id="openPanel">
-      <h2>Open Archive</h2>
+    <section id="privacy" class="privacy" aria-labelledby="privacyTitle">
+      <h2 id="privacyTitle">Privacy First</h2>
+      KhaeZip performs archive work inside this browser. It does not upload files, contact an archive service, load a CDN, or transmit passwords. Browser downloads and optional IndexedDB vault records remain under the control of this device and browser profile.
+    </section>
 
-      <input id="openInput" type="file" accept=".zip,.kz">
-      <div id="openStatus" style="font-size:13px;margin-top:6px;color:#b8c8e8;">
-        No archive loaded.
-      </div>
-
-      <div id="entries" class="files-list" aria-live="polite"></div>
-
-      <div style="margin-top:10px;">
-        <input id="openPwd" type="password" placeholder="Password for .kz (if used)">
-      </div>
-
-      <div style="margin-top:14px;">
-        <button id="openBtn">Open</button>
-        <button id="repairBtn" class="secondary small">Repair</button>
-        <button id="downloadAllBtn" class="secondary small" style="display:none;margin-left:8px;">
-          Download All
-        </button>
-
-        <div class="progress" aria-hidden="true">
-          <i id="openBar"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>
-      © 2025 Khaemenes Academy & Bazaar Art LLC • Sovereign Offline Edition v3.2 •
-      <a href="#">Privacy First</a>
-    </p>
-  </footer>
+    <footer>
+      <div>KhaeZip™ Protected Archive Edition v4.0 • Sovereign ProReSource</div>
+      <div><a href="https://vervenveda.github.io/">Verve N Veda</a> • <a href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a> • <a href="#privacy">Privacy First</a></div>
+    </footer>
+  </main>
 </div>
 
-<!-- ===== Starfield + Voice Init ===== -->
+<dialog id="guideDialog" style="max-width:620px;width:calc(100% - 28px);border:1px solid rgba(122,201,255,.7);border-radius:15px;background:#0b1229;color:#f5f7ff;padding:20px;box-shadow:0 24px 70px rgba(0,0,0,.7)">
+  <h2 style="margin-top:0;color:#c7dcff">KhaeZip Safety Guide</h2>
+  <ul style="line-height:1.55;color:#c3d3f2;padding-left:20px">
+    <li>Keep an original copy of irreplaceable files outside any new archive.</li>
+    <li>Encrypted KhaeZip files require the exact password, including spaces.</li>
+    <li>Split archives need every numbered part. Keep the verification manifest with them.</li>
+    <li>Integrity Scan verifies CRC-32 after extraction. Repair never alters the source archive.</li>
+    <li>This edition intentionally rejects ZIP64-scale or suspiciously large jobs.</li>
+  </ul>
+  <form method="dialog" style="text-align:right"><button type="submit">Close</button></form>
+</dialog>
+
 <script>
-/* Simple starfield background (local-only, no assets) */
-const canvas = document.getElementById('starfield');
-const ctx = canvas.getContext('2d');
+(() => {
+"use strict";
+const VERSION = "4.0.0";
+const INTERNAL_MANIFEST = ".khaezip/manifest.json";
+const LIMITS = Object.freeze({
+  files: 100,
+  fileBytes: 256 * 1024 * 1024,
+  totalBytes: 512 * 1024 * 1024,
+  archiveBytes: 768 * 1024 * 1024,
+  entries: 5000,
+  entryBytes: 256 * 1024 * 1024,
+  expandedBytes: 1024 * 1024 * 1024,
+  nameBytes: 4096
+});
+const $ = id => document.getElementById(id);
+const els = {
+  canvas: $("starfield"), voiceToggle: $("voiceToggle"), motionToggle: $("motionToggle"), guideBtn: $("guideBtn"), guideDialog: $("guideDialog"), globalStatus: $("globalStatus"),
+  createDrop: $("createDrop"), createInput: $("createInput"), createFiles: $("createFiles"), archiveName: $("archiveName"), splitSize: $("splitSize"), createPwd: $("createPwd"), confirmPwd: $("confirmPwd"), showPasswords: $("showPasswords"), storeVault: $("storeVault"), createSummary: $("createSummary"), memoryWarning: $("memoryWarning"), createBtn: $("createBtn"), cancelCreateBtn: $("cancelCreateBtn"), clearCreateBtn: $("clearCreateBtn"), createProgress: $("createProgress"), createStatus: $("createStatus"),
+  openInput: $("openInput"), openPwd: $("openPwd"), openBtn: $("openBtn"), scanBtn: $("scanBtn"), repairBtn: $("repairBtn"), downloadAllBtn: $("downloadAllBtn"), clearOpenBtn: $("clearOpenBtn"), openProgress: $("openProgress"), openStatus: $("openStatus"), openEntries: $("openEntries"), repairReport: $("repairReport"), downloadRepairReportBtn: $("downloadRepairReportBtn"), downloadRecoveredBtn: $("downloadRecoveredBtn"),
+  partsInput: $("partsInput"), partsList: $("partsList"), joinBtn: $("joinBtn"), clearPartsBtn: $("clearPartsBtn"), joinProgress: $("joinProgress"), joinStatus: $("joinStatus"),
+  refreshVaultBtn: $("refreshVaultBtn"), exportVaultBtn: $("exportVaultBtn"), clearVaultBtn: $("clearVaultBtn"), vaultStatus: $("vaultStatus"), vaultList: $("vaultList")
+};
+let createFiles = [];
+let createRun = null;
+let currentArchive = null;
+let repairState = null;
+let partFiles = [];
+let starAnimation = 0;
 let stars = [];
 
-function resizeStarfield(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  stars = [];
-  for(let i=0;i<180;i++){
-    stars.push({
-      x:Math.random()*canvas.width,
-      y:Math.random()*canvas.height,
-      r:Math.random()*1.6+0.2,
-      dx:(Math.random()-0.5)*0.1,
-      dy:(Math.random()-0.5)*0.1,
-      alpha:Math.random()*0.8+0.2
-    });
-  }
-}
-window.addEventListener('resize',resizeStarfield);
-resizeStarfield();
-
-function drawStars(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(const s of stars){
-    ctx.beginPath();
-    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
-    ctx.fill();
-    s.x += s.dx;
-    s.y += s.dy;
-    if(s.x<0) s.x = canvas.width;
-    if(s.x>canvas.width) s.x = 0;
-    if(s.y<0) s.y = canvas.height;
-    if(s.y>canvas.height) s.y = 0;
-  }
-  requestAnimationFrame(drawStars);
-}
-drawStars();
-
-/* Voice feedback system (optional) */
-window.KhaeVoice = {
-  speak(msg){
-    try{
-      if(!('speechSynthesis' in window) || !msg) return;
-      const utter = new SpeechSynthesisUtterance(msg);
-      utter.rate = 1;
-      utter.pitch = 1.1;
-      utter.volume = 0.9;
-      const voices = speechSynthesis.getVoices() || [];
-      const v = voices.find(v => v.lang && v.lang.startsWith('en'));
-      if(v) utter.voice = v;
-      speechSynthesis.speak(utter);
-    }catch(e){
-      // Silent fail; no voice available
-    }
-  }
-};
-</script>
-
-<script>
-/* ============================================================
-   KhaeZip v3.2 – Sovereign Offline Edition  (no external JS)
-   Custom ZIP (store only) + AES-GCM + IndexedDB Vault
-   ============================================================ */
-
-const KHAEZIP_VERSION = "3.2.0";
-
-/* ---------- Element Shortcuts ---------- */
-const fileInput   = document.getElementById("fileInput");
-const drop        = document.getElementById("drop");
-const fileListBox = document.getElementById("fileList");
-const fileListUl  = fileListBox.querySelector("ul");
-const sizeInfo    = document.getElementById("sizeInfo");
-const zipBtn      = document.getElementById("zipBtn");
-const clearBtn    = document.getElementById("clearBtn");
-const levelSelect = document.getElementById("level");
-const pwdInput    = document.getElementById("pwd");
-const splitInput  = document.getElementById("splitSize");
-const progressBar = document.getElementById("progressBar");
-const status      = document.getElementById("status");
-
-const openInput   = document.getElementById("openInput");
-const openBtn     = document.getElementById("openBtn");
-const openPwd     = document.getElementById("openPwd");
-const entriesBox  = document.getElementById("entries");
-const openStatus  = document.getElementById("openStatus");
-const repairBtn   = document.getElementById("repairBtn");
-const openBar     = document.getElementById("openBar");
-const downloadAllBtn = document.getElementById("downloadAllBtn");
-
-let filesToZip = [];
-
-/* ---------- Utility Helpers ---------- */
 function human(bytes){
-  if(bytes === 0) return "0 B";
+  if(!Number.isFinite(bytes) || bytes <= 0) return "0 B";
   const units = ["B","KB","MB","GB","TB"];
-  let i = 0;
-  while(bytes >= 1024 && i < units.length - 1){
-    bytes /= 1024;
-    i++;
+  let i = 0, value = bytes;
+  while(value >= 1024 && i < units.length - 1){ value /= 1024; i++; }
+  return `${value >= 10 || i === 0 ? value.toFixed(i ? 1 : 0) : value.toFixed(2)} ${units[i]}`;
+}
+function setStatus(el, text, kind=""){
+  el.textContent = text || "";
+  el.className = `statusline${kind ? " " + kind : ""}`;
+}
+function setProgress(el, value){
+  const pct = Math.max(0, Math.min(100, Number(value) || 0));
+  el.setAttribute("aria-valuenow", String(Math.round(pct)));
+  const bar = el.querySelector("i");
+  if(bar) bar.style.width = `${pct}%`;
+}
+function speak(message){
+  if(!els.voiceToggle.checked || !message || !("speechSynthesis" in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(message);
+    u.rate = 1; u.pitch = 1.05; u.volume = .85;
+    speechSynthesis.speak(u);
+  }catch(_e){}
+}
+function safeDownloadName(name, fallback="archive"){
+  const cleaned = String(name || "").replace(/[<>:"/\\|?*\x00-\x1F]/g," ").replace(/\s+/g," ").trim();
+  return (cleaned || fallback).slice(0,100);
+}
+function normalizeArchivePath(value){
+  let path = String(value || "").replace(/\\/g,"/").replace(/\0/g,"");
+  path = path.replace(/^[A-Za-z]:/,"").replace(/^\/+/,"");
+  const parts = path.split("/").filter(Boolean);
+  const safe = [];
+  for(const part of parts){
+    if(part === ".") continue;
+    if(part === "..") throw new Error("Parent-directory paths are not allowed.");
+    safe.push(part.replace(/[\x00-\x1F]/g,"_").slice(0,255));
   }
-  return bytes.toFixed(2) + " " + units[i];
+  if(!safe.length) throw new Error("File path is empty.");
+  return safe.join("/");
 }
-
-function setProgress(el,p){
-  const pct = Math.max(0, Math.min(100, p));
-  el.style.width = pct + "%";
+function uniquePath(path, used){
+  if(!used.has(path.toLowerCase())){ used.add(path.toLowerCase()); return path; }
+  const slash = path.lastIndexOf("/");
+  const dir = slash >= 0 ? path.slice(0, slash + 1) : "";
+  const base = slash >= 0 ? path.slice(slash + 1) : path;
+  const dot = base.lastIndexOf(".");
+  const stem = dot > 0 ? base.slice(0,dot) : base;
+  const ext = dot > 0 ? base.slice(dot) : "";
+  let n = 2, candidate;
+  do { candidate = `${dir}${stem} (${n++})${ext}`; } while(used.has(candidate.toLowerCase()));
+  used.add(candidate.toLowerCase());
+  return candidate;
 }
-
-function sleep(ms){
-  return new Promise(r=>setTimeout(r,ms));
+function arrayEq(a,b){
+  if(a.length !== b.length) return false;
+  for(let i=0;i<a.length;i++) if(a[i] !== b[i]) return false;
+  return true;
 }
-
-/* ---------- File List Handling ---------- */
-function refreshList(){
-  fileListUl.innerHTML = "";
-  let total = 0;
-  for(const f of filesToZip){
-    const li = document.createElement("li");
-    li.textContent = `${f.name} • ${human(f.size)}`;
-    fileListUl.appendChild(li);
-    total += f.size;
+function toHex(bytes){ return Array.from(bytes, b => b.toString(16).padStart(2,"0")).join(""); }
+function bytesToBase64(bytes){
+  let out = "";
+  const chunk = 0x8000;
+  for(let i=0;i<bytes.length;i+=chunk) out += String.fromCharCode(...bytes.subarray(i,i+chunk));
+  return btoa(out);
+}
+function base64ToBytes(text){
+  const bin = atob(text); const out = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+function sha256Fallback(bytes){
+  const K=new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  const H=new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+  const W=new Uint32Array(64),rotr=(x,n)=>(x>>>n)|(x<<(32-n));
+  function block(src,off){
+    for(let i=0;i<16;i++){const j=off+i*4;W[i]=((src[j]<<24)|(src[j+1]<<16)|(src[j+2]<<8)|src[j+3])>>>0;}
+    for(let i=16;i<64;i++){const a=W[i-15],b=W[i-2],s0=rotr(a,7)^rotr(a,18)^(a>>>3),s1=rotr(b,17)^rotr(b,19)^(b>>>10);W[i]=(W[i-16]+s0+W[i-7]+s1)>>>0;}
+    let a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for(let i=0;i<64;i++){const S1=rotr(e,6)^rotr(e,11)^rotr(e,25),ch=(e&f)^(~e&g),t1=(h+S1+ch+K[i]+W[i])>>>0,S0=rotr(a,2)^rotr(a,13)^rotr(a,22),maj=(a&b)^(a&c)^(b&c),t2=(S0+maj)>>>0;h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;}
+    H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;
   }
-  sizeInfo.textContent = `Files: ${filesToZip.length} • Total: ${human(total)}`;
+  let off=0;for(;off+64<=bytes.length;off+=64)block(bytes,off);
+  const rem=bytes.length-off,tailLen=rem<56?64:128,tail=new Uint8Array(tailLen);tail.set(bytes.subarray(off));tail[rem]=0x80;
+  const bits=bytes.length*8,hi=Math.floor(bits/0x100000000),lo=bits>>>0;writeU32BE(tail,tailLen-8,hi);writeU32BE(tail,tailLen-4,lo);for(let i=0;i<tailLen;i+=64)block(tail,i);
+  const out=new Uint8Array(32);for(let i=0;i<8;i++)writeU32BE(out,i*4,H[i]);return out;
 }
-
-/* ---------- Drop / Input ---------- */
-drop.addEventListener("click",()=>fileInput.click());
-
-drop.addEventListener("dragover",e=>{
-  e.preventDefault();
-  drop.classList.add("drag-over");
-});
-
-drop.addEventListener("dragleave",e=>{
-  e.preventDefault();
-  drop.classList.remove("drag-over");
-});
-
-drop.addEventListener("drop",e=>{
-  e.preventDefault();
-  drop.classList.remove("drag-over");
-  if(e.dataTransfer && e.dataTransfer.files){
-    addFiles(e.dataTransfer.files);
-  }
-});
-
-/* Keyboard activation for accessibility */
-drop.addEventListener("keydown",e=>{
-  if(e.key === "Enter" || e.key === " "){
-    e.preventDefault();
-    fileInput.click();
-  }
-});
-
-fileInput.addEventListener("change",()=>addFiles(fileInput.files));
-
-function addFiles(list){
-  for(let i=0;i<list.length;i++){
-    filesToZip.push(list[i]);
-  }
-  refreshList();
+function writeU32BE(arr,o,v){arr[o]=(v>>>24)&255;arr[o+1]=(v>>>16)&255;arr[o+2]=(v>>>8)&255;arr[o+3]=v&255;}
+async function sha256Bytes(data){
+  const source = data instanceof Blob ? new Uint8Array(await data.arrayBuffer()) : (data instanceof Uint8Array ? data : data.buffer ? new Uint8Array(data.buffer,data.byteOffset||0,data.byteLength) : new Uint8Array(data));
+  if(globalThis.crypto?.subtle) return new Uint8Array(await globalThis.crypto.subtle.digest("SHA-256", source));
+  return sha256Fallback(source);
 }
+async function sha256Hex(data){ return toHex(await sha256Bytes(data)); }
+function randomId(){ return globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`; }
+function checkCancelled(run){ if(run?.cancelled) throw new DOMException("Operation cancelled", "AbortError"); }
+function sleep(ms=0){ return new Promise(resolve => setTimeout(resolve,ms)); }
 
-/* ---------- Clear ---------- */
-clearBtn.addEventListener("click",()=>{
-  filesToZip = [];
-  refreshList();
-  status.textContent = "";
-  sizeInfo.textContent = "Files: 0 • Total: 0 B";
-  fileInput.value = "";
-  setProgress(progressBar,0);
-  downloadAllBtn.style.display = "none";
-});
-
-/* ============================================================
-   MANIFEST + EVENT HOOKS
-   ============================================================ */
-async function buildManifest(){
-  const now = new Date().toISOString();
-  const manifest = {
-    version: KHAEZIP_VERSION,
-    createdAt: now,
-    files: filesToZip.map(f=>({
-      name: f.name,
-      size: f.size,
-      type: f.type || "unknown"
-    }))
-  };
-  return JSON.stringify(manifest,null,2);
+/* Starfield */
+function resizeStars(){
+  const c = els.canvas, dpr = Math.min(devicePixelRatio || 1, 2);
+  c.width = Math.floor(innerWidth*dpr); c.height = Math.floor(innerHeight*dpr);
+  c.style.width = `${innerWidth}px`; c.style.height = `${innerHeight}px`;
+  const ctx = c.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0);
+  stars = Array.from({length:150},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5+.25,dx:(Math.random()-.5)*.08,dy:(Math.random()-.5)*.08,a:Math.random()*.75+.2}));
 }
-
-function emitEvent(type,detail){
-  window.dispatchEvent(new CustomEvent("khaezip:"+type,{detail}));
-  if(window.KhaeVoice && detail && detail.voice){
-    window.KhaeVoice.speak(detail.voice);
+function drawStars(){
+  cancelAnimationFrame(starAnimation);
+  const ctx = els.canvas.getContext("2d");
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  for(const s of stars){
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${s.a})`; ctx.fill();
+    if(els.motionToggle.checked){ s.x+=s.dx; s.y+=s.dy; if(s.x<0)s.x=innerWidth;if(s.x>innerWidth)s.x=0;if(s.y<0)s.y=innerHeight;if(s.y>innerHeight)s.y=0; }
   }
+  if(els.motionToggle.checked) starAnimation=requestAnimationFrame(drawStars);
 }
+window.addEventListener("resize",()=>{resizeStars();drawStars();});
+function prefGet(key){ try{return localStorage.getItem(key);}catch(_e){return null;} }
+function prefSet(key,value){ try{localStorage.setItem(key,value);}catch(_e){} }
+els.motionToggle.addEventListener("change",()=>{prefSet("khaezip_motion",String(els.motionToggle.checked));drawStars();});
+els.voiceToggle.addEventListener("change",()=>prefSet("khaezip_voice",String(els.voiceToggle.checked)));
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const storedMotion=prefGet("khaezip_motion");
+els.motionToggle.checked = storedMotion !== null ? storedMotion === "true" : !reduceMotion;
+els.voiceToggle.checked = prefGet("khaezip_voice") === "true";
+resizeStars(); drawStars();
 
-/* ============================================================
-   CRC32 + ZIP (STORE-ONLY) IMPLEMENTATION
-   ============================================================ */
-
-let crcTable = null;
+/* CRC32 and binary helpers */
+let crcTable;
 function makeCRCTable(){
-  let c;
-  const table = [];
-  for(let n=0;n<256;n++){
-    c = n;
-    for(let k=0;k<8;k++){
-      if(c & 1){
-        c = 0xEDB88320 ^ (c >>> 1);
-      }else{
-        c = c >>> 1;
-      }
-    }
-    table[n] = c >>> 0;
-  }
+  const table = new Uint32Array(256);
+  for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1); table[n]=c>>>0; }
   return table;
 }
-
 function crc32(buf){
-  if(!crcTable) crcTable = makeCRCTable();
-  let crc = 0 ^ (-1);
-  for(let i=0;i<buf.length;i++){
-    crc = (crc >>> 8) ^ crcTable[(crc ^ buf[i]) & 0xFF];
-  }
-  return (crc ^ (-1)) >>> 0;
+  if(!crcTable) crcTable=makeCRCTable();
+  let crc=0xFFFFFFFF;
+  for(let i=0;i<buf.length;i++) crc=(crc>>>8)^crcTable[(crc^buf[i])&0xFF];
+  return (crc^0xFFFFFFFF)>>>0;
+}
+function writeU16(arr,o,v){arr[o]=v&255;arr[o+1]=(v>>>8)&255}
+function writeU32(arr,o,v){arr[o]=v&255;arr[o+1]=(v>>>8)&255;arr[o+2]=(v>>>16)&255;arr[o+3]=(v>>>24)&255}
+function readU16(buf,o){ if(o<0||o+2>buf.length) throw new Error("Unexpected end of archive."); return buf[o]|(buf[o+1]<<8); }
+function readU32(buf,o){ if(o<0||o+4>buf.length) throw new Error("Unexpected end of archive."); return (buf[o]|(buf[o+1]<<8)|(buf[o+2]<<16)|(buf[o+3]<<24))>>>0; }
+function dosDateTime(ms){
+  const d = new Date(ms || Date.now());
+  const year = Math.max(1980, Math.min(2107,d.getFullYear()));
+  const date=((year-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+  const time=(d.getHours()<<11)|(d.getMinutes()<<5)|Math.floor(d.getSeconds()/2);
+  return {date,time};
 }
 
-function writeUint16LE(arr,offset,value){
-  arr[offset]   = value & 0xFF;
-  arr[offset+1] = (value >>> 8) & 0xFF;
-}
-
-function writeUint32LE(arr,offset,value){
-  arr[offset]   = value & 0xFF;
-  arr[offset+1] = (value >>> 8) & 0xFF;
-  arr[offset+2] = (value >>> 16) & 0xFF;
-  arr[offset+3] = (value >>> 24) & 0xFF;
-}
-
-function readUint16LE(buf,offset){
-  return buf[offset] | (buf[offset+1] << 8);
-}
-
-function readUint32LE(buf,offset){
-  return (buf[offset] |
-         (buf[offset+1] << 8) |
-         (buf[offset+2] << 16) |
-         (buf[offset+3] << 24)) >>> 0;
-}
-
-/**
- * entries: [{name: string, data: Uint8Array}]
- * Returns Blob of a ZIP archive (store-only, no compression).
- */
 async function createZipBlob(entries){
-  const filesCount = entries.length;
-  const locals = [];
-  const centrals = [];
-  let offset = 0;
-  const encoder = new TextEncoder();
-
-  // Using zero DOS date/time for simplicity
-  const dosTime = 0;
-  const dosDate = 0;
-
+  if(entries.length > 65535) throw new Error("Too many entries for standard ZIP. ZIP64 is not supported.");
+  const encoder=new TextEncoder(); const locals=[]; const centrals=[]; let offset=0;
   for(const ent of entries){
-    const nameBytes = encoder.encode(ent.name);
-    const data = ent.data;
-    const crc = crc32(data);
-    const size = data.length;
-
-    // Local file header
-    const localHeader = new Uint8Array(30 + nameBytes.length);
-    writeUint32LE(localHeader, 0, 0x04034b50);  // signature
-    writeUint16LE(localHeader, 4, 20);          // version needed
-    writeUint16LE(localHeader, 6, 0);           // flags
-    writeUint16LE(localHeader, 8, 0);           // compression = 0 (store)
-    writeUint16LE(localHeader,10,dosTime);      // time
-    writeUint16LE(localHeader,12,dosDate);      // date
-    writeUint32LE(localHeader,14,crc);          // crc32
-    writeUint32LE(localHeader,18,size);         // comp size
-    writeUint32LE(localHeader,22,size);         // uncomp size
-    writeUint16LE(localHeader,26,nameBytes.length); // name len
-    writeUint16LE(localHeader,28,0);                 // extra len
-    localHeader.set(nameBytes,30);
-
-    locals.push(localHeader);
-    locals.push(data);
-
-    // Central directory entry
-    const central = new Uint8Array(46 + nameBytes.length);
-    writeUint32LE(central, 0, 0x02014b50);  // central signature
-    writeUint16LE(central, 4, 20);          // version made by
-    writeUint16LE(central, 6, 20);          // version needed
-    writeUint16LE(central, 8, 0);           // flags
-    writeUint16LE(central,10,0);            // compression
-    writeUint16LE(central,12,dosTime);      // time
-    writeUint16LE(central,14,dosDate);      // date
-    writeUint32LE(central,16,crc);          // crc32
-    writeUint32LE(central,20,size);         // comp size
-    writeUint32LE(central,24,size);         // uncomp size
-    writeUint16LE(central,28,nameBytes.length); // file name len
-    writeUint16LE(central,30,0);            // extra len
-    writeUint16LE(central,32,0);            // comment len
-    writeUint16LE(central,34,0);            // disk start
-    writeUint16LE(central,36,0);            // internal attr
-    writeUint32LE(central,38,0);            // external attr
-    writeUint32LE(central,42,offset);       // local header offset
-    central.set(nameBytes,46);
-
-    centrals.push(central);
-
-    offset += localHeader.length + size;
+    const name=normalizeArchivePath(ent.name); const nameBytes=encoder.encode(name);
+    if(nameBytes.length>LIMITS.nameBytes) throw new Error(`Entry name is too long: ${name}`);
+    const data=ent.data; const size=data.byteLength;
+    if(size>0xFFFFFFFF) throw new Error("An entry exceeds standard ZIP size limits.");
+    const crc=ent.crc32 ?? crc32(data); const dt=dosDateTime(ent.lastModified); const flags=0x0800;
+    const local=new Uint8Array(30+nameBytes.length);
+    writeU32(local,0,0x04034b50);writeU16(local,4,20);writeU16(local,6,flags);writeU16(local,8,0);writeU16(local,10,dt.time);writeU16(local,12,dt.date);writeU32(local,14,crc);writeU32(local,18,size);writeU32(local,22,size);writeU16(local,26,nameBytes.length);writeU16(local,28,0);local.set(nameBytes,30);
+    const central=new Uint8Array(46+nameBytes.length);
+    writeU32(central,0,0x02014b50);writeU16(central,4,0x031E);writeU16(central,6,20);writeU16(central,8,flags);writeU16(central,10,0);writeU16(central,12,dt.time);writeU16(central,14,dt.date);writeU32(central,16,crc);writeU32(central,20,size);writeU32(central,24,size);writeU16(central,28,nameBytes.length);writeU16(central,30,0);writeU16(central,32,0);writeU16(central,34,0);writeU16(central,36,0);writeU32(central,38,0);writeU32(central,42,offset);central.set(nameBytes,46);
+    locals.push(local,data);centrals.push(central);offset+=local.length+size;
+    if(offset>0xFFFFFFFF) throw new Error("Archive exceeds standard ZIP offset limits. ZIP64 is not supported.");
   }
-
-  const centralDirSize = centrals.reduce((sum,c)=>sum+c.length,0);
-  const centralDirOffset = offset;
-
-  const eocd = new Uint8Array(22);
-  writeUint32LE(eocd,0,0x06054b50);           // EOCD signature
-  writeUint16LE(eocd,4,0);                    // disk
-  writeUint16LE(eocd,6,0);                    // start disk
-  writeUint16LE(eocd,8,filesCount);           // entries on disk
-  writeUint16LE(eocd,10,filesCount);          // total entries
-  writeUint32LE(eocd,12,centralDirSize);      // size of central dir
-  writeUint32LE(eocd,16,centralDirOffset);    // offset of central dir
-  writeUint16LE(eocd,20,0);                   // comment len
-
-  const totalSize = offset + centralDirSize + eocd.length;
-  const out = new Uint8Array(totalSize);
-  let p = 0;
-  for(const part of locals){
-    out.set(part,p);
-    p += part.length;
-  }
-  for(const central of centrals){
-    out.set(central,p);
-    p += central.length;
-  }
-  out.set(eocd,p);
-
-  return new Blob([out], {type:"application/zip"});
+  const centralSize=centrals.reduce((sum,x)=>sum+x.length,0); const centralOffset=offset;
+  if(centralSize>0xFFFFFFFF||centralOffset>0xFFFFFFFF) throw new Error("Archive exceeds standard ZIP limits.");
+  const eocd=new Uint8Array(22);writeU32(eocd,0,0x06054b50);writeU16(eocd,4,0);writeU16(eocd,6,0);writeU16(eocd,8,entries.length);writeU16(eocd,10,entries.length);writeU32(eocd,12,centralSize);writeU32(eocd,16,centralOffset);writeU16(eocd,20,0);
+  return new Blob([...locals,...centrals,eocd],{type:"application/zip"});
 }
 
-/* ============================================================
-   ENCRYPTION (AES-GCM, PBKDF2) + SPLIT
-   ============================================================ */
-
-async function deriveKey(password,salt){
-  const keyMaterial = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(password),
-    {name:"PBKDF2"},
-    false,
-    ["deriveKey"]
-  );
-  return crypto.subtle.deriveKey(
-    {
-      name:"PBKDF2",
-      salt,
-      iterations:150000,
-      hash:"SHA-256"
-    },
-    keyMaterial,
-    {name:"AES-GCM",length:256},
-    false,
-    ["encrypt","decrypt"]
-  );
+/* KhaeZip encryption v4 and KZ3 compatibility */
+async function deriveKey(password,salt,iterations=310000){
+  const material=await globalThis.crypto.subtle.importKey("raw",new TextEncoder().encode(password),{name:"PBKDF2"},false,["deriveKey"]);
+  return globalThis.crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
 }
-
-async function encryptBlob(blob,password){
-  const iv   = crypto.getRandomValues(new Uint8Array(12));
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const key  = await deriveKey(password,salt);
-  const data = new Uint8Array(await blob.arrayBuffer());
-  const cipher = await crypto.subtle.encrypt({name:"AES-GCM",iv},key,data);
-  const header = new TextEncoder().encode("KZ3");
-  const out = new Uint8Array(header.length + salt.length + iv.length + cipher.byteLength);
-  out.set(header,0);
-  out.set(salt,header.length);
-  out.set(iv,header.length+salt.length);
-  out.set(new Uint8Array(cipher),header.length+salt.length+iv.length);
-  return new Blob([out],{type:"application/octet-stream"});
+async function encryptKZ4(blob,password){
+  const salt=globalThis.crypto.getRandomValues(new Uint8Array(16)); const iv=globalThis.crypto.getRandomValues(new Uint8Array(12)); const iterations=310000;
+  const header={schema:"khaezip-encrypted",schemaVersion:4,algorithm:"AES-GCM",keyLength:256,kdf:"PBKDF2",hash:"SHA-256",iterations,salt:bytesToBase64(salt),iv:bytesToBase64(iv),tagLength:128,createdAt:new Date().toISOString()};
+  const headerBytes=new TextEncoder().encode(JSON.stringify(header));
+  const key=await deriveKey(password,salt,iterations); const plain=await blob.arrayBuffer();
+  const cipher=await globalThis.crypto.subtle.encrypt({name:"AES-GCM",iv,additionalData:headerBytes,tagLength:128},key,plain);
+  const prefix=new Uint8Array(8+headerBytes.length);prefix.set(new TextEncoder().encode("KZP4"),0);writeU32(prefix,4,headerBytes.length);prefix.set(headerBytes,8);
+  return new Blob([prefix,cipher],{type:"application/octet-stream"});
 }
-
-async function decryptBlob(blob,password){
-  const buf = new Uint8Array(await blob.arrayBuffer());
-  if(buf.length < 32){
-    throw new Error("Not a valid KhaeZip archive (too small).");
-  }
-  const magic = new TextDecoder().decode(buf.slice(0,3));
-  if(magic !== "KZ3"){
-    throw new Error("This file is not a KhaeZip .kz archive.");
-  }
-  const salt   = buf.slice(3,19);
-  const iv     = buf.slice(19,31);
-  const cipher = buf.slice(31);
-  const key    = await deriveKey(password,salt);
-  try{
-    const plain = await crypto.subtle.decrypt({name:"AES-GCM",iv},key,cipher);
-    return new Blob([plain],{type:"application/zip"});
-  }catch(e){
-    throw new Error("Decryption failed. Check that your password is correct.");
-  }
-}
-
-/* Split helper */
-function splitBlob(blob,partSize){
-  if(!partSize || partSize <= 0) return [blob];
-  const parts = [];
-  let offset = 0;
-  while(offset < blob.size){
-    const end = Math.min(offset+partSize,blob.size);
-    parts.push(blob.slice(offset,end));
-    offset = end;
-  }
-  return parts;
-}
-
-/* ============================================================
-   SAVE FILE + VAULT (IndexedDB)
-   ============================================================ */
-async function saveFile(blob,name){
-  const supports = "showSaveFilePicker" in window;
-  if(supports){
+async function decryptKhae(file,password){
+  const buf=new Uint8Array(await file.arrayBuffer());
+  if(buf.length<4) throw new Error("Encrypted archive is too small.");
+  const magic4=new TextDecoder().decode(buf.subarray(0,4));
+  if(magic4==="KZP4"){
+    const headerLen=readU32(buf,4); if(headerLen<2||8+headerLen>=buf.length) throw new Error("Invalid KhaeZip v4 header.");
+    const headerBytes=buf.subarray(8,8+headerLen); let header;
+    try{header=JSON.parse(new TextDecoder().decode(headerBytes));}catch(_e){throw new Error("Encrypted header is not valid JSON.");}
+    if(header.schema!=="khaezip-encrypted"||header.schemaVersion!==4||header.algorithm!=="AES-GCM"||header.kdf!=="PBKDF2") throw new Error("Unsupported KhaeZip encryption header.");
+    const salt=base64ToBytes(header.salt); const iv=base64ToBytes(header.iv); const key=await deriveKey(password,salt,header.iterations);
     try{
-      const handle = await showSaveFilePicker({suggestedName:name});
-      const w = await handle.createWritable();
-      await w.write(blob);
-      await w.close();
-      return;
-    }catch(e){
-      if(e.name !== "AbortError") console.warn(e);
-    }
+      const plain=await globalThis.crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:headerBytes,tagLength:header.tagLength||128},key,buf.subarray(8+headerLen));
+      return {blob:new Blob([plain],{type:"application/zip"}),header};
+    }catch(_e){throw new Error("Decryption failed. The password may be incorrect or the archive may be damaged.");}
   }
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = name;
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(()=>{
-    URL.revokeObjectURL(a.href);
-    a.remove();
-  },1000);
+  const magic3=new TextDecoder().decode(buf.subarray(0,3));
+  if(magic3==="KZ3"){
+    if(buf.length<32) throw new Error("Invalid KZ3 archive.");
+    const salt=buf.subarray(3,19),iv=buf.subarray(19,31),cipher=buf.subarray(31),key=await deriveKey(password,salt,150000);
+    try{const plain=await globalThis.crypto.subtle.decrypt({name:"AES-GCM",iv},key,cipher);return {blob:new Blob([plain],{type:"application/zip"}),header:{schemaVersion:3,legacy:true}};}catch(_e){throw new Error("Decryption failed. Check the password.");}
+  }
+  throw new Error("This file is not a recognized encrypted KhaeZip archive.");
+}
+async function detectEncrypted(file){
+  const bytes=new Uint8Array(await file.slice(0,4).arrayBuffer()); const text=new TextDecoder().decode(bytes);
+  return text==="KZP4"||text.startsWith("KZ3");
 }
 
-/* Vault */
-const DB_NAME  = "KhaeZipVault";
-const DB_STORE = "archives";
-let db;
-
-function openDB(){
-  return new Promise((res,rej)=>{
-    const req = indexedDB.open(DB_NAME,1);
-    req.onupgradeneeded = () => {
-      req.result.createObjectStore(DB_STORE,{keyPath:"name"});
-    };
-    req.onsuccess = () => {
-      db = req.result;
-      res();
-    };
-    req.onerror = () => rej(req.error);
-  });
-}
-
-async function vaultAdd(rec){
-  if(!db) await openDB();
-  return new Promise((res,rej)=>{
-    const tx = db.transaction(DB_STORE,"readwrite");
-    tx.objectStore(DB_STORE).put(rec);
-    tx.oncomplete = () => res();
-    tx.onerror    = () => rej(tx.error);
-  });
-}
-
-async function vaultList(){
-  if(!db) await openDB();
-  return new Promise(res=>{
-    const tx  = db.transaction(DB_STORE,"readonly");
-    const req = tx.objectStore(DB_STORE).getAll();
-    req.onsuccess = () => res(req.result || []);
-  });
-}
-
-/* ============================================================
-   MAIN ZIP CREATION FLOW
-   ============================================================ */
-
-zipBtn.addEventListener("click",async()=>{
-  if(!filesToZip.length){
-    alert("Add files first.");
-    return;
-  }
-
-  zipBtn.disabled = true;
-  status.textContent = "Preparing files…";
-  setProgress(progressBar,0);
-
-  try{
-    const entries = [];
-    const enc = new TextEncoder();
-
-    // Manifest
-    const manifest = await buildManifest();
-    entries.push({name:"manifest.json", data: enc.encode(manifest)});
-
-    // User files
-    let processed = 0;
-    for(const f of filesToZip){
-      const buf = new Uint8Array(await f.arrayBuffer());
-      entries.push({name:f.name, data:buf});
-      processed++;
-      setProgress(progressBar, processed / filesToZip.length * 40);
-      await sleep(5);
-    }
-
-    status.textContent = "Building archive…";
-    setProgress(progressBar,60);
-    const zipBlob = await createZipBlob(entries);
-
-    let finalBlob = zipBlob;
-    let ext   = ".zip";
-    let label = "Archive created.";
-    const pwd = pwdInput.value.trim();
-
-    if(pwd){
-      if(!crypto || !crypto.subtle){
-        alert("Encryption is not available in this browser. Creating a normal ZIP instead.");
-      }else{
-        status.textContent = "Encrypting archive…";
-        finalBlob = await encryptBlob(zipBlob,pwd);
-        ext = ".kz";
-        label = "Encrypted archive created.";
-      }
-    }
-
-    const partMB = parseInt(splitInput.value || "0",10);
-    const parts  = splitBlob(finalBlob, partMB * 1024 * 1024);
-    const baseName = "khaezip_" + new Date().toISOString().replace(/[:.]/g,"-");
-
-    for(let i=0;i<parts.length;i++){
-      const suffix = parts.length > 1 ? `.part${i+1}` : "";
-      await saveFile(parts[i], `${baseName}${suffix}${ext}`);
-    }
-
-    setProgress(progressBar,100);
-    status.textContent = label;
-
-    emitEvent("archiveCreated",{
-      name: baseName,
-      encrypted: !!pwd,
-      count: filesToZip.length,
-      voice: "Archive created successfully."
-    });
-
-    await vaultAdd({
-      name: baseName,
-      ts: Date.now(),
-      encrypted: !!pwd,
-      files: filesToZip.length,
-      size: finalBlob.size
-    });
-
-  }catch(e){
-    console.error(e);
-    alert("Error: " + (e && e.message ? e.message : e));
-  }finally{
-    zipBtn.disabled = false;
-  }
-});
-
-/* ============================================================
-   ZIP READER (STORE-ONLY) FOR OPEN PANEL
-   ============================================================ */
-
-let currentZipBuffer = null;
-let currentEntries = [];
-let currentArchiveName = "";
-
-function findEndOfCentralDirectory(buf){
-  // EOCD min size = 22 bytes
-  for(let i = buf.length - 22; i >= 0; i--){
-    if(buf[i]   === 0x50 &&
-       buf[i+1] === 0x4b &&
-       buf[i+2] === 0x05 &&
-       buf[i+3] === 0x06){
-      return i;
-    }
-  }
+/* Strict ZIP parser */
+function findEOCD(buf){
+  const start=Math.max(0,buf.length-(22+65535));
+  for(let i=buf.length-22;i>=start;i--) if(readU32(buf,i)===0x06054b50) return i;
   return -1;
 }
-
-function parseZip(buf){
-  const eocdOffset = findEndOfCentralDirectory(buf);
-  if(eocdOffset < 0){
-    throw new Error("End of central directory not found (not a valid ZIP).");
-  }
-
-  const totalEntries = readUint16LE(buf, eocdOffset + 10);
-  const centralDirOffset = readUint32LE(buf, eocdOffset + 16);
-
-  let p = centralDirOffset;
-  const entries = [];
+function decodeName(bytes,utf8){
+  try{return new TextDecoder(utf8?"utf-8":"windows-1252",{fatal:false}).decode(bytes);}catch(_e){return new TextDecoder().decode(bytes);}
+}
+function parseZipStrict(buf){
+  if(buf.length<22) throw new Error("Archive is too small to be a ZIP file.");
+  if(buf.length>LIMITS.archiveBytes) throw new Error(`Archive exceeds the ${human(LIMITS.archiveBytes)} inspection limit.`);
+  const eocd=findEOCD(buf); if(eocd<0) throw new Error("End of central directory was not found.");
+  const disk=readU16(buf,eocd+4),startDisk=readU16(buf,eocd+6),diskEntries=readU16(buf,eocd+8),totalEntries=readU16(buf,eocd+10),centralSize=readU32(buf,eocd+12),centralOffset=readU32(buf,eocd+16),commentLen=readU16(buf,eocd+20);
+  if(eocd+22+commentLen>buf.length) throw new Error("ZIP comment extends beyond the file.");
+  if(disk||startDisk||diskEntries!==totalEntries) throw new Error("Multi-disk ZIP archives are not supported.");
+  if(totalEntries===0xFFFF||centralSize===0xFFFFFFFF||centralOffset===0xFFFFFFFF) throw new Error("ZIP64 archives are not supported by this edition.");
+  if(totalEntries>LIMITS.entries) throw new Error(`Archive contains more than ${LIMITS.entries} entries.`);
+  if(centralOffset+centralSize>eocd||centralOffset>buf.length) throw new Error("Central directory lies outside valid archive boundaries.");
+  const entries=[];let p=centralOffset,totalExpanded=0;
   for(let i=0;i<totalEntries;i++){
-    const sig = readUint32LE(buf,p);
-    if(sig !== 0x02014b50){
-      throw new Error("Bad central directory signature.");
-    }
-    const compression = readUint16LE(buf, p+10);
-    const crc32Val    = readUint32LE(buf, p+16);
-    const compSize    = readUint32LE(buf, p+20);
-    const uncompSize  = readUint32LE(buf, p+24);
-    const nameLen     = readUint16LE(buf, p+28);
-    const extraLen    = readUint16LE(buf, p+30);
-    const commentLen  = readUint16LE(buf, p+32);
-    const localHeaderOffset = readUint32LE(buf, p+42);
-    const nameBytes = buf.slice(p+46, p+46+nameLen);
-    const name = new TextDecoder().decode(nameBytes);
-
-    entries.push({
-      name,
-      compression,
-      crc32: crc32Val,
-      compSize,
-      uncompSize,
-      localHeaderOffset
-    });
-
-    p += 46 + nameLen + extraLen + commentLen;
+    if(p+46>centralOffset+centralSize||p+46>buf.length) throw new Error("Central directory entry is truncated.");
+    if(readU32(buf,p)!==0x02014b50) throw new Error(`Bad central directory signature at entry ${i+1}.`);
+    const flags=readU16(buf,p+8),compression=readU16(buf,p+10),crc=readU32(buf,p+16),compSize=readU32(buf,p+20),uncompSize=readU32(buf,p+24),nameLen=readU16(buf,p+28),extraLen=readU16(buf,p+30),commentLength=readU16(buf,p+32),diskStart=readU16(buf,p+34),localOffset=readU32(buf,p+42);
+    if(diskStart) throw new Error("Entry refers to another disk.");
+    const end=p+46+nameLen+extraLen+commentLength;
+    if(nameLen>LIMITS.nameBytes||end>centralOffset+centralSize||end>buf.length) throw new Error("Entry metadata exceeds valid boundaries.");
+    if(compSize===0xFFFFFFFF||uncompSize===0xFFFFFFFF||localOffset===0xFFFFFFFF) throw new Error("ZIP64 entry encountered.");
+    if(uncompSize>LIMITS.entryBytes) throw new Error(`Entry ${i+1} exceeds the ${human(LIMITS.entryBytes)} expanded-size limit.`);
+    totalExpanded+=uncompSize;if(totalExpanded>LIMITS.expandedBytes) throw new Error("Archive claims too much expanded data.");
+    const rawName=decodeName(buf.subarray(p+46,p+46+nameLen),!!(flags&0x0800));
+    let safeName="",unsafeReason="";try{safeName=normalizeArchivePath(rawName);}catch(e){unsafeReason=e.message;safeName=`_unsafe/entry-${i+1}`;}
+    entries.push({index:i,name:rawName,safeName,unsafeReason,flags,compression,crc32:crc,compSize,uncompSize,localOffset,encrypted:!!(flags&1),directory:rawName.endsWith("/")});
+    p=end;
   }
-  return entries;
+  if(p!==centralOffset+centralSize) throw new Error("Central directory size does not match parsed entries.");
+  return {entries,eocd,centralOffset,centralSize,totalEntries,totalExpanded};
+}
+async function inflateRaw(bytes){
+  if(typeof DecompressionStream!=="function") throw new Error("This browser cannot extract DEFLATE entries.");
+  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+async function extractEntryBytes(buf,entry,verify=true){
+  if(entry.encrypted) throw new Error("Standard ZIP-encrypted entries are not supported.");
+  const off=entry.localOffset;
+  if(off+30>buf.length||readU32(buf,off)!==0x04034b50) throw new Error("Invalid local file header.");
+  const localFlags=readU16(buf,off+6),localMethod=readU16(buf,off+8),nameLen=readU16(buf,off+26),extraLen=readU16(buf,off+28);
+  if(localMethod!==entry.compression) throw new Error("Local and central compression methods disagree.");
+  if((localFlags&1)!==(entry.flags&1)) throw new Error("Local and central encryption flags disagree.");
+  const dataStart=off+30+nameLen+extraLen,dataEnd=dataStart+entry.compSize;
+  if(dataStart<off||dataEnd<dataStart||dataEnd>buf.length) throw new Error("Entry data extends beyond archive boundaries.");
+  const compressed=buf.subarray(dataStart,dataEnd);let data;
+  if(entry.compression===0) data=new Uint8Array(compressed);
+  else if(entry.compression===8) data=await inflateRaw(compressed);
+  else throw new Error(`Compression method ${entry.compression} is unsupported.`);
+  if(data.length!==entry.uncompSize) throw new Error(`Expanded size mismatch: expected ${entry.uncompSize}, received ${data.length}.`);
+  if(verify){const actual=crc32(data);if(actual!==entry.crc32) throw new Error(`CRC mismatch: expected ${entry.crc32.toString(16).padStart(8,"0")}, received ${actual.toString(16).padStart(8,"0")}.`);}
+  return data;
 }
 
-function extractEntry(buf,entry){
-  if(entry.compression !== 0){
-    throw new Error("This offline edition can only extract uncompressed entries.");
+/* Downloads */
+async function saveBlob(blob,name,{picker=true}={}){
+  const safe=safeDownloadName(name);
+  if(picker&&"showSaveFilePicker" in window){
+    try{const handle=await showSaveFilePicker({suggestedName:safe});const w=await handle.createWritable();await w.write(blob);await w.close();return true;}
+    catch(e){if(e?.name==="AbortError") return false;console.warn(e);}
   }
-  const off = entry.localHeaderOffset;
-  const sig = readUint32LE(buf, off);
-  if(sig !== 0x04034b50){
-    throw new Error("Bad local file header.");
+  const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=safe;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);return true;
+}
+function downloadJSON(obj,name){return saveBlob(new Blob([JSON.stringify(obj,null,2)],{type:"application/json"}),name,{picker:false});}
+
+/* Create file queue */
+function renderCreateFiles(){
+  els.createFiles.innerHTML="";let total=0;
+  if(!createFiles.length) els.createFiles.innerHTML='<div class="empty">No files selected.</div>';
+  createFiles.forEach((item,index)=>{
+    total+=item.file.size;const row=document.createElement("div");row.className="file-row";
+    const info=document.createElement("div");const n=document.createElement("div");n.className="name";n.textContent=item.path;const m=document.createElement("div");m.className="meta";m.textContent=`${human(item.file.size)} • ${item.file.type||"unknown type"}`;info.append(n,m);
+    const actions=document.createElement("div");actions.className="row-actions";const remove=document.createElement("button");remove.type="button";remove.className="secondary small";remove.textContent="Remove";remove.onclick=()=>{if(createRun)return;createFiles.splice(index,1);renderCreateFiles();};actions.append(remove);row.append(info,actions);els.createFiles.append(row);
+  });
+  const estimate=Math.ceil(total*(els.createPwd.value?3.1:1.65));
+  els.createSummary.textContent=`Files: ${createFiles.length} • Total: ${human(total)} • Estimated peak memory: ${human(estimate)}`;
+  els.memoryWarning.hidden=estimate<350*1024*1024;
+  els.memoryWarning.textContent=estimate>=350*1024*1024?"Large browser archive jobs may be limited by available device memory. Keep original files and close unnecessary tabs before proceeding.":"";
+}
+function addCreateFiles(list){
+  if(createRun) return;
+  const used=new Set(createFiles.map(x=>x.path.toLowerCase()));const incoming=Array.from(list||[]);
+  for(const file of incoming){
+    if(createFiles.length>=LIMITS.files){setStatus(els.createStatus,`Only ${LIMITS.files} files are allowed per batch.`,"bad");break;}
+    if(file.size>LIMITS.fileBytes){setStatus(els.createStatus,`${file.name} exceeds the ${human(LIMITS.fileBytes)} per-file limit.`,"bad");continue;}
+    try{
+      const original=file.webkitRelativePath||file.name;let path=normalizeArchivePath(original);if(path.toLowerCase()===INTERNAL_MANIFEST.toLowerCase())path="user-manifest.json";path=uniquePath(path,used);
+      createFiles.push({file,path});
+    }catch(e){setStatus(els.createStatus,`${file.name}: ${e.message}`,"bad");}
   }
-  const nameLen  = readUint16LE(buf, off+26);
-  const extraLen = readUint16LE(buf, off+28);
-  const dataStart = off + 30 + nameLen + extraLen;
-  const dataEnd   = dataStart + entry.compSize;
-  const data = buf.slice(dataStart, dataEnd);
-  return new Blob([data]);
+  const total=createFiles.reduce((s,x)=>s+x.file.size,0);
+  if(total>LIMITS.totalBytes){while(createFiles.length&&createFiles.reduce((s,x)=>s+x.file.size,0)>LIMITS.totalBytes)createFiles.pop();setStatus(els.createStatus,`Batch reduced to stay under ${human(LIMITS.totalBytes)}.`,"warn");}
+  renderCreateFiles();els.createInput.value="";
+}
+for(const type of ["click","keydown"]){els.createDrop.addEventListener(type,e=>{if(type==="click"||(e.key==="Enter"||e.key===" ")){e.preventDefault();if(!createRun)els.createInput.click();}})}
+els.createDrop.addEventListener("dragover",e=>{e.preventDefault();els.createDrop.classList.add("drag-over")});
+els.createDrop.addEventListener("dragleave",()=>els.createDrop.classList.remove("drag-over"));
+els.createDrop.addEventListener("drop",e=>{e.preventDefault();els.createDrop.classList.remove("drag-over");addCreateFiles(e.dataTransfer.files)});
+els.createInput.addEventListener("change",()=>addCreateFiles(els.createInput.files));
+els.createPwd.addEventListener("input",renderCreateFiles);
+els.showPasswords.addEventListener("change",()=>{const type=els.showPasswords.checked?"text":"password";els.createPwd.type=type;els.confirmPwd.type=type;});
+function lockCreate(locked){
+  for(const el of [els.createInput,els.archiveName,els.splitSize,els.createPwd,els.confirmPwd,els.showPasswords,els.storeVault,els.clearCreateBtn,els.createBtn])el.disabled=locked;
+  els.cancelCreateBtn.hidden=!locked;
+}
+els.clearCreateBtn.addEventListener("click",()=>{if(createRun)return;createFiles=[];els.createInput.value="";els.createPwd.value="";els.confirmPwd.value="";setProgress(els.createProgress,0);setStatus(els.createStatus,"");renderCreateFiles();});
+els.cancelCreateBtn.addEventListener("click",()=>{if(createRun){createRun.cancelled=true;setStatus(els.createStatus,"Cancelling after the current file…","warn");}});
+
+async function splitAndSave(blob,baseName,extension,partMB,run){
+  const outputName=`${baseName}${extension}`;
+  if(!partMB){checkCancelled(run);const ok=await saveBlob(blob,outputName);return {saved:ok,outputName,parts:[]};}
+  const bytes=Math.floor(partMB*1024*1024);if(bytes<1024*1024)throw new Error("Split size must be at least 1 MB.");
+  const parts=[];for(let offset=0,index=1;offset<blob.size;offset+=bytes,index++){checkCancelled(run);const part=blob.slice(offset,Math.min(offset+bytes,blob.size));parts.push({index,fileName:`${outputName}.part${String(index).padStart(3,"0")}`,blob:part,size:part.size,sha256:await sha256Hex(part)});setProgress(els.createProgress,82+(Math.min(offset+bytes,blob.size)/blob.size)*10);await sleep();}
+  const manifest={schema:"khaezip-split-manifest",schemaVersion:1,createdAt:new Date().toISOString(),outputName,totalSize:blob.size,partCount:parts.length,parts:parts.map(p=>({index:p.index,fileName:p.fileName,size:p.size,sha256:p.sha256}))};
+  for(const part of parts){checkCancelled(run);await saveBlob(part.blob,part.fileName,{picker:false});}
+  await downloadJSON(manifest,`${outputName}.kzparts.json`);
+  return {saved:true,outputName,parts};
 }
 
-/* ============================================================
-   OPEN ARCHIVE FLOW
-   ============================================================ */
-
-openBtn.addEventListener("click",async()=>{
-  const f = openInput.files[0];
-  if(!f){
-    alert("Choose a file.");
-    return;
-  }
-
-  openBtn.disabled = true;
-  setProgress(openBar,0);
-  openStatus.textContent = "Loading…";
-  entriesBox.innerHTML = "";
-  downloadAllBtn.style.display = "none";
-
+els.createBtn.addEventListener("click",async()=>{
+  if(createRun)return;if(!createFiles.length){setStatus(els.createStatus,"Add files first.","bad");return;}
+  const total=createFiles.reduce((s,x)=>s+x.file.size,0);if(total>LIMITS.totalBytes){setStatus(els.createStatus,"Selected files exceed the safe batch limit.","bad");return;}
+  const password=els.createPwd.value,confirm=els.confirmPwd.value;
+  if(password&&password.length<8){setStatus(els.createStatus,"Encrypted archives require a password of at least 8 characters.","bad");return;}
+  if(password!==confirm){setStatus(els.createStatus,"Password confirmation does not match.","bad");return;}
+  const baseName=safeDownloadName(els.archiveName.value,"khaezip_archive").replace(/\.(zip|kz)$/i,"");
+  const snapshot=createFiles.map(x=>({file:x.file,path:x.path}));const run={cancelled:false,id:randomId()};createRun=run;lockCreate(true);setProgress(els.createProgress,0);setStatus(els.createStatus,"Preparing immutable file queue…");
+  let saveSucceeded=false;
   try{
-    let blob = f;
-
-    if(f.name.endsWith(".kz")){
-      if(!crypto || !crypto.subtle){
-        throw new Error("This browser does not support decryption.");
-      }
-      const p = openPwd.value.trim();
-      if(!p) throw new Error("Password required to open this .kz archive.");
-      openStatus.textContent = "Decrypting…";
-      blob = await decryptBlob(f,p);
+    const entries=[],manifestFiles=[];
+    for(let i=0;i<snapshot.length;i++){
+      checkCancelled(run);const item=snapshot[i],data=new Uint8Array(await item.file.arrayBuffer());const crc=crc32(data),sha=await sha256Hex(data);
+      entries.push({name:item.path,data,crc32:crc,lastModified:item.file.lastModified});
+      manifestFiles.push({path:item.path,originalName:item.file.name,size:item.file.size,type:item.file.type||"application/octet-stream",lastModified:new Date(item.file.lastModified||Date.now()).toISOString(),crc32:crc.toString(16).padStart(8,"0"),sha256:sha});
+      setProgress(els.createProgress,5+((i+1)/snapshot.length)*45);setStatus(els.createStatus,`Reading and hashing ${i+1} of ${snapshot.length}: ${item.path}`);await sleep();
     }
-
-    setProgress(openBar,30);
-    openStatus.textContent = "Parsing archive…";
-    const buf = new Uint8Array(await blob.arrayBuffer());
-    const parsedEntries = parseZip(buf);
-
-    currentZipBuffer = buf;
-    currentEntries = parsedEntries;
-    currentArchiveName = f.name;
-
-    const supportedCount = parsedEntries.filter(e=>e.compression === 0 && !e.name.endsWith("/")).length;
-    openStatus.textContent = `${parsedEntries.length} entr${parsedEntries.length === 1 ? "y" : "ies"} (${supportedCount} directly extractable)`;
-    setProgress(openBar,100);
-
-    // Render entry list
-    entriesBox.innerHTML = "";
-    let hasUnsupported = false;
-
-    parsedEntries.forEach(entry=>{
-      const row = document.createElement("div");
-      row.style.padding = "6px 0";
-      row.style.borderBottom = "1px dashed rgba(255,255,255,0.1)";
-
-      const label = document.createElement("span");
-      label.style.fontSize = "13px";
-
-      if(entry.name.endsWith("/")){
-        label.textContent = entry.name + " (folder)";
-      }else if(entry.compression !== 0){
-        label.textContent = entry.name + " (unsupported compression)";
-        hasUnsupported = true;
-      }else{
-        label.textContent = entry.name;
-        const btn = document.createElement("button");
-        btn.textContent = "Download";
-        btn.className = "small secondary";
-        btn.style.marginLeft = "10px";
-        btn.onclick = async()=>{
-          try{
-            const outBlob = extractEntry(currentZipBuffer,entry);
-            const simpleName = entry.name.split("/").pop() || entry.name;
-            await saveFile(outBlob,simpleName);
-          }catch(err){
-            console.error(err);
-            alert("Download failed: " + (err && err.message ? err.message : err));
-          }
-        };
-        row.appendChild(btn);
-      }
-
-      row.appendChild(label);
-      entriesBox.appendChild(row);
-    });
-
-    if(hasUnsupported){
-      const note = document.createElement("div");
-      note.style.fontSize = "11px";
-      note.style.color = "#f4b4b4";
-      note.style.marginTop = "6px";
-      note.textContent = "Note: This offline edition can only extract uncompressed entries (store method). Compressed files remain visible but not directly extractable.";
-      entriesBox.appendChild(note);
-    }
-
-    if(supportedCount > 0){
-      downloadAllBtn.style.display = "inline-block";
-      downloadAllBtn.disabled = false;
-    }
-
-    emitEvent("archiveOpened",{
-      name: f.name,
-      voice: "Archive opened successfully."
-    });
-
-  }catch(e){
-    console.error(e);
-    alert("Error: " + (e && e.message ? e.message : e));
-    openStatus.textContent = "Failed to open archive.";
-  }finally{
-    openBtn.disabled = false;
-  }
+    checkCancelled(run);
+    const manifest={schema:"khaezip-manifest",schemaVersion:2,khaeZipVersion:VERSION,archiveId:run.id,createdAt:new Date().toISOString(),compression:"store",fileCount:manifestFiles.length,files:manifestFiles};
+    const manifestData=new TextEncoder().encode(JSON.stringify(manifest,null,2));entries.unshift({name:INTERNAL_MANIFEST,data:manifestData,crc32:crc32(manifestData),lastModified:Date.now()});
+    setStatus(els.createStatus,"Building standards-compatible ZIP structure…");setProgress(els.createProgress,58);const zipBlob=await createZipBlob(entries);if(zipBlob.size>LIMITS.archiveBytes)throw new Error(`Result exceeds the ${human(LIMITS.archiveBytes)} archive limit.`);
+    checkCancelled(run);let finalBlob=zipBlob,extension=".zip",encrypted=false;
+    if(password){if(!globalThis.crypto?.subtle)throw new Error("Web Crypto encryption is unavailable in this browser.");setStatus(els.createStatus,"Encrypting with AES-GCM and PBKDF2…");setProgress(els.createProgress,68);finalBlob=await encryptKZ4(zipBlob,password);extension=".kz";encrypted=true;}
+    checkCancelled(run);setStatus(els.createStatus,"Saving archive…");setProgress(els.createProgress,80);const partMB=Math.max(0,Number(els.splitSize.value)||0);const saved=await splitAndSave(finalBlob,baseName,extension,partMB,run);saveSucceeded=saved.saved;
+    if(!saveSucceeded){setStatus(els.createStatus,"Save was cancelled. The archive was not downloaded.","warn");return;}
+    setProgress(els.createProgress,96);
+    const record={id:run.id,name:saved.outputName,createdAt:new Date().toISOString(),encrypted,size:finalBlob.size,fileCount:snapshot.length,splitParts:saved.parts.length,manifest,blob:els.storeVault.checked?finalBlob:null};
+    try{await vaultPut(record);setStatus(els.vaultStatus,els.storeVault.checked?"Archive and metadata stored in the local vault.":"Archive metadata recorded in the local vault.","good");}catch(e){setStatus(els.vaultStatus,`Archive was saved, but the optional vault record failed: ${e.message}`,"warn");}
+    setProgress(els.createProgress,100);setStatus(els.createStatus,`${encrypted?"Encrypted KhaeZip":"ZIP"} created and saved successfully${saved.parts.length?` in ${saved.parts.length} verified parts`:""}.`,"good");speak("Archive created successfully.");renderVault();
+  }catch(e){if(e?.name==="AbortError")setStatus(els.createStatus,"Archive creation cancelled. No source files were changed.","warn");else{console.error(e);setStatus(els.createStatus,`Creation failed: ${e.message||e}`,"bad");}}
+  finally{createRun=null;lockCreate(false);}
 });
 
-downloadAllBtn.onclick = async()=>{
-  if(!currentZipBuffer || !currentEntries.length){
-    alert("No archive loaded.");
-    return;
-  }
-  try{
-    downloadAllBtn.disabled = true;
-    openStatus.textContent = "Preparing combined ZIP…";
-    if(window.KhaeVoice){
-      window.KhaeVoice.speak("Preparing your download package.");
-    }
-
-    const enc = new TextEncoder();
-    const entries = [];
-    for(const e of currentEntries){
-      if(e.name.endsWith("/") || e.compression !== 0) continue;
-      const blob = extractEntry(currentZipBuffer,e);
-      const arr  = new Uint8Array(await blob.arrayBuffer());
-      entries.push({
-        name: e.name.split("/").pop() || e.name,
-        data: arr
-      });
-    }
-
-    if(!entries.length){
-      alert("No supported files to download.");
-      openStatus.textContent = "No extractable entries.";
-      return;
-    }
-
-    const outBlob = await createZipBlob(entries);
-    const outName = currentArchiveName.replace(/\.[^.]+$/, "_extracted.zip");
-    await saveFile(outBlob,outName);
-    openStatus.textContent = "All supported files downloaded as a ZIP.";
-
-  }catch(err){
-    console.error(err);
-    alert("Download all failed: " + (err && err.message ? err.message : err));
-    openStatus.textContent = "Download all failed.";
-  }finally{
-    downloadAllBtn.disabled = false;
-  }
-};
-
-/* ---------- Repair (placeholder) ---------- */
-repairBtn.addEventListener("click",()=>{
-  alert("Basic repair placeholder — advanced recovery coming soon in a future build.");
-});
-
-/* ============================================================
-   SERVICE WORKER / PWA  (optional, local-only)
-   ============================================================ */
-if("serviceWorker" in navigator){
-  const code = `
-    self.addEventListener('install',e=>self.skipWaiting());
-    self.addEventListener('fetch',()=>{});
-  `;
-  const blob = new Blob([code],{type:"text/javascript"});
-  navigator.serviceWorker
-    .register(URL.createObjectURL(blob))
-    .catch(()=>{ /* ignore SW failures in embedded contexts */ });
+/* Open archive */
+function resetOpen(){currentArchive=null;repairState=null;els.openInput.value="";els.openPwd.value="";els.openEntries.innerHTML='<div class="empty">Archive entries will appear here.</div>';els.repairReport.hidden=true;els.repairReport.textContent="";els.downloadRepairReportBtn.hidden=true;els.downloadRecoveredBtn.hidden=true;els.downloadAllBtn.hidden=true;els.scanBtn.disabled=true;els.repairBtn.disabled=true;setProgress(els.openProgress,0);setStatus(els.openStatus,"No archive loaded.");}
+els.clearOpenBtn.addEventListener("click",resetOpen);
+function entryCapability(entry){
+  if(entry.directory)return "folder";if(entry.unsafeReason)return "unsafe path";if(entry.encrypted)return "standard ZIP encryption unsupported";if(entry.compression===0)return "store";if(entry.compression===8)return typeof DecompressionStream==="function"?"deflate":"deflate unavailable";return `method ${entry.compression} unsupported`;
 }
-
-/* ============================================================
-   Local API Exposure
-   ============================================================ */
-window.KhaeZip = {
-  version: KHAEZIP_VERSION,
-  compress: () => zipBtn.click(),
-  listVault: () => vaultList(),
-  openDB: () => openDB()
-};
-
-if(window.KhaeVoice){
-  window.KhaeVoice.speak("KhaeZip Sovereign Offline Edition initialized.");
+function renderEntries(){
+  els.openEntries.innerHTML="";const entries=currentArchive?.parsed?.entries||[];
+  if(!entries.length){els.openEntries.innerHTML='<div class="empty">No entries found.</div>';return;}
+  for(const entry of entries){
+    const row=document.createElement("div");row.className="entry-row";
+    const info=document.createElement("div");const n=document.createElement("div");n.className="name";n.textContent=entry.name;const m=document.createElement("div");m.className="meta";m.textContent=`${human(entry.uncompSize)} • ${entryCapability(entry)}${entry.integrity?` • ${entry.integrity}`:""}`;info.append(n,m);
+    const actions=document.createElement("div");actions.className="row-actions";
+    const canAttempt=!entry.directory&&!entry.unsafeReason&&!entry.encrypted&&(entry.compression===0||(entry.compression===8&&typeof DecompressionStream==="function"));
+    if(canAttempt){const verify=document.createElement("button");verify.className="secondary small";verify.textContent="Verify";verify.onclick=()=>verifyOne(entry);const dl=document.createElement("button");dl.className="small";dl.textContent="Download";dl.onclick=()=>downloadEntry(entry);actions.append(verify,dl);}
+    row.append(info,actions);els.openEntries.append(row);
+  }
 }
-emitEvent("ready",{
-  version: KHAEZIP_VERSION,
-  voice: "KhaeZip is ready."
+async function loadArchiveFile(file){
+  if(file.size>LIMITS.archiveBytes)throw new Error(`Archive exceeds the ${human(LIMITS.archiveBytes)} inspection limit.`);
+  let source=file,encryptionHeader=null;
+  if(await detectEncrypted(file)){
+    const password=els.openPwd.value;if(!password)throw new Error("Password required for this encrypted KhaeZip archive.");setStatus(els.openStatus,"Decrypting KhaeZip archive…");const dec=await decryptKhae(file,password);source=dec.blob;encryptionHeader=dec.header;
+  }
+  const buf=new Uint8Array(await source.arrayBuffer());const parsed=parseZipStrict(buf);return {file,buffer:buf,parsed,encryptionHeader,name:file.name};
+}
+els.openBtn.addEventListener("click",async()=>{
+  const file=els.openInput.files?.[0];if(!file){setStatus(els.openStatus,"Choose an archive first.","bad");return;}
+  els.openBtn.disabled=true;els.scanBtn.disabled=true;els.repairBtn.disabled=true;els.downloadAllBtn.hidden=true;setProgress(els.openProgress,5);setStatus(els.openStatus,"Loading archive…");els.repairReport.hidden=true;
+  try{currentArchive=await loadArchiveFile(file);setProgress(els.openProgress,100);const p=currentArchive.parsed;setStatus(els.openStatus,`${p.totalEntries} entries loaded • claimed expanded size ${human(p.totalExpanded)}${currentArchive.encryptionHeader?` • encrypted format v${currentArchive.encryptionHeader.schemaVersion}`:""}.`,"good");els.scanBtn.disabled=false;els.repairBtn.disabled=false;els.downloadAllBtn.hidden=false;renderEntries();speak("Archive opened successfully.");}
+  catch(e){console.error(e);currentArchive=null;setStatus(els.openStatus,`Open failed: ${e.message||e}`,"bad");els.repairBtn.disabled=false;repairState={sourceFile:file,rawBuffer:new Uint8Array(await file.arrayBuffer()).slice()};els.repairReport.hidden=false;els.repairReport.textContent="Strict parsing failed. Repair & Recover can scan local file headers without changing the source file.";}
+  finally{els.openBtn.disabled=false;}
 });
+async function verifyOne(entry){
+  if(!currentArchive)return;
+  try{entry.integrity="checking";renderEntries();await extractEntryBytes(currentArchive.buffer,entry,true);entry.integrity="CRC verified";renderEntries();setStatus(els.openStatus,`${entry.name}: CRC verified.`,"good");}
+  catch(e){entry.integrity=`FAILED: ${e.message}`;renderEntries();setStatus(els.openStatus,`${entry.name}: ${e.message}`,"bad");}
+}
+async function downloadEntry(entry){
+  try{const data=await extractEntryBytes(currentArchive.buffer,entry,true);entry.integrity="CRC verified";renderEntries();await saveBlob(new Blob([data]),entry.safeName.split("/").pop()||"file",{picker:false});}
+  catch(e){setStatus(els.openStatus,`Download blocked: ${entry.name}: ${e.message}`,"bad");}
+}
+async function integrityScan(){
+  if(!currentArchive)return null;const report={schema:"khaezip-integrity-report",schemaVersion:1,archive:currentArchive.name,checkedAt:new Date().toISOString(),entries:[],summary:{verified:0,failed:0,unsupported:0,folders:0}};
+  const candidates=currentArchive.parsed.entries;for(let i=0;i<candidates.length;i++){const entry=candidates[i];setProgress(els.openProgress,(i/candidates.length)*100);if(entry.directory){report.summary.folders++;report.entries.push({name:entry.name,status:"folder"});continue;}if(entry.unsafeReason||entry.encrypted||![0,8].includes(entry.compression)||(entry.compression===8&&typeof DecompressionStream!=="function")){report.summary.unsupported++;report.entries.push({name:entry.name,status:"unsupported",reason:entry.unsafeReason||entryCapability(entry)});continue;}try{await extractEntryBytes(currentArchive.buffer,entry,true);entry.integrity="CRC verified";report.summary.verified++;report.entries.push({name:entry.name,status:"verified",crc32:entry.crc32.toString(16).padStart(8,"0")});}catch(e){entry.integrity=`FAILED: ${e.message}`;report.summary.failed++;report.entries.push({name:entry.name,status:"failed",reason:e.message});}await sleep();}
+  setProgress(els.openProgress,100);renderEntries();repairState={report,recoveredEntries:[],sourceFile:currentArchive.file};els.repairReport.hidden=false;els.repairReport.textContent=JSON.stringify(report,null,2);els.downloadRepairReportBtn.hidden=false;setStatus(els.openStatus,`Integrity scan: ${report.summary.verified} verified • ${report.summary.failed} failed • ${report.summary.unsupported} unsupported.`,report.summary.failed?"warn":"good");return report;
+}
+els.scanBtn.addEventListener("click",async()=>{els.scanBtn.disabled=true;try{await integrityScan();}finally{els.scanBtn.disabled=false;}});
+els.downloadRepairReportBtn.addEventListener("click",()=>repairState?.report&&downloadJSON(repairState.report,`${safeDownloadName(currentArchive?.name||repairState.sourceFile?.name||"archive")}.integrity.json`));
+els.downloadAllBtn.addEventListener("click",async()=>{
+  if(!currentArchive)return;els.downloadAllBtn.disabled=true;try{const entries=[];const used=new Set();let verified=0,skipped=0;for(const entry of currentArchive.parsed.entries){if(entry.directory||entry.unsafeReason||entry.encrypted||![0,8].includes(entry.compression)||(entry.compression===8&&typeof DecompressionStream!=="function")){skipped++;continue;}try{const data=await extractEntryBytes(currentArchive.buffer,entry,true);const path=uniquePath(entry.safeName,used);entries.push({name:path,data,lastModified:Date.now()});verified++;}catch(_e){skipped++;}}
+    if(!entries.length)throw new Error("No verified entries are available.");const blob=await createZipBlob(entries);await saveBlob(blob,`${safeDownloadName(currentArchive.name.replace(/\.[^.]+$/,""),"archive")}_verified.zip`);setStatus(els.openStatus,`${verified} verified files packaged; ${skipped} entries skipped.`,skipped?"warn":"good");}
+  catch(e){setStatus(els.openStatus,`Verified download failed: ${e.message}`,"bad");}finally{els.downloadAllBtn.disabled=false;}
+});
+
+/* Real repair and local-header recovery */
+function findSignature(buf,start,signature){for(let i=Math.max(0,start);i+4<=buf.length;i++)if(readU32(buf,i)===signature)return i;return -1;}
+async function recoverLocalEntries(buf){
+  const recovered=[],issues=[];let pos=0,scanned=0;
+  while(pos+30<=buf.length&&scanned<LIMITS.entries){const off=findSignature(buf,pos,0x04034b50);if(off<0)break;scanned++;try{
+      const flags=readU16(buf,off+6),method=readU16(buf,off+8),crc=readU32(buf,off+14),compSize=readU32(buf,off+18),uncompSize=readU32(buf,off+22),nameLen=readU16(buf,off+26),extraLen=readU16(buf,off+28);
+      if(flags&8){issues.push({offset:off,status:"skipped",reason:"Data-descriptor entry cannot be safely recovered without a central directory."});pos=off+4;continue;}
+      if(nameLen>LIMITS.nameBytes||compSize>LIMITS.entryBytes||uncompSize>LIMITS.entryBytes)throw new Error("Implausible local-header sizes.");const headerEnd=off+30+nameLen+extraLen,dataEnd=headerEnd+compSize;if(headerEnd>buf.length||dataEnd>buf.length)throw new Error("Truncated local entry.");
+      const rawName=decodeName(buf.subarray(off+30,off+30+nameLen),!!(flags&0x0800));let safeName;try{safeName=normalizeArchivePath(rawName);}catch(e){throw new Error(`Unsafe path: ${e.message}`);}
+      const entry={name:rawName,safeName,flags,compression:method,crc32:crc,compSize,uncompSize,localOffset:off,encrypted:!!(flags&1),directory:rawName.endsWith("/")};
+      if(!entry.directory){const data=await extractEntryBytes(buf,entry,true);recovered.push({name:safeName,data,lastModified:Date.now(),crc32:crc});}
+      pos=dataEnd;
+    }catch(e){issues.push({offset:off,status:"failed",reason:e.message});pos=off+4;}
+  }
+  return {recovered,issues,scanned};
+}
+els.repairBtn.addEventListener("click",async()=>{
+  els.repairBtn.disabled=true;els.downloadRecoveredBtn.hidden=true;try{
+    let buf=currentArchive?.buffer;
+    if(!buf){const file=els.openInput.files?.[0]||repairState?.sourceFile;if(!file)throw new Error("Choose an archive first.");if(await detectEncrypted(file)){const password=els.openPwd.value;if(!password)throw new Error("Password required before repairing an encrypted archive.");buf=new Uint8Array(await (await decryptKhae(file,password)).blob.arrayBuffer());}else buf=new Uint8Array(await file.arrayBuffer());}
+    setStatus(els.openStatus,"Scanning local file headers for recoverable entries…");setProgress(els.openProgress,20);const recovery=await recoverLocalEntries(buf);setProgress(els.openProgress,100);
+    const report={schema:"khaezip-repair-report",schemaVersion:1,archive:currentArchive?.name||els.openInput.files?.[0]?.name||"unknown",createdAt:new Date().toISOString(),localHeadersScanned:recovery.scanned,recoveredCount:recovery.recovered.length,issues:recovery.issues,recovered:recovery.recovered.map(x=>({name:x.name,size:x.data.length,crc32:x.crc32.toString(16).padStart(8,"0")}))};
+    repairState={...(repairState||{}),report,recoveredEntries:recovery.recovered};els.repairReport.hidden=false;els.repairReport.textContent=JSON.stringify(report,null,2);els.downloadRepairReportBtn.hidden=false;els.downloadRecoveredBtn.hidden=!recovery.recovered.length;setStatus(els.openStatus,`${recovery.recovered.length} verified entries recovered without modifying the source archive${recovery.issues.length?` • ${recovery.issues.length} issues noted`:""}.`,recovery.recovered.length?"good":"warn");
+  }catch(e){setStatus(els.openStatus,`Repair scan failed: ${e.message}`,"bad");}finally{els.repairBtn.disabled=false;}
+});
+els.downloadRecoveredBtn.addEventListener("click",async()=>{if(!repairState?.recoveredEntries?.length)return;try{const blob=await createZipBlob(repairState.recoveredEntries);await saveBlob(blob,`${safeDownloadName(repairState.report.archive.replace(/\.[^.]+$/,""),"archive")}_recovered.zip`);}catch(e){setStatus(els.openStatus,`Recovered archive failed: ${e.message}`,"bad");}});
+
+/* Split-part join */
+function parsePartNumber(name){
+  let m=name.match(/\.part(\d+)$/i);if(m)return {number:Number(m[1]),base:name.replace(/\.part\d+$/i,"")};
+  m=name.match(/\.part(\d+)(\.(?:zip|kz))$/i);if(m)return {number:Number(m[1]),base:name.replace(/\.part\d+(\.(?:zip|kz))$/i,"$2")};
+  return null;
+}
+function renderParts(){els.partsList.innerHTML="";if(!partFiles.length){els.partsList.innerHTML='<div class="empty">No parts selected.</div>';return;}for(const file of partFiles){const row=document.createElement("div");row.className="part-row";const info=document.createElement("div");const n=document.createElement("div");n.className="name";n.textContent=file.name;const m=document.createElement("div");m.className="meta";m.textContent=human(file.size);info.append(n,m);row.append(info);els.partsList.append(row);}}
+els.partsInput.addEventListener("change",()=>{partFiles=Array.from(els.partsInput.files||[]);renderParts();});
+els.clearPartsBtn.addEventListener("click",()=>{partFiles=[];els.partsInput.value="";renderParts();setProgress(els.joinProgress,0);setStatus(els.joinStatus,"");});
+els.joinBtn.addEventListener("click",async()=>{
+  if(!partFiles.length){setStatus(els.joinStatus,"Select split parts first.","bad");return;}els.joinBtn.disabled=true;setProgress(els.joinProgress,0);try{
+    const manifests=partFiles.filter(f=>f.name.toLowerCase().endsWith(".kzparts.json"));const parts=partFiles.filter(f=>!f.name.toLowerCase().endsWith(".kzparts.json"));if(!parts.length)throw new Error("No numbered archive parts were selected.");
+    let manifest=null;if(manifests.length){try{manifest=JSON.parse(await manifests[0].text());}catch(_e){throw new Error("Split manifest is not valid JSON.");}if(manifest.schema!=="khaezip-split-manifest")throw new Error("Selected JSON file is not a KhaeZip split manifest.");}
+    let ordered=[];if(manifest){const byName=new Map(parts.map(f=>[f.name,f]));for(const spec of manifest.parts){const file=byName.get(spec.fileName);if(!file)throw new Error(`Missing part: ${spec.fileName}`);ordered.push({file,spec});}if(ordered.length!==parts.length)throw new Error("Unexpected extra part files were selected.");}
+    else{ordered=parts.map(file=>{const parsed=parsePartNumber(file.name);if(!parsed)throw new Error(`Cannot determine part number from ${file.name}`);return {file,parsed};}).sort((a,b)=>a.parsed.number-b.parsed.number);for(let i=0;i<ordered.length;i++)if(ordered[i].parsed.number!==i+1)throw new Error(`Missing or out-of-order part near number ${i+1}.`);}
+    const total=ordered.reduce((s,x)=>s+x.file.size,0);if(total>LIMITS.archiveBytes)throw new Error(`Joined archive exceeds ${human(LIMITS.archiveBytes)}.`);
+    for(let i=0;i<ordered.length;i++){const item=ordered[i];setStatus(els.joinStatus,`Verifying part ${i+1} of ${ordered.length}…`);if(item.spec){if(item.file.size!==item.spec.size)throw new Error(`${item.file.name} has the wrong size.`);const hash=await sha256Hex(item.file);if(hash.toLowerCase()!==String(item.spec.sha256).toLowerCase())throw new Error(`${item.file.name} failed SHA-256 verification.`);}setProgress(els.joinProgress,((i+1)/ordered.length)*85);await sleep();}
+    const blob=new Blob(ordered.map(x=>x.file),{type:"application/octet-stream"});const outputName=manifest?.outputName||ordered[0].parsed.base;const ok=await saveBlob(blob,outputName);if(!ok){setStatus(els.joinStatus,"Save cancelled.","warn");return;}setProgress(els.joinProgress,100);setStatus(els.joinStatus,`${ordered.length} verified parts joined as ${outputName}.`,"good");speak("Split archive joined successfully.");
+  }catch(e){setStatus(els.joinStatus,`Join failed: ${e.message}`,"bad");}finally{els.joinBtn.disabled=false;}
+});
+
+/* IndexedDB vault */
+const DB_NAME="KhaeZipProtectedVault",DB_STORE="archives";let dbPromise;
+function openVault(){
+  if(dbPromise)return dbPromise;dbPromise=new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{const store=req.result.createObjectStore(DB_STORE,{keyPath:"id"});store.createIndex("createdAt","createdAt")};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});return dbPromise;
+}
+async function vaultPut(record){const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction(DB_STORE,"readwrite");tx.objectStore(DB_STORE).put(record);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});}
+async function vaultGetAll(){const db=await openVault();return new Promise((resolve,reject)=>{const req=db.transaction(DB_STORE,"readonly").objectStore(DB_STORE).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});}
+async function vaultDelete(id){const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction(DB_STORE,"readwrite");tx.objectStore(DB_STORE).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});}
+async function vaultClear(){const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction(DB_STORE,"readwrite");tx.objectStore(DB_STORE).clear();tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});}
+async function renderVault(){
+  try{const records=(await vaultGetAll()).sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));els.vaultList.innerHTML="";if(!records.length){els.vaultList.innerHTML='<div class="empty">Vault is empty.</div>';return;}for(const rec of records){const row=document.createElement("div");row.className="vault-row";const info=document.createElement("div");const n=document.createElement("div");n.className="name";n.textContent=rec.name;const m=document.createElement("div");m.className="meta";m.textContent=`${new Date(rec.createdAt).toLocaleString()} • ${human(rec.size)} • ${rec.fileCount} files • ${rec.blob?"archive stored":"metadata only"}`;info.append(n,m);const actions=document.createElement("div");actions.className="row-actions";if(rec.blob){const dl=document.createElement("button");dl.className="small";dl.textContent="Download";dl.onclick=()=>saveBlob(rec.blob,rec.name,{picker:false});actions.append(dl);}const del=document.createElement("button");del.className="danger small";del.textContent="Delete";del.onclick=async()=>{if(confirm(`Delete ${rec.name} from this browser vault?`)){await vaultDelete(rec.id);renderVault();}};actions.append(del);row.append(info,actions);els.vaultList.append(row);}}
+  catch(e){setStatus(els.vaultStatus,`Vault unavailable: ${e.message}`,"bad");}
+}
+els.refreshVaultBtn.addEventListener("click",renderVault);
+els.exportVaultBtn.addEventListener("click",async()=>{try{const records=await vaultGetAll();const safe=records.map(({blob,...rest})=>({...rest,storedBlob:!!blob}));await downloadJSON({schema:"khaezip-vault-log",schemaVersion:1,exportedAt:new Date().toISOString(),records:safe},"khaezip_vault_log.json");}catch(e){setStatus(els.vaultStatus,e.message,"bad");}});
+els.clearVaultBtn.addEventListener("click",async()=>{if(!confirm("Delete every KhaeZip Vault record and locally stored archive from this browser?"))return;try{await vaultClear();setStatus(els.vaultStatus,"Vault cleared.","good");renderVault();}catch(e){setStatus(els.vaultStatus,e.message,"bad");}});
+
+/* Guide and init */
+els.guideBtn.addEventListener("click",()=>els.guideDialog.showModal());
+renderCreateFiles();renderParts();renderVault();
+setStatus(els.globalStatus,"Ready — all archive operations are local.","good");
+window.KhaeZip={version:VERSION,createZipBlob,parseZipStrict,extractEntryBytes,crc32,sha256Hex,encryptKZ4,decryptKhae,openVault:renderVault};
+})();
 </script>
 </body>
 </html>
