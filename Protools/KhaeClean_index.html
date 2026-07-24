@@ -2,725 +2,1471 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>KhaeClean™ — Mini Code Lab</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'self' data:; frame-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>KhaeClean™ — Protected Code Lab</title>
   <style>
-    :root {
-      --nebula1:#0b0427;
-      --nebula2:#1a0b47;
-      --accent1:#7ac9ff;
-      --accent2:#b6bfff;
-      --panel-bg:rgba(15,20,35,0.9);
-      --border-glow:rgba(122,201,255,0.45);
-      --radius:14px;
-      --shadow:0 0 24px rgba(0,0,0,0.6);
-      --font-main:'Montserrat','Brandon Grotesque',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    :root{
+      --nebula-1:#08031f;
+      --nebula-2:#1b0b4b;
+      --panel:rgba(13,18,36,.94);
+      --panel-soft:rgba(255,255,255,.045);
+      --ink:#f5f7ff;
+      --muted:#aebce3;
+      --muted-2:#8294c7;
+      --accent:#7ac9ff;
+      --accent-2:#b6bfff;
+      --good:#82e0ad;
+      --warn:#ffd27d;
+      --bad:#ff9caa;
+      --line:rgba(151,176,230,.30);
+      --radius:15px;
+      --shadow:0 22px 60px rgba(0,0,0,.48);
+      --font:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
     }
 
-    html,body{
+    *{box-sizing:border-box}
+    html{min-height:100%;background:var(--nebula-1)}
+    body{
       margin:0;
-      padding:0;
-      height:100%;
-      font-family:var(--font-main);
-      color:#fff;
-      background:radial-gradient(circle at 50% 20%,var(--nebula2) 0%,var(--nebula1) 100%);
-      overflow:hidden;
+      min-height:100vh;
+      overflow-x:hidden;
+      overflow-y:auto;
+      font-family:var(--font);
+      color:var(--ink);
+      background:radial-gradient(circle at 50% 10%,var(--nebula-2),var(--nebula-1) 58%,#040211 100%);
     }
 
-    /* Starfield */
-    #kcStarfield{
+    button,input,select,textarea{font:inherit}
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{
+      outline:3px solid rgba(122,201,255,.92);
+      outline-offset:3px;
+    }
+
+    #starfield{
       position:fixed;
       inset:0;
       width:100%;
       height:100%;
       z-index:0;
+      pointer-events:none;
     }
 
-    /* Main app shell */
-    .kc-shell{
+    .app{
       position:relative;
-      z-index:2;
-      max-width:980px;
-      margin:40px auto;
-      padding:26px 24px 22px;
-      border-radius:var(--radius);
-      background:var(--panel-bg);
+      z-index:1;
+      width:min(1440px,calc(100% - 28px));
+      margin:24px auto 44px;
+      padding:18px;
+      border:1px solid rgba(122,201,255,.42);
+      border-radius:20px;
+      background:var(--panel);
       box-shadow:var(--shadow);
-      border:1px solid var(--border-glow);
-      box-sizing:border-box;
+      backdrop-filter:blur(16px);
     }
 
-    .kc-title{
-      margin:0 0 4px;
-      font-size:24px;
-      text-align:center;
-      letter-spacing:1px;
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-    .kc-sub{
-      margin:0 0 18px;
-      text-align:center;
-      font-size:13px;
-      color:#c5d9ff;
-    }
-
-    /* Panels row */
-    .kc-panels{
+    .topbar{
       display:flex;
-      gap:18px;
-      align-items:stretch;
-      margin-top:10px;
-      flex-wrap:wrap;
-    }
-    .kc-panel{
-      flex:1 1 0;
-      min-width:0;
-      background:rgba(255,255,255,0.03);
-      border-radius:var(--radius);
-      border:1px solid rgba(255,255,255,0.12);
-      padding:16px 14px 14px;
-      box-shadow:inset 0 0 12px rgba(0,0,0,0.45);
-      box-sizing:border-box;
-    }
-    .kc-panel-title{
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      color:#b7ccff;
-      margin-bottom:8px;
-    }
-    .kc-panel-caption{
-      font-size:11px;
-      color:#8fa2d4;
-      margin-bottom:8px;
-    }
-
-    /* BIGGER code & preview areas */
-    .kc-codearea{
-      width:100%;
-      min-height:360px;
-      max-height:460px;
-      resize:vertical;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.18);
-      background:#050817;
-      color:#e5ecff;
-      font-family:"Fira Mono","Consolas",monospace;
-      font-size:13px;
-      padding:10px 11px;
-      box-sizing:border-box;
-      line-height:1.45;
-    }
-
-    .kc-preview-frame{
-      width:100%;
-      height:360px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.18);
-      background:#050817;
-      box-sizing:border-box;
-    }
-
-    /* Buttons */
-    .kc-btn-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:10px;
-    }
-    .kc-btn{
-      flex:1 1 0;
-      min-width:90px;
-      padding:9px 10px;
-      border-radius:9px;
-      border:none;
-      cursor:pointer;
-      font-size:13px;
-      font-weight:600;
-      font-family:var(--font-main);
-      color:#04121f;
-      background:linear-gradient(180deg,#7ac9ff,#3a8dff);
-      box-shadow:0 0 8px rgba(58,141,255,0.55);
-      transition:all .18s;
-    }
-    .kc-btn:hover{
-      transform:translateY(-1px);
-      box-shadow:0 0 14px rgba(58,141,255,0.9);
-    }
-    .kc-btn.secondary{
-      background:linear-gradient(180deg,#262b42,#151826);
-      color:#c5d9ff;
-      box-shadow:none;
-    }
-
-    /* Snippet row */
-    .kc-snippet-row{
-      margin-top:8px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
       align-items:center;
-      font-size:11px;
-      color:#9bb0e5;
-    }
-    .kc-snippet-input{
-      flex:1 1 120px;
-      min-width:0;
-      padding:6px 8px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.25);
-      background:rgba(5,8,23,0.9);
-      color:#e5ecff;
-      font-size:11px;
-      font-family:var(--font-main);
-      box-sizing:border-box;
-    }
-    .kc-snippet-select{
-      flex:1 1 120px;
-      min-width:0;
-      padding:6px 8px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.25);
-      background:rgba(5,8,23,0.9);
-      color:#e5ecff;
-      font-size:11px;
-      font-family:var(--font-main);
-      box-sizing:border-box;
-    }
-    .kc-snippet-meta{
-      margin-top:4px;
-      font-size:10px;
-      color:#7f93cd;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      padding:2px 2px 14px;
+      border-bottom:1px solid var(--line);
     }
 
-    /* AI section */
-    .kc-ai{
-      margin-top:18px;
-      padding:14px 14px 12px;
-      background:rgba(0,0,0,0.45);
-      border-radius:var(--radius);
-      border:1px solid rgba(255,255,255,0.18);
-      box-shadow:inset 0 0 10px rgba(0,0,0,0.5);
-      font-size:12px;
+    .breadcrumbs{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:13px;
     }
-    .kc-ai-header{
+
+    .crumb-link,.nav-button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      min-height:36px;
+      padding:8px 11px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      color:#eaf3ff;
+      background:rgba(255,255,255,.045);
+      text-decoration:none;
+      font-weight:700;
+    }
+    .crumb-link:hover,.nav-button:hover{border-color:var(--accent);background:rgba(122,201,255,.10)}
+    .crumb-current{color:#fff;font-weight:800}
+    .crumb-sep{color:var(--muted-2)}
+
+    .top-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+    .hero{text-align:center;padding:22px 12px 18px}
+    .hero h1{
+      margin:0;
+      font-size:clamp(25px,4vw,38px);
+      line-height:1.12;
+      letter-spacing:.6px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text;
+      color:transparent;
+    }
+    .hero p{margin:9px auto 0;max-width:880px;color:#c4d3f7;line-height:1.55}
+    .security-strip{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:13px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 9px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:#dce7ff;
+      font-size:12px;
+      font-weight:750;
+    }
+    .badge.good{border-color:rgba(130,224,173,.45);color:#caffdf}
+    .badge.warn{border-color:rgba(255,210,125,.48);color:#ffe6b4}
+
+    .workspace{
+      display:grid;
+      grid-template-columns:minmax(420px,1fr) minmax(380px,1fr);
+      gap:16px;
+      align-items:start;
+    }
+
+    .panel{
+      min-width:0;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:var(--panel-soft);
+      box-shadow:inset 0 0 20px rgba(0,0,0,.20);
+      overflow:hidden;
+    }
+    .panel-head{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      margin-bottom:8px;
+      gap:12px;
+      flex-wrap:wrap;
+      padding:13px 14px;
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.16);
+    }
+    .panel-head h2{margin:0;font-size:15px;letter-spacing:.6px;color:#dce7ff}
+    .panel-head small{color:var(--muted-2)}
+    .panel-body{padding:14px}
+
+    .control-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(120px,1fr));
+      gap:9px;
+      margin-bottom:11px;
+    }
+    .field{display:flex;flex-direction:column;gap:5px;min-width:0}
+    .field label{font-size:11px;color:var(--muted);font-weight:750}
+    input,select,textarea{
+      width:100%;
+      border:1px solid rgba(151,176,230,.40);
+      border-radius:9px;
+      background:#060a1a;
+      color:var(--ink);
+    }
+    input,select{min-height:38px;padding:7px 9px}
+    textarea{padding:11px 12px}
+
+    .editor-wrap{position:relative}
+    #codeInput{
+      min-height:480px;
+      max-height:76vh;
+      resize:vertical;
+      tab-size:2;
+      line-height:1.48;
+      font-family:var(--mono);
+      font-size:13px;
+      white-space:pre;
+      overflow:auto;
+      spellcheck:false;
+    }
+    .editor-status{
+      display:flex;
+      justify-content:space-between;
       gap:10px;
       flex-wrap:wrap;
-    }
-    .kc-ai-title{
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      color:#b7ccff;
-    }
-    .kc-ai-controls{
-      display:flex;
-      gap:6px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .kc-ai-label{
-      font-size:11px;
-      color:#93a7dd;
-      display:flex;
-      gap:4px;
-      align-items:center;
-      white-space:nowrap;
-    }
-    .kc-ai-label input{
-      accent-color:#7ac9ff;
-    }
-    .kc-ai-output{
       margin-top:6px;
-      padding:8px 10px;
-      background:#050817;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.18);
-      min-height:60px;
-      color:#e5ecff;
-      line-height:1.5;
-      font-size:11.5px;
-      overflow-y:auto;
-      max-height:180px;
-    }
-
-    .kc-footer{
-      margin-top:10px;
-      text-align:center;
+      color:var(--muted-2);
       font-size:11px;
-      color:#8fa2d4;
     }
 
-    @media (max-width:900px){
-      body{overflow:auto;}
-      .kc-shell{
-        margin:18px auto;
-        max-width:94vw;
-        padding:18px 14px;
-      }
-      .kc-panels{
-        flex-direction:column;
-      }
-      .kc-codearea,.kc-preview-frame{
-        min-height:260px;
-        height:260px;
-      }
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .row + .row{margin-top:9px}
+    .grow{flex:1 1 180px;min-width:0}
+
+    .btn{
+      border:1px solid transparent;
+      border-radius:9px;
+      min-height:38px;
+      padding:8px 12px;
+      cursor:pointer;
+      font-weight:800;
+      color:#051322;
+      background:linear-gradient(180deg,#87d2ff,#4aa3ff);
+      box-shadow:0 0 9px rgba(74,163,255,.40);
+      transition:transform .15s,border-color .15s,filter .15s;
+    }
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+    .btn.secondary{color:#dce7ff;background:linear-gradient(180deg,#303752,#171b2c);border-color:rgba(151,176,230,.24);box-shadow:none}
+    .btn.danger{color:#ffe7ec;background:linear-gradient(180deg,#71354a,#3a1825);border-color:rgba(255,156,170,.35);box-shadow:none}
+    .btn.good{color:#062118;background:linear-gradient(180deg,#9deabb,#5dcf8d)}
+    .btn.small{min-height:32px;padding:6px 9px;font-size:12px}
+    .btn[disabled]{opacity:.48;cursor:not-allowed;transform:none;filter:none}
+
+    .preview-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .viewport-buttons{display:flex;gap:6px;flex-wrap:wrap}
+    .preview-stage{
+      min-height:480px;
+      padding:12px;
+      overflow:auto;
+      border:1px solid rgba(151,176,230,.28);
+      border-radius:12px;
+      background:radial-gradient(circle at top,#172145,#050817 70%);
+    }
+    .frame-shell{
+      width:100%;
+      min-height:450px;
+      margin:0 auto;
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow:0 12px 35px rgba(0,0,0,.38);
+      transition:width .2s;
+      background:#fff;
+    }
+    #previewFrame{display:block;width:100%;height:450px;border:0;background:#fff}
+    .frame-shell.phone{width:min(390px,100%)}
+    .frame-shell.tablet{width:min(768px,100%)}
+    .frame-shell.desktop{width:100%}
+
+    .status-bar{
+      min-height:36px;
+      margin-top:10px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:9px;
+      color:#dce7ff;
+      background:rgba(0,0,0,.20);
+      font-size:12px;
+    }
+    .status-bar[data-kind="good"]{border-color:rgba(130,224,173,.45);color:#caffdf}
+    .status-bar[data-kind="warn"]{border-color:rgba(255,210,125,.45);color:#ffe5ad}
+    .status-bar[data-kind="bad"]{border-color:rgba(255,156,170,.45);color:#ffd3da}
+
+    .bottom-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:16px;
+      margin-top:16px;
+    }
+
+    .results-list{display:grid;gap:9px}
+    .result-card{
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:10px 11px;
+      background:rgba(2,7,19,.56);
+    }
+    .result-card h3{margin:0 0 5px;font-size:13px;color:#dce7ff}
+    .result-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+    .result-card.good{border-left:4px solid var(--good)}
+    .result-card.warn{border-left:4px solid var(--warn)}
+    .result-card.bad{border-left:4px solid var(--bad)}
+    .result-card.info{border-left:4px solid var(--accent)}
+
+    .console{
+      height:280px;
+      overflow:auto;
+      padding:9px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#03050e;
+      font-family:var(--mono);
+      font-size:11px;
+      white-space:pre-wrap;
+      overflow-wrap:anywhere;
+    }
+    .console-line{padding:5px 6px;border-bottom:1px dashed rgba(255,255,255,.08)}
+    .console-line.log{color:#dce7ff}
+    .console-line.info{color:#9ed7ff}
+    .console-line.warn{color:#ffe1a3}
+    .console-line.error{color:#ffb2bd}
+    .console-line.system{color:#9ecdb6}
+
+    .storage-meter{height:8px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:7px}
+    .storage-meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#59b2ff,#82e0ad)}
+
+    .footer{
+      margin-top:18px;
+      padding-top:15px;
+      border-top:1px solid var(--line);
+      text-align:center;
+      color:var(--muted-2);
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    dialog{
+      width:min(520px,calc(100% - 28px));
+      border:1px solid rgba(122,201,255,.48);
+      border-radius:15px;
+      padding:0;
+      color:var(--ink);
+      background:#0a1024;
+      box-shadow:0 30px 90px rgba(0,0,0,.68);
+    }
+    dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
+    .dialog-head{padding:15px 16px;border-bottom:1px solid var(--line);font-weight:850;color:#dce7ff}
+    .dialog-body{padding:16px;color:var(--muted);line-height:1.55;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+    .dialog-actions{display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+
+    .toast-stack{position:fixed;right:16px;bottom:16px;z-index:50;display:grid;gap:8px;width:min(360px,calc(100% - 32px))}
+    .toast{padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0b1228;color:#eaf2ff;box-shadow:0 10px 35px rgba(0,0,0,.42);font-size:12px}
+    .toast.good{border-color:rgba(130,224,173,.48)}
+    .toast.warn{border-color:rgba(255,210,125,.48)}
+    .toast.bad{border-color:rgba(255,156,170,.48)}
+
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+    @media(max-width:1060px){
+      .workspace,.bottom-grid{grid-template-columns:1fr}
+      #codeInput{min-height:420px}
+    }
+    @media(max-width:720px){
+      .app{width:min(100% - 14px,1440px);margin:8px auto 28px;padding:11px}
+      .hero{padding:17px 6px 14px}
+      .control-grid{grid-template-columns:1fr 1fr}
+      .preview-stage{padding:6px}
+      .frame-shell,#previewFrame{min-height:400px;height:400px}
+    }
+    @media(max-width:480px){
+      .control-grid{grid-template-columns:1fr}
+      .btn{flex:1 1 130px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
     }
   </style>
 </head>
 <body>
-  <canvas id="kcStarfield" aria-hidden="true"></canvas>
+  <canvas id="starfield" aria-hidden="true"></canvas>
 
-  <div class="kc-shell">
-    <h1 class="kc-title">KhaeClean™ — Mini Code Lab</h1>
-    <p class="kc-sub">
-      Paste your HTML/CSS/JS · Preview it live · Let the mini AI spotlight common issues — all in your browser.
-      <br><span style="font-size:11px;color:#9bb0e5;">Tip: Press <strong>Ctrl+Enter</strong> (or ⌘+Enter) to preview quickly.</span>
-    </p>
-
-    <div class="kc-panels">
-      <!-- CODE PANEL -->
-      <section class="kc-panel">
-        <div class="kc-panel-title">Code Input</div>
-        <div class="kc-panel-caption">Paste your embed code here (Wix, Notion, PLERA tools, etc.).</div>
-        <textarea id="codeInput" class="kc-codearea" spellcheck="false"
-          placeholder="Paste any HTML, CSS, or JavaScript here...&#10;&#10;&lt;div&gt;Hello from KhaeClean™&lt;/div&gt;"></textarea>
-
-        <!-- SNIPPET BAR -->
-        <div class="kc-snippet-row">
-          <input id="snippetName" class="kc-snippet-input" placeholder="Snippet name…" />
-          <select id="snippetList" class="kc-snippet-select">
-            <option value="">Saved snippets…</option>
-          </select>
-          <button class="kc-btn secondary" id="saveSnippetBtn" style="flex:0 0 auto;padding:6px 10px;font-size:11px;">Save</button>
-          <button class="kc-btn secondary" id="deleteSnippetBtn" style="flex:0 0 auto;padding:6px 10px;font-size:11px;">Delete</button>
-        </div>
-        <div id="snippetMeta" class="kc-snippet-meta"></div>
-
-        <div class="kc-btn-row">
-          <button class="kc-btn" id="previewBtn">Preview</button>
-          <button class="kc-btn secondary" id="copyBtn">Copy Code</button>
-          <button class="kc-btn secondary" id="clearBtn">Clear</button>
-        </div>
-      </section>
-
-      <!-- PREVIEW PANEL -->
-      <section class="kc-panel">
-        <div class="kc-panel-title">Live Preview</div>
-        <div class="kc-panel-caption">Whatever you paste will run here in an isolated frame.</div>
-        <iframe id="previewFrame" class="kc-preview-frame"></iframe>
-      </section>
+  <main class="app">
+    <div class="topbar">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a class="crumb-link" href="https://vervenveda.github.io/" aria-label="Return to Verve N Veda home">⌂ Home</a>
+        <span class="crumb-sep" aria-hidden="true">›</span>
+        <a class="crumb-link" href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a>
+        <span class="crumb-sep" aria-hidden="true">›</span>
+        <span class="crumb-current" aria-current="page">KhaeClean™</span>
+      </nav>
+      <div class="top-actions">
+        <button class="btn secondary small" id="motionBtn" type="button" aria-pressed="true">Pause stars</button>
+        <button class="btn secondary small" id="guideBtn" type="button">Safety Guide</button>
+      </div>
     </div>
 
-    <!-- MINI AI CODE GUIDE -->
-    <section class="kc-ai">
-      <div class="kc-ai-header">
-        <div class="kc-ai-title">Mini AI Code Guide · Local / Offline</div>
-        <div class="kc-ai-controls">
-          <button class="kc-btn secondary" id="analyzeBtn" style="padding:5px 9px;font-size:11px;">Analyze Code</button>
-          <label class="kc-ai-label">
-            <input type="checkbox" id="tidyCheckbox"> Tidy whitespace
-          </label>
-          <label class="kc-ai-label">
-            <input type="checkbox" id="autoAnalyzeCheckbox"> Auto after Preview
-          </label>
+    <header class="hero">
+      <h1>KhaeClean™ — Protected Code Lab</h1>
+      <p>Inspect, preview, organize, and export HTML, CSS, and JavaScript locally. Preview code in a restricted iframe, keep scripts off until you deliberately enable them, and review external domains before connected resources are allowed.</p>
+      <div class="security-strip" aria-label="Security status">
+        <span class="badge good">✓ Browser-local workspace</span>
+        <span class="badge good">✓ Sandboxed preview</span>
+        <span class="badge warn" id="scriptBadge">Scripts off</span>
+        <span class="badge good" id="networkBadge">Network blocked</span>
+      </div>
+    </header>
+
+    <section class="workspace" aria-label="Code workspace">
+      <section class="panel" aria-labelledby="editorHeading">
+        <div class="panel-head">
+          <div>
+            <h2 id="editorHeading">Code Editor</h2>
+            <small>Drafts autosave locally. Loading a snippet never runs it automatically.</small>
+          </div>
+          <button class="btn secondary small" id="undoClearBtn" type="button" hidden>Undo Clear</button>
         </div>
-      </div>
-      <div id="analysisBox" class="kc-ai-output">
-        Paste some code, click <strong>Preview</strong>, then tap <strong>Analyze Code</strong> for a quick local report.
-      </div>
+        <div class="panel-body">
+          <div class="control-grid">
+            <div class="field">
+              <label for="languageMode">Language mode</label>
+              <select id="languageMode">
+                <option value="auto">Auto detect</option>
+                <option value="html-document">HTML document</option>
+                <option value="html-snippet">HTML snippet</option>
+                <option value="css">CSS</option>
+                <option value="javascript">JavaScript</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="previewMode">Preview network</label>
+              <select id="previewMode">
+                <option value="safe">Sovereign Safe</option>
+                <option value="connected">Connected Preview</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="scriptMode">Script execution</label>
+              <select id="scriptMode">
+                <option value="off">Off — safest</option>
+                <option value="on">On — sandboxed</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="templateSelect">Starter template</label>
+              <select id="templateSelect">
+                <option value="">Choose template…</option>
+                <option value="html">Blank HTML page</option>
+                <option value="widget">Embeddable widget</option>
+                <option value="card">Accessible card</option>
+                <option value="form">Accessible form</option>
+                <option value="canvas">Canvas mini app</option>
+                <option value="github">GitHub Pages app</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn small" id="loadTemplateBtn" type="button">Load Template</button>
+            <button class="btn secondary small" id="importCodeBtn" type="button">Import File</button>
+            <button class="btn secondary small" id="downloadCodeBtn" type="button">Download Code</button>
+            <input id="codeFileInput" class="sr-only" type="file" accept=".html,.htm,.css,.js,.mjs,.json,.txt,text/*">
+          </div>
+
+          <div class="editor-wrap" style="margin-top:10px">
+            <label class="sr-only" for="codeInput">Code input</label>
+            <textarea id="codeInput" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off" placeholder="Paste HTML, CSS, or JavaScript here…"></textarea>
+            <div class="editor-status">
+              <span id="cursorStatus">Line 1, column 1</span>
+              <span id="codeStats">0 lines · 0 characters · Draft ready</span>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <button class="btn good" id="previewBtn" type="button">Run Preview</button>
+            <button class="btn secondary" id="stopBtn" type="button">Stop / Reset</button>
+            <button class="btn secondary" id="analyzeBtn" type="button">Analyze Code</button>
+            <button class="btn secondary" id="copyBtn" type="button">Copy Code</button>
+            <button class="btn danger" id="clearBtn" type="button">Clear</button>
+          </div>
+
+          <div class="row">
+            <div class="field grow">
+              <label for="findInput">Find</label>
+              <input id="findInput" type="text" placeholder="Text to find">
+            </div>
+            <div class="field grow">
+              <label for="replaceInput">Replace</label>
+              <input id="replaceInput" type="text" placeholder="Replacement text">
+            </div>
+            <button class="btn secondary small" id="findNextBtn" type="button">Find Next</button>
+            <button class="btn secondary small" id="replaceOneBtn" type="button">Replace</button>
+            <button class="btn secondary small" id="replaceAllBtn" type="button">Replace All</button>
+          </div>
+
+          <div class="row">
+            <div class="field grow">
+              <label for="snippetName">Snippet name</label>
+              <input id="snippetName" type="text" maxlength="100" placeholder="Name this snippet">
+            </div>
+            <div class="field grow">
+              <label for="snippetList">Saved snippets</label>
+              <select id="snippetList"><option value="">Choose saved snippet…</option></select>
+            </div>
+            <button class="btn secondary small" id="saveSnippetBtn" type="button">Save</button>
+            <button class="btn secondary small" id="loadSnippetBtn" type="button">Load</button>
+            <button class="btn danger small" id="deleteSnippetBtn" type="button">Delete</button>
+          </div>
+
+          <div class="row">
+            <div class="field grow">
+              <label for="recoveryList">Recovery snapshots</label>
+              <select id="recoveryList"><option value="">Choose recovery snapshot…</option></select>
+            </div>
+            <button class="btn secondary small" id="restoreRecoveryBtn" type="button">Restore</button>
+            <button class="btn secondary small" id="exportLibraryBtn" type="button">Export Library</button>
+            <button class="btn secondary small" id="importLibraryBtn" type="button">Import Library</button>
+            <input id="libraryFileInput" class="sr-only" type="file" accept="application/json,.json">
+          </div>
+
+          <div class="status-bar" id="editorStatus" role="status" aria-live="polite">Ready. Scripts are off and preview network access is blocked.</div>
+          <div style="margin-top:10px;color:var(--muted);font-size:11px">
+            <span id="storageText">Storage estimate unavailable.</span>
+            <div class="storage-meter" aria-hidden="true"><i id="storageBar"></i></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="previewHeading">
+        <div class="panel-head">
+          <div>
+            <h2 id="previewHeading">Protected Preview</h2>
+            <small id="previewSummary">No code has run.</small>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="preview-toolbar">
+            <div class="viewport-buttons" aria-label="Preview width">
+              <button class="btn secondary small viewportBtn" data-size="phone" type="button">Phone</button>
+              <button class="btn secondary small viewportBtn" data-size="tablet" type="button">Tablet</button>
+              <button class="btn secondary small viewportBtn" data-size="desktop" type="button">Desktop</button>
+            </div>
+            <button class="btn secondary small" id="openPreviewBtn" type="button">Open Isolated Copy</button>
+          </div>
+          <div class="preview-stage">
+            <div class="frame-shell desktop" id="frameShell">
+              <iframe id="previewFrame" title="KhaeClean protected code preview" sandbox="" referrerpolicy="no-referrer"></iframe>
+            </div>
+          </div>
+          <div class="status-bar" id="previewStatus" role="status" aria-live="polite">Preview is blank.</div>
+        </div>
+      </section>
     </section>
 
-    <div class="kc-footer">
-      KhaeClean™ is a sister tool to KhaeZip™ Sovereign Edition. 100% browser-local · No cloud, no tracking. © 2025 Verve N Veda.
+    <section class="bottom-grid">
+      <section class="panel" aria-labelledby="analysisHeading">
+        <div class="panel-head">
+          <div>
+            <h2 id="analysisHeading">Local Code Inspector</h2>
+            <small>Parser-assisted and heuristic checks. No code is uploaded.</small>
+          </div>
+          <button class="btn secondary small" id="exportReportBtn" type="button">Export Report</button>
+        </div>
+        <div class="panel-body">
+          <div id="analysisResults" class="results-list" aria-live="polite">
+            <div class="result-card info"><h3>Ready for inspection</h3><p>Paste code and choose Analyze Code. The inspector checks syntax, accessibility, external resources, unsafe APIs, duplicate identifiers, and common embed problems.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="consoleHeading">
+        <div class="panel-head">
+          <div>
+            <h2 id="consoleHeading">Preview Console</h2>
+            <small>Messages from the current sandboxed preview session.</small>
+          </div>
+          <button class="btn secondary small" id="clearConsoleBtn" type="button">Clear Console</button>
+        </div>
+        <div class="panel-body">
+          <div id="consoleBox" class="console" role="log" aria-live="polite" aria-relevant="additions">
+            <div class="console-line system">[system] Console ready. Enable scripts and run a preview to capture logs and runtime errors.</div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <footer class="footer">
+      KhaeClean™ Protected Code Lab · Sovereign, single-file, browser-local tooling for ProReSources · No external fonts, trackers, analytics, or CDNs.<br>
+      Sandboxing limits preview privileges, but deliberately hostile code can still consume browser resources. Keep scripts off when inspecting unknown code.
+    </footer>
+  </main>
+
+  <dialog id="confirmDialog" aria-labelledby="confirmTitle">
+    <div class="dialog-head" id="confirmTitle">Confirm action</div>
+    <div class="dialog-body" id="confirmMessage"></div>
+    <div class="dialog-actions">
+      <button class="btn secondary" id="confirmCancelBtn" type="button">Cancel</button>
+      <button class="btn" id="confirmOkBtn" type="button">Continue</button>
     </div>
-  </div>
+  </dialog>
+
+  <dialog id="guideDialog" aria-labelledby="guideTitle">
+    <div class="dialog-head" id="guideTitle">KhaeClean Safety Guide</div>
+    <div class="dialog-body">Sovereign Safe mode blocks external network resources. Scripts are off by default. When scripts are enabled, code runs in a sandbox without same-origin access, popups, modal dialogs, downloads, or top-page navigation.
+
+Connected Preview can contact external domains detected in the pasted code. KhaeClean shows those domains and asks for confirmation before running.
+
+Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code first, keep scripts off for unfamiliar code, and use Stop / Reset when a preview behaves unexpectedly.</div>
+    <div class="dialog-actions"><button class="btn" id="guideCloseBtn" type="button">Close</button></div>
+  </dialog>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
 
   <script>
-    // --- Starfield (soft, like KhaeZip) ---
-    const kcCanvas = document.getElementById('kcStarfield');
-    const kcCtx = kcCanvas.getContext('2d');
-    let kcStars = [];
-    function kcResize(){
-      kcCanvas.width = window.innerWidth;
-      kcCanvas.height = window.innerHeight;
-      kcStars = [];
-      for(let i=0;i<140;i++){
-        kcStars.push({
-          x:Math.random()*kcCanvas.width,
-          y:Math.random()*kcCanvas.height,
-          r:Math.random()*1.6+0.2,
-          dx:(Math.random()-0.5)*0.08,
-          dy:(Math.random()-0.5)*0.08,
-          a:Math.random()*0.7+0.3
-        });
-      }
+  (() => {
+    'use strict';
+
+    const HOME_URL = 'https://vervenveda.github.io/';
+    const PRO_URL = 'https://vervenveda.github.io/proresource_hub.github.io/';
+    const DB_NAME = 'KhaeCleanProtectedDB';
+    const DB_VERSION = 1;
+    const MAX_CODE_CHARS = 2_000_000;
+    const MAX_SNIPPETS = 200;
+    const MAX_RECOVERIES = 12;
+    const AUTOSAVE_DELAY = 700;
+
+    const $ = id => document.getElementById(id);
+    const codeInput = $('codeInput');
+    const languageMode = $('languageMode');
+    const previewMode = $('previewMode');
+    const scriptMode = $('scriptMode');
+    const templateSelect = $('templateSelect');
+    const previewFrame = $('previewFrame');
+    const frameShell = $('frameShell');
+    const analysisResults = $('analysisResults');
+    const consoleBox = $('consoleBox');
+    const editorStatus = $('editorStatus');
+    const previewStatus = $('previewStatus');
+    const snippetName = $('snippetName');
+    const snippetList = $('snippetList');
+    const recoveryList = $('recoveryList');
+
+    let db = null;
+    let dbAvailable = true;
+    let autosaveTimer = null;
+    let lastCleared = null;
+    let latestPreviewDocument = '';
+    let previewSessionToken = '';
+    let previewRunning = false;
+    let lastAnalysisReport = null;
+    let searchIndex = 0;
+    let starsRunning = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let starAnimationId = 0;
+
+    const templates = {
+      html: `<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width,initial-scale=1">\n  <title>New Page</title>\n  <style>\n    body{font-family:system-ui;margin:0;padding:2rem;background:#f5f7fb;color:#172033}\n  </style>\n</head>\n<body>\n  <main>\n    <h1>Hello</h1>\n    <p>Build something thoughtful.</p>\n  </main>\n</body>\n</html>`,
+      widget: `<section class="resource-widget" aria-labelledby="widget-title">\n  <h2 id="widget-title">Resource Widget</h2>\n  <p>Add your helpful content here.</p>\n  <button type="button" id="widget-action">Take action</button>\n</section>\n<style>\n  .resource-widget{max-width:34rem;padding:1.25rem;border:1px solid #ccd6e5;border-radius:1rem;font-family:system-ui}\n  .resource-widget button{padding:.65rem 1rem;border:0;border-radius:.65rem;background:#2457d6;color:white}\n</style>\n<script>\n  document.getElementById('widget-action').addEventListener('click',()=>console.log('Widget action selected'));\n<\/script>`,
+      card: `<article class="card">\n  <h2>Accessible Card</h2>\n  <p>A compact card with readable spacing and a clear action.</p>\n  <a href="#details">Read details</a>\n</article>\n<style>\n  .card{max-width:28rem;padding:1.25rem;border:1px solid #d7deea;border-radius:1rem;box-shadow:0 .6rem 1.6rem #1720331a;font-family:system-ui}\n  .card a{display:inline-block;margin-top:.5rem;color:#174bb8;font-weight:700}\n</style>`,
+      form: `<form id="contact-form">\n  <h2>Contact Form</h2>\n  <label for="name">Name</label>\n  <input id="name" name="name" autocomplete="name" required>\n  <label for="email">Email</label>\n  <input id="email" name="email" type="email" autocomplete="email" required>\n  <button type="submit">Send</button>\n</form>\n<style>\n  form{display:grid;gap:.65rem;max-width:26rem;font-family:system-ui}\n  input,button{padding:.7rem;border-radius:.55rem;border:1px solid #aeb9cc}\n  button{background:#2457d6;color:white;border:0;font-weight:700}\n</style>\n<script>\n  document.getElementById('contact-form').addEventListener('submit',event=>{event.preventDefault();console.log('Form validated locally');});\n<\/script>`,
+      canvas: `<!doctype html>\n<html lang="en">\n<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Canvas App</title></head>\n<body>\n  <canvas id="stage" width="640" height="360" aria-label="Animated canvas"></canvas>\n  <script>\n    const canvas=document.getElementById('stage');\n    const ctx=canvas.getContext('2d');\n    ctx.fillStyle='#111b38';ctx.fillRect(0,0,canvas.width,canvas.height);\n    ctx.fillStyle='#7ac9ff';ctx.beginPath();ctx.arc(320,180,70,0,Math.PI*2);ctx.fill();\n    console.log('Canvas ready');\n  <\/script>\n</body>\n</html>`,
+      github: `<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width,initial-scale=1">\n  <meta name="description" content="A sovereign GitHub Pages application">\n  <title>My GitHub Pages App</title>\n  <style>body{font-family:system-ui;margin:0;background:#0d1630;color:#eef4ff}main{max-width:72rem;margin:auto;padding:2rem}</style>\n</head>\n<body>\n  <main>\n    <h1>My Application</h1>\n    <p>Everything needed for this page is contained locally.</p>\n  </main>\n</body>\n</html>`
+    };
+
+    function setStatus(message, kind = '') {
+      editorStatus.textContent = message;
+      editorStatus.dataset.kind = kind;
     }
-    window.addEventListener('resize',kcResize);
-    kcResize();
-    (function kcLoop(){
-      kcCtx.clearRect(0,0,kcCanvas.width,kcCanvas.height);
-      for(const s of kcStars){
-        kcCtx.beginPath();
-        kcCtx.arc(s.x,s.y,s.r,0,Math.PI*2);
-        kcCtx.fillStyle=`rgba(255,255,255,${s.a})`;
-        kcCtx.fill();
-        s.x+=s.dx; s.y+=s.dy;
-        if(s.x<0) s.x = kcCanvas.width;
-        if(s.x>kcCanvas.width) s.x = 0;
-        if(s.y<0) s.y = kcCanvas.height;
-        if(s.y>kcCanvas.height) s.y = 0;
-      }
-      requestAnimationFrame(kcLoop);
-    })();
 
-    // --- Core tool logic ---
-    const codeInput        = document.getElementById('codeInput');
-    const preview          = document.getElementById('previewFrame');
-    const previewBtn       = document.getElementById('previewBtn');
-    const copyBtn          = document.getElementById('copyBtn');
-    const clearBtn         = document.getElementById('clearBtn');
-    const analyzeBtn       = document.getElementById('analyzeBtn');
-    const tidyCheckbox     = document.getElementById('tidyCheckbox');
-    const autoAnalyzeBox   = document.getElementById('autoAnalyzeCheckbox');
-    const analysisBox      = document.getElementById('analysisBox');
-
-    const snippetNameInput = document.getElementById('snippetName');
-    const snippetList      = document.getElementById('snippetList');
-    const saveSnippetBtn   = document.getElementById('saveSnippetBtn');
-    const deleteSnippetBtn = document.getElementById('deleteSnippetBtn');
-    const snippetMeta      = document.getElementById('snippetMeta');
-
-    const SNIPPET_KEY = 'khaecleanSnippets';
-    const CODE_KEY    = 'khaecleanCode';
-
-    // --- Snippet storage helpers ---
-    function loadSnippets(){
-      try{
-        const raw = localStorage.getItem(SNIPPET_KEY);
-        return raw ? JSON.parse(raw) : [];
-      }catch(e){
-        console.warn('Snippet parse error',e);
-        return [];
-      }
+    function setPreviewStatus(message, kind = '') {
+      previewStatus.textContent = message;
+      previewStatus.dataset.kind = kind;
     }
-    function saveSnippets(list){
-      localStorage.setItem(SNIPPET_KEY, JSON.stringify(list));
+
+    function toast(message, kind = '') {
+      const node = document.createElement('div');
+      node.className = 'toast' + (kind ? ' ' + kind : '');
+      node.textContent = message;
+      $('toastStack').appendChild(node);
+      setTimeout(() => node.remove(), 3600);
     }
-    function refreshSnippetSelect(selectedName){
-      const snippets = loadSnippets();
-      snippetList.innerHTML = '<option value="">Saved snippets…</option>';
-      snippets.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.name;
-        opt.textContent = s.name;
-        if(selectedName && s.name === selectedName) opt.selected = true;
-        snippetList.appendChild(opt);
+
+    function showConfirm(title, message, okLabel = 'Continue') {
+      return new Promise(resolve => {
+        const dialog = $('confirmDialog');
+        $('confirmTitle').textContent = title;
+        $('confirmMessage').textContent = message;
+        $('confirmOkBtn').textContent = okLabel;
+        const cleanup = value => {
+          $('confirmOkBtn').onclick = null;
+          $('confirmCancelBtn').onclick = null;
+          dialog.removeEventListener('cancel', onCancel);
+          if (dialog.open) dialog.close();
+          resolve(value);
+        };
+        const onCancel = event => { event.preventDefault(); cleanup(false); };
+        $('confirmOkBtn').onclick = () => cleanup(true);
+        $('confirmCancelBtn').onclick = () => cleanup(false);
+        dialog.addEventListener('cancel', onCancel);
+        dialog.showModal();
       });
     }
-    function formatTime(ts){
-      const d = new Date(ts);
-      if(isNaN(d.getTime())) return '';
-      return d.toLocaleString();
+
+    function safeJson(value) {
+      try { return JSON.stringify(value); } catch { return String(value); }
     }
 
-    // Initial restore
-    const savedCode = localStorage.getItem(CODE_KEY);
-    if(savedCode){ codeInput.value = savedCode; }
-    refreshSnippetSelect();
-
-    function runPreview() {
-      const code = codeInput.value || '';
-      preview.srcdoc = code;
-      localStorage.setItem(CODE_KEY, code);
-      if(autoAnalyzeBox.checked){
-        analyzeCode();
-      }
+    function formatConsoleArg(arg) {
+      if (typeof arg === 'string') return arg;
+      if (arg instanceof Error) return arg.stack || arg.message;
+      return safeJson(arg);
     }
 
-    function copyCode() {
-      codeInput.select();
-      document.execCommand('copy');
-      alert('Code copied to clipboard.');
+    function addConsole(type, args) {
+      const line = document.createElement('div');
+      const safeType = ['log','info','warn','error','system'].includes(type) ? type : 'log';
+      line.className = 'console-line ' + safeType;
+      const stamp = new Date().toLocaleTimeString();
+      const values = Array.isArray(args) ? args : [args];
+      line.textContent = `[${stamp}] [${safeType}] ${values.map(formatConsoleArg).join(' ')}`;
+      consoleBox.appendChild(line);
+      consoleBox.scrollTop = consoleBox.scrollHeight;
     }
 
-    function clearInput() {
-      codeInput.value = '';
-      preview.srcdoc = '';
-      localStorage.removeItem(CODE_KEY);
-      analysisBox.innerHTML = 'Cleared. Paste fresh code to begin a new check.';
+    function clearConsole() {
+      consoleBox.textContent = '';
+      addConsole('system', ['Console cleared.']);
     }
 
-    previewBtn.addEventListener('click', runPreview);
-    copyBtn.addEventListener('click', copyCode);
-    clearBtn.addEventListener('click', clearInput);
-
-    // Keyboard shortcut: Ctrl+Enter or Cmd+Enter => Preview
-    window.addEventListener('keydown', (e) => {
-      if((e.metaKey || e.ctrlKey) && e.key === 'Enter'){
-        e.preventDefault();
-        runPreview();
-      }
-    });
-
-    /* =====================================================
-       UPDATED ANALYSIS ENGINE — v1.1 (Local-only Heuristics)
-       ===================================================== */
-
-    function escapeHtml(str){
-      return str.replace(/[&<>]/g, c => (
-        c === '&' ? '&amp;' :
-        c === '<' ? '&lt;' :
-        c === '>' ? '&gt;' : c
-      ));
+    function detectLanguage(code) {
+      const text = code.trim();
+      if (!text) return 'html-snippet';
+      if (/<!doctype\s+html|<html[\s>]|<head[\s>]|<body[\s>]/i.test(text)) return 'html-document';
+      if (/<[a-z][\s\S]*>/i.test(text)) return 'html-snippet';
+      if (/^\s*(?:@media|@supports|@keyframes|:root|[.#]?[a-z_-][\w-]*\s*\{)/i.test(text) && /\{[\s\S]*:[\s\S]*\}/.test(text)) return 'css';
+      return 'javascript';
     }
 
-    function collectTagCounts(code){
-      const tagCounts = {};
-      const voidTags = {
-        br:1,img:1,input:1,hr:1,meta:1,link:1,source:1,area:1,
-        base:1,col:1,embed:1,param:1,track:1,wbr:1
-      };
-      const re = /<\/?([a-zA-Z0-9\-]+)(\s|>)/g;
-      let m;
-      while((m = re.exec(code))){
-        const full = m[0];
-        const name = m[1].toLowerCase();
-        if(voidTags[name]) continue;
-        const isClosing = full[1] === '/';
-        if(!tagCounts[name]) tagCounts[name] = {open:0,close:0};
-        if(isClosing) tagCounts[name].close++;
-        else tagCounts[name].open++;
-      }
-      return tagCounts;
+    function activeLanguage() {
+      return languageMode.value === 'auto' ? detectLanguage(codeInput.value) : languageMode.value;
     }
 
-    function simpleTidy(html){
-      const lines = html.split('\n');
-      const out = [];
-      let indent = 0;
-      const indentStr = '  ';
-      const openRe  = /^<([a-zA-Z0-9]+)(\s|>)/;
-      const closeRe = /^<\/([a-zA-Z0-9]+)>/;
-      const voidTags = {
-        br:1,img:1,input:1,hr:1,meta:1,link:1,source:1,area:1,
-        base:1,col:1,embed:1,param:1,track:1,wbr:1
-      };
+    function updateSecurityBadges() {
+      const scriptsOn = scriptMode.value === 'on';
+      $('scriptBadge').textContent = scriptsOn ? 'Scripts sandboxed' : 'Scripts off';
+      $('scriptBadge').className = 'badge ' + (scriptsOn ? 'warn' : 'good');
+      const connected = previewMode.value === 'connected';
+      $('networkBadge').textContent = connected ? 'Network permission requested' : 'Network blocked';
+      $('networkBadge').className = 'badge ' + (connected ? 'warn' : 'good');
+    }
 
-      for(let raw of lines){
-        let line = raw.trim();
-        if(!line){
-          continue;
+    function updateEditorStats() {
+      const code = codeInput.value;
+      const lines = code ? code.split('\n').length : 0;
+      $('codeStats').textContent = `${lines} line${lines === 1 ? '' : 's'} · ${code.length.toLocaleString()} characters · ${activeLanguage()}`;
+      updateCursorStatus();
+    }
+
+    function updateCursorStatus() {
+      const before = codeInput.value.slice(0, codeInput.selectionStart);
+      const parts = before.split('\n');
+      $('cursorStatus').textContent = `Line ${parts.length}, column ${parts[parts.length - 1].length + 1}`;
+    }
+
+    function openDatabase() {
+      return new Promise(resolve => {
+        if (!('indexedDB' in window)) { dbAvailable = false; resolve(null); return; }
+        let request;
+        try {
+          request = indexedDB.open(DB_NAME, DB_VERSION);
+        } catch (error) {
+          dbAvailable = false;
+          resolve(null);
+          return;
         }
+        request.onupgradeneeded = () => {
+          const database = request.result;
+          if (!database.objectStoreNames.contains('snippets')) database.createObjectStore('snippets', { keyPath: 'name' });
+          if (!database.objectStoreNames.contains('meta')) database.createObjectStore('meta', { keyPath: 'key' });
+        };
+        request.onsuccess = () => { db = request.result; resolve(db); };
+        request.onerror = () => { dbAvailable = false; resolve(null); };
+        request.onblocked = () => { dbAvailable = false; resolve(null); };
+      });
+    }
 
-        if(closeRe.test(line)){
-          indent = Math.max(indent - 1, 0);
-        }
+    function dbRequest(store, mode, action) {
+      return new Promise((resolve, reject) => {
+        if (!db) { reject(new Error('IndexedDB unavailable')); return; }
+        const tx = db.transaction(store, mode);
+        const objectStore = tx.objectStore(store);
+        let request;
+        try { request = action(objectStore); } catch (error) { reject(error); return; }
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error('Database request failed'));
+      });
+    }
 
-        out.push(indentStr.repeat(indent) + line);
-
-        const openMatch = line.match(openRe);
-        const closeMatch = line.match(closeRe);
-        if(openMatch && !closeMatch){
-          const tag = openMatch[1].toLowerCase();
-          const selfClosing = /\/>\s*$/.test(line);
-          if(!voidTags[tag] && !selfClosing){
-            indent++;
-          }
-        }
+    async function getMeta(key, fallback = null) {
+      if (dbAvailable && db) {
+        try { const record = await dbRequest('meta', 'readonly', store => store.get(key)); return record ? record.value : fallback; } catch {}
       }
-      return out.join('\n');
+      try { const raw = localStorage.getItem('khaeclean:' + key); return raw ? JSON.parse(raw) : fallback; } catch { return fallback; }
+    }
+
+    async function setMeta(key, value) {
+      if (dbAvailable && db) {
+        try { await dbRequest('meta', 'readwrite', store => store.put({ key, value })); return true; } catch {}
+      }
+      try { localStorage.setItem('khaeclean:' + key, JSON.stringify(value)); return true; } catch { return false; }
+    }
+
+    async function listSnippets() {
+      if (dbAvailable && db) {
+        try { return await dbRequest('snippets', 'readonly', store => store.getAll()); } catch {}
+      }
+      try { return JSON.parse(localStorage.getItem('khaeclean:snippets') || '[]'); } catch { return []; }
+    }
+
+    async function putSnippet(record) {
+      if (dbAvailable && db) {
+        try { await dbRequest('snippets', 'readwrite', store => store.put(record)); return true; } catch {}
+      }
+      try {
+        const list = await listSnippets();
+        const index = list.findIndex(item => item.name === record.name);
+        if (index >= 0) list[index] = record; else list.push(record);
+        localStorage.setItem('khaeclean:snippets', JSON.stringify(list));
+        return true;
+      } catch { return false; }
+    }
+
+    async function removeSnippet(name) {
+      if (dbAvailable && db) {
+        try { await dbRequest('snippets', 'readwrite', store => store.delete(name)); return true; } catch {}
+      }
+      try {
+        const list = (await listSnippets()).filter(item => item.name !== name);
+        localStorage.setItem('khaeclean:snippets', JSON.stringify(list));
+        return true;
+      } catch { return false; }
+    }
+
+    async function refreshSnippetList(selected = '') {
+      const records = (await listSnippets()).sort((a,b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+      snippetList.textContent = '';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = records.length ? 'Choose saved snippet…' : 'No saved snippets yet';
+      snippetList.appendChild(placeholder);
+      records.forEach(record => {
+        const option = document.createElement('option');
+        option.value = record.name;
+        option.textContent = `${record.name} · ${new Date(record.updatedAt).toLocaleString()}`;
+        if (record.name === selected) option.selected = true;
+        snippetList.appendChild(option);
+      });
+    }
+
+    async function addRecovery(reason, code = codeInput.value) {
+      if (!code || !code.trim()) return;
+      const recoveries = await getMeta('recoveries', []);
+      const snapshot = { id: crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random(), reason, code, language: activeLanguage(), ts: Date.now() };
+      recoveries.unshift(snapshot);
+      recoveries.length = Math.min(recoveries.length, MAX_RECOVERIES);
+      await setMeta('recoveries', recoveries);
+      await refreshRecoveryList();
+    }
+
+    async function refreshRecoveryList() {
+      const recoveries = await getMeta('recoveries', []);
+      recoveryList.textContent = '';
+      const option = document.createElement('option');
+      option.value = '';
+      option.textContent = recoveries.length ? 'Choose recovery snapshot…' : 'No recovery snapshots';
+      recoveryList.appendChild(option);
+      recoveries.forEach(item => {
+        const node = document.createElement('option');
+        node.value = item.id;
+        node.textContent = `${new Date(item.ts).toLocaleString()} · ${item.reason}`;
+        recoveryList.appendChild(node);
+      });
+    }
+
+    async function saveDraft() {
+      const code = codeInput.value;
+      if (code.length > MAX_CODE_CHARS) {
+        setStatus('Draft is larger than the protected autosave limit. Download it as a file to preserve it.', 'warn');
+        return false;
+      }
+      const ok = await setMeta('draft', { code, language: languageMode.value, previewMode: previewMode.value, scriptMode: scriptMode.value, ts: Date.now() });
+      if (ok) setStatus('Draft autosaved locally.', 'good');
+      else setStatus('Local draft save failed. Export the code to protect your work.', 'bad');
+      updateStorageEstimate();
+      return ok;
+    }
+
+    function scheduleAutosave() {
+      clearTimeout(autosaveTimer);
+      autosaveTimer = setTimeout(saveDraft, AUTOSAVE_DELAY);
+    }
+
+    async function restoreInitialDraft() {
+      const draft = await getMeta('draft', null);
+      if (draft && typeof draft.code === 'string') {
+        codeInput.value = draft.code;
+        if (draft.language) languageMode.value = draft.language;
+        if (draft.previewMode) previewMode.value = draft.previewMode;
+        if (draft.scriptMode) scriptMode.value = draft.scriptMode;
+        setStatus(`Restored local draft from ${new Date(draft.ts || Date.now()).toLocaleString()}.`, 'good');
+      }
+      updateEditorStats();
+      updateSecurityBadges();
+    }
+
+    function extractExternalDomains(code) {
+      const urls = new Set();
+      const patterns = [
+        /(?:src|href|action)\s*=\s*["'](https?:\/\/[^"']+)/gi,
+        /url\(\s*["']?(https?:\/\/[^"')\s]+)/gi,
+        /(?:fetch|importScripts)\s*\(\s*["'](https?:\/\/[^"']+)/gi,
+        /import\s+(?:[^"']+from\s+)?["'](https?:\/\/[^"']+)/gi
+      ];
+      patterns.forEach(regex => {
+        let match;
+        while ((match = regex.exec(code))) {
+          try { urls.add(new URL(match[1]).hostname); } catch {}
+        }
+      });
+      return [...urls].sort();
+    }
+
+    function cspFor(mode, scriptsOn) {
+      if (mode === 'connected') {
+        return `default-src https: http: data: blob:; img-src https: http: data: blob:; media-src https: http: data: blob:; font-src https: http: data:; style-src 'unsafe-inline' https: http:; script-src ${scriptsOn ? "'unsafe-inline' https: http: blob:" : "'none'"}; connect-src https: http:; frame-src https: http:; object-src 'none'; base-uri 'none'; form-action 'none'`;
+      }
+      return `default-src 'none'; img-src data: blob:; media-src data: blob:; font-src data:; style-src 'unsafe-inline'; script-src ${scriptsOn ? "'unsafe-inline' blob:" : "'none'"}; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'`;
+    }
+
+    function bridgeScript(token) {
+      const safeToken = JSON.stringify(token);
+      return `<script>(function(){const TOKEN=${safeToken};const send=(type,args)=>{try{parent.postMessage({source:'khaeclean-preview',token:TOKEN,type,args},'*')}catch(e){}};['log','info','warn','error'].forEach(type=>{const original=console[type];console[type]=function(...args){send(type,args.map(a=>{try{return typeof a==='string'?a:JSON.stringify(a)}catch(e){return String(a)}}));return original.apply(console,args)}});window.addEventListener('error',e=>send('error',[e.message+' @ '+(e.filename||'inline')+':'+(e.lineno||0)]));window.addEventListener('unhandledrejection',e=>send('error',['Unhandled promise rejection: '+String(e.reason)]));send('system',['Preview bridge ready']);})();<\/script>`;
+    }
+
+    function escapeScriptClose(code) {
+      return code.replace(/<\/script/gi, '<\\/script');
+    }
+
+    function buildPreviewDocument(code, language, networkMode, scriptsOn, token) {
+      const csp = cspFor(networkMode, scriptsOn);
+      const meta = `<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${csp.replace(/"/g,'&quot;')}">`;
+      const bridge = scriptsOn ? bridgeScript(token) : '';
+      if (language === 'css') {
+        return `<!doctype html><html><head>${meta}<title>CSS Preview</title><style>body{font-family:system-ui;margin:0;padding:2rem;background:#f7f8fb;color:#172033}.preview-stage{min-height:12rem;padding:1.25rem;border:1px dashed #8291aa;border-radius:1rem}</style><style>${code}</style></head><body><div class="preview-stage"><h1>CSS Preview Stage</h1><p>Apply your selectors to this sample content.</p><button type="button">Sample button</button></div>${bridge}</body></html>`;
+      }
+      if (language === 'javascript') {
+        return `<!doctype html><html><head>${meta}<title>JavaScript Preview</title><style>body{font-family:system-ui;margin:0;padding:2rem;background:#f7f8fb;color:#172033}#app{min-height:12rem;padding:1rem;border:1px dashed #8291aa;border-radius:1rem}</style></head><body><div id="app">JavaScript preview container</div>${bridge}${scriptsOn ? `<script>${escapeScriptClose(code)}<\/script>` : '<p>Script execution is off. Enable sandboxed scripts to run this JavaScript.</p>'}</body></html>`;
+      }
+      if (language === 'html-snippet') {
+        return `<!doctype html><html><head>${meta}<title>HTML Snippet Preview</title></head><body>${code}${bridge}</body></html>`;
+      }
+      let documentCode = code;
+      const injection = meta + bridge;
+      if (/<head(?:\s[^>]*)?>/i.test(documentCode)) {
+        documentCode = documentCode.replace(/<head(\s[^>]*)?>/i, match => match + injection);
+      } else if (/<html(?:\s[^>]*)?>/i.test(documentCode)) {
+        documentCode = documentCode.replace(/<html(\s[^>]*)?>/i, match => match + '<head>' + injection + '</head>');
+      } else {
+        documentCode = `<!doctype html><html><head>${injection}</head><body>${documentCode}</body></html>`;
+      }
+      return documentCode;
+    }
+
+    async function runPreview() {
+      const code = codeInput.value;
+      if (!code.trim()) { setPreviewStatus('Paste code before running the preview.', 'warn'); return; }
+      if (code.length > MAX_CODE_CHARS) { setPreviewStatus('This code exceeds the protected preview size limit.', 'bad'); return; }
+      const language = activeLanguage();
+      const domains = extractExternalDomains(code);
+      if (previewMode.value === 'connected') {
+        const detail = domains.length ? `The preview requests access to:\n\n${domains.join('\n')}\n\nThese domains may receive network requests from the preview.` : 'Connected Preview permits outside network requests even though no domains were detected statically.';
+        const proceed = await showConfirm('Allow connected preview?', detail, 'Allow and Run');
+        if (!proceed) { setPreviewStatus('Connected preview cancelled.', 'warn'); return; }
+      }
+      clearConsole();
+      previewSessionToken = crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random();
+      const scriptsOn = scriptMode.value === 'on';
+      latestPreviewDocument = buildPreviewDocument(code, language, previewMode.value, scriptsOn, previewSessionToken);
+      previewFrame.setAttribute('sandbox', scriptsOn ? 'allow-scripts allow-forms' : 'allow-forms');
+      previewFrame.srcdoc = latestPreviewDocument;
+      previewRunning = true;
+      $('previewSummary').textContent = `${language} · ${previewMode.value === 'safe' ? 'network blocked' : 'connected'} · scripts ${scriptsOn ? 'sandboxed' : 'off'}`;
+      setPreviewStatus(`Preview started in ${previewMode.value === 'safe' ? 'Sovereign Safe' : 'Connected'} mode.`, scriptsOn ? 'warn' : 'good');
+      setStatus('Preview launched. Your draft was saved locally.', 'good');
+      await saveDraft();
+      if ($('autoAnalyzeCheckbox')) analyzeCode();
+    }
+
+    function stopPreview() {
+      previewFrame.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:2rem"><h1>Preview stopped</h1><p>Run Preview when you are ready.</p></body></html>';
+      previewFrame.setAttribute('sandbox', '');
+      previewSessionToken = '';
+      previewRunning = false;
+      latestPreviewDocument = '';
+      $('previewSummary').textContent = 'Preview stopped.';
+      setPreviewStatus('Preview stopped and sandbox reset.', 'good');
+      addConsole('system', ['Preview stopped and reset.']);
+    }
+
+    async function openIsolatedCopy() {
+      if (!latestPreviewDocument) { toast('Run a preview before opening an isolated copy.', 'warn'); return; }
+      const blob = new Blob([latestPreviewDocument], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const opened = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!opened) toast('The browser blocked the new preview tab.', 'warn');
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    }
+
+    function addResult(kind, title, message) {
+      const card = document.createElement('article');
+      card.className = 'result-card ' + kind;
+      const heading = document.createElement('h3');
+      heading.textContent = title;
+      const paragraph = document.createElement('p');
+      paragraph.textContent = message;
+      card.append(heading, paragraph);
+      analysisResults.appendChild(card);
+    }
+
+    function parseHtmlDocument(code, language) {
+      if (!['html-document','html-snippet'].includes(language)) return null;
+      return new DOMParser().parseFromString(language === 'html-snippet' ? `<!doctype html><html><body>${code}</body></html>` : code, 'text/html');
+    }
+
+    function inspectJavaScriptSyntax(code) {
+      try { new Function(code); return null; } catch (error) { return error.message; }
+    }
+
+    function inspectCssSyntax(code) {
+      try {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(code);
+        return null;
+      } catch (error) { return error.message || 'CSS parser rejected the stylesheet.'; }
     }
 
     function analyzeCode() {
-      let rawCode = codeInput.value || '';
-      if(!rawCode.trim()){
-        analysisBox.innerHTML = '<em>No code detected. Paste something first.</em>';
-        return;
-      }
-
-      let code = rawCode;
-      if(tidyCheckbox.checked){
-        // Soft tidy for analysis only
-        code = code.replace(/\t/g,'  ')
-                   .replace(/\s+\n/g,'\n')
-                   .replace(/\n{3,}/g,'\n\n');
-      }
-
-      const lines = code.split('\n');
-      const chars = code.length;
-
-      const hasHTML   = /<html[\s>]/i.test(code);
-      const hasHead   = /<head[\s>]/i.test(code);
-      const hasBody   = /<body[\s>]/i.test(code);
-      const hasScript = /<script[\s>]/i.test(code);
-      const hasIframe = /<iframe[\s>]/i.test(code);
-      const hasDoctype= /<!doctype\s+html/i.test(code);
-
-      const looksFullDoc = hasHTML && hasHead && hasBody;
-
+      const code = codeInput.value;
+      analysisResults.textContent = '';
+      if (!code.trim()) { addResult('warn','No code detected','Paste code before running the inspector.'); return; }
+      const language = activeLanguage();
+      const issues = [];
       const info = [];
-      info.push(`Length: <strong>${lines.length}</strong> lines, <strong>${chars}</strong> characters.`);
-      info.push(looksFullDoc
-        ? 'Looks like a <strong>full HTML document</strong>.'
-        : 'Looks like a <strong>partial snippet</strong> (good for embeds).');
-      info.push(hasDoctype ? '&lt;!doctype html&gt; detected.' : 'No &lt;!doctype html&gt; found.');
-      info.push(hasHead ? '&lt;head&gt; section present.' : 'No &lt;head&gt; section detected.');
-      info.push(hasBody ? '&lt;body&gt; section present.' : 'No &lt;body&gt; section detected.');
-      info.push(hasScript ? 'JavaScript detected.' : 'No &lt;script&gt; tags detected.');
-      info.push(hasIframe ? 'Iframe detected — good for hosted widgets.' : 'No iframe detected.');
+      const lines = code.split('\n').length;
+      const domains = extractExternalDomains(code);
+      info.push({kind:'info',title:'Document summary',message:`Detected ${language}; ${lines.toLocaleString()} lines and ${code.length.toLocaleString()} characters.`});
+      if (domains.length) issues.push({kind:'warn',title:'External resources detected',message:`The code references: ${domains.join(', ')}. Sovereign Safe preview will block these connections.`});
+      else info.push({kind:'good',title:'No external domains detected',message:'The static scan did not find absolute HTTP or HTTPS resource URLs.'});
 
-      const notes = [];
-
-      // Basic pattern issues
-      if(hasScript && !/<\/script>/i.test(code)){
-        notes.push('A &lt;script&gt; tag may be missing its closing &lt;/script&gt;.');
+      if (language === 'javascript') {
+        const error = inspectJavaScriptSyntax(code);
+        if (error) issues.push({kind:'bad',title:'JavaScript syntax error',message:error});
+        else info.push({kind:'good',title:'JavaScript syntax',message:'The browser successfully parsed the code without executing it.'});
       }
-      if(hasIframe && !/<\/iframe>/i.test(code)){
-        notes.push('An &lt;iframe&gt; tag may be missing its closing &lt;/iframe&gt;.');
-      }
-      if(lines.length > 300 || chars > 12000){
-        notes.push('This snippet is quite large. Consider moving heavy logic into a standalone file and embedding via &lt;iframe&gt; for cleaner pages.');
-      }
-      if(/document\.write\(/i.test(code)){
-        notes.push('<code>document.write()</code> can break pages inside Wix / modern sites. Prefer <code>appendChild</code>, <code>innerHTML</code>, or other DOM APIs.');
-      }
-      if(/console\.log\(/i.test(code)){
-        notes.push('<code>console.log</code> calls found — good for debugging, but consider removing or guarding them for production.');
-      }
-      if(/alert\(/i.test(code)){
-        notes.push('<code>alert()</code> calls found — may annoy users; consider softer UI feedback.');
+      if (language === 'css') {
+        const error = inspectCssSyntax(code);
+        if (error) issues.push({kind:'bad',title:'CSS syntax warning',message:error});
+        else info.push({kind:'good',title:'CSS syntax',message:'The browser accepted the stylesheet.'});
       }
 
-      // Sovereignty / embed checks
-      if(/=['"]http:\/\//i.test(code)){
-        notes.push('Found <code>http://</code> links. For secure + modern embeds, switch to <code>https://</code> to avoid mixed-content blocking.');
-      }
-      if(/fonts\.googleapis\.com/i.test(code)){
-        notes.push('External Google Fonts detected. For fully sovereign / offline use, consider packaging fonts locally.');
-      }
-      if(looksFullDoc){
-        notes.push('Inside Wix or similar HTML embed widgets, a full <code>&lt;html&gt;</code> document can cause double-HTML issues. Often you only need the inner <code>&lt;body&gt;</code> portion.');
-      }
+      const doc = parseHtmlDocument(code, language);
+      if (doc) {
+        const ids = new Map();
+        doc.querySelectorAll('[id]').forEach(node => ids.set(node.id, (ids.get(node.id) || 0) + 1));
+        const duplicates = [...ids.entries()].filter(([,count]) => count > 1);
+        if (duplicates.length) issues.push({kind:'bad',title:'Duplicate IDs',message:duplicates.map(([id,count]) => `${id} (${count})`).join(', ')});
+        else info.push({kind:'good',title:'Unique IDs',message:'No duplicate element IDs were found in the parsed HTML.'});
 
-      // Duplicate IDs
-      const idRegex = /id\s*=\s*["']([^"']+)["']/gi;
-      const idCounts = {};
-      let idMatch;
-      while((idMatch = idRegex.exec(code))){
-        const id = idMatch[1];
-        idCounts[id] = (idCounts[id] || 0) + 1;
-      }
-      Object.keys(idCounts).forEach(id => {
-        if(idCounts[id] > 1){
-          notes.push(`ID <code>${escapeHtml(id)}</code> appears <strong>${idCounts[id]}</strong> times. IDs should be unique on a page.`);
+        const imagesMissingAlt = [...doc.images].filter(img => !img.hasAttribute('alt'));
+        if (imagesMissingAlt.length) issues.push({kind:'warn',title:'Images missing alt text',message:`${imagesMissingAlt.length} image element${imagesMissingAlt.length === 1 ? '' : 's'} do not have an alt attribute.`});
+
+        const iframesMissingTitle = [...doc.querySelectorAll('iframe')].filter(frame => !frame.getAttribute('title'));
+        const iframesNoSandbox = [...doc.querySelectorAll('iframe')].filter(frame => !frame.hasAttribute('sandbox'));
+        if (iframesMissingTitle.length) issues.push({kind:'warn',title:'Iframe titles missing',message:`${iframesMissingTitle.length} iframe${iframesMissingTitle.length === 1 ? '' : 's'} need an accessible title.`});
+        if (iframesNoSandbox.length) issues.push({kind:'warn',title:'Unsandboxed iframes',message:`${iframesNoSandbox.length} iframe${iframesNoSandbox.length === 1 ? '' : 's'} have no sandbox restrictions.`});
+
+        const inputs = [...doc.querySelectorAll('input:not([type="hidden"]),select,textarea')];
+        const unlabeled = inputs.filter(control => {
+          if (control.getAttribute('aria-label') || control.getAttribute('aria-labelledby')) return false;
+          if (control.id && doc.querySelector(`label[for="${CSS.escape(control.id)}"]`)) return false;
+          return !control.closest('label');
+        });
+        if (unlabeled.length) issues.push({kind:'warn',title:'Form labels missing',message:`${unlabeled.length} form control${unlabeled.length === 1 ? '' : 's'} appear to lack an accessible label.`});
+
+        const blankLinks = [...doc.querySelectorAll('a[target="_blank"]')].filter(link => !/\bnoopener\b/i.test(link.rel || ''));
+        if (blankLinks.length) issues.push({kind:'warn',title:'New-tab link protection',message:`${blankLinks.length} target="_blank" link${blankLinks.length === 1 ? '' : 's'} should include rel="noopener noreferrer".`});
+
+        const brokenAnchors = [...doc.querySelectorAll('a[href^="#"]')].filter(link => {
+          const id = decodeURIComponent((link.getAttribute('href') || '').slice(1));
+          return id && !doc.getElementById(id);
+        });
+        if (brokenAnchors.length) issues.push({kind:'warn',title:'Broken internal anchors',message:`${brokenAnchors.length} internal link${brokenAnchors.length === 1 ? '' : 's'} point to missing IDs.`});
+
+        const headings = [...doc.querySelectorAll('h1,h2,h3,h4,h5,h6')].map(h => Number(h.tagName.slice(1)));
+        for (let i = 1; i < headings.length; i++) {
+          if (headings[i] - headings[i - 1] > 1) { issues.push({kind:'warn',title:'Heading order',message:'A heading level is skipped. Review the document outline for accessibility.'}); break; }
         }
-      });
-
-      // Inline event handlers
-      if(/on[a-zA-Z]+\s*=/.test(code)){
-        notes.push('Inline event handlers like <code>onclick=""</code> or <code>onload=""</code> detected. They work, but can conflict with frameworks; consider using <code>addEventListener</code> instead.');
       }
 
-      // Deprecated tags
-      if(/<(font|center|marquee)\b/i.test(code)){
-        notes.push('Deprecated tags (<code>&lt;font&gt;</code>, <code>&lt;center&gt;</code>, or <code>&lt;marquee&gt;</code>) detected. Prefer modern CSS instead.');
-      }
+      const patternChecks = [
+        [/\beval\s*\(/i,'bad','eval() detected','eval() executes strings as code and is difficult to secure.'],
+        [/new\s+Function\s*\(/i,'bad','Dynamic Function constructor','new Function() executes generated strings as code.'],
+        [/document\.write\s*\(/i,'warn','document.write() detected','document.write() can replace or destabilize a modern document.'],
+        [/\.innerHTML\s*=/i,'warn','innerHTML assignment detected','Review whether untrusted values can reach innerHTML. Prefer textContent or safe DOM construction.'],
+        [/javascript\s*:/i,'bad','javascript: URL detected','javascript: links can execute code unexpectedly.'],
+        [/\b(?:api[_-]?key|secret|token|password)\b\s*[:=]\s*["'][^"']{8,}["']/i,'bad','Possible embedded secret','A credential-like value may be hard-coded in the source.'],
+        [/while\s*\(\s*true\s*\)|for\s*\(\s*;\s*;\s*\)/i,'warn','Potential infinite loop','Review this loop before enabling scripts.'],
+        [/localStorage\.(?:setItem|getItem)|sessionStorage\.(?:setItem|getItem)/i,'info','Browser storage use','This code reads or writes browser storage. Confirm that storage keys and quotas are handled safely.'],
+        [/<(?:font|center|marquee)\b/i,'warn','Deprecated HTML detected','Replace deprecated presentation tags with semantic HTML and CSS.'],
+        [/\bon[a-z]+\s*=/i,'warn','Inline event handlers','Inline event attributes are harder to secure and maintain than addEventListener().'],
+        [/http:\/\//i,'warn','Insecure HTTP resource','HTTP resources can be blocked as mixed content on HTTPS pages.']
+      ];
+      patternChecks.forEach(([regex,kind,title,message]) => { if (regex.test(code)) issues.push({kind,title,message}); });
 
-      // Tag balance check
-      const tagCounts = collectTagCounts(code);
-      const unbalanced = [];
-      Object.keys(tagCounts).forEach(tag => {
-        const t = tagCounts[tag];
-        if(t.open !== t.close){
-          unbalanced.push(`&lt;${tag}&gt; open: ${t.open}, close: ${t.close}`);
-        }
-      });
-      if(unbalanced.length){
-        notes.push('Possible open/close mismatches:<br>• ' + unbalanced.join('<br>• '));
-      }
+      if (!/<meta\s+name=["']viewport["']/i.test(code) && language === 'html-document') issues.push({kind:'warn',title:'Responsive viewport missing',message:'Add a viewport meta tag for predictable mobile sizing.'});
+      if (code.length > 250_000) issues.push({kind:'warn',title:'Large source file',message:'This source is large for a browser text editor. Keep an exported backup and consider splitting modules.'});
 
-      if(notes.length === 0){
-        notes.push('No obvious structural issues from this quick scan. Still test inside your real page or Wix embed to be sure.');
-      }
-
-      let tidyPreviewHtml = '';
-      if(tidyCheckbox.checked){
-        const tidied = simpleTidy(code);
-        tidyPreviewHtml = `
-          <br><br>
-          <strong>Tidied preview (does not change your editor):</strong><br>
-          <pre style="white-space:pre-wrap;margin-top:4px;max-height:160px;overflow:auto;font-size:11px;">${escapeHtml(tidied)}</pre>
-        `;
-      }
-
-      analysisBox.innerHTML = `
-        <strong>Quick Scan Report</strong><br>
-        ${info.join('<br>')}
-        <br><br>
-        <strong>Notes &amp; Suggestions:</strong><br>
-        • ${notes.join('<br>• ')}
-        ${tidyPreviewHtml}
-      `;
+      [...info, ...issues].forEach(item => addResult(item.kind,item.title,item.message));
+      if (!issues.length) addResult('good','No major findings','The protected local scan found no obvious structural, syntax, accessibility, external-resource, or unsafe-API concerns. Test behavior in the intended deployment environment as well.');
+      lastAnalysisReport = { generatedAt:new Date().toISOString(), language, lines, characters:code.length, domains, findings:[...info,...issues] };
+      setStatus(`Analysis complete: ${issues.length} concern${issues.length === 1 ? '' : 's'} and ${info.length} informational result${info.length === 1 ? '' : 's'}.`, issues.some(i => i.kind === 'bad') ? 'bad' : issues.length ? 'warn' : 'good');
     }
 
-    analyzeBtn.addEventListener('click', analyzeCode);
-
-    // --- Snippet actions ---
-    saveSnippetBtn.addEventListener('click', () => {
-      const name = (snippetNameInput.value || '').trim();
-      if(!name){
-        alert('Give this snippet a name first.');
-        return;
+    async function copyCode() {
+      const text = codeInput.value;
+      if (!text) { toast('There is no code to copy.', 'warn'); return; }
+      try {
+        await navigator.clipboard.writeText(text);
+        toast('Code copied to the clipboard.', 'good');
+      } catch {
+        codeInput.focus(); codeInput.select();
+        const ok = document.execCommand && document.execCommand('copy');
+        toast(ok ? 'Code copied using the browser fallback.' : 'Copy failed. Select the code and copy it manually.', ok ? 'good' : 'bad');
       }
-      const code = codeInput.value || '';
-      const snippets = loadSnippets();
-      const existing = snippets.find(s => s.name === name);
+    }
+
+    function safeFilename(name, fallback) {
+      const cleaned = String(name || '').trim().replace(/[\\/:*?"<>|\u0000-\u001f]/g,'-').replace(/\s+/g,' ').slice(0,120);
+      return cleaned || fallback;
+    }
+
+    function extensionForLanguage(language) {
+      if (language === 'css') return '.css';
+      if (language === 'javascript') return '.js';
+      return '.html';
+    }
+
+    function downloadBlob(blob, name) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url; link.download = name; document.body.appendChild(link); link.click();
+      setTimeout(() => { URL.revokeObjectURL(url); link.remove(); }, 1000);
+    }
+
+    function downloadCode() {
+      const language = activeLanguage();
+      const base = safeFilename(snippetName.value, 'khaeclean-code');
+      downloadBlob(new Blob([codeInput.value], { type:'text/plain;charset=utf-8' }), base + extensionForLanguage(language));
+      toast('Code file prepared for download.', 'good');
+    }
+
+    async function importCodeFile(file) {
+      if (!file) return;
+      if (file.size > MAX_CODE_CHARS * 2) { toast('That file is too large for the protected editor.', 'bad'); return; }
+      const text = await file.text();
+      if (codeInput.value.trim()) await addRecovery('Before importing ' + file.name);
+      codeInput.value = text;
+      const ext = file.name.toLowerCase().split('.').pop();
+      if (ext === 'css') languageMode.value = 'css';
+      else if (['js','mjs'].includes(ext)) languageMode.value = 'javascript';
+      else if (['html','htm'].includes(ext)) languageMode.value = 'html-document';
+      else languageMode.value = 'auto';
+      snippetName.value = file.name.replace(/\.[^.]+$/,'');
+      stopPreview();
+      updateEditorStats(); scheduleAutosave();
+      setStatus(`Imported ${file.name}. The file has not been executed.`, 'good');
+    }
+
+    async function clearEditor() {
+      if (!codeInput.value) return;
+      const proceed = await showConfirm('Clear the editor?', 'A recovery snapshot will be saved before the editor and preview are cleared.', 'Clear');
+      if (!proceed) return;
+      lastCleared = { code:codeInput.value, language:languageMode.value, name:snippetName.value };
+      await addRecovery('Before Clear');
+      codeInput.value = '';
+      snippetName.value = '';
+      stopPreview();
+      analysisResults.textContent = '';
+      addResult('info','Editor cleared','Use Undo Clear or restore a recovery snapshot to retrieve the previous code.');
+      $('undoClearBtn').hidden = false;
+      updateEditorStats();
+      await saveDraft();
+    }
+
+    function undoClear() {
+      if (!lastCleared) return;
+      codeInput.value = lastCleared.code;
+      languageMode.value = lastCleared.language;
+      snippetName.value = lastCleared.name;
+      lastCleared = null;
+      $('undoClearBtn').hidden = true;
+      updateEditorStats(); scheduleAutosave();
+      setStatus('Cleared code restored.', 'good');
+    }
+
+    async function saveSnippet() {
+      const name = snippetName.value.trim();
+      const code = codeInput.value;
+      if (!name) { toast('Enter a snippet name first.', 'warn'); return; }
+      if (!code.trim()) { toast('There is no code to save.', 'warn'); return; }
+      if (code.length > MAX_CODE_CHARS) { toast('This snippet exceeds the protected storage limit. Download it instead.', 'bad'); return; }
+      const records = await listSnippets();
+      const existing = records.find(item => item.name === name);
+      if (!existing && records.length >= MAX_SNIPPETS) { toast('The protected snippet limit has been reached. Export or delete older snippets.', 'bad'); return; }
+      if (existing) {
+        const proceed = await showConfirm('Update saved snippet?', `“${name}” already exists. The current saved version will be retained in its local version history.`, 'Update');
+        if (!proceed) return;
+      }
       const now = Date.now();
-      if(existing){
-        existing.code = code;
-        existing.ts = now;
-      } else {
-        snippets.push({name, code, ts: now});
-      }
-      saveSnippets(snippets);
-      refreshSnippetSelect(name);
-      snippetMeta.textContent = `Saved “${name}” at ${formatTime(now)}.`;
-    });
+      const versions = existing ? [{ code:existing.code, language:existing.language, ts:existing.updatedAt }, ...(existing.versions || [])].slice(0,10) : [];
+      const record = { name, code, language:languageMode.value, previewMode:previewMode.value, scriptMode:scriptMode.value, createdAt:existing?.createdAt || now, updatedAt:now, versions };
+      const ok = await putSnippet(record);
+      if (!ok) { toast('Snippet save failed. Export a backup to protect your work.', 'bad'); return; }
+      await refreshSnippetList(name);
+      setStatus(`Saved “${name}” locally.`, 'good');
+      updateStorageEstimate();
+    }
 
-    snippetList.addEventListener('change', () => {
+    async function loadSnippet() {
       const name = snippetList.value;
-      if(!name) return;
-      const snippets = loadSnippets();
-      const s = snippets.find(x => x.name === name);
-      if(!s) return;
-      codeInput.value = s.code || '';
-      preview.srcdoc = s.code || '';
-      localStorage.setItem(CODE_KEY, s.code || '');
-      snippetNameInput.value = s.name;
-      snippetMeta.textContent = `Loaded “${s.name}” (saved ${formatTime(s.ts)}).`;
+      if (!name) { toast('Choose a saved snippet.', 'warn'); return; }
+      const record = (await listSnippets()).find(item => item.name === name);
+      if (!record) { toast('The selected snippet could not be found.', 'bad'); return; }
+      if (codeInput.value.trim() && codeInput.value !== record.code) await addRecovery('Before loading ' + name);
+      codeInput.value = record.code || '';
+      languageMode.value = record.language || 'auto';
+      previewMode.value = record.previewMode || 'safe';
+      scriptMode.value = record.scriptMode || 'off';
+      snippetName.value = record.name;
+      stopPreview();
+      updateEditorStats(); updateSecurityBadges(); scheduleAutosave();
+      setStatus(`Loaded “${name}” into the editor. It has not been executed.`, 'good');
+    }
+
+    async function deleteSnippet() {
+      const name = snippetList.value || snippetName.value.trim();
+      if (!name) { toast('Choose a snippet to delete.', 'warn'); return; }
+      const proceed = await showConfirm('Delete saved snippet?', `Delete “${name}” from this browser? Export the library first when you need a permanent backup.`, 'Delete');
+      if (!proceed) return;
+      const ok = await removeSnippet(name);
+      if (!ok) { toast('Snippet deletion failed.', 'bad'); return; }
+      if (snippetName.value === name) snippetName.value = '';
+      await refreshSnippetList();
+      setStatus(`Deleted “${name}”.`, 'good');
+      updateStorageEstimate();
+    }
+
+    async function exportLibrary() {
+      const payload = {
+        schema:'khaeclean-library', schemaVersion:1, exportedAt:new Date().toISOString(),
+        snippets:await listSnippets(), recoveries:await getMeta('recoveries', []), draft:await getMeta('draft', null)
+      };
+      downloadBlob(new Blob([JSON.stringify(payload,null,2)], { type:'application/json' }), `khaeclean-library-${new Date().toISOString().slice(0,10)}.json`);
+      toast('Library backup prepared.', 'good');
+    }
+
+    async function importLibrary(file) {
+      if (!file) return;
+      let payload;
+      try { payload = JSON.parse(await file.text()); } catch { toast('The selected file is not valid JSON.', 'bad'); return; }
+      if (!payload || payload.schema !== 'khaeclean-library' || !Array.isArray(payload.snippets)) { toast('This is not a recognized KhaeClean library backup.', 'bad'); return; }
+      const proceed = await showConfirm('Import snippet library?', `Import ${payload.snippets.length} snippet${payload.snippets.length === 1 ? '' : 's'}? Existing snippets with the same name will be replaced.`, 'Import');
+      if (!proceed) return;
+      let imported = 0;
+      for (const record of payload.snippets.slice(0,MAX_SNIPPETS)) {
+        if (!record || typeof record.name !== 'string' || typeof record.code !== 'string') continue;
+        await putSnippet({ ...record, name:record.name.slice(0,100), updatedAt:record.updatedAt || Date.now() });
+        imported++;
+      }
+      if (Array.isArray(payload.recoveries)) await setMeta('recoveries', payload.recoveries.slice(0,MAX_RECOVERIES));
+      await refreshSnippetList(); await refreshRecoveryList(); updateStorageEstimate();
+      setStatus(`Imported ${imported} snippet${imported === 1 ? '' : 's'}.`, 'good');
+    }
+
+    async function restoreRecovery() {
+      const id = recoveryList.value;
+      if (!id) { toast('Choose a recovery snapshot.', 'warn'); return; }
+      const recoveries = await getMeta('recoveries', []);
+      const item = recoveries.find(entry => entry.id === id);
+      if (!item) { toast('Recovery snapshot not found.', 'bad'); return; }
+      if (codeInput.value.trim()) await addRecovery('Before restoring recovery');
+      codeInput.value = item.code;
+      languageMode.value = item.language || 'auto';
+      stopPreview(); updateEditorStats(); scheduleAutosave();
+      setStatus(`Restored recovery snapshot from ${new Date(item.ts).toLocaleString()}.`, 'good');
+    }
+
+    function loadTemplate() {
+      const key = templateSelect.value;
+      if (!key || !templates[key]) { toast('Choose a template first.', 'warn'); return; }
+      const apply = async () => {
+        if (codeInput.value.trim()) await addRecovery('Before loading template');
+        codeInput.value = templates[key];
+        languageMode.value = key === 'widget' || key === 'card' || key === 'form' ? 'html-snippet' : 'html-document';
+        snippetName.value = `New ${templateSelect.options[templateSelect.selectedIndex].text}`;
+        stopPreview(); updateEditorStats(); scheduleAutosave();
+        setStatus('Template loaded. It has not been executed.', 'good');
+      };
+      if (codeInput.value.trim()) showConfirm('Replace current editor content?', 'A recovery snapshot will be created before loading the selected template.', 'Load Template').then(ok => { if (ok) apply(); });
+      else apply();
+    }
+
+    function findNext() {
+      const term = $('findInput').value;
+      if (!term) { toast('Enter text to find.', 'warn'); return; }
+      const source = codeInput.value;
+      let index = source.indexOf(term, searchIndex);
+      if (index < 0) index = source.indexOf(term, 0);
+      if (index < 0) { toast('No match found.', 'warn'); return; }
+      codeInput.focus(); codeInput.setSelectionRange(index,index + term.length); searchIndex = index + term.length; updateCursorStatus();
+    }
+
+    function replaceOne() {
+      const term = $('findInput').value;
+      if (!term) { toast('Enter text to find.', 'warn'); return; }
+      const selected = codeInput.value.slice(codeInput.selectionStart,codeInput.selectionEnd);
+      if (selected !== term) { findNext(); return; }
+      codeInput.setRangeText($('replaceInput').value,codeInput.selectionStart,codeInput.selectionEnd,'end');
+      updateEditorStats(); scheduleAutosave();
+    }
+
+    async function replaceAll() {
+      const term = $('findInput').value;
+      if (!term) { toast('Enter text to find.', 'warn'); return; }
+      const count = codeInput.value.split(term).length - 1;
+      if (!count) { toast('No matches found.', 'warn'); return; }
+      await addRecovery('Before Replace All');
+      codeInput.value = codeInput.value.split(term).join($('replaceInput').value);
+      updateEditorStats(); scheduleAutosave();
+      toast(`Replaced ${count} occurrence${count === 1 ? '' : 's'}.`, 'good');
+    }
+
+    function exportReport() {
+      if (!lastAnalysisReport) { toast('Run Analyze Code before exporting a report.', 'warn'); return; }
+      downloadBlob(new Blob([JSON.stringify(lastAnalysisReport,null,2)], { type:'application/json' }), `khaeclean-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`);
+    }
+
+    async function updateStorageEstimate() {
+      if (!navigator.storage || !navigator.storage.estimate) { $('storageText').textContent = 'Storage estimate is unavailable in this browser.'; return; }
+      try {
+        const { usage = 0, quota = 0 } = await navigator.storage.estimate();
+        const pct = quota ? Math.min(100, usage / quota * 100) : 0;
+        $('storageText').textContent = `Browser storage: ${humanBytes(usage)} used of approximately ${humanBytes(quota)}.`;
+        $('storageBar').style.width = pct + '%';
+      } catch { $('storageText').textContent = 'Storage estimate could not be read.'; }
+    }
+
+    function humanBytes(bytes) {
+      if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
+      const units = ['B','KB','MB','GB']; let value = bytes; let index = 0;
+      while (value >= 1024 && index < units.length - 1) { value /= 1024; index++; }
+      return `${value.toFixed(index ? 1 : 0)} ${units[index]}`;
+    }
+
+    // Starfield
+    const canvas = $('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resizeStars() {
+      const scale = Math.min(window.devicePixelRatio || 1,2);
+      canvas.width = Math.floor(innerWidth * scale); canvas.height = Math.floor(innerHeight * scale);
+      canvas.style.width = innerWidth + 'px'; canvas.style.height = innerHeight + 'px';
+      ctx.setTransform(scale,0,0,scale,0,0);
+      stars = Array.from({length:Math.min(170,Math.max(70,Math.floor(innerWidth/7)))},() => ({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+.2,dx:(Math.random()-.5)*.06,dy:(Math.random()-.5)*.06,a:Math.random()*.65+.25}));
+      drawStarsOnce();
+    }
+    function drawStarsOnce() {
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      for (const star of stars) { ctx.beginPath(); ctx.arc(star.x,star.y,star.r,0,Math.PI*2); ctx.fillStyle=`rgba(255,255,255,${star.a})`; ctx.fill(); }
+    }
+    function animateStars() {
+      if (!starsRunning) { drawStarsOnce(); return; }
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      for (const star of stars) {
+        ctx.beginPath();ctx.arc(star.x,star.y,star.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${star.a})`;ctx.fill();
+        star.x += star.dx; star.y += star.dy;
+        if (star.x < 0) star.x = innerWidth; if (star.x > innerWidth) star.x = 0;
+        if (star.y < 0) star.y = innerHeight; if (star.y > innerHeight) star.y = 0;
+      }
+      starAnimationId = requestAnimationFrame(animateStars);
+    }
+    function setStarsRunning(value) {
+      starsRunning = value;
+      $('motionBtn').textContent = value ? 'Pause stars' : 'Resume stars';
+      $('motionBtn').setAttribute('aria-pressed',String(value));
+      cancelAnimationFrame(starAnimationId);
+      if (value) animateStars(); else drawStarsOnce();
+    }
+
+    window.addEventListener('message', event => {
+      const data = event.data;
+      if (!data || data.source !== 'khaeclean-preview' || data.token !== previewSessionToken || event.source !== previewFrame.contentWindow) return;
+      addConsole(data.type || 'log',data.args || []);
     });
 
-    deleteSnippetBtn.addEventListener('click', () => {
-      const current = snippetList.value || snippetNameInput.value.trim();
-      if(!current){
-        alert('Select a snippet to delete.');
-        return;
+    // Events
+    codeInput.addEventListener('input',() => { updateEditorStats(); scheduleAutosave(); searchIndex = 0; });
+    codeInput.addEventListener('click',updateCursorStatus);
+    codeInput.addEventListener('keyup',updateCursorStatus);
+    codeInput.addEventListener('keydown',event => {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        codeInput.setRangeText('  ',codeInput.selectionStart,codeInput.selectionEnd,'end');
+        updateEditorStats(); scheduleAutosave();
       }
-      if(!confirm(`Delete snippet “${current}”? This only affects this browser.`)) return;
-      let snippets = loadSnippets();
-      snippets = snippets.filter(s => s.name !== current);
-      saveSnippets(snippets);
-      refreshSnippetSelect('');
-      snippetMeta.textContent = `Snippet “${current}” deleted.`;
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); runPreview(); }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { event.preventDefault(); saveSnippet(); }
     });
+    [languageMode,previewMode,scriptMode].forEach(control => control.addEventListener('change',() => { updateEditorStats(); updateSecurityBadges(); scheduleAutosave(); setStatus('Preview settings changed. Run Preview to apply them.', 'warn'); }));
+    $('previewBtn').addEventListener('click',runPreview);
+    $('stopBtn').addEventListener('click',stopPreview);
+    $('analyzeBtn').addEventListener('click',analyzeCode);
+    $('copyBtn').addEventListener('click',copyCode);
+    $('clearBtn').addEventListener('click',clearEditor);
+    $('undoClearBtn').addEventListener('click',undoClear);
+    $('loadTemplateBtn').addEventListener('click',loadTemplate);
+    $('importCodeBtn').addEventListener('click',() => $('codeFileInput').click());
+    $('codeFileInput').addEventListener('change',event => { importCodeFile(event.target.files[0]); event.target.value=''; });
+    $('downloadCodeBtn').addEventListener('click',downloadCode);
+    $('saveSnippetBtn').addEventListener('click',saveSnippet);
+    $('loadSnippetBtn').addEventListener('click',loadSnippet);
+    $('deleteSnippetBtn').addEventListener('click',deleteSnippet);
+    $('restoreRecoveryBtn').addEventListener('click',restoreRecovery);
+    $('exportLibraryBtn').addEventListener('click',exportLibrary);
+    $('importLibraryBtn').addEventListener('click',() => $('libraryFileInput').click());
+    $('libraryFileInput').addEventListener('change',event => { importLibrary(event.target.files[0]); event.target.value=''; });
+    $('findNextBtn').addEventListener('click',findNext);
+    $('replaceOneBtn').addEventListener('click',replaceOne);
+    $('replaceAllBtn').addEventListener('click',replaceAll);
+    $('exportReportBtn').addEventListener('click',exportReport);
+    $('clearConsoleBtn').addEventListener('click',clearConsole);
+    $('openPreviewBtn').addEventListener('click',openIsolatedCopy);
+    document.querySelectorAll('.viewportBtn').forEach(button => button.addEventListener('click',() => { frameShell.className='frame-shell '+button.dataset.size; }));
+    $('motionBtn').addEventListener('click',() => setStarsRunning(!starsRunning));
+    $('guideBtn').addEventListener('click',() => $('guideDialog').showModal());
+    $('guideCloseBtn').addEventListener('click',() => $('guideDialog').close());
+    window.addEventListener('resize',resizeStars);
+    window.addEventListener('pagehide',() => { clearTimeout(autosaveTimer); setMeta('draft',{code:codeInput.value,language:languageMode.value,previewMode:previewMode.value,scriptMode:scriptMode.value,ts:Date.now()}); });
+
+    async function initialize() {
+      await openDatabase();
+      await restoreInitialDraft();
+      await refreshSnippetList();
+      await refreshRecoveryList();
+      await updateStorageEstimate();
+      updateSecurityBadges();
+      resizeStars();
+      setStarsRunning(starsRunning);
+      previewFrame.srcdoc='<!doctype html><html><body style="font-family:system-ui;padding:2rem"><h1>KhaeClean Protected Preview</h1><p>Scripts are off and no code has run.</p></body></html>';
+      addConsole('system',[`KhaeClean initialized. IndexedDB ${dbAvailable && db ? 'available' : 'fallback storage active'}.`]);
+    }
+
+    initialize();
+  })();
   </script>
 </body>
 </html>
