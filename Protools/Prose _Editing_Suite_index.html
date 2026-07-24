@@ -1,8 +1,8 @@
- <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>PROSE™ — Sovereign Editorial Suite</title>
+  <title>PROSE™ — Sovereign Editorial Suite · Protected Writing Edition</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     /* ===========================
@@ -466,7 +466,61 @@
         order: -1;
       }
     }
-  </style>
+  
+/* ===== PROSE DEEP-REPAIR ADDITIONS ===== */
+.prose-toolbar-btn.active-format{
+  background:#d8c29e;
+  border-color:#9f7e49;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.55);
+}
+.prose-toolbar-btn[aria-pressed="true"]{
+  background:#d8c29e;
+  border-color:#9f7e49;
+}
+.prose-align-btn{
+  min-width:64px;
+  white-space:nowrap;
+}
+.prose-save-indicator{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.prose-save-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#9fb86f;
+}
+.prose-save-dot.unsaved{background:#d79b44}
+.prose-save-dot.error{background:#c85b5b}
+.prose-find-current{
+  background:#ffb84d !important;
+  outline:2px solid #7a4f00;
+}
+.prose-panel-list-item button{
+  max-width:100%;
+}
+.prose-recents-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:5px;
+}
+.prose-warning{
+  padding:7px 9px;
+  border-radius:7px;
+  border:1px solid #d5b36b;
+  background:#fff4d4;
+  color:#5e4922;
+  margin:5px 0;
+}
+@media (max-width:520px){
+  .prose-toolbar-row{gap:5px}
+  .prose-toolbar-btn{padding:5px 7px}
+  .prose-align-btn{min-width:58px;font-size:10px}
+  .prose-footer{align-items:flex-start;gap:5px;flex-direction:column}
+}
+
+</style>
 </head>
 <body>
 <div id="prose-app">
@@ -477,7 +531,7 @@
     <aside>
       <div class="prose-brand-block">
         <div class="prose-brand-title">PROSE™</div>
-        <div class="prose-brand-sub">The Ultimate<br/>Editing Suite</div>
+        <div class="prose-brand-sub">Sovereign Editorial Suite<br/>Protected Writing Edition</div>
       </div>
 
       <div class="prose-side">
@@ -562,20 +616,20 @@
       <!-- Toolbar -->
       <div class="prose-toolbar">
         <div class="prose-toolbar-row">
-          <button type="button" class="prose-toolbar-btn" data-cmd="undo">↺</button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="redo">↻</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="undo" title="Undo">↺</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="redo" title="Redo">↻</button>
           <div class="prose-divider"></div>
-          <button type="button" class="prose-toolbar-btn" data-cmd="bold"><b>B</b></button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="italic"><i>I</i></button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="underline"><u>U</u></button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="strikeThrough"><s>S</s></button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="italic" title="Italic"><i>I</i></button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
           <div class="prose-divider"></div>
-          <button type="button" class="prose-toolbar-btn" data-cmd="insertUnorderedList">• List</button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="insertOrderedList">1. List</button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="justifyLeft">⟸</button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="justifyCenter">≡</button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="justifyRight">⟹</button>
-          <button type="button" class="prose-toolbar-btn" data-cmd="removeFormat">Clear</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="insertUnorderedList" title="Bulleted list">• List</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+          <button type="button" class="prose-toolbar-btn prose-align-btn" data-cmd="justifyLeft" title="Align left" aria-label="Align left">☰ Left</button>
+          <button type="button" class="prose-toolbar-btn prose-align-btn" data-cmd="justifyCenter" title="Align center" aria-label="Align center">↔ Center</button>
+          <button type="button" class="prose-toolbar-btn prose-align-btn" data-cmd="justifyRight" title="Align right" aria-label="Align right">Right ☰</button>
+          <button type="button" class="prose-toolbar-btn" data-cmd="removeFormat" title="Clear selected formatting">Clear</button>
         </div>
         <div class="prose-toolbar-row">
           <label>Font
@@ -631,7 +685,7 @@
       </div>
 
       <div class="prose-footer">
-        <div id="prose-status-left">Autosave ready</div>
+        <div id="prose-status-left" class="prose-save-indicator"><span id="prose-save-dot" class="prose-save-dot"></span><span id="prose-save-text">Autosave ready</span></div>
         <div id="prose-status-right">Local-first • Offline-ready</div>
       </div>
 
@@ -833,6 +887,8 @@
   const titleInput  = $("#prose-title");
   const toastEl     = $("#prose-toast");
   const statusLeft  = $("#prose-status-left");
+  const statusText  = $("#prose-save-text");
+  const statusDot   = $("#prose-save-dot");
   const statusRight = $("#prose-status-right");
   const toneSelect  = $("#prose-tone-select");
   const thoughtsEl  = $("#prose-thoughts");
@@ -846,11 +902,22 @@
 
   let savedRange = null;
   let autosaveTimer = null;
+  let isDirty = false;
   let comments = [];
   let wordBank = [];
   let currentDocId = null;
   let currentCreatedAt = null;
   let imageCounter = 0;
+
+  function setSaveStatus(text, kind="saved"){
+    if(statusText) statusText.textContent = text;
+    else if(statusLeft) statusLeft.textContent = text;
+    if(statusDot){
+      statusDot.classList.toggle("unsaved", kind === "unsaved");
+      statusDot.classList.toggle("error", kind === "error");
+    }
+  }
+
 
   // Enriched default word bank
   const defaultWordBank = [
@@ -873,45 +940,154 @@
   ];
 
   /* ---------- Selection helpers ---------- */
+  function selectionIsInsideEditor(range){
+    if(!range) return false;
+    return editor.contains(range.commonAncestorContainer);
+  }
+
   function saveSelection(){
     const sel = window.getSelection();
-    if (!sel || sel.rangeCount === 0) return;
-    savedRange = sel.getRangeAt(0);
+    if(!sel || sel.rangeCount === 0) return;
+    const range = sel.getRangeAt(0);
+    if(selectionIsInsideEditor(range)){
+      savedRange = range.cloneRange();
+    }
   }
+
   function restoreSelection(){
-    if(!savedRange) return;
+    if(!savedRange) return false;
+    try{
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(savedRange.cloneRange());
+      return true;
+    }catch(e){
+      savedRange = null;
+      return false;
+    }
+  }
+
+  function clearEditorSelection(placeAtEnd=false){
+    savedRange = null;
     const sel = window.getSelection();
+    if(sel) sel.removeAllRanges();
+    if(!placeAtEnd) return;
+    editor.focus();
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    if(sel){
+      sel.addRange(range);
+      savedRange = range.cloneRange();
+    }
+  }
+
+  function placeCaretInNode(node){
+    if(!node) return false;
+    const sel = window.getSelection();
+    if(!sel) return false;
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    range.collapse(true);
     sel.removeAllRanges();
-    sel.addRange(savedRange);
+    sel.addRange(range);
+    savedRange = range.cloneRange();
+    editor.focus();
+    return true;
+  }
+
+  function ensureEditorSelection(){
+    editor.focus();
+    if(restoreSelection()) return true;
+    const sel = window.getSelection();
+    if(!sel) return false;
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    savedRange = range.cloneRange();
+    return true;
+  }
+
+  function getSavedSelectionText(){
+    if(!savedRange || !selectionIsInsideEditor(savedRange)) return "";
+    return savedRange.toString().trim();
   }
 
   /* ---------- Command helpers ---------- */
+  function updateToolbarStates(){
+    const queryable = ["bold","italic","underline","strikeThrough","justifyLeft","justifyCenter","justifyRight"];
+    queryable.forEach(cmd=>{
+      const btn = root.querySelector('.prose-toolbar-btn[data-cmd="'+cmd+'"]');
+      if(!btn) return;
+      let active = false;
+      try{ active = document.queryCommandState(cmd); }catch(e){}
+      btn.classList.toggle("active-format", !!active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  }
+
   function applyCommand(cmd, val=null){
-    editor.focus();
-    restoreSelection();
+    ensureEditorSelection();
+    let ok = false;
     try{
-      document.execCommand(cmd, false, val);
+      document.execCommand("styleWithCSS", false, true);
+      ok = document.execCommand(cmd, false, val);
+    }catch(e){
+      ok = false;
+    }
+    saveSelection();
+    refreshState();
+    updateToolbarStates();
+    queueAutosave();
+    return ok;
+  }
+
+  function clearSelectedFormatting(){
+    ensureEditorSelection();
+    const sel = window.getSelection();
+    if(!sel || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    if(range.collapsed){
+      showToast("Select text to clear formatting");
+      return;
+    }
+    try{
+      document.execCommand("removeFormat", false, null);
+      document.execCommand("unlink", false, null);
     }catch(e){}
     saveSelection();
     refreshState();
+    updateToolbarStates();
     queueAutosave();
   }
 
   function promptColor(cmd){
-    const color = prompt("Enter a CSS color (e.g. #333333 or darkred):","");
+    saveSelection();
+    const color = prompt("Enter a CSS color (for example #333333 or darkred):","");
     if(!color) return;
     applyCommand(cmd, color);
   }
 
   function insertTextAtCursor(text){
-    editor.focus();
-    restoreSelection();
-    if(document.queryCommandSupported && document.queryCommandSupported("insertText")){
-      document.execCommand("insertText", false, text);
-    }else{
-      const range = savedRange || document.createRange();
-      range.deleteContents();
-      range.insertNode(document.createTextNode(text));
+    ensureEditorSelection();
+    try{
+      if(document.queryCommandSupported && document.queryCommandSupported("insertText")){
+        document.execCommand("insertText", false, text);
+      }else{
+        const sel = window.getSelection();
+        const range = sel.getRangeAt(0);
+        range.deleteContents();
+        const node = document.createTextNode(text);
+        range.insertNode(node);
+        range.setStartAfter(node);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    }catch(e){
+      editor.appendChild(document.createTextNode(text));
     }
     saveSelection();
     refreshState();
@@ -943,7 +1119,7 @@
     const freq = {};
     words.forEach(w=>{ freq[w] = (freq[w]||0)+1; });
     const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5);
-    const display = sorted.map(([w,c])=> ${w} (${c})).join(", ");
+    const display = sorted.map(([w,c])=> `${w} (${c})`).join(", ");
     topWordsEl.textContent = "Top words: " + display;
   }
 
@@ -1077,19 +1253,7 @@
       titleBtn.type = "button";
       titleBtn.className = "prose-link-btn";
       titleBtn.textContent = entry.title || "Untitled";
-      titleBtn.onclick = ()=>{
-        const docsMap = loadDocsMap();
-        const doc = docsMap[entry.docId];
-        if(!doc){
-          alert("This document could not be found in storage.");
-          return;
-        }
-        applyDoc(doc);
-        try{
-          localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(doc));
-        }catch(e){}
-        showToast("Switched document");
-      };
+      titleBtn.onclick = ()=> switchDocumentById(entry.docId);
 
       const meta = document.createElement("div");
       meta.style.fontSize = "11px";
@@ -1101,9 +1265,19 @@
       excerpt.style.opacity = "0.8";
       excerpt.textContent = entry.excerpt || "";
 
+      const actionRow = document.createElement("div");
+      actionRow.className = "prose-recents-actions";
+      const deleteDocBtn = document.createElement("button");
+      deleteDocBtn.type = "button";
+      deleteDocBtn.className = "prose-small-btn";
+      deleteDocBtn.textContent = "Delete";
+      deleteDocBtn.onclick = ()=> deleteDocumentById(entry.docId);
+      actionRow.appendChild(deleteDocBtn);
+
       item.appendChild(titleBtn);
       item.appendChild(meta);
       if(entry.excerpt) item.appendChild(excerpt);
+      item.appendChild(actionRow);
       listEl.appendChild(item);
     });
   }
@@ -1201,9 +1375,15 @@
 
   /* ---------- Comments ---------- */
   function getSelectionText(){
-    const sel = window.getSelection();
-    if(!sel || sel.rangeCount === 0) return "";
-    return sel.toString().trim();
+    const live = window.getSelection();
+    if(live && live.rangeCount){
+      const range = live.getRangeAt(0);
+      if(selectionIsInsideEditor(range)){
+        const text = live.toString().trim();
+        if(text) return text;
+      }
+    }
+    return getSavedSelectionText();
   }
 
   function renderComments(){
@@ -1370,8 +1550,7 @@
   function insertImageBlock(src, filename){
     imageCounter++;
     const id = "img-" + Date.now() + "-" + imageCounter;
-    editor.focus();
-    restoreSelection();
+    ensureEditorSelection();
 
     const block = document.createElement("div");
     block.className = "prose-image-block";
@@ -1391,8 +1570,9 @@
     block.appendChild(img);
     block.appendChild(cap);
 
-    const range = savedRange || document.createRange();
-    if(!savedRange){
+    const sel = window.getSelection();
+    const range = sel && sel.rangeCount ? sel.getRangeAt(0) : document.createRange();
+    if(!sel || !sel.rangeCount){
       range.selectNodeContents(editor);
       range.collapse(false);
     }
@@ -1402,7 +1582,7 @@
     spacer.innerHTML = "<br>";
     block.parentNode.insertBefore(spacer, block.nextSibling);
 
-    saveSelection();
+    placeCaretInNode(spacer);
     refreshState();
     queueAutosave();
   }
@@ -1502,15 +1682,15 @@
   }
 
   function insertTextBox(){
-    editor.focus();
-    restoreSelection();
+    ensureEditorSelection();
     const box = document.createElement("div");
     box.className = "prose-textbox";
     box.contentEditable = "true";
     box.innerHTML = "Text box…";
 
-    const range = savedRange || document.createRange();
-    if(!savedRange){
+    const sel = window.getSelection();
+    const range = sel && sel.rangeCount ? sel.getRangeAt(0) : document.createRange();
+    if(!sel || !sel.rangeCount){
       range.selectNodeContents(editor);
       range.collapse(false);
     }
@@ -1520,7 +1700,7 @@
     spacer.innerHTML = "<br>";
     box.parentNode.insertBefore(spacer, box.nextSibling);
 
-    saveSelection();
+    placeCaretInNode(spacer);
     refreshState();
     queueAutosave();
   }
@@ -1559,6 +1739,7 @@
     let count = 0;
     walkTextNodes(editor, node=>{
       const text = node.nodeValue;
+      regex.lastIndex = 0;
       if(!regex.test(text)) return;
       regex.lastIndex = 0;
       const frag = document.createDocumentFragment();
@@ -1579,6 +1760,11 @@
       node.parentNode.replaceChild(frag, node);
     });
     status.textContent = count ? ("Found "+count+" matches.") : "No matches.";
+    const first = editor.querySelector("mark.prose-mark");
+    if(first){
+      first.classList.add("prose-find-current");
+      first.scrollIntoView({behavior:"smooth",block:"center"});
+    }
   }
 
   function replaceInEditor(term, replacement, firstOnly){
@@ -1592,6 +1778,7 @@
     walkTextNodes(editor, node=>{
       if(done) return;
       const text = node.nodeValue;
+      regex.lastIndex = 0;
       if(!regex.test(text)) return;
       regex.lastIndex = 0;
       if(firstOnly){
@@ -1621,7 +1808,25 @@
   function saveVersions(list){
     try{
       localStorage.setItem(STORAGE_KEY_VERSIONS, JSON.stringify(list));
-    }catch(e){}
+      return true;
+    }catch(e){
+      setSaveStatus("Could not save snapshot (storage full?).", "error");
+      return false;
+    }
+  }
+
+  function addVersionSnapshot(doc, label="Snapshot"){
+    const list = loadVersions();
+    const safeCopy = JSON.parse(JSON.stringify(doc || getDoc()));
+    list.unshift({
+      id: Date.now() + Math.random(),
+      when: label + " — " + new Date().toLocaleString(),
+      doc: safeCopy
+    });
+    if(list.length > 20) list.length = 20;
+    const ok = saveVersions(list);
+    if(ok) renderVersions();
+    return ok;
   }
   function renderVersions(){
     const listEl = $("#prose-versions-list");
@@ -1647,9 +1852,17 @@
       restoreBtn.className = "prose-small-btn";
       restoreBtn.textContent = "Restore";
       restoreBtn.onclick = ()=>{
-        if(!confirm("Replace the current document with this version?")) return;
+        if(!confirm("Restore this version? The current state will be saved as a recovery snapshot first.")) return;
+        if(!flushPendingAutosave()){
+          alert("PROSE could not save the current document, so the version was not restored.");
+          return;
+        }
+        addVersionSnapshot(getDoc(), "Recovery before restore");
         applyDoc(v.doc);
-        showToast("Version restored");
+        if(saveDoc(false)){
+          setSaveStatus("Version restored and saved.");
+          showToast("Version restored safely");
+        }
       };
       const deleteBtn = document.createElement("button");
       deleteBtn.type = "button";
@@ -1701,6 +1914,23 @@
   }
 
   /* ---------- Doc load/save ---------- */
+  function makeBlankDoc(){
+    return {
+      title: "",
+      content: "",
+      outlineNotes: "",
+      footnotes: "",
+      aiNotes: "",
+      thoughts: "",
+      toneTag: "",
+      paperTheme: "parchment",
+      paperCustomColor: "",
+      goalWords: 0,
+      wordBank: defaultWordBank.slice(),
+      comments: []
+    };
+  }
+
   function getDoc(){
     const goalWords = parseInt($("#prose-goal-words").value,10) || 0;
     if(!currentDocId){
@@ -1715,7 +1945,16 @@
       createdAt: currentCreatedAt,
       updatedAt: new Date().toISOString(),
       title: (titleInput.value || "").trim() || "Untitled Document",
-      content: editor.innerHTML,
+      content: (function(){
+        const clone = editor.cloneNode(true);
+        clone.querySelectorAll("mark.prose-mark").forEach(mark=>{
+          const parent = mark.parentNode;
+          while(mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+          parent.removeChild(mark);
+          parent.normalize();
+        });
+        return clone.innerHTML;
+      })(),
       outlineNotes: $("#prose-outline-notes").value || "",
       footnotes: $("#prose-footnotes").value || "",
       aiNotes: $("#prose-ai-notes").value || "",
@@ -1729,7 +1968,16 @@
     };
   }
 
+  function cancelAutosave(){
+    if(autosaveTimer){
+      clearTimeout(autosaveTimer);
+      autosaveTimer = null;
+    }
+  }
+
   function applyDoc(doc){
+    cancelAutosave();
+    clearEditorSelection(false);
     doc = doc || {};
     currentDocId = doc.docId || currentDocId || Date.now();
     currentCreatedAt = doc.createdAt || currentCreatedAt || new Date().toISOString();
@@ -1753,20 +2001,22 @@
     const customBg = doc.paperCustomColor || "";
     applyPaperTheme(paperTheme, customBg);
 
+    isDirty = false;
     renderWordBank();
     renderComments();
     rebuildOutline();
     refreshState();
     updateToneStatus();
+    clearEditorSelection(true);
+    updateToolbarStates();
   }
 
   function loadDocFromStorage(){
     try{
       const raw = localStorage.getItem(STORAGE_KEY_DOC);
-      if(!raw) return;
+      if(!raw) return false;
       const doc = JSON.parse(raw);
       if(!doc.docId){
-        // Legacy single-doc: assign id + timestamps
         doc.docId = Date.now();
         doc.createdAt = new Date().toISOString();
         doc.updatedAt = doc.createdAt;
@@ -1777,13 +2027,17 @@
       touchRecents(doc);
       localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(doc));
       applyDoc(doc);
-      statusLeft.textContent = "Loaded last saved document.";
+      setSaveStatus("Loaded last saved document.");
+      return true;
     }catch(e){
       console.warn("Could not load saved doc", e);
+      setSaveStatus("Could not restore the saved document.", "error");
+      return false;
     }
   }
 
   function saveDoc(manual){
+    cancelAutosave();
     const doc = getDoc();
     try{
       localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(doc));
@@ -1791,17 +2045,103 @@
       docsMap[doc.docId] = doc;
       saveDocsMap(docsMap);
       touchRecents(doc);
-      statusLeft.textContent = manual ? "Saved at "+ new Date().toLocaleTimeString() : "Autosaved.";
+      isDirty = false;
+      setSaveStatus(manual ? "Saved at "+ new Date().toLocaleTimeString() : "Autosaved.");
       if(manual) showToast("Document saved");
+      return true;
     }catch(e){
-      statusLeft.textContent = "Could not save (storage full?).";
+      isDirty = true;
+      setSaveStatus("Could not save (storage full?).", "error");
+      return false;
     }
   }
 
+  function flushPendingAutosave(){
+    if(!isDirty && !autosaveTimer) return true;
+    return saveDoc(false);
+  }
+
   function queueAutosave(){
-    if(autosaveTimer) clearTimeout(autosaveTimer);
-    autosaveTimer = setTimeout(()=> saveDoc(false), 800);
-    statusLeft.textContent = "Unsaved changes…";
+    cancelAutosave();
+    isDirty = true;
+    const scheduledDocId = currentDocId;
+    autosaveTimer = setTimeout(()=>{
+      autosaveTimer = null;
+      if(scheduledDocId && currentDocId && String(scheduledDocId) !== String(currentDocId)) return;
+      saveDoc(false);
+    }, 800);
+    setSaveStatus("Unsaved changes…", "unsaved");
+  }
+
+  function switchDocumentById(docId){
+    if(String(docId) === String(currentDocId)){
+      showToast("Document already open");
+      return;
+    }
+    if(!flushPendingAutosave()){
+      alert("PROSE could not save the open document. The switch was cancelled to protect your writing.");
+      return;
+    }
+    const docsMap = loadDocsMap();
+    const doc = docsMap[docId];
+    if(!doc){
+      alert("This document could not be found in storage.");
+      renderRecents();
+      return;
+    }
+    applyDoc(doc);
+    try{
+      localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(doc));
+      touchRecents(doc);
+    }catch(e){
+      setSaveStatus("Document opened, but its active-state marker could not be saved.", "error");
+    }
+    setSaveStatus("Opened “" + (doc.title || "Untitled Document") + "”.");
+    showToast("Switched document safely");
+  }
+
+  function deleteDocumentById(docId){
+    const deletingCurrent = String(docId) === String(currentDocId);
+    const message = deletingCurrent
+      ? "Delete the document currently open? PROSE will open the next saved document or create a blank one."
+      : "Delete this local document?";
+    if(!confirm(message)) return;
+
+    if(deletingCurrent){
+      cancelAutosave();
+      isDirty = false;
+      clearEditorSelection(false);
+    }
+
+    const docsMap = loadDocsMap();
+    delete docsMap[docId];
+    saveDocsMap(docsMap);
+    const remainingRecents = loadRecents().filter(x=>String(x.docId) !== String(docId));
+    saveRecents(remainingRecents);
+
+    if(!deletingCurrent){
+      renderRecents();
+      showToast("Document deleted");
+      return;
+    }
+
+    try{ localStorage.removeItem(STORAGE_KEY_DOC); }catch(e){}
+    currentDocId = null;
+    currentCreatedAt = null;
+
+    const nextEntry = remainingRecents.find(x=>docsMap[x.docId]);
+    if(nextEntry){
+      const nextDoc = docsMap[nextEntry.docId];
+      applyDoc(nextDoc);
+      try{ localStorage.setItem(STORAGE_KEY_DOC, JSON.stringify(nextDoc)); }catch(e){}
+      touchRecents(nextDoc);
+      setSaveStatus("Deleted document. Opened the next recent document.");
+    }else{
+      applyDoc(makeBlankDoc());
+      saveDoc(false);
+      setSaveStatus("Deleted document. Created a new blank document.");
+    }
+    showToast("Document deleted safely");
   }
 
   function refreshState(){
@@ -1840,29 +2180,16 @@
   function createNewDoc(){
     const hasContent = (editor.innerText || editor.textContent || "").trim().length ||
                        (titleInput.value || "").trim().length;
-    if(hasContent){
-      if(!confirm("Start a new document? Your current one will be saved as a recent document.")) return;
-      saveDoc(true);
+    if(hasContent && !confirm("Start a new document? Your current document will be saved first.")) return;
+    if(!flushPendingAutosave()){
+      alert("PROSE could not save the current document, so a new document was not created.");
+      return;
     }
     currentDocId = null;
     currentCreatedAt = null;
-    const blankDoc = {
-      title: "",
-      content: "",
-      outlineNotes: "",
-      footnotes: "",
-      aiNotes: "",
-      thoughts: "",
-      toneTag: "",
-      paperTheme: "parchment",
-      paperCustomColor: "",
-      goalWords: 0,
-      wordBank: defaultWordBank.slice(),
-      comments: []
-    };
-    applyDoc(blankDoc);
-    saveDoc(false); // allocate id + store in map/recents
-    showToast("New document created");
+    applyDoc(makeBlankDoc());
+    saveDoc(false);
+    showToast("New protected document created");
   }
 
   /* ---------- Toast ---------- */
@@ -1885,10 +2212,33 @@
     app.classList.toggle("prose-wide");
     this.classList.toggle("active");
   };
+  let soundEnabled = false;
+  function playSoftClick(){
+    if(!soundEnabled || !window.AudioContext && !window.webkitAudioContext) return;
+    try{
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      const ctx = new Ctx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 520;
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.035, ctx.currentTime + 0.006);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.09);
+      setTimeout(()=>ctx.close(),150);
+    }catch(e){}
+  }
   $("#prose-sound-toggle").onclick = function(){
-    this.classList.toggle("active");
-    // Placeholder toggle; no sounds wired in this offline edition.
+    soundEnabled = !soundEnabled;
+    this.classList.toggle("active", soundEnabled);
+    this.textContent = soundEnabled ? "Sound On" : "Sound Off";
+    if(soundEnabled) playSoftClick();
   };
+  root.addEventListener("click", e=>{
+    if(soundEnabled && e.target.closest("button")) playSoftClick();
+  });
 
   const paperThemeSelect = $("#prose-paper-theme");
   if(paperThemeSelect){
@@ -1925,7 +2275,7 @@
 
   $("#prose-inspire-button").onclick = function(){
     const prompt = INSPIRATION_PROMPTS[Math.floor(Math.random()*INSPIRATION_PROMPTS.length)];
-    statusLeft.textContent = "Inspiration: " + prompt;
+    setSaveStatus("Inspiration: " + prompt);
     showToast("Inspiration bell");
     const insert = confirm("Insert this prompt into your draft?\n\n" + prompt);
     if(insert){
@@ -1942,23 +2292,40 @@
   if(grammarBtn) grammarBtn.onclick = runGrammarScan;
 
   /* ---------- Toolbar bindings ---------- */
+  $$(".prose-toolbar-btn").forEach(btn=>{
+    btn.addEventListener("mousedown", e=>e.preventDefault());
+    btn.addEventListener("pointerdown", e=>{
+      if(e.pointerType !== "touch") e.preventDefault();
+    });
+  });
+
   $$(".prose-toolbar-btn[data-cmd]").forEach(btn=>{
     btn.addEventListener("click", function(){
       const cmd = this.dataset.cmd;
-      applyCommand(cmd);
+      if(cmd === "removeFormat") clearSelectedFormatting();
+      else applyCommand(cmd);
     });
   });
+
   $$(".prose-toolbar-btn[data-color]").forEach(btn=>{
     btn.addEventListener("click", function(){
-      const cmd = this.dataset.color;
-      promptColor(cmd);
+      promptColor(this.dataset.color);
     });
+  });
+
+
+  ["#prose-font-family","#prose-font-size","#prose-block-format"].forEach(sel=>{
+    const el = $(sel);
+    if(el){
+      el.addEventListener("mousedown", saveSelection);
+      el.addEventListener("pointerdown", saveSelection);
+    }
   });
 
   $("#prose-font-family").onchange = function(){
     const val = this.value;
     if(!val){
-      applyCommand("removeFormat");
+      applyCommand("fontName", "Arial");
     }else{
       applyCommand("fontName", val);
     }
@@ -1969,7 +2336,7 @@
   };
   $("#prose-block-format").onchange = function(){
     const tag = this.value || "p";
-    applyCommand("formatBlock", tag);
+    applyCommand("formatBlock", "<"+tag+">");
   };
 
   const insertImageBtn = $("#prose-insert-image-btn");
@@ -2006,8 +2373,36 @@
   }
 
   /* ---------- Editor events ---------- */
-  editor.addEventListener("mouseup", saveSelection);
-  editor.addEventListener("keyup", saveSelection);
+
+  document.addEventListener("selectionchange", ()=>{
+    const sel = window.getSelection();
+    if(sel && sel.rangeCount && selectionIsInsideEditor(sel.getRangeAt(0))){
+      saveSelection();
+      updateToolbarStates();
+    }
+  });
+
+  editor.addEventListener("keydown", e=>{
+    const mod = e.ctrlKey || e.metaKey;
+    if(!mod) return;
+    const key = e.key.toLowerCase();
+    if(key === "s"){
+      e.preventDefault();
+      saveDoc(true);
+    }else if(key === "b"){
+      e.preventDefault();
+      applyCommand("bold");
+    }else if(key === "i"){
+      e.preventDefault();
+      applyCommand("italic");
+    }else if(key === "u"){
+      e.preventDefault();
+      applyCommand("underline");
+    }
+  });
+
+  editor.addEventListener("mouseup", ()=>{ saveSelection(); updateToolbarStates(); });
+  editor.addEventListener("keyup", ()=>{ saveSelection(); updateToolbarStates(); });
   editor.addEventListener("mouseleave", saveSelection);
   editor.addEventListener("input", function(){
     saveSelection();
@@ -2118,20 +2513,20 @@
 
   /* ---------- Versions events ---------- */
   $("#prose-version-save").onclick = function(){
-    const doc = getDoc();
-    const list = loadVersions();
-    list.unshift({
-      id: Date.now(),
-      when: new Date().toLocaleString(),
-      doc: doc
-    });
-    if(list.length > 20) list.length = 20;
-    saveVersions(list);
-    renderVersions();
-    showToast("Snapshot saved");
+    if(addVersionSnapshot(getDoc(), "Snapshot")) showToast("Snapshot saved");
   };
 
   /* ---------- Export / restore ---------- */
+
+  function safeFilename(name, fallback="document"){
+    const cleaned = (name || "").replace(/[<>:"/\\|?*\x00-\x1F]/g," ").replace(/\s+/g," ").trim();
+    return (cleaned || fallback).slice(0,100);
+  }
+
+  function escapeTitleText(value){
+    return escapeHtml(value || "document");
+  }
+
   function exportFile(filename, content, mime){
     const blob = new Blob([content], {type: mime});
     const url = URL.createObjectURL(blob);
@@ -2141,26 +2536,29 @@
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
   }
 
   $("#prose-export-html").onclick = function(){
     const doc = getDoc();
     const html = "<!doctype html><html><head><meta charset='utf-8'><title>"+
-      (doc.title || "prose-document")+
+      escapeTitleText(doc.title || "prose-document")+
       "</title></head><body>"+doc.content+"</body></html>";
-    exportFile((doc.title || "document")+".html", html, "text/html");
+    exportFile(safeFilename(doc.title)+".html", html, "text/html");
   };
   $("#prose-export-text").onclick = function(){
     const doc = getDoc();
     const tmp = document.createElement("div");
     tmp.innerHTML = doc.content;
     const text = (tmp.innerText || tmp.textContent || "");
-    exportFile((doc.title || "document")+".txt", text, "text/plain");
+    exportFile(safeFilename(doc.title)+".txt", text, "text/plain");
   };
   $("#prose-restore-latest").onclick = function(){
-    loadDocFromStorage();
-    showToast("Restored last saved");
+    if(isDirty && !confirm("Discard the current unsaved changes and restore the last saved document?")) return;
+    cancelAutosave();
+    isDirty = false;
+    if(loadDocFromStorage()) showToast("Restored last saved document");
+    else showToast("No saved document found");
   };
 
   /* ---------- Templates ---------- */
@@ -2182,15 +2580,51 @@
       body = "<h1>Article Title</h1><p>Subtitle or hook sentence.</p><h2>Section 1</h2><p>…</p><h2>Section 2</h2><p>…</p>";
     }
     if((editor.innerText || editor.textContent || "").trim().length){
-      if(!confirm("Replace current document with the selected template?")) return;
+      if(!confirm("Replace the current body with this template? A recovery snapshot will be saved first.")) return;
+      flushPendingAutosave();
+      addVersionSnapshot(getDoc(), "Recovery before template");
     }
+    clearEditorSelection(false);
     titleInput.value = title;
     editor.innerHTML = body;
+    clearEditorSelection(true);
     refreshState();
     queueAutosave();
   };
 
+  /* ---------- Lifecycle protection ---------- */
+  document.addEventListener("visibilitychange", ()=>{
+    if(document.visibilityState === "hidden" && isDirty) saveDoc(false);
+  });
+  window.addEventListener("pagehide", ()=>{
+    if(isDirty) saveDoc(false);
+  });
+  window.addEventListener("beforeunload", e=>{
+    if(!isDirty) return;
+    saveDoc(false);
+    if(isDirty){
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  });
+
   /* ---------- INIT ---------- */
+
+  function verifyCoreControls(){
+    const required = [
+      "#prose-editor","#prose-title","#prose-save-button",
+      "#prose-find-btn","#prose-export-html","#prose-new-doc"
+    ];
+    const missing = required.filter(sel=>!$(sel));
+    if(missing.length){
+      console.error("PROSE missing required controls:", missing);
+      setSaveStatus("A required editor control is missing.", "error");
+      return false;
+    }
+    return true;
+  }
+
+  verifyCoreControls();
   wordBank = defaultWordBank.slice();
   renderWordBank();
   renderComments();
