@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'self' data:; frame-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <title>KhaeClean™ — Protected Code Lab</title>
+  <meta name="description" content="KhaeClean™ is a protected, local-first code inspection studio for editing, previewing, analyzing, preserving, and exporting HTML, CSS, and JavaScript.">
+  <meta name="theme-color" content="#090d1d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline' https: http: blob:; style-src 'unsafe-inline' https: http:; img-src 'self' data: blob: https: http:; media-src 'self' data: blob: https: http:; font-src 'self' data: https: http:; frame-src 'self' data: blob: https: http:; connect-src https: http:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>KhaeClean™ — Protected Code Studio</title>
   <style>
     :root{
       --nebula-1:#08031f;
@@ -371,15 +373,617 @@
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
     }
+
+    /* =========================================================
+       Verve N Veda refinement layer — KhaeClean personality
+       ========================================================= */
+    :root{
+      --font-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+      --font-brand:"Cinzel","Aboreto",Georgia,serif;
+      --font-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+      --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+
+      --nebula-1:#070a16;
+      --nebula-2:#17133e;
+      --panel:rgba(12,17,32,.94);
+      --panel-soft:rgba(255,255,255,.035);
+      --ink:#f6f4ee;
+      --muted:#aeb4ca;
+      --muted-2:#7f89a8;
+      --accent:#77c8d2;
+      --accent-2:#a898df;
+      --gold:#d8b870;
+      --gold-2:#f1d99b;
+      --good:#79d7aa;
+      --warn:#e5bd69;
+      --bad:#df7c8c;
+      --line:rgba(216,184,112,.17);
+      --line-blue:rgba(119,200,210,.24);
+      --radius:17px;
+      --shadow:0 22px 66px rgba(0,0,0,.38);
+      --font:var(--font-ui);
+    }
+
+    html{scroll-padding-top:88px}
+
+    body{
+      font-family:var(--font-ui);
+      letter-spacing:.004em;
+      background:
+        radial-gradient(circle at 13% -5%,rgba(168,152,223,.19),transparent 34rem),
+        radial-gradient(circle at 91% 8%,rgba(119,200,210,.12),transparent 33rem),
+        radial-gradient(circle at 45% 100%,rgba(216,184,112,.08),transparent 42rem),
+        linear-gradient(145deg,#080b17,#050711 75%);
+    }
+
+    #starfield{opacity:.56}
+
+    .skip-link{
+      position:fixed;
+      top:-70px;
+      left:14px;
+      z-index:100;
+      padding:10px 13px;
+      border-radius:9px;
+      background:#f5f1e8;
+      color:#15182a;
+      font-weight:700;
+      transition:top .16s ease;
+    }
+    .skip-link:focus{top:14px}
+
+    .app{
+      width:min(1480px,calc(100% - 28px));
+      margin:18px auto 44px;
+      padding:17px;
+      border-color:rgba(119,200,210,.25);
+      border-radius:23px;
+      background:
+        radial-gradient(circle at 100% 0%,rgba(119,200,210,.05),transparent 28rem),
+        rgba(9,13,26,.93);
+      box-shadow:var(--shadow);
+    }
+
+    .topbar{
+      position:sticky;
+      top:8px;
+      z-index:20;
+      margin:-5px -5px 0;
+      padding:8px 9px 13px;
+      border-bottom-color:var(--line);
+      background:rgba(9,13,26,.88);
+      backdrop-filter:blur(16px);
+    }
+
+    .breadcrumbs{
+      gap:6px;
+      font-family:var(--font-ui);
+      font-size:11px;
+      font-weight:600;
+      letter-spacing:.025em;
+    }
+
+    .crumb-link,.nav-button{
+      min-height:34px;
+      padding:7px 10px;
+      border-radius:8px;
+      font-size:10px;
+      font-weight:650;
+    }
+
+    .crumb-current{
+      color:var(--gold-2);
+      font-family:var(--font-brand);
+      font-size:10px;
+      font-weight:600;
+      letter-spacing:.09em;
+      text-transform:uppercase;
+    }
+
+    .hero{
+      min-height:270px;
+      padding:34px 28px 27px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 255px;
+      gap:34px;
+      align-items:center;
+      text-align:left;
+    }
+
+    .eyebrow{
+      color:var(--gold-2);
+      font-family:var(--font-brand);
+      font-size:9px;
+      font-weight:600;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+    }
+
+    .hero h1{
+      margin:8px 0 1px;
+      font-family:var(--font-brand);
+      font-size:clamp(39px,6vw,72px);
+      line-height:1;
+      letter-spacing:.055em;
+      font-weight:600;
+      background:linear-gradient(100deg,#f2dca4,#87cfd5 62%,#ad9de4);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .hero-subtitle{
+      color:#d9dcea;
+      font-family:var(--font-display);
+      font-size:clamp(22px,3vw,32px);
+      font-weight:600;
+      line-height:1.1;
+    }
+
+    .hero p{
+      max-width:850px;
+      margin:14px 0 0;
+      color:#bfc5d8;
+      font-family:var(--font-ui);
+      font-size:14px;
+      line-height:1.72;
+    }
+
+    .security-strip{
+      justify-content:flex-start;
+      margin-top:17px;
+    }
+
+    .badge{
+      border-radius:8px;
+      padding:7px 9px;
+      font-family:var(--font-ui);
+      font-size:9.5px;
+      font-weight:650;
+      letter-spacing:.02em;
+    }
+
+    .lab-seal{
+      position:relative;
+      min-height:220px;
+      display:grid;
+      place-items:center;
+    }
+
+    .seal-orbit{
+      position:absolute;
+      border:1px solid rgba(119,200,210,.20);
+      border-radius:50%;
+    }
+    .seal-orbit.one{width:205px;height:205px}
+    .seal-orbit.two{width:162px;height:162px;border-color:rgba(216,184,112,.25);border-style:dashed}
+
+    .seal-core{
+      width:128px;
+      height:128px;
+      border:1px solid rgba(241,217,155,.46);
+      border-radius:35px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:7px;
+      background:
+        radial-gradient(circle at 34% 25%,rgba(255,255,255,.13),transparent 36%),
+        linear-gradient(145deg,rgba(119,200,210,.18),rgba(168,152,223,.16));
+      box-shadow:0 18px 48px rgba(0,0,0,.35),inset 0 0 30px rgba(216,184,112,.08);
+      transform:rotate(2deg);
+    }
+
+    .seal-core strong{
+      font-family:var(--font-brand);
+      color:var(--gold-2);
+      font-size:29px;
+      font-weight:600;
+      letter-spacing:.1em;
+    }
+
+    .seal-core small{
+      color:#cad0e3;
+      font-family:var(--font-ui);
+      font-size:7px;
+      font-weight:700;
+      line-height:1.5;
+      letter-spacing:.16em;
+      text-align:center;
+    }
+
+    .quick-guide{
+      margin:0 4px 16px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(255,255,255,.025);
+      overflow:hidden;
+    }
+
+    .quick-guide summary{
+      min-height:48px;
+      padding:11px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      color:var(--muted);
+      font-size:11px;
+      list-style:none;
+    }
+    .quick-guide summary::-webkit-details-marker{display:none}
+    .quick-guide summary span{
+      font-family:var(--font-brand);
+      color:var(--gold-2);
+      font-size:9px;
+      font-weight:600;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .quick-guide summary strong{
+      color:#dfe2ed;
+      font-size:10px;
+      font-weight:650;
+    }
+
+    .guide-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:7px;
+      padding:0 11px 11px;
+    }
+
+    .guide-grid>div{
+      min-height:82px;
+      padding:11px;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:10px;
+      display:flex;
+      gap:9px;
+      background:rgba(255,255,255,.025);
+    }
+
+    .guide-grid b{
+      flex:0 0 auto;
+      width:25px;
+      height:25px;
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(145deg,var(--accent),var(--accent-2));
+      color:#101423;
+      font-size:10px;
+    }
+
+    .guide-grid span,.guide-grid strong,.guide-grid small{display:block}
+    .guide-grid strong{color:#e4e6ef;font-size:10px}
+    .guide-grid small{margin-top:4px;color:var(--muted-2);font-size:9px;line-height:1.45}
+
+    .workspace{
+      grid-template-columns:minmax(470px,1.06fr) minmax(390px,.94fr);
+      gap:12px;
+    }
+
+    .panel{
+      border-color:rgba(119,200,210,.17);
+      border-radius:var(--radius);
+      background:
+        linear-gradient(145deg,rgba(255,255,255,.025),transparent),
+        rgba(15,20,38,.76);
+      box-shadow:inset 0 0 24px rgba(0,0,0,.17),0 12px 32px rgba(0,0,0,.12);
+    }
+
+    .panel-head{
+      min-height:61px;
+      padding:13px 15px;
+      border-bottom-color:var(--line);
+      background:linear-gradient(145deg,rgba(27,34,60,.86),rgba(14,19,36,.86));
+    }
+
+    .panel-head h2{
+      font-family:var(--font-display);
+      font-size:20px;
+      font-weight:600;
+      line-height:1;
+      letter-spacing:.01em;
+      color:#f0eee8;
+    }
+
+    .panel-head small{
+      display:block;
+      margin-top:4px;
+      color:var(--muted-2);
+      font-size:9.5px;
+      line-height:1.45;
+    }
+
+    .panel-body{padding:13px}
+
+    .control-grid{
+      grid-template-columns:repeat(4,minmax(115px,1fr));
+      gap:7px;
+      margin-bottom:9px;
+    }
+
+    .field{gap:4px}
+    .field label{
+      color:#aeb5cc;
+      font-size:9px;
+      font-weight:650;
+      letter-spacing:.035em;
+    }
+
+    input,select,textarea{
+      border-color:rgba(119,200,210,.23);
+      border-radius:8px;
+      background:#070b18;
+      color:var(--ink);
+    }
+
+    input,select{
+      min-height:36px;
+      padding:7px 9px;
+      font-size:11px;
+    }
+
+    textarea{padding:12px 13px}
+
+    #codeInput{
+      min-height:530px;
+      max-height:75vh;
+      border-radius:11px;
+      border-color:rgba(119,200,210,.28);
+      background:
+        linear-gradient(90deg,rgba(119,200,210,.027) 1px,transparent 1px),
+        linear-gradient(#060a16,#050813);
+      background-size:28px 100%,100% 100%;
+      font-family:var(--mono);
+      font-size:12px;
+      line-height:1.56;
+      caret-color:var(--gold-2);
+      box-shadow:inset 0 0 28px rgba(0,0,0,.30);
+    }
+
+    .editor-status{
+      padding:0 2px;
+      font-family:var(--mono);
+      font-size:9px;
+    }
+
+    .row{
+      gap:6px;
+    }
+    .row + .row{margin-top:8px}
+
+    .btn{
+      min-height:37px;
+      padding:8px 11px;
+      border-radius:8px;
+      color:#0d1720;
+      background:linear-gradient(145deg,#8dd5d7,#63aeb8);
+      box-shadow:none;
+      font-family:var(--font-ui);
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.015em;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.06);
+    }
+
+    .btn.secondary{
+      color:#d9ddeb;
+      background:rgba(255,255,255,.035);
+      border-color:rgba(168,152,223,.20);
+    }
+
+    .btn.secondary:hover{
+      border-color:rgba(119,200,210,.36);
+      background:rgba(119,200,210,.07);
+    }
+
+    .btn.danger{
+      color:#ffdfe5;
+      background:rgba(143,50,69,.34);
+      border-color:rgba(223,124,140,.27);
+    }
+
+    .btn.good{
+      color:#071b14;
+      background:linear-gradient(145deg,#a0e4bd,#66c793);
+    }
+
+    .btn.small{
+      min-height:32px;
+      padding:6px 9px;
+      font-size:9.5px;
+    }
+
+    .preview-toolbar{margin-bottom:8px}
+
+    .viewport-buttons .btn[aria-pressed="true"]{
+      border-color:var(--gold);
+      color:var(--gold-2);
+      background:rgba(216,184,112,.08);
+    }
+
+    .preview-stage{
+      min-height:520px;
+      padding:10px;
+      border-color:rgba(119,200,210,.19);
+      border-radius:13px;
+      background:
+        radial-gradient(circle at 50% 0%,rgba(168,152,223,.13),transparent 26rem),
+        linear-gradient(145deg,#0d1327,#050813);
+    }
+
+    .frame-shell{
+      min-height:500px;
+      border-radius:9px;
+      box-shadow:0 15px 40px rgba(0,0,0,.42);
+    }
+
+    #previewFrame{height:500px}
+
+    .status-bar{
+      min-height:40px;
+      margin-top:9px;
+      padding:9px 10px;
+      border-radius:9px;
+      font-family:var(--font-ui);
+      font-size:10px;
+      line-height:1.5;
+    }
+
+    .bottom-grid{
+      grid-template-columns:1.12fr .88fr;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .results-list{gap:7px}
+
+    .result-card{
+      border-radius:9px;
+      padding:10px 11px;
+      background:rgba(2,7,19,.45);
+    }
+
+    .result-card h3{
+      font-family:var(--font-display);
+      font-size:15px;
+      font-weight:600;
+      color:#e9e7e2;
+    }
+
+    .result-card p{
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.56;
+    }
+
+    .console{
+      height:300px;
+      border-radius:9px;
+      border-color:rgba(119,200,210,.18);
+      background:#03050c;
+      font-family:var(--mono);
+      font-size:9.5px;
+      line-height:1.5;
+    }
+
+    .console-line{padding:6px}
+
+    .storage-meter{
+      height:6px;
+      background:rgba(255,255,255,.07);
+    }
+
+    .storage-meter i{
+      background:linear-gradient(90deg,var(--accent),var(--good),var(--gold));
+    }
+
+    .footer{
+      margin-top:17px;
+      padding:18px 15px 5px;
+      font-family:var(--font-ui);
+      font-size:9.5px;
+      line-height:1.72;
+      letter-spacing:.02em;
+    }
+
+    .footer strong{
+      color:var(--gold-2);
+      font-family:var(--font-brand);
+      font-size:10.5px;
+      font-weight:600;
+      letter-spacing:.075em;
+    }
+
+    dialog{
+      border-color:rgba(119,200,210,.35);
+      border-radius:17px;
+      background:#0a0f20;
+    }
+
+    .dialog-head{
+      font-family:var(--font-display);
+      font-size:20px;
+      font-weight:600;
+      color:#f1eee8;
+    }
+
+    .dialog-body{
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.65;
+    }
+
+    .toast{
+      border-radius:9px;
+      background:#0d1428;
+      font-family:var(--font-ui);
+      font-size:10px;
+    }
+
+    @media(max-width:1120px){
+      .workspace,.bottom-grid{grid-template-columns:1fr}
+      #codeInput{min-height:450px}
+      .preview-stage{min-height:460px}
+      .frame-shell,#previewFrame{min-height:440px;height:440px}
+    }
+
+    @media(max-width:820px){
+      .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+        padding:29px 18px 22px;
+      }
+      .hero p{margin-left:auto;margin-right:auto}
+      .security-strip{justify-content:center}
+      .lab-seal{min-height:190px}
+      .guide-grid{grid-template-columns:1fr 1fr}
+      .control-grid{grid-template-columns:1fr 1fr}
+    }
+
+    @media(max-width:560px){
+      .app{
+        width:min(100% - 10px,1480px);
+        margin:5px auto 24px;
+        padding:8px;
+        border-radius:16px;
+      }
+      .topbar{
+        top:3px;
+        justify-content:center;
+      }
+      .breadcrumbs{justify-content:center}
+      .top-actions{justify-content:center;width:100%}
+      .hero h1{font-size:40px}
+      .hero-subtitle{font-size:23px}
+      .lab-seal{transform:scale(.9);margin:-10px 0}
+      .quick-guide summary{display:grid;text-align:center}
+      .guide-grid{grid-template-columns:1fr}
+      .control-grid{grid-template-columns:1fr}
+      .btn{flex:1 1 120px}
+      #codeInput{min-height:400px}
+      .preview-stage{padding:5px}
+      .frame-shell,#previewFrame{min-height:390px;height:390px}
+    }
+
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#workspace">Skip to the code workspace</a>
   <canvas id="starfield" aria-hidden="true"></canvas>
 
   <main class="app">
     <div class="topbar">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <a class="crumb-link" href="https://vervenveda.github.io/" aria-label="Return to Verve N Veda home">⌂ Home</a>
+        <a class="crumb-link" href="https://vervenveda.github.io/" aria-label="Return to Verve N Veda home">Verve N Veda</a>
         <span class="crumb-sep" aria-hidden="true">›</span>
         <a class="crumb-link" href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a>
         <span class="crumb-sep" aria-hidden="true">›</span>
@@ -392,29 +996,48 @@
     </div>
 
     <header class="hero">
-      <h1>KhaeClean™ — Protected Code Lab</h1>
-      <p>Inspect, preview, organize, and export HTML, CSS, and JavaScript locally. Preview code in a restricted iframe, keep scripts off until you deliberately enable them, and review external domains before connected resources are allowed.</p>
-      <div class="security-strip" aria-label="Security status">
-        <span class="badge good">✓ Browser-local workspace</span>
-        <span class="badge good">✓ Sandboxed preview</span>
-        <span class="badge warn" id="scriptBadge">Scripts off</span>
-        <span class="badge good" id="networkBadge">Network blocked</span>
+      <div class="hero-copy">
+        <div class="eyebrow">ProReSources · Sovereign Developer Tools</div>
+        <h1>KhaeClean™</h1>
+        <div class="hero-subtitle">Protected Code Studio</div>
+        <p>Inspect, preview, organize, preserve, and export HTML, CSS, and JavaScript in one focused workspace. Unknown code begins with scripts and network access restricted; you decide when a protected preview may do more.</p>
+        <div class="security-strip" aria-label="Security status">
+          <span class="badge good">✓ Local-first workspace</span>
+          <span class="badge good">✓ Sandboxed preview</span>
+          <span class="badge warn" id="scriptBadge">Scripts off</span>
+          <span class="badge good" id="networkBadge">Network blocked</span>
+        </div>
+      </div>
+      <div class="lab-seal" aria-label="KhaeClean protected workspace">
+        <span class="seal-orbit one"></span>
+        <span class="seal-orbit two"></span>
+        <span class="seal-core"><strong>KC</strong><small>INSPECT<br>PREVIEW<br>PRESERVE</small></span>
       </div>
     </header>
 
-    <section class="workspace" aria-label="Code workspace">
+    <details class="quick-guide">
+      <summary><span>Safe working sequence</span><strong>Inspect → Preview → Preserve</strong></summary>
+      <div class="guide-grid">
+        <div><b>1</b><span><strong>Paste or import</strong><small>Loading code never runs it automatically.</small></span></div>
+        <div><b>2</b><span><strong>Analyze first</strong><small>Review structure, accessibility, external resources, and risky APIs.</small></span></div>
+        <div><b>3</b><span><strong>Choose permissions</strong><small>Keep scripts and network access off until the source is trusted.</small></span></div>
+        <div><b>4</b><span><strong>Save a recovery path</strong><small>Use snippets, snapshots, downloads, and library backups.</small></span></div>
+      </div>
+    </details>
+
+    <section class="workspace" id="workspace" aria-label="Code workspace">
       <section class="panel" aria-labelledby="editorHeading">
         <div class="panel-head">
           <div>
-            <h2 id="editorHeading">Code Editor</h2>
-            <small>Drafts autosave locally. Loading a snippet never runs it automatically.</small>
+            <h2 id="editorHeading">Protected Editor</h2>
+            <small>Drafts autosave locally. Imported files and saved snippets never run automatically.</small>
           </div>
           <button class="btn secondary small" id="undoClearBtn" type="button" hidden>Undo Clear</button>
         </div>
         <div class="panel-body">
           <div class="control-grid">
             <div class="field">
-              <label for="languageMode">Language mode</label>
+              <label for="languageMode">Code type</label>
               <select id="languageMode">
                 <option value="auto">Auto detect</option>
                 <option value="html-document">HTML document</option>
@@ -424,21 +1047,21 @@
               </select>
             </div>
             <div class="field">
-              <label for="previewMode">Preview network</label>
+              <label for="previewMode">Network access</label>
               <select id="previewMode">
                 <option value="safe">Sovereign Safe</option>
                 <option value="connected">Connected Preview</option>
               </select>
             </div>
             <div class="field">
-              <label for="scriptMode">Script execution</label>
+              <label for="scriptMode">JavaScript execution</label>
               <select id="scriptMode">
                 <option value="off">Off — safest</option>
                 <option value="on">On — sandboxed</option>
               </select>
             </div>
             <div class="field">
-              <label for="templateSelect">Starter template</label>
+              <label for="templateSelect">Start with a template</label>
               <select id="templateSelect">
                 <option value="">Choose template…</option>
                 <option value="html">Blank HTML page</option>
@@ -452,9 +1075,9 @@
           </div>
 
           <div class="row">
-            <button class="btn small" id="loadTemplateBtn" type="button">Load Template</button>
+            <button class="btn small" id="loadTemplateBtn" type="button">Apply Template</button>
             <button class="btn secondary small" id="importCodeBtn" type="button">Import File</button>
-            <button class="btn secondary small" id="downloadCodeBtn" type="button">Download Code</button>
+            <button class="btn secondary small" id="downloadCodeBtn" type="button">Export Code</button>
             <input id="codeFileInput" class="sr-only" type="file" accept=".html,.htm,.css,.js,.mjs,.json,.txt,text/*">
           </div>
 
@@ -468,9 +1091,9 @@
           </div>
 
           <div class="row" style="margin-top:10px">
-            <button class="btn good" id="previewBtn" type="button">Run Preview</button>
-            <button class="btn secondary" id="stopBtn" type="button">Stop / Reset</button>
-            <button class="btn secondary" id="analyzeBtn" type="button">Analyze Code</button>
+            <button class="btn good" id="previewBtn" type="button">Run Protected Preview</button>
+            <button class="btn secondary" id="stopBtn" type="button">Reset Preview</button>
+            <button class="btn secondary" id="analyzeBtn" type="button">Inspect Code</button>
             <button class="btn secondary" id="copyBtn" type="button">Copy Code</button>
             <button class="btn danger" id="clearBtn" type="button">Clear</button>
           </div>
@@ -491,12 +1114,12 @@
 
           <div class="row">
             <div class="field grow">
-              <label for="snippetName">Snippet name</label>
-              <input id="snippetName" type="text" maxlength="100" placeholder="Name this snippet">
+              <label for="snippetName">Project or snippet name</label>
+              <input id="snippetName" type="text" maxlength="100" placeholder="Name this project or snippet">
             </div>
             <div class="field grow">
-              <label for="snippetList">Saved snippets</label>
-              <select id="snippetList"><option value="">Choose saved snippet…</option></select>
+              <label for="snippetList">Saved projects</label>
+              <select id="snippetList"><option value="">Choose saved project…</option></select>
             </div>
             <button class="btn secondary small" id="saveSnippetBtn" type="button">Save</button>
             <button class="btn secondary small" id="loadSnippetBtn" type="button">Load</button>
@@ -509,8 +1132,8 @@
               <select id="recoveryList"><option value="">Choose recovery snapshot…</option></select>
             </div>
             <button class="btn secondary small" id="restoreRecoveryBtn" type="button">Restore</button>
-            <button class="btn secondary small" id="exportLibraryBtn" type="button">Export Library</button>
-            <button class="btn secondary small" id="importLibraryBtn" type="button">Import Library</button>
+            <button class="btn secondary small" id="exportLibraryBtn" type="button">Export Workspace Backup</button>
+            <button class="btn secondary small" id="importLibraryBtn" type="button">Import Workspace Backup</button>
             <input id="libraryFileInput" class="sr-only" type="file" accept="application/json,.json">
           </div>
 
@@ -525,18 +1148,18 @@
       <section class="panel" aria-labelledby="previewHeading">
         <div class="panel-head">
           <div>
-            <h2 id="previewHeading">Protected Preview</h2>
+            <h2 id="previewHeading">Sandboxed Preview</h2>
             <small id="previewSummary">No code has run.</small>
           </div>
         </div>
         <div class="panel-body">
           <div class="preview-toolbar">
             <div class="viewport-buttons" aria-label="Preview width">
-              <button class="btn secondary small viewportBtn" data-size="phone" type="button">Phone</button>
-              <button class="btn secondary small viewportBtn" data-size="tablet" type="button">Tablet</button>
-              <button class="btn secondary small viewportBtn" data-size="desktop" type="button">Desktop</button>
+              <button class="btn secondary small viewportBtn" data-size="phone" type="button" aria-pressed="false">Phone</button>
+              <button class="btn secondary small viewportBtn" data-size="tablet" type="button" aria-pressed="false">Tablet</button>
+              <button class="btn secondary small viewportBtn" data-size="desktop" type="button" aria-pressed="true">Desktop</button>
             </div>
-            <button class="btn secondary small" id="openPreviewBtn" type="button">Open Isolated Copy</button>
+            <button class="btn secondary small" id="openPreviewBtn" type="button">Open Preview Copy</button>
           </div>
           <div class="preview-stage">
             <div class="frame-shell desktop" id="frameShell">
@@ -552,14 +1175,14 @@
       <section class="panel" aria-labelledby="analysisHeading">
         <div class="panel-head">
           <div>
-            <h2 id="analysisHeading">Local Code Inspector</h2>
-            <small>Parser-assisted and heuristic checks. No code is uploaded.</small>
+            <h2 id="analysisHeading">Inspection Report</h2>
+            <small>Parser-assisted and heuristic checks remain on this device.</small>
           </div>
           <button class="btn secondary small" id="exportReportBtn" type="button">Export Report</button>
         </div>
         <div class="panel-body">
           <div id="analysisResults" class="results-list" aria-live="polite">
-            <div class="result-card info"><h3>Ready for inspection</h3><p>Paste code and choose Analyze Code. The inspector checks syntax, accessibility, external resources, unsafe APIs, duplicate identifiers, and common embed problems.</p></div>
+            <div class="result-card info"><h3>Ready for inspection</h3><p>Paste code and choose Inspect Code. KhaeClean checks syntax, accessibility, external resources, unsafe APIs, duplicate identifiers, and common embed problems.</p></div>
           </div>
         </div>
       </section>
@@ -567,8 +1190,8 @@
       <section class="panel" aria-labelledby="consoleHeading">
         <div class="panel-head">
           <div>
-            <h2 id="consoleHeading">Preview Console</h2>
-            <small>Messages from the current sandboxed preview session.</small>
+            <h2 id="consoleHeading">Sandbox Console</h2>
+            <small>Logs and runtime errors from the current protected session.</small>
           </div>
           <button class="btn secondary small" id="clearConsoleBtn" type="button">Clear Console</button>
         </div>
@@ -581,8 +1204,9 @@
     </section>
 
     <footer class="footer">
-      KhaeClean™ Protected Code Lab · Sovereign, single-file, browser-local tooling for ProReSources · No external fonts, trackers, analytics, or CDNs.<br>
-      Sandboxing limits preview privileges, but deliberately hostile code can still consume browser resources. Keep scripts off when inspecting unknown code.
+      <strong>KhaeClean™ · Protected Code Studio at ProReSources</strong><br>
+      Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026<br>
+      KhaeClean itself uses no trackers or analytics. Connected Preview permits only the outside access you deliberately choose. Unknown code can still consume browser resources, so inspect first and keep scripts off until the source is trusted.
     </footer>
   </main>
 
@@ -596,12 +1220,12 @@
   </dialog>
 
   <dialog id="guideDialog" aria-labelledby="guideTitle">
-    <div class="dialog-head" id="guideTitle">KhaeClean Safety Guide</div>
+    <div class="dialog-head" id="guideTitle">KhaeClean Protected Preview Guide</div>
     <div class="dialog-body">Sovereign Safe mode blocks external network resources. Scripts are off by default. When scripts are enabled, code runs in a sandbox without same-origin access, popups, modal dialogs, downloads, or top-page navigation.
 
-Connected Preview can contact external domains detected in the pasted code. KhaeClean shows those domains and asks for confirmation before running.
+Connected Preview can contact external domains referenced by the pasted code. KhaeClean lists the domains it can detect and asks for confirmation before running. Dynamically generated addresses may not be visible to the static scan.
 
-Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code first, keep scripts off for unfamiliar code, and use Stop / Reset when a preview behaves unexpectedly.</div>
+Unknown JavaScript can still create heavy CPU or memory use. Use Inspect Code first, keep scripts off for unfamiliar code, and use Reset Preview when a preview behaves unexpectedly.</div>
     <div class="dialog-actions"><button class="btn" id="guideCloseBtn" type="button">Close</button></div>
   </dialog>
 
@@ -791,49 +1415,95 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
       });
     }
 
+    function readLocalMeta(key, fallback = null) {
+      try {
+        const raw = localStorage.getItem('khaeclean:' + key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch { return fallback; }
+    }
+
+    function writeLocalMeta(key, value) {
+      try { localStorage.setItem('khaeclean:' + key, JSON.stringify(value)); return true; }
+      catch { return false; }
+    }
+
     async function getMeta(key, fallback = null) {
       if (dbAvailable && db) {
-        try { const record = await dbRequest('meta', 'readonly', store => store.get(key)); return record ? record.value : fallback; } catch {}
+        try {
+          const record = await dbRequest('meta', 'readonly', store => store.get(key));
+          if (record) return record.value;
+        } catch {}
       }
-      try { const raw = localStorage.getItem('khaeclean:' + key); return raw ? JSON.parse(raw) : fallback; } catch { return fallback; }
+      return readLocalMeta(key, fallback);
     }
 
     async function setMeta(key, value) {
+      const localOk = writeLocalMeta(key, value);
+      let databaseOk = false;
       if (dbAvailable && db) {
-        try { await dbRequest('meta', 'readwrite', store => store.put({ key, value })); return true; } catch {}
+        try {
+          await dbRequest('meta', 'readwrite', store => store.put({ key, value }));
+          databaseOk = true;
+        } catch {}
       }
-      try { localStorage.setItem('khaeclean:' + key, JSON.stringify(value)); return true; } catch { return false; }
+      return localOk || databaseOk;
+    }
+
+    function readLocalSnippets() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem('khaeclean:snippets') || '[]');
+        return Array.isArray(parsed) ? parsed : [];
+      } catch { return []; }
+    }
+
+    function writeLocalSnippets(list) {
+      try {
+        localStorage.setItem('khaeclean:snippets', JSON.stringify(list));
+        return true;
+      } catch { return false; }
     }
 
     async function listSnippets() {
+      const local = readLocalSnippets();
+      let database = [];
       if (dbAvailable && db) {
-        try { return await dbRequest('snippets', 'readonly', store => store.getAll()); } catch {}
+        try { database = await dbRequest('snippets', 'readonly', store => store.getAll()); }
+        catch {}
       }
-      try { return JSON.parse(localStorage.getItem('khaeclean:snippets') || '[]'); } catch { return []; }
+      const merged = new Map();
+      [...local, ...database].forEach(record => {
+        if (!record || typeof record.name !== 'string') return;
+        const previous = merged.get(record.name);
+        if (!previous || Number(record.updatedAt || 0) >= Number(previous.updatedAt || 0)) merged.set(record.name, record);
+      });
+      return [...merged.values()];
     }
 
     async function putSnippet(record) {
+      const list = (await listSnippets()).filter(item => item.name !== record.name);
+      list.push(record);
+      const localOk = writeLocalSnippets(list);
+      let databaseOk = false;
       if (dbAvailable && db) {
-        try { await dbRequest('snippets', 'readwrite', store => store.put(record)); return true; } catch {}
+        try {
+          await dbRequest('snippets', 'readwrite', store => store.put(record));
+          databaseOk = true;
+        } catch {}
       }
-      try {
-        const list = await listSnippets();
-        const index = list.findIndex(item => item.name === record.name);
-        if (index >= 0) list[index] = record; else list.push(record);
-        localStorage.setItem('khaeclean:snippets', JSON.stringify(list));
-        return true;
-      } catch { return false; }
+      return localOk || databaseOk;
     }
 
     async function removeSnippet(name) {
+      const list = (await listSnippets()).filter(item => item.name !== name);
+      const localOk = writeLocalSnippets(list);
+      let databaseOk = false;
       if (dbAvailable && db) {
-        try { await dbRequest('snippets', 'readwrite', store => store.delete(name)); return true; } catch {}
+        try {
+          await dbRequest('snippets', 'readwrite', store => store.delete(name));
+          databaseOk = true;
+        } catch {}
       }
-      try {
-        const list = (await listSnippets()).filter(item => item.name !== name);
-        localStorage.setItem('khaeclean:snippets', JSON.stringify(list));
-        return true;
-      } catch { return false; }
+      return localOk || databaseOk;
     }
 
     async function refreshSnippetList(selected = '') {
@@ -911,15 +1581,19 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
     function extractExternalDomains(code) {
       const urls = new Set();
       const patterns = [
-        /(?:src|href|action)\s*=\s*["'](https?:\/\/[^"']+)/gi,
-        /url\(\s*["']?(https?:\/\/[^"')\s]+)/gi,
-        /(?:fetch|importScripts)\s*\(\s*["'](https?:\/\/[^"']+)/gi,
-        /import\s+(?:[^"']+from\s+)?["'](https?:\/\/[^"']+)/gi
+        /(?:src|href|action|poster)\s*=\s*["']((?:https?:)?\/\/[^"']+)/gi,
+        /url\(\s*["']?((?:https?:)?\/\/[^"')\s]+)/gi,
+        /@import\s+(?:url\()?\s*["']?((?:https?:)?\/\/[^"')\s;]+)/gi,
+        /(?:fetch|importScripts|new\s+Worker)\s*\(\s*["']((?:https?:)?\/\/[^"']+)/gi,
+        /import\s+(?:[^"']+from\s+)?["']((?:https?:)?\/\/[^"']+)/gi
       ];
       patterns.forEach(regex => {
         let match;
         while ((match = regex.exec(code))) {
-          try { urls.add(new URL(match[1]).hostname); } catch {}
+          try {
+            const value = match[1].startsWith('//') ? 'https:' + match[1] : match[1];
+            urls.add(new URL(value).hostname);
+          } catch {}
         }
       });
       return [...urls].sort();
@@ -985,14 +1659,14 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
       previewFrame.srcdoc = latestPreviewDocument;
       previewRunning = true;
       $('previewSummary').textContent = `${language} · ${previewMode.value === 'safe' ? 'network blocked' : 'connected'} · scripts ${scriptsOn ? 'sandboxed' : 'off'}`;
-      setPreviewStatus(`Preview started in ${previewMode.value === 'safe' ? 'Sovereign Safe' : 'Connected'} mode.`, scriptsOn ? 'warn' : 'good');
-      setStatus('Preview launched. Your draft was saved locally.', 'good');
+      setPreviewStatus(`Protected preview started in ${previewMode.value === 'safe' ? 'Sovereign Safe' : 'Connected'} mode.`, scriptsOn ? 'warn' : 'good');
+      setStatus('Protected preview launched. Your draft was saved locally.', 'good');
       await saveDraft();
       if ($('autoAnalyzeCheckbox')) analyzeCode();
     }
 
     function stopPreview() {
-      previewFrame.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:2rem"><h1>Preview stopped</h1><p>Run Preview when you are ready.</p></body></html>';
+      previewFrame.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:2rem"><h1>Preview stopped</h1><p>Run Protected Preview when you are ready.</p></body></html>';
       previewFrame.setAttribute('sandbox', '');
       previewSessionToken = '';
       previewRunning = false;
@@ -1003,11 +1677,20 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
     }
 
     async function openIsolatedCopy() {
-      if (!latestPreviewDocument) { toast('Run a preview before opening an isolated copy.', 'warn'); return; }
+      if (!latestPreviewDocument) { toast('Run a protected preview before opening a copy.', 'warn'); return; }
+      if (scriptMode.value === 'on') {
+        const proceed = await showConfirm(
+          'Open a script-enabled preview copy?',
+          'The new tab is separated from KhaeClean with noopener and its own Content Security Policy, but it is not contained inside the embedded iframe sandbox. Open it only when you trust the code.',
+          'Open Copy'
+        );
+        if (!proceed) return;
+      }
       const blob = new Blob([latestPreviewDocument], { type: 'text/html' });
       const url = URL.createObjectURL(blob);
       const opened = window.open(url, '_blank', 'noopener,noreferrer');
       if (!opened) toast('The browser blocked the new preview tab.', 'warn');
+      else toast('Preview copy opened in a separate tab.', 'good');
       setTimeout(() => URL.revokeObjectURL(url), 60_000);
     }
 
@@ -1033,16 +1716,30 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
 
     function inspectCssSyntax(code) {
       try {
-        const sheet = new CSSStyleSheet();
-        sheet.replaceSync(code);
+        if ('CSSStyleSheet' in window && CSSStyleSheet.prototype.replaceSync) {
+          const sheet = new CSSStyleSheet();
+          sheet.replaceSync(code);
+          return null;
+        }
+        const style = document.createElement('style');
+        style.textContent = code;
+        document.head.appendChild(style);
+        const sheet = style.sheet;
+        if (sheet) void sheet.cssRules;
+        style.remove();
         return null;
       } catch (error) { return error.message || 'CSS parser rejected the stylesheet.'; }
+    }
+
+    function escapeCssIdentifier(value) {
+      if (window.CSS && typeof CSS.escape === 'function') return CSS.escape(value);
+      return String(value).replace(/[^a-zA-Z0-9_-]/g, character => '\\' + character);
     }
 
     function analyzeCode() {
       const code = codeInput.value;
       analysisResults.textContent = '';
-      if (!code.trim()) { addResult('warn','No code detected','Paste code before running the inspector.'); return; }
+      if (!code.trim()) { addResult('warn','No code detected','Paste code before running the inspection.'); return; }
       const language = activeLanguage();
       const issues = [];
       const info = [];
@@ -1082,7 +1779,7 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
         const inputs = [...doc.querySelectorAll('input:not([type="hidden"]),select,textarea')];
         const unlabeled = inputs.filter(control => {
           if (control.getAttribute('aria-label') || control.getAttribute('aria-labelledby')) return false;
-          if (control.id && doc.querySelector(`label[for="${CSS.escape(control.id)}"]`)) return false;
+          if (control.id && doc.querySelector(`label[for="${escapeCssIdentifier(control.id)}"]`)) return false;
           return !control.closest('label');
         });
         if (unlabeled.length) issues.push({kind:'warn',title:'Form labels missing',message:`${unlabeled.length} form control${unlabeled.length === 1 ? '' : 's'} appear to lack an accessible label.`});
@@ -1091,7 +1788,8 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
         if (blankLinks.length) issues.push({kind:'warn',title:'New-tab link protection',message:`${blankLinks.length} target="_blank" link${blankLinks.length === 1 ? '' : 's'} should include rel="noopener noreferrer".`});
 
         const brokenAnchors = [...doc.querySelectorAll('a[href^="#"]')].filter(link => {
-          const id = decodeURIComponent((link.getAttribute('href') || '').slice(1));
+          let id = (link.getAttribute('href') || '').slice(1);
+          try { id = decodeURIComponent(id); } catch {}
           return id && !doc.getElementById(id);
         });
         if (brokenAnchors.length) issues.push({kind:'warn',title:'Broken internal anchors',message:`${brokenAnchors.length} internal link${brokenAnchors.length === 1 ? '' : 's'} point to missing IDs.`});
@@ -1277,14 +1975,32 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
       const proceed = await showConfirm('Import snippet library?', `Import ${payload.snippets.length} snippet${payload.snippets.length === 1 ? '' : 's'}? Existing snippets with the same name will be replaced.`, 'Import');
       if (!proceed) return;
       let imported = 0;
+      let skipped = 0;
       for (const record of payload.snippets.slice(0,MAX_SNIPPETS)) {
-        if (!record || typeof record.name !== 'string' || typeof record.code !== 'string') continue;
-        await putSnippet({ ...record, name:record.name.slice(0,100), updatedAt:record.updatedAt || Date.now() });
+        if (!record || typeof record.name !== 'string' || typeof record.code !== 'string' || record.code.length > MAX_CODE_CHARS) {
+          skipped++;
+          continue;
+        }
+        const cleanRecord = {
+          ...record,
+          name:record.name.slice(0,100),
+          code:record.code,
+          updatedAt:Number(record.updatedAt) || Date.now(),
+          versions:Array.isArray(record.versions)
+            ? record.versions.filter(version => version && typeof version.code === 'string' && version.code.length <= MAX_CODE_CHARS).slice(0,10)
+            : []
+        };
+        await putSnippet(cleanRecord);
         imported++;
       }
-      if (Array.isArray(payload.recoveries)) await setMeta('recoveries', payload.recoveries.slice(0,MAX_RECOVERIES));
+      if (Array.isArray(payload.recoveries)) {
+        const recoveries = payload.recoveries
+          .filter(item => item && typeof item.code === 'string' && item.code.length <= MAX_CODE_CHARS)
+          .slice(0,MAX_RECOVERIES);
+        await setMeta('recoveries', recoveries);
+      }
       await refreshSnippetList(); await refreshRecoveryList(); updateStorageEstimate();
-      setStatus(`Imported ${imported} snippet${imported === 1 ? '' : 's'}.`, 'good');
+      setStatus(`Imported ${imported} saved project${imported === 1 ? '' : 's'}${skipped ? `; skipped ${skipped} invalid or oversized record${skipped === 1 ? '' : 's'}` : ''}.`, skipped ? 'warn' : 'good');
     }
 
     async function restoreRecovery() {
@@ -1346,7 +2062,7 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
     }
 
     function exportReport() {
-      if (!lastAnalysisReport) { toast('Run Analyze Code before exporting a report.', 'warn'); return; }
+      if (!lastAnalysisReport) { toast('Run Inspect Code before exporting a report.', 'warn'); return; }
       downloadBlob(new Blob([JSON.stringify(lastAnalysisReport,null,2)], { type:'application/json' }), `khaeclean-report-${new Date().toISOString().replace(/[:.]/g,'-')}.json`);
     }
 
@@ -1415,13 +2131,31 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
     codeInput.addEventListener('keydown',event => {
       if (event.key === 'Tab') {
         event.preventDefault();
-        codeInput.setRangeText('  ',codeInput.selectionStart,codeInput.selectionEnd,'end');
-        updateEditorStats(); scheduleAutosave();
+        const start = codeInput.selectionStart;
+        const end = codeInput.selectionEnd;
+        const value = codeInput.value;
+        const lineStart = value.lastIndexOf('\n', start - 1) + 1;
+        const selected = value.slice(lineStart, end);
+        if (event.shiftKey) {
+          const updated = selected.replace(/^ {1,2}/gm,'');
+          codeInput.setRangeText(updated,lineStart,end,'select');
+          codeInput.selectionStart = Math.max(lineStart,start - Math.min(2,start - lineStart));
+          codeInput.selectionEnd = lineStart + updated.length;
+        } else if (selected.includes('\n')) {
+          const updated = selected.replace(/^/gm,'  ');
+          codeInput.setRangeText(updated,lineStart,end,'select');
+          codeInput.selectionStart = start + 2;
+          codeInput.selectionEnd = lineStart + updated.length;
+        } else {
+          codeInput.setRangeText('  ',start,end,'end');
+        }
+        updateEditorStats();
+        scheduleAutosave();
       }
       if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); runPreview(); }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { event.preventDefault(); saveSnippet(); }
     });
-    [languageMode,previewMode,scriptMode].forEach(control => control.addEventListener('change',() => { updateEditorStats(); updateSecurityBadges(); scheduleAutosave(); setStatus('Preview settings changed. Run Preview to apply them.', 'warn'); }));
+    [languageMode,previewMode,scriptMode].forEach(control => control.addEventListener('change',() => { updateEditorStats(); updateSecurityBadges(); scheduleAutosave(); setStatus('Preview settings changed. Run Protected Preview to apply them.', 'warn'); }));
     $('previewBtn').addEventListener('click',runPreview);
     $('stopBtn').addEventListener('click',stopPreview);
     $('analyzeBtn').addEventListener('click',analyzeCode);
@@ -1445,12 +2179,26 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
     $('exportReportBtn').addEventListener('click',exportReport);
     $('clearConsoleBtn').addEventListener('click',clearConsole);
     $('openPreviewBtn').addEventListener('click',openIsolatedCopy);
-    document.querySelectorAll('.viewportBtn').forEach(button => button.addEventListener('click',() => { frameShell.className='frame-shell '+button.dataset.size; }));
+    document.querySelectorAll('.viewportBtn').forEach(button => button.addEventListener('click',() => {
+      frameShell.className='frame-shell '+button.dataset.size;
+      document.querySelectorAll('.viewportBtn').forEach(item => item.setAttribute('aria-pressed',String(item === button)));
+      setPreviewStatus(`Preview width changed to ${button.dataset.size}.`,'good');
+    }));
     $('motionBtn').addEventListener('click',() => setStarsRunning(!starsRunning));
     $('guideBtn').addEventListener('click',() => $('guideDialog').showModal());
     $('guideCloseBtn').addEventListener('click',() => $('guideDialog').close());
     window.addEventListener('resize',resizeStars);
-    window.addEventListener('pagehide',() => { clearTimeout(autosaveTimer); setMeta('draft',{code:codeInput.value,language:languageMode.value,previewMode:previewMode.value,scriptMode:scriptMode.value,ts:Date.now()}); });
+    window.addEventListener('pagehide',() => {
+      clearTimeout(autosaveTimer);
+      const draft = {code:codeInput.value,language:languageMode.value,previewMode:previewMode.value,scriptMode:scriptMode.value,ts:Date.now()};
+      writeLocalMeta('draft',draft);
+      if (dbAvailable && db) {
+        try {
+          const tx = db.transaction('meta','readwrite');
+          tx.objectStore('meta').put({key:'draft',value:draft});
+        } catch {}
+      }
+    });
 
     async function initialize() {
       await openDatabase();
@@ -1461,7 +2209,7 @@ Unknown JavaScript can still create heavy CPU or memory use. Use Analyze Code fi
       updateSecurityBadges();
       resizeStars();
       setStarsRunning(starsRunning);
-      previewFrame.srcdoc='<!doctype html><html><body style="font-family:system-ui;padding:2rem"><h1>KhaeClean Protected Preview</h1><p>Scripts are off and no code has run.</p></body></html>';
+      previewFrame.srcdoc='<!doctype html><html><body style="font-family:system-ui;padding:2rem"><h1>KhaeClean Protected Preview</h1><p>Scripts are off, network access is blocked, and no code has run.</p></body></html>';
       addConsole('system',[`KhaeClean initialized. IndexedDB ${dbAvailable && db ? 'available' : 'fallback storage active'}.`]);
     }
 
