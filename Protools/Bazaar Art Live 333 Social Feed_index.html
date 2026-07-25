@@ -4,9 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
+<meta name="description" content="Bazaar Art Live — a local-first creative community feed for art, ideas, events, groups, short videos, and trusted 333 Network participation.">
 <meta name="theme-color" content="#11152a">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src https: http://localhost:*; object-src 'none'; base-uri 'none'; form-action 'self'">
-<title>Bazaar Art Live — 333 Social Feed</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src https: http://localhost:*; object-src 'none'; base-uri 'none'; form-action 'self'">
+<title>Bazaar Art Live — Creative Community Feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#090b16;--bg-2:#11152a;--panel:#14192f;--panel-2:#1a2140;--panel-3:#20284a;
@@ -94,31 +98,576 @@ body[data-density="compact"]{--space:10px}.app-shell[data-rail="compact"]{grid-t
 }
 @media(max-width:420px){.discover-grid{columns:2 125px}.post-actions{grid-template-columns:repeat(4,1fr)}.post-action .action-label{display:none}.view-title{max-width:145px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* ============================================================
+   Verve N Veda refinement layer
+   ============================================================ */
+:root{
+  --font-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+  --font-brand:"Cinzel","Aboreto",Georgia,serif;
+  --font-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#0d1020;
+  --bg-2:#12172a;
+  --panel:#171c32;
+  --panel-2:#1c233d;
+  --panel-3:#232b49;
+  --text:#f6f3ed;
+  --muted:#a9aec0;
+  --faint:#777f97;
+  --line:rgba(217,196,142,.15);
+  --accent:#dbc17f;
+  --accent-2:#8ed6ca;
+  --warm:#d9a66f;
+  --violet:#aa9adb;
+  --danger:#e67982;
+  --success:#63d5a5;
+  --warning:#e6c468;
+  --shadow:0 16px 42px rgba(0,0,0,.24);
+  --radius:16px;
+  --radius-sm:10px;
+  --feed-width:660px;
+  --space:14px;
+}
+
+:root[data-theme="light"]{
+  --bg:#f3efe7;
+  --bg-2:#fbf9f4;
+  --panel:#fffdf8;
+  --panel-2:#f4efe6;
+  --panel-3:#e9e1d3;
+  --text:#1d2030;
+  --muted:#656875;
+  --faint:#858794;
+  --line:rgba(91,74,48,.16);
+  --accent:#86691f;
+  --accent-2:#287d72;
+  --warm:#975e2d;
+  --violet:#66559a;
+  --danger:#ad3542;
+  --success:#197253;
+  --warning:#85621c;
+  --shadow:0 14px 34px rgba(54,43,31,.10);
+}
+
+body{
+  font-family:var(--font-ui);
+  letter-spacing:.004em;
+  background:
+    radial-gradient(circle at 7% 0%,rgba(170,154,219,.11),transparent 30rem),
+    radial-gradient(circle at 94% 3%,rgba(219,193,127,.08),transparent 28rem),
+    var(--bg);
+}
+
+button,input,textarea,select{font-family:var(--font-ui)}
+
+.app-shell{
+  grid-template-columns:238px minmax(0,1fr) 300px;
+  max-width:1420px;
+}
+
+.left-rail{
+  padding:18px 13px;
+  background:color-mix(in srgb,var(--bg) 94%,transparent);
+}
+
+.brand{
+  gap:10px;
+  padding:5px 8px 13px;
+}
+
+.brand-mark{
+  width:43px;
+  height:43px;
+  border-radius:13px;
+  background:linear-gradient(145deg,var(--accent),var(--accent-2));
+  font-family:var(--font-brand);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  box-shadow:0 9px 22px rgba(142,214,202,.12);
+}
+
+.brand-copy strong{
+  font-family:var(--font-brand);
+  font-size:.84rem;
+  font-weight:600;
+  letter-spacing:.055em;
+}
+
+.brand-copy span{
+  margin-top:2px;
+  font-size:.65rem;
+  line-height:1.35;
+}
+
+.network-context{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:0 9px 14px;
+  color:var(--faint);
+  font-size:.62rem;
+  font-weight:600;
+  letter-spacing:.035em;
+}
+
+.network-context a:hover{color:var(--text)}
+
+.nav-list{gap:3px}
+
+.nav-heading{
+  margin:12px 12px 4px;
+  color:var(--faint);
+  font-family:var(--font-brand);
+  font-size:.56rem;
+  font-weight:600;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+
+.nav-btn{
+  gap:11px;
+  padding:9px 11px;
+  border-radius:10px;
+  font-size:.72rem;
+  font-weight:600;
+}
+
+.nav-btn.active{
+  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 11%,var(--panel-2)),var(--panel-2));
+  border-color:color-mix(in srgb,var(--accent) 30%,var(--line));
+}
+
+.nav-icon{
+  width:24px;
+  font-size:.95rem;
+}
+
+.create-main{
+  margin:14px 5px 7px;
+  padding:11px 14px;
+  border-radius:10px;
+  font-size:.72rem;
+  font-weight:700;
+}
+
+.network-links{
+  gap:6px;
+  padding:12px 5px 3px;
+}
+
+.network-link{
+  padding:8px 9px;
+  border-radius:9px;
+  font-size:.66rem;
+  line-height:1.35;
+}
+
+.profile-chip{
+  gap:8px;
+  padding:8px;
+  border-radius:11px;
+  margin-top:11px;
+}
+
+.profile-chip strong{font-size:.68rem}
+.profile-chip span{font-size:.61rem}
+
+.main-column{
+  background:color-mix(in srgb,var(--bg) 97%,transparent);
+}
+
+.topbar{
+  min-height:68px;
+  padding:10px 16px;
+  background:color-mix(in srgb,var(--bg) 91%,transparent);
+}
+
+.view-heading{
+  min-width:max-content;
+  display:grid;
+  gap:2px;
+}
+
+.view-heading>span{
+  color:var(--faint);
+  font-family:var(--font-brand);
+  font-size:.55rem;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.view-title{
+  font-family:var(--font-display);
+  font-size:1.22rem;
+  font-weight:600;
+  line-height:1;
+  letter-spacing:.01em;
+}
+
+.top-search{max-width:470px}
+
+.top-search input{
+  border-radius:10px;
+  padding:10px 39px 10px 13px;
+  font-size:.73rem;
+}
+
+.search-shortcut{
+  right:7px;
+  top:7px;
+  font-size:.62rem;
+}
+
+.icon-btn,.soft-btn,.primary-btn,.danger-btn{
+  border-radius:9px;
+  padding:9px 11px;
+  font-size:.7rem;
+  font-weight:650;
+}
+
+.icon-btn{
+  width:39px;
+  height:39px;
+}
+
+.view-root{
+  padding:16px 16px 100px;
+}
+
+.feed-welcome{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:15px;
+  padding:18px 19px;
+  border:1px solid color-mix(in srgb,var(--accent) 25%,var(--line));
+  border-radius:var(--radius);
+  background:
+    radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--accent-2) 10%,transparent),transparent 22rem),
+    linear-gradient(145deg,var(--panel),color-mix(in srgb,var(--panel-2) 86%,var(--panel)));
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+.feed-eyebrow,.section-kicker{
+  display:block;
+  color:var(--accent);
+  font-family:var(--font-brand);
+  font-size:.57rem;
+  font-weight:600;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+
+.feed-welcome h1{
+  margin:5px 0 5px;
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,5vw,2.45rem);
+  font-weight:600;
+  line-height:1;
+  letter-spacing:.01em;
+}
+
+.feed-welcome p{
+  max-width:525px;
+  margin:0;
+  color:var(--muted);
+  font-size:.76rem;
+  line-height:1.65;
+}
+
+.status-pill{
+  flex:0 0 auto;
+  border-radius:8px;
+  padding:6px 9px;
+  font-size:.62rem;
+  font-weight:600;
+}
+
+.right-rail{
+  padding:18px 15px;
+  background:color-mix(in srgb,var(--bg) 95%,transparent);
+}
+
+.rail-card{
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.rail-card h3{
+  margin:4px 0 9px;
+  font-family:var(--font-display);
+  font-size:1.1rem;
+  font-weight:600;
+}
+
+.rail-sub{
+  font-size:.69rem;
+  line-height:1.55;
+}
+
+.network-card .card-actions .soft-btn{
+  flex:1;
+  text-align:center;
+}
+
+.avatar{
+  font-family:var(--font-ui);
+  font-weight:700;
+}
+
+.stories{
+  gap:10px;
+  padding-bottom:13px;
+}
+
+.story{
+  min-width:67px;
+  gap:5px;
+}
+
+.story-ring{
+  width:59px;
+  height:59px;
+}
+
+.story-ring .avatar{
+  width:53px;
+  height:53px;
+}
+
+.story span{
+  max-width:67px;
+  font-size:.62rem;
+}
+
+.composer-card,.post-card,.section-card,.profile-header,.event-card,.group-card,.notification-card,.reel-card{
+  border-radius:14px;
+  box-shadow:0 9px 22px rgba(0,0,0,.065);
+}
+
+.composer-card{
+  padding:12px;
+  margin-bottom:13px;
+}
+
+.composer-launch{
+  border-radius:10px;
+  padding:10px 13px;
+  font-size:.72rem;
+}
+
+.composer-tools{
+  gap:5px;
+  margin-top:9px;
+}
+
+.tool-btn{
+  padding:6px 8px;
+  border-radius:8px;
+  font-size:.65rem;
+}
+
+.feed-filter{
+  gap:6px;
+  margin-bottom:10px;
+}
+
+.filter-chip,.profile-tab{
+  border-radius:8px;
+  padding:7px 10px;
+  font-size:.66rem;
+}
+
+.post-card{margin-bottom:13px}
+
+.post-head{
+  padding:12px 12px 7px;
+}
+
+.post-author{
+  font-family:var(--font-ui);
+  font-size:.78rem;
+  font-weight:650;
+}
+
+.post-meta{
+  font-size:.63rem;
+}
+
+.post-text{
+  padding:4px 12px 11px;
+  font-size:.77rem;
+  line-height:1.62;
+}
+
+.post-location{
+  padding:0 12px 8px;
+  font-size:.64rem;
+}
+
+.post-stats{
+  padding:9px 12px;
+  font-size:.64rem;
+}
+
+.post-actions{
+  padding:6px 8px;
+}
+
+.post-action{
+  border-radius:8px;
+  padding:8px 3px;
+  font-size:.66rem;
+}
+
+.reaction-bar{
+  gap:5px;
+  padding:0 12px 9px;
+}
+
+.reaction-btn{
+  border-radius:8px;
+  padding:5px 8px;
+  font-size:.67rem;
+}
+
+.section-head{
+  align-items:flex-end;
+}
+
+.section-head h2{
+  margin-top:3px;
+  font-family:var(--font-display);
+  font-size:1.35rem;
+  font-weight:600;
+}
+
+.group-card,.event-card,.notification-card,.profile-header,.section-card{
+  padding:14px;
+}
+
+.modal{
+  border-radius:18px;
+}
+
+.modal-head h2{
+  font-family:var(--font-display);
+  font-size:1.25rem;
+  font-weight:600;
+}
+
+.field label{
+  font-size:.68rem;
+  font-weight:650;
+}
+
+.field input,.field textarea,.field select{
+  border-radius:9px;
+  padding:10px 11px;
+  font-size:.73rem;
+}
+
+.helper{
+  font-size:.63rem;
+}
+
+.site-footer{
+  max-width:1420px;
+  margin:0 auto;
+  padding:22px 18px 30px;
+  text-align:center;
+  color:var(--muted);
+  font-family:var(--font-ui);
+  font-size:.62rem;
+  font-weight:500;
+  line-height:1.75;
+  letter-spacing:.025em;
+  border-top:1px solid var(--line);
+}
+
+.site-footer strong{
+  color:var(--text);
+  font-family:var(--font-brand);
+  font-size:.7rem;
+  font-weight:600;
+  letter-spacing:.075em;
+}
+
+.app-shell[data-rail="compact"]{
+  grid-template-columns:78px minmax(0,1fr) 300px;
+}
+
+.app-shell[data-rail="compact"] .nav-heading,
+.app-shell[data-rail="compact"] .network-context{
+  display:none;
+}
+
+@media(max-width:1180px){
+  .app-shell{grid-template-columns:218px minmax(0,1fr)}
+}
+
+@media(max-width:900px){
+  .app-shell{grid-template-columns:78px minmax(0,1fr)}
+  .nav-heading,.network-context{display:none}
+}
+
+@media(max-width:680px){
+  .topbar{min-height:58px}
+  .view-heading>span{display:none}
+  .view-title{font-size:1.05rem}
+  .view-root{padding:10px 9px 94px}
+  .feed-welcome{
+    display:grid;
+    gap:11px;
+    padding:15px;
+  }
+  .feed-welcome .status-pill{justify-self:start}
+  .feed-welcome p{font-size:.72rem}
+  .site-footer{
+    padding:20px 14px calc(94px + env(safe-area-inset-bottom));
+  }
+}
+
+@media(max-width:420px){
+  .feed-welcome h1{font-size:1.8rem}
+}
+
 </style>
 </head>
 <body>
 <div class="app-shell" id="appShell">
   <aside class="left-rail" aria-label="Primary navigation">
-    <a class="brand" href="333_Network_index.html" aria-label="333 Network home">
-      <span class="brand-mark">B</span><span class="brand-copy"><strong>Bazaar Art Live</strong><span>333 Social Feed</span></span>
+    <a class="brand" href="333_network/333_Network_index.html" aria-label="Open the 333 Network gateway">
+      <span class="brand-mark">BA</span><span class="brand-copy"><strong>Bazaar Art Live</strong><span>Creative Community Feed</span></span>
     </a>
-    <nav class="nav-list" id="desktopNav">
-      <button class="nav-btn active" data-view="home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></button>
-      <button class="nav-btn" data-view="discover"><span class="nav-icon">⌕</span><span class="nav-label">Discover</span></button>
-      <button class="nav-btn" data-view="reels"><span class="nav-icon">▶</span><span class="nav-label">Reels</span></button>
-      <button class="nav-btn" data-view="groups"><span class="nav-icon">◉</span><span class="nav-label">Groups</span></button>
-      <button class="nav-btn" data-view="events"><span class="nav-icon">□</span><span class="nav-label">Events</span></button>
-      <button class="nav-btn" data-view="notifications"><span class="nav-icon">♢</span><span class="nav-label">Notifications</span><span class="nav-badge" id="desktopNotificationBadge" hidden>0</span></button>
-      <button class="nav-btn" data-view="saved"><span class="nav-icon">◇</span><span class="nav-label">Saved</span></button>
-      <button class="nav-btn" data-view="profile"><span class="nav-icon">◎</span><span class="nav-label">Profile</span></button>
-    </nav>
-    <button class="create-main" id="desktopCreateBtn">Create</button>
-    <div class="network-links">
-      <a class="network-link" href="HOLLO_index.html">HOLLO · Direct Connect</a>
-      <a class="network-link" href="KANSEE_index.html">KANSEE · Meetings</a>
-      <a class="network-link" href="333_Network_index.html">333 Network Gateway</a>
+    <div class="network-context" aria-label="Location">
+      <a href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a><span aria-hidden="true">›</span>
+      <a href="333_network/333_Network_index.html">333 Network</a>
     </div>
-    <button class="profile-chip" id="profileChipBtn">
+    <nav class="nav-list" id="desktopNav" aria-label="Bazaar Art Live sections">
+      <div class="nav-heading">Feed</div>
+      <button type="button" class="nav-btn active" data-view="home"><span class="nav-icon">⌂</span><span class="nav-label">Community Feed</span></button>
+      <button type="button" class="nav-btn" data-view="discover"><span class="nav-icon">⌕</span><span class="nav-label">Explore</span></button>
+      <button type="button" class="nav-btn" data-view="reels"><span class="nav-icon">▶</span><span class="nav-label">Reels</span></button>
+      <div class="nav-heading">Community</div>
+      <button type="button" class="nav-btn" data-view="groups"><span class="nav-icon">◉</span><span class="nav-label">Groups</span></button>
+      <button type="button" class="nav-btn" data-view="events"><span class="nav-icon">□</span><span class="nav-label">Events</span></button>
+      <button type="button" class="nav-btn" data-view="notifications"><span class="nav-icon">♢</span><span class="nav-label">Notifications</span><span class="nav-badge" id="desktopNotificationBadge" hidden>0</span></button>
+      <div class="nav-heading">My Space</div>
+      <button type="button" class="nav-btn" data-view="saved"><span class="nav-icon">◇</span><span class="nav-label">Saved</span></button>
+      <button type="button" class="nav-btn" data-view="profile"><span class="nav-icon">◎</span><span class="nav-label">Profile</span></button>
+    </nav>
+    <button type="button" class="create-main" id="desktopCreateBtn">Create Post</button>
+    <div class="network-links">
+      <a class="network-link" href="HOLLO™ 333 Direct Connect_index.html">HOLLO · Direct Connect</a>
+      <a class="network-link" href="KANSEE™ 333 Meeting Rooms_index.html">KANSEE · Meetings</a>
+      <a class="network-link" href="333_network/333_Network_index.html">333 Network Gateway</a>
+    </div>
+    <button type="button" class="profile-chip" id="profileChipBtn">
       <span class="avatar small-avatar" id="profileChipAvatar">JP</span>
       <span class="grow"><strong id="profileChipName">Jennifer Kay Pearl</strong><span id="profileChipHandle">@jenniferpearl</span></span>
       <span>•••</span>
@@ -127,12 +676,12 @@ body[data-density="compact"]{--space:10px}.app-shell[data-rail="compact"]{grid-t
 
   <main class="main-column">
     <header class="topbar">
-      <div class="view-title" id="viewTitle">Home</div>
+      <div class="view-heading"><span>333 Social Feed</span><strong class="view-title" id="viewTitle">Community Feed</strong></div>
       <label class="top-search"><span class="sr-only">Search Bazaar Art</span><input id="globalSearch" type="search" placeholder="Search people, posts, tags, groups"><span class="search-shortcut">⌘ K</span></label>
       <div class="top-actions">
-        <button class="icon-btn" id="layoutBtn" aria-label="Adjust display">▦</button>
-        <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙</button>
-        <button class="icon-btn" id="topNotificationBtn" aria-label="Notifications">♢</button>
+        <button type="button" class="icon-btn" id="layoutBtn" aria-label="Adjust display">▦</button>
+        <button type="button" class="icon-btn" id="settingsBtn" aria-label="Settings and backup">⚙</button>
+        <button type="button" class="icon-btn" id="topNotificationBtn" aria-label="Notifications">♢</button>
       </div>
     </header>
     <div class="view-root" id="viewRoot"></div>
@@ -140,14 +689,19 @@ body[data-density="compact"]{--space:10px}.app-shell[data-rail="compact"]{grid-t
 
   <aside class="right-rail" id="rightRail" aria-label="Feed context"></aside>
 </div>
+<footer class="site-footer">
+  <strong>Bazaar Art Live · 333 Social Feed at ProReSources</strong><br>
+  Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026<br>
+  Posts, profiles, events, and uploaded media remain on this device until a connected service is deliberately configured.
+</footer>
 
-<button class="mobile-create" id="mobileCreateBtn" aria-label="Create a post">＋</button>
+<button type="button" class="mobile-create" id="mobileCreateBtn" aria-label="Create a post">＋</button>
 <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-  <button class="active" data-view="home"><span>⌂</span><span>Home</span></button>
-  <button data-view="discover"><span>⌕</span><span>Discover</span></button>
-  <button data-view="reels"><span>▶</span><span>Reels</span></button>
-  <button data-view="notifications"><span>♢</span><span>Alerts</span></button>
-  <button data-view="profile"><span>◎</span><span>Profile</span></button>
+  <button type="button" class="active" data-view="home"><span>⌂</span><span>Feed</span></button>
+  <button type="button" data-view="discover"><span>⌕</span><span>Explore</span></button>
+  <button type="button" data-view="reels"><span>▶</span><span>Reels</span></button>
+  <button type="button" data-view="notifications"><span>♢</span><span>Alerts</span></button>
+  <button type="button" data-view="profile"><span>◎</span><span>Profile</span></button>
 </nav>
 
 <div id="modalHost"></div>
@@ -160,7 +714,7 @@ body[data-density="compact"]{--space:10px}.app-shell[data-rail="compact"]{grid-t
 const APP_VERSION='1.0.0';
 const STATE_KEY='bazaar_live_frontend_v1';
 const LEGACY={USERS:'bazaar_users_v2',CURRENT:'bazaar_current_user_v2',POSTS:'bazaar_posts_v2',EVENTS:'bazaar_events_v2',TICKER:'bazaar_ticker_v2'};
-const VIEWS={home:'Home',discover:'Discover',reels:'Reels',groups:'Groups',events:'Events',notifications:'Notifications',saved:'Saved',profile:'Profile'};
+const VIEWS={home:'Community Feed',discover:'Explore',reels:'Reels',groups:'Groups',events:'Events',notifications:'Notifications',saved:'Saved',profile:'Profile'};
 const $=(s,r=document)=>r.querySelector(s); const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const now=()=>Date.now(); const uid=(p='id')=>p+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);
 const safeText=v=>String(v??'');
@@ -191,7 +745,7 @@ const MediaDB={
 
 function seedState(){
   const t=now();
-  const founder={id:'u_founder',name:'Jennifer Kay Pearl',handle:'jenniferpearl',number333:'333-111-7777',bio:'Founder, artist, builder, and steward of the 333 Network.',location:'United States',website:'',verified:true,participation:true,privateProfile:false,avatarMediaId:null,followers:['u_arella','u_maya','u_kai'],following:['u_arella','u_maya','u_kai'],createdAt:t-86400000*500};
+  const founder={id:'u_founder',name:'Jennifer Kay Pearl',handle:'jenniferpearl',number333:'333-111-7777',bio:'Founder, artist, builder, and steward of the 333 Network creative community.',location:'United States',website:'',verified:true,participation:true,privateProfile:false,avatarMediaId:null,followers:['u_arella','u_maya','u_kai'],following:['u_arella','u_maya','u_kai'],createdAt:t-86400000*500};
   const users=[founder,
     {id:'u_arella',name:'Arella Hollo',handle:'arella',number333:'333-582-1046',bio:'Community communications, color, and living stories.',location:'Hope’s Haven',website:'',verified:true,participation:true,privateProfile:false,avatarMediaId:null,followers:['u_founder','u_maya'],following:['u_founder'],createdAt:t-86400000*320},
     {id:'u_maya',name:'Maya Light',handle:'mayalight',number333:'333-219-8834',bio:'Light studies, murals, and neighborhood workshops.',location:'Florida',website:'',verified:false,participation:true,privateProfile:false,avatarMediaId:null,followers:['u_founder'],following:['u_founder','u_arella'],createdAt:t-86400000*220},
@@ -219,7 +773,7 @@ function seedState(){
     {id:'e1',title:'Bazaar Night · Emerging Voices',description:'An evening for new work, open conversation, and community connection.',startAt:t+86400000*2+72000000,location:'Hope’s Haven Atrium',capacity:50,hostId:'u_founder',goingIds:['u_founder','u_arella','u_maya'],interestedIds:['u_kai'],groupId:'g_artists',visibility:'public'},
     {id:'e2',title:'Virtual Studio Circle',description:'Bring one unfinished piece and one honest question.',startAt:t+86400000*5+64800000,location:'KANSEE Room',capacity:24,hostId:'u_arella',goingIds:['u_arella'],interestedIds:['u_founder'],groupId:'g_artists',visibility:'public'}
   ];
-  return {version:APP_VERSION,currentUserId:'u_founder',users,posts,stories,groups,events,notifications:[{id:'n1',userId:'u_founder',type:'welcome',text:'Your Bazaar Art Live studio is ready.',createdAt:t-60000,read:false}],reports:[],blockedUserIds:[],mutedUserIds:[],ticker:['Bazaar Art Live · 333 Social Feed','Participation is always optional','Your work remains yours'],settings:{theme:'dark',density:'comfortable',fontScale:1,feedWidth:680,rail:'full',backendUrl:'',backendStatus:'disconnected',contentFilter:true,autoplay:false},activeView:'home',feedFilter:'all',profileTab:'posts'};
+  return {version:APP_VERSION,currentUserId:'u_founder',users,posts,stories,groups,events,notifications:[{id:'n1',userId:'u_founder',type:'welcome',text:'Your Bazaar Art Live studio is ready.',createdAt:t-60000,read:false}],reports:[],blockedUserIds:[],mutedUserIds:[],ticker:['Bazaar Art Live · Creative Community Feed','Participation is always optional','Your work remains yours'],settings:{theme:'dark',density:'comfortable',fontScale:1,feedWidth:680,rail:'full',backendUrl:'',backendStatus:'disconnected',contentFilter:true,autoplay:false},activeView:'home',feedFilter:'all',profileTab:'posts'};
 }
 
 let state=storage.get(STATE_KEY,null); if(!state||!Array.isArray(state.users))state=seedState();
@@ -259,7 +813,7 @@ function applySettings(){
 function setView(view){
   if(!VIEWS[view])view='home';state.activeView=view;persist();
   $('#viewTitle').textContent=VIEWS[view];
-  $$('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+  $$('[data-view]').forEach(b=>{const active=b.dataset.view===view;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
   renderView();renderRightRail();window.scrollTo({top:0,behavior:'smooth'});
 }
 function updateBadges(){const count=state.notifications.filter(n=>n.userId===state.currentUserId&&!n.read).length;const b=$('#desktopNotificationBadge');b.textContent=count;b.hidden=!count;$('#topNotificationBtn').textContent=count?`♢ ${count}`:'♢'}
@@ -275,9 +829,9 @@ function renderHome(){
   const u=me();const stories=state.stories.filter(s=>s.expiresAt>now()&&!isBlocked(s.userId));let posts=visiblePosts();
   if(state.feedFilter==='following')posts=posts.filter(p=>u.following.includes(p.authorId)||p.authorId===u.id);
   if(state.feedFilter==='art')posts=posts.filter(p=>p.tags?.some(t=>/art|studio|color|photo|poetry|motion/i.test(t)));
-  return `<div class="stories"><button class="story add-story" data-action="create-story"><span class="story-ring">＋</span><span>Your story</span></button>${stories.map(s=>{const a=userById(s.userId);return `<button class="story" data-action="open-story" data-id="${esc(s.id)}"><span class="story-ring ${s.viewedBy?.includes(u.id)?'viewed':''}">${avatarHTML(a)}</span><span>${esc(a.name.split(' ')[0])}</span></button>`}).join('')}</div>
-  <section class="composer-card"><div class="composer-row">${avatarHTML(u)}<button class="composer-launch" data-action="create-post">Share your work, thought, or announcement…</button></div><div class="composer-tools"><button class="tool-btn" data-action="create-post" data-kind="post">▧ Photo / Post</button><button class="tool-btn" data-action="create-post" data-kind="reel">▶ Reel</button><button class="tool-btn" data-action="create-event">□ Event</button><button class="tool-btn" data-action="create-story">◉ Story</button></div></section>
-  <div class="feed-filter">${[['all','For you'],['following','Following'],['art','Art & Ideas']].map(([k,l])=>`<button class="filter-chip ${state.feedFilter===k?'active':''}" data-action="feed-filter" data-filter="${k}">${l}</button>`).join('')}</div>
+  return `<section class="feed-welcome"><div><span class="feed-eyebrow">Art · Ideas · Events · Community</span><h1>Bazaar Art Live</h1><p>Share creative work, discover artists, join groups, and gather around events in the 333 Network. This edition begins as a private, local-first studio.</p></div><span class="status-pill"><span class="status-dot ${state.settings.backendStatus==='online'?'online':''}"></span>${state.settings.backendStatus==='online'?'Connected service':'Saved on this device'}</span></section><div class="stories"><button class="story add-story" data-action="create-story"><span class="story-ring">＋</span><span>Your story</span></button>${stories.map(s=>{const a=userById(s.userId);return `<button class="story" data-action="open-story" data-id="${esc(s.id)}"><span class="story-ring ${s.viewedBy?.includes(u.id)?'viewed':''}">${avatarHTML(a)}</span><span>${esc(a.name.split(' ')[0])}</span></button>`}).join('')}</div>
+  <section class="composer-card"><div class="composer-row">${avatarHTML(u)}<button class="composer-launch" data-action="create-post">Share artwork, an idea, an event, or an announcement…</button></div><div class="composer-tools"><button class="tool-btn" data-action="create-post" data-kind="post">▧ Photo / Post</button><button class="tool-btn" data-action="create-post" data-kind="reel">▶ Reel</button><button class="tool-btn" data-action="create-event">□ Event</button><button class="tool-btn" data-action="create-story">◉ Story</button></div></section>
+  <div class="feed-filter">${[['all','Community'],['following','Following'],['art','Art & Ideas']].map(([k,l])=>`<button class="filter-chip ${state.feedFilter===k?'active':''}" data-action="feed-filter" data-filter="${k}">${l}</button>`).join('')}</div>
   <div id="feedList">${posts.length?posts.map(renderPostCard).join(''):`<div class="empty">Your feed is quiet. Follow artists, join groups, or create the first post.</div>`}</div>`;
 }
 function renderPostCard(p){
@@ -298,7 +852,7 @@ function renderDiscover(){
   const q=safeText($('#globalSearch')?.value).trim().toLowerCase();
   const posts=visiblePosts().filter(p=>!q||p.text.toLowerCase().includes(q)||p.tags?.some(t=>t.toLowerCase().includes(q))||userById(p.authorId).name.toLowerCase().includes(q));
   const people=state.users.filter(u=>u.id!==me().id&&!isBlocked(u.id)).filter(u=>!q||`${u.name} ${u.handle} ${u.bio}`.toLowerCase().includes(q));
-  return `<div class="section-head"><h2>Discover Bazaar Art</h2><button class="soft-btn" data-action="search-focus">Search</button></div>
+  return `<div class="section-head"><div><span class="section-kicker">Creative discovery</span><h2>Explore Bazaar Art</h2></div><button class="soft-btn" data-action="search-focus">Search</button></div>
     ${people.length?`<section class="section-card" style="margin-bottom:14px"><h3 style="margin-top:0">Artists</h3><div class="grid-2">${people.slice(0,6).map(renderPersonCard).join('')}</div></section>`:''}
     <div class="discover-grid">${posts.length?posts.map(renderDiscoverTile).join(''):`<div class="empty">No discoveries match your search.</div>`}</div>`;
 }
@@ -326,15 +880,16 @@ function renderProfile(){
   return `<div class="profile-cover"></div><section class="profile-header"><div class="profile-top">${avatarHTML(u,'large')}<div class="profile-actions"><button class="soft-btn" data-action="edit-profile">Edit profile</button><button class="soft-btn" data-action="profile-menu">Settings</button></div></div><h2>${esc(u.name)} ${u.verified?'<span class="verified">◆</span>':''}</h2><div class="profile-handle">@${esc(u.handle)} · ${esc(u.number333)}</div><div class="profile-bio">${esc(u.bio)}</div><div class="small muted">${esc(u.location||'')} ${u.website?`· <a href="${esc(validHttpUrl(u.website))}" target="_blank" rel="noopener">${esc(u.website)}</a>`:''}</div><div class="profile-stats"><button><strong>${state.posts.filter(p=>p.authorId===u.id).length}</strong> posts</button><button><strong>${u.followers.length}</strong> followers</button><button><strong>${u.following.length}</strong> following</button><span class="badge">${u.participation?'Feed participation on':'Browse-only mode'}</span></div></section><div class="profile-tabs">${[['posts','Posts'],['reels','Reels'],['saved','Saved']].map(([k,l])=>`<button class="profile-tab ${state.profileTab===k?'active':''}" data-action="profile-tab" data-tab="${k}">${l}</button>`).join('')}</div>${posts.length?posts.map(renderPostCard).join(''):`<div class="empty">Nothing in this section yet.</div>`}`;
 }
 
-function renderRightRail(){const rail=$('#rightRail'),tags={};visiblePosts().forEach(p=>(p.tags||[]).forEach(t=>tags[t]=(tags[t]||0)+1));const trends=Object.entries(tags).sort((a,b)=>b[1]-a[1]).slice(0,5);const suggestions=state.users.filter(u=>u.id!==me().id&&!me().following.includes(u.id)&&!isBlocked(u.id)).slice(0,4);const soon=state.events.filter(e=>e.startAt>now()).sort((a,b)=>a.startAt-b.startAt).slice(0,3);rail.innerHTML=`<section class="rail-card"><h3>333 Network</h3><div class="rail-sub">One identity across Bazaar Art, HOLLO, and KANSEE.</div><div class="status-pill"><span class="status-dot ${state.settings.backendStatus==='online'?'online':''}"></span>${state.settings.backendStatus==='online'?'Backend connected':'Local studio'}</div><div class="card-actions"><a class="soft-btn" href="HOLLO_index.html">HOLLO</a><a class="soft-btn" href="KANSEE_index.html">KANSEE</a></div></section><section class="rail-card"><h3>Trending</h3>${trends.length?trends.map(([t,n])=>`<button class="trend-row" data-action="search-tag" data-tag="${esc(t)}" style="width:100%;border:0;background:transparent;color:inherit;text-align:left"><div class="grow"><strong>#${esc(t)}</strong><div class="small muted">${n} posts</div></div><span>›</span></button>`).join(''):'<div class="small muted">Trends will grow with the feed.</div>'}</section><section class="rail-card"><h3>Artists to discover</h3>${suggestions.map(renderPersonCard).join('')}</section><section class="rail-card"><h3>Coming up</h3>${soon.map(e=>`<div class="event-mini"><div class="grow"><strong>${esc(e.title)}</strong><div class="small muted">${formatDate(e.startAt)}</div></div></div>`).join('')}</section>`;hydrateAvatars(rail)}
+function renderRightRail(){const rail=$('#rightRail'),tags={};visiblePosts().forEach(p=>(p.tags||[]).forEach(t=>tags[t]=(tags[t]||0)+1));const trends=Object.entries(tags).sort((a,b)=>b[1]-a[1]).slice(0,5);const suggestions=state.users.filter(u=>u.id!==me().id&&!me().following.includes(u.id)&&!isBlocked(u.id)).slice(0,4);const soon=state.events.filter(e=>e.startAt>now()).sort((a,b)=>a.startAt-b.startAt).slice(0,3);rail.innerHTML=`<section class="rail-card network-card"><span class="section-kicker">Connected tools</span><h3>333 Network</h3><div class="rail-sub">Bazaar Art Live is the community feed. HOLLO supports direct contact, while KANSEE supports meeting rooms.</div><div class="status-pill"><span class="status-dot ${state.settings.backendStatus==='online'?'online':''}"></span>${state.settings.backendStatus==='online'?'Connected service':'Local-first studio'}</div><div class="card-actions"><a class="soft-btn" href="HOLLO™ 333 Direct Connect_index.html">Open HOLLO</a><a class="soft-btn" href="KANSEE™ 333 Meeting Rooms_index.html">Open KANSEE</a></div></section><section class="rail-card"><h3>Trending</h3>${trends.length?trends.map(([t,n])=>`<button class="trend-row" data-action="search-tag" data-tag="${esc(t)}" style="width:100%;border:0;background:transparent;color:inherit;text-align:left"><div class="grow"><strong>#${esc(t)}</strong><div class="small muted">${n} posts</div></div><span>›</span></button>`).join(''):'<div class="small muted">Trends will grow with the feed.</div>'}</section><section class="rail-card"><h3>Artists to discover</h3>${suggestions.map(renderPersonCard).join('')}</section><section class="rail-card"><h3>Coming up</h3>${soon.map(e=>`<div class="event-mini"><div class="grow"><strong>${esc(e.title)}</strong><div class="small muted">${formatDate(e.startAt)}</div></div></div>`).join('')}</section>`;hydrateAvatars(rail)}
 
 async function hydrateMedia(root=document){
   const nodes=$$('[data-media-id],[data-inline-media]',root);await Promise.all(nodes.map(async node=>{const id=node.dataset.mediaId||node.dataset.inlineMedia;const item=await MediaDB.get(id);if(!item){node.innerHTML='<span class="media-loading">Media unavailable on this device</span>';return}let media;if(item.type.startsWith('video/')){media=document.createElement('video');media.controls=true;media.playsInline=true;media.preload='metadata';if(state.settings.autoplay&&node.closest('.reel-card')){media.muted=true;media.autoplay=true;media.loop=true}}else{media=document.createElement('img');media.alt=item.alt||item.name||'Bazaar Art media'}media.src=item.dataUrl;node.replaceChildren(media)}));
 }
 async function hydrateAvatars(root=document){const nodes=$$('[data-avatar-user]',root);await Promise.all(nodes.map(async n=>{const u=userById(n.dataset.avatarUser);if(!u.avatarMediaId)return;const item=await MediaDB.get(u.avatarMediaId);if(item?.dataUrl){const img=document.createElement('img');img.src=item.dataUrl;img.alt='';n.replaceChildren(img)}}))}
 
-function modal(title,body,footer='',wide=false){const host=$('#modalHost');host.innerHTML=`<div class="modal-layer" id="activeModalLayer"><section class="modal ${wide?'wide':''}" role="dialog" aria-modal="true" aria-labelledby="activeModalTitle"><header class="modal-head"><h2 id="activeModalTitle">${esc(title)}</h2><button class="icon-btn modal-close" data-action="close-modal" aria-label="Close">×</button></header><div class="modal-body">${body}</div>${footer?`<footer class="modal-foot">${footer}</footer>`:''}</section></div>`;setTimeout(()=>$('#activeModalLayer .modal-close')?.focus(),0)}
-function closeModal(){const host=$('#modalHost');host.innerHTML=''}
+let modalReturnFocus=null;
+function modal(title,body,footer='',wide=false){modalReturnFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;const host=$('#modalHost');host.innerHTML=`<div class="modal-layer" id="activeModalLayer"><section class="modal ${wide?'wide':''}" role="dialog" aria-modal="true" aria-labelledby="activeModalTitle"><header class="modal-head"><h2 id="activeModalTitle">${esc(title)}</h2><button type="button" class="icon-btn modal-close" data-action="close-modal" aria-label="Close">×</button></header><div class="modal-body">${body}</div>${footer?`<footer class="modal-foot">${footer}</footer>`:''}</section></div>`;const layer=$('#activeModalLayer');layer.addEventListener('click',event=>{if(event.target===layer)closeModal()});setTimeout(()=>layer.querySelector('input,textarea,select,button,a[href]')?.focus(),0)}
+function closeModal(){const host=$('#modalHost');host.innerHTML='';modalReturnFocus?.focus?.();modalReturnFocus=null}
 
 let pendingMedia=[];
 function openComposer(kind='post'){
@@ -378,10 +933,10 @@ async function shareEvent(id){const e=state.events.find(x=>x.id===id);if(!e)retu
 
 function openEditProfile(){const u=me();modal('Edit profile',`<div class="form-grid"><div class="field"><label for="profileName">Name</label><input id="profileName" value="${esc(u.name)}" maxlength="80"></div><div class="form-grid two"><div class="field"><label for="profileHandle">Handle</label><input id="profileHandle" value="${esc(u.handle)}" maxlength="30"></div><div class="field"><label for="profileNumber">333 number</label><input id="profileNumber" value="${esc(u.number333)}" maxlength="14"></div></div><div class="field"><label for="profileBio">Bio</label><textarea id="profileBio" maxlength="320">${esc(u.bio)}</textarea></div><div class="form-grid two"><div class="field"><label for="profileLocation">Location</label><input id="profileLocation" value="${esc(u.location||'')}" maxlength="100"></div><div class="field"><label for="profileWebsite">Website</label><input id="profileWebsite" value="${esc(u.website||'')}" placeholder="https://"></div></div><div class="field"><label for="profileAvatar">Profile image</label><input id="profileAvatar" type="file" accept="image/*"></div><label class="form-check"><input id="profileParticipation" type="checkbox" ${u.participation?'checked':''}><span>Participate in the feed. Turn this off to browse without publishing.</span></label><label class="form-check"><input id="profilePrivate" type="checkbox" ${u.privateProfile?'checked':''}><span>Private profile preference for the future authenticated backend.</span></label></div>`,`<button class="soft-btn" data-action="close-modal">Cancel</button><button class="primary-btn" id="saveProfileBtn">Save profile</button>`);$('#saveProfileBtn').addEventListener('click',saveProfile)}
 async function saveProfile(){const u=me(),name=$('#profileName').value.trim(),handle=normalizeHandle($('#profileHandle').value);if(!name||!handle)return toast('Name and handle are required.','error');if(state.users.some(x=>x.id!==u.id&&x.handle===handle))return toast('That handle is already in use locally.','error');const f=$('#profileAvatar').files[0];if(f){if(f.size>10*1024*1024)return toast('Profile image must be under 10 MB.','error');const dataUrl=await downscaleImage(f,800,.88),m={id:uid('m'),type:'image/jpeg',name:f.name,dataUrl,createdAt:now()};await MediaDB.put(m);if(u.avatarMediaId)await MediaDB.delete(u.avatarMediaId);u.avatarMediaId=m.id}Object.assign(u,{name,handle,number333:normalize333($('#profileNumber').value)||u.number333,bio:$('#profileBio').value.trim(),location:$('#profileLocation').value.trim(),website:validHttpUrl($('#profileWebsite').value.trim()),participation:$('#profileParticipation').checked,privateProfile:$('#profilePrivate').checked});persist();closeModal();updateProfileChip();renderView();renderRightRail();toast('Profile updated.','success')}
-function openPublicProfile(id){const u=userById(id);if(u.id===me().id)return setView('profile');const posts=visiblePosts().filter(p=>p.authorId===u.id);const following=me().following.includes(u.id);modal(u.name,`<div class="profile-cover"></div><section class="profile-header"><div class="profile-top">${avatarHTML(u,'large')}<div class="profile-actions"><button class="${following?'soft-btn':'primary-btn'}" data-action="follow" data-user-id="${esc(u.id)}">${following?'Following':'Follow'}</button><a class="soft-btn" href="HOLLO_index.html">Message in HOLLO</a></div></div><h2>${esc(u.name)} ${u.verified?'<span class="verified">◆</span>':''}</h2><div class="profile-handle">@${esc(u.handle)} · ${esc(u.number333||'')}</div><div class="profile-bio">${esc(u.bio)}</div><div class="profile-stats"><span><strong>${posts.length}</strong> posts</span><span><strong>${u.followers.length}</strong> followers</span><span><strong>${u.following.length}</strong> following</span></div></section>${posts.map(renderPostCard).join('')||'<div class="empty">No visible posts.</div>'}`,'',true);hydrateMedia($('#activeModalLayer'));hydrateAvatars($('#activeModalLayer'))}
+function openPublicProfile(id){const u=userById(id);if(u.id===me().id)return setView('profile');const posts=visiblePosts().filter(p=>p.authorId===u.id);const following=me().following.includes(u.id);modal(u.name,`<div class="profile-cover"></div><section class="profile-header"><div class="profile-top">${avatarHTML(u,'large')}<div class="profile-actions"><button class="${following?'soft-btn':'primary-btn'}" data-action="follow" data-user-id="${esc(u.id)}">${following?'Following':'Follow'}</button><a class="soft-btn" href="HOLLO™ 333 Direct Connect_index.html">Message in HOLLO</a></div></div><h2>${esc(u.name)} ${u.verified?'<span class="verified">◆</span>':''}</h2><div class="profile-handle">@${esc(u.handle)} · ${esc(u.number333||'')}</div><div class="profile-bio">${esc(u.bio)}</div><div class="profile-stats"><span><strong>${posts.length}</strong> posts</span><span><strong>${u.followers.length}</strong> followers</span><span><strong>${u.following.length}</strong> following</span></div></section>${posts.map(renderPostCard).join('')||'<div class="empty">No visible posts.</div>'}`,'',true);hydrateMedia($('#activeModalLayer'));hydrateAvatars($('#activeModalLayer'))}
 function followUser(id){const u=userById(id),current=me();if(u.id==='unknown'||u.id===current.id)return;const following=current.following.includes(id);current.following=following?current.following.filter(x=>x!==id):[...current.following,id];u.followers=following?u.followers.filter(x=>x!==current.id):Array.from(new Set([...u.followers,current.id]));persist();if(!following)addNotification(`${current.name} followed you.`,`follow`,u.id);renderView();renderRightRail();toast(following?`Unfollowed ${u.name}.`:`Following ${u.name}.`,'success')}
 
-function openSettings(){const s=state.settings;modal('Display, privacy, and backend',`<div class="form-grid"><section class="section-card"><h3 style="margin-top:0">Display</h3><div class="form-grid two"><div class="field"><label for="settingTheme">Theme</label><select id="settingTheme"><option value="dark" ${s.theme==='dark'?'selected':''}>Dark</option><option value="light" ${s.theme==='light'?'selected':''}>Light</option></select></div><div class="field"><label for="settingDensity">Density</label><select id="settingDensity"><option value="comfortable" ${s.density==='comfortable'?'selected':''}>Comfortable</option><option value="compact" ${s.density==='compact'?'selected':''}>Compact</option></select></div></div><div class="field"><label for="settingFont">Text size <span id="fontValue">${Math.round(s.fontScale*100)}%</span></label><input id="settingFont" type="range" min="0.85" max="1.25" step="0.05" value="${s.fontScale}"></div><div class="field"><label for="settingWidth">Feed width <span id="widthValue">${s.feedWidth}px</span></label><input id="settingWidth" type="range" min="520" max="900" step="20" value="${s.feedWidth}"></div><label class="form-check"><input id="settingAutoplay" type="checkbox" ${s.autoplay?'checked':''}><span>Autoplay reels when supported.</span></label></section><section class="section-card"><h3 style="margin-top:0">Backend adapter</h3><p class="small muted">No automatic connection occurs. Use an HTTPS FastAPI address when your secure backend is deployed.</p><div class="field"><label for="backendUrl">API base URL</label><input id="backendUrl" type="url" value="${esc(s.backendUrl||'')}" placeholder="https://api.example.com"></div><div class="card-actions"><button class="soft-btn" id="backendCheckBtn">Check /health</button><button class="soft-btn" id="backendImportBtn">Import prototype state</button></div><div class="helper" id="backendMessage">Status: ${esc(s.backendStatus)}</div></section><section class="section-card"><h3 style="margin-top:0">Data tools</h3><div class="card-actions"><button class="soft-btn" data-action="export-workspace">Export workspace</button><button class="soft-btn" data-action="import-workspace">Import workspace</button><button class="soft-btn" data-action="import-legacy">Import old Bazaar Art</button><button class="danger-btn" data-action="reset-app">Reset local app</button></div></section></div>`,`<button class="soft-btn" data-action="close-modal">Cancel</button><button class="primary-btn" id="saveSettingsBtn">Save settings</button>`,true);$('#settingFont').addEventListener('input',e=>$('#fontValue').textContent=Math.round(e.target.value*100)+'%');$('#settingWidth').addEventListener('input',e=>$('#widthValue').textContent=e.target.value+'px');$('#saveSettingsBtn').addEventListener('click',saveSettings);$('#backendCheckBtn').addEventListener('click',checkBackend);$('#backendImportBtn').addEventListener('click',importBackendPrototype)}
+function openSettings(){const s=state.settings;modal('Display, privacy, and connection',`<div class="form-grid"><section class="section-card"><h3 style="margin-top:0">Display</h3><div class="form-grid two"><div class="field"><label for="settingTheme">Theme</label><select id="settingTheme"><option value="dark" ${s.theme==='dark'?'selected':''}>Dark</option><option value="light" ${s.theme==='light'?'selected':''}>Light</option></select></div><div class="field"><label for="settingDensity">Density</label><select id="settingDensity"><option value="comfortable" ${s.density==='comfortable'?'selected':''}>Comfortable</option><option value="compact" ${s.density==='compact'?'selected':''}>Compact</option></select></div></div><div class="field"><label for="settingFont">Text size <span id="fontValue">${Math.round(s.fontScale*100)}%</span></label><input id="settingFont" type="range" min="0.85" max="1.25" step="0.05" value="${s.fontScale}"></div><div class="field"><label for="settingWidth">Feed width <span id="widthValue">${s.feedWidth}px</span></label><input id="settingWidth" type="range" min="520" max="900" step="20" value="${s.feedWidth}"></div><label class="form-check"><input id="settingAutoplay" type="checkbox" ${s.autoplay?'checked':''}><span>Autoplay reels when supported.</span></label></section><section class="section-card"><h3 style="margin-top:0">Optional connected service</h3><p class="small muted">Nothing connects automatically. Add a trusted HTTPS service only when Bazaar Art Live is ready for cross-device participation.</p><div class="field"><label for="backendUrl">API base URL</label><input id="backendUrl" type="url" value="${esc(s.backendUrl||'')}" placeholder="https://api.example.com"></div><div class="card-actions"><button class="soft-btn" id="backendCheckBtn">Check /health</button><button class="soft-btn" id="backendImportBtn">Import prototype state</button></div><div class="helper" id="backendMessage">Status: ${esc(s.backendStatus)}</div></section><section class="section-card"><h3 style="margin-top:0">Backup & local data</h3><div class="card-actions"><button class="soft-btn" data-action="export-workspace">Export Backup</button><button class="soft-btn" data-action="import-workspace">Import Backup</button><button class="soft-btn" data-action="import-legacy">Import old Bazaar Art</button><button class="danger-btn" data-action="reset-app">Reset Local Studio</button></div></section></div>`,`<button class="soft-btn" data-action="close-modal">Cancel</button><button class="primary-btn" id="saveSettingsBtn">Save settings</button>`,true);$('#settingFont').addEventListener('input',e=>$('#fontValue').textContent=Math.round(e.target.value*100)+'%');$('#settingWidth').addEventListener('input',e=>$('#widthValue').textContent=e.target.value+'px');$('#saveSettingsBtn').addEventListener('click',saveSettings);$('#backendCheckBtn').addEventListener('click',checkBackend);$('#backendImportBtn').addEventListener('click',importBackendPrototype)}
 function saveSettings(){Object.assign(state.settings,{theme:$('#settingTheme').value,density:$('#settingDensity').value,fontScale:Number($('#settingFont').value),feedWidth:Number($('#settingWidth').value),autoplay:$('#settingAutoplay').checked,backendUrl:$('#backendUrl').value.trim().replace(/\/$/,'')});persist();applySettings();closeModal();renderView();renderRightRail();toast('Settings saved.','success')}
 async function checkBackend(){const base=$('#backendUrl').value.trim().replace(/\/$/,'');const msg=$('#backendMessage');if(!validHttpUrl(base))return msg.textContent='Enter a valid HTTPS URL.';msg.textContent='Checking…';try{const r=await fetch(base+'/health',{headers:{Accept:'application/json'}});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json();state.settings.backendUrl=base;state.settings.backendStatus=data.status==='ok'?'online':'available';persist();msg.textContent='Connected: '+JSON.stringify(data);renderRightRail()}catch(e){state.settings.backendStatus='error';persist();msg.textContent='Connection failed: '+e.message}}
 async function importBackendPrototype(){const base=$('#backendUrl').value.trim().replace(/\/$/,'');const msg=$('#backendMessage');if(!validHttpUrl(base))return msg.textContent='Enter a valid backend URL first.';if(!confirm('Import public-looking users, posts, events, and ticker lines from the prototype /state endpoint? Password fields and DMs will be discarded.'))return;msg.textContent='Importing…';try{const r=await fetch(base+'/state');if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json();mergePrototypeState(data);state.settings.backendUrl=base;state.settings.backendStatus='online';persist();msg.textContent='Prototype state imported. Private fields were discarded.';renderView();renderRightRail();toast('Backend prototype data imported.','success')}catch(e){msg.textContent='Import failed: '+e.message}}
@@ -407,11 +962,12 @@ function reportPost(id){const p=postById(id);if(!p)return;state.reports.push({id
 function bind(){
   document.addEventListener('click',e=>{const el=e.target.closest('[data-action]');if(el)handleAction(el.dataset.action,el)});
   $$('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+  [$('#desktopNav'),$('#mobileNav')].forEach(nav=>{if(!nav)return;const buttons=$$('[data-view]',nav);buttons.forEach((button,index)=>button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(['ArrowRight','ArrowDown'].includes(event.key))next=(index+1)%buttons.length;if(['ArrowLeft','ArrowUp'].includes(event.key))next=(index-1+buttons.length)%buttons.length;if(event.key==='Home')next=0;if(event.key==='End')next=buttons.length-1;buttons[next].focus();setView(buttons[next].dataset.view)}))});
   $('#desktopCreateBtn').addEventListener('click',()=>openComposer('post'));$('#mobileCreateBtn').addEventListener('click',()=>openComposer('post'));
   $('#settingsBtn').addEventListener('click',openSettings);$('#layoutBtn').addEventListener('click',layoutQuick);$('#profileChipBtn').addEventListener('click',()=>setView('profile'));$('#topNotificationBtn').addEventListener('click',()=>setView('notifications'));
   $('#globalSearch').addEventListener('input',()=>{if(state.activeView!=='discover')setView('discover');else renderView()});
   $('#globalSearch').addEventListener('keydown',e=>{if(e.key==='Escape'){e.target.value='';renderView()}});
-  document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#globalSearch').focus()}if(e.key==='Escape'&&$('#activeModalLayer'))closeModal()});
+  document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#globalSearch').focus()}const layer=$('#activeModalLayer');if(e.key==='Escape'&&layer){closeModal();return}if(e.key==='Tab'&&layer){const focusable=$$('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',layer).filter(node=>!node.hidden&&node.offsetParent!==null);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
   $('#workspaceImportInput').addEventListener('change',e=>{const f=e.target.files[0];if(f)importWorkspaceFile(f);e.target.value=''})
 }
 
