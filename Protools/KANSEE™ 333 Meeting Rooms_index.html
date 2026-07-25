@@ -3,9 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; img-src 'self' data: blob:; media-src 'self' data: blob:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self' ws: wss:; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="KANSEE™ — a local-first 333 Network workspace for private meeting rooms, trusted invitations, room chat, participant management, and consent-based media preview.">
+  <meta name="theme-color" content="#0d1325">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; img-src 'self' data: blob:; media-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; script-src 'unsafe-inline'; connect-src 'self' ws: wss:; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
   <title>KANSEE™ — 333 Meeting Rooms</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --ink:#141729;--ink-soft:#343950;--night:#0d1325;--night-2:#17213a;
@@ -176,6 +181,538 @@
       .kv{grid-template-columns:1fr}.side-tabs{overflow:auto}.side-tabs button{min-width:82px}
     }
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+    /* =========================================================
+       Verve N Veda refinement layer
+       ========================================================= */
+    :root{
+      --font-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+      --font-brand:"Cinzel","Aboreto",Georgia,serif;
+      --font-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+      --ink:#1b1e2d;
+      --ink-soft:#4c5261;
+      --night:#0e1425;
+      --night-2:#19233a;
+      --paper:#faf8f2;
+      --paper-2:#f1ece2;
+      --paper-3:#e1d8ca;
+      --gold:#b99554;
+      --gold-2:#d9c48e;
+      --teal:#287779;
+      --teal-2:#379497;
+      --blue:#3d658d;
+      --violet:#66579e;
+      --green:#287b5e;
+      --red:#a6424c;
+      --amber:#93611f;
+      --muted:#6e7280;
+      --line:rgba(48,53,68,.15);
+      --shadow:0 14px 38px rgba(24,29,46,.11);
+      --r1:8px;
+      --r2:13px;
+      --r3:19px;
+    }
+
+    body{
+      font-family:var(--font-ui);
+      background:
+        radial-gradient(circle at 9% 0%,rgba(185,149,84,.13),transparent 31rem),
+        radial-gradient(circle at 97% 5%,rgba(40,119,121,.11),transparent 32rem),
+        linear-gradient(145deg,#fbf8f1,#edf0ec 58%,#ebe7ef);
+      letter-spacing:.006em;
+    }
+
+    h1,h2,h3,.modal h2,.empty-stage strong{
+      font-family:var(--font-display);
+      font-weight:600;
+      letter-spacing:.01em;
+    }
+
+    .topline{
+      background:linear-gradient(110deg,#0d1323,#172139);
+      border-bottom-color:rgba(217,196,142,.23);
+    }
+
+    .topline-inner{
+      max-width:1380px;
+      min-height:50px;
+      padding:8px 22px;
+    }
+
+    .crumbs{
+      font-family:var(--font-ui);
+      font-size:11px;
+      font-weight:650;
+      letter-spacing:.055em;
+    }
+
+    .network-links a{
+      border-radius:8px;
+      padding:7px 11px;
+      font-family:var(--font-ui);
+      font-size:10px;
+      font-weight:650;
+      letter-spacing:.035em;
+    }
+
+    .hero{
+      max-width:1380px;
+      padding:34px 22px 22px;
+      grid-template-columns:minmax(0,1fr) 265px;
+      gap:28px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      color:var(--teal);
+      font-family:var(--font-brand);
+      font-size:10px;
+      font-weight:600;
+      letter-spacing:.2em;
+    }
+
+    h1{
+      font-family:var(--font-brand);
+      font-size:clamp(38px,5.3vw,66px);
+      line-height:1;
+      letter-spacing:.055em;
+      font-weight:600;
+    }
+
+    .hero-copy{
+      max-width:820px;
+      margin-top:13px;
+      font-family:var(--font-ui);
+      font-size:15px;
+      line-height:1.72;
+      color:var(--ink-soft);
+    }
+
+    .service-number{
+      min-width:0;
+      width:265px;
+      padding:17px 18px;
+      border-radius:16px;
+      background:rgba(255,255,255,.70);
+      box-shadow:0 10px 28px rgba(30,38,55,.10);
+    }
+
+    .service-number small,
+    .service-number strong,
+    .service-number span{
+      font-family:var(--font-ui);
+    }
+
+    .service-number small{
+      font-size:9px;
+      letter-spacing:.18em;
+    }
+
+    .service-number strong{
+      font-size:20px;
+      letter-spacing:.075em;
+    }
+
+    .service-number span{
+      font-size:10px;
+    }
+
+    .status-strip{
+      max-width:1380px;
+      margin-bottom:16px;
+      padding:0 22px;
+    }
+
+    .status-card{
+      padding:11px 14px;
+      border-radius:11px;
+      background:rgba(255,249,227,.87);
+      font-family:var(--font-ui);
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    .mobile-tabs{
+      max-width:1380px;
+      padding:0 22px;
+    }
+
+    .app-shell{
+      max-width:1380px;
+      padding:0 22px 28px;
+      grid-template-columns:275px minmax(480px,1fr) 350px;
+      gap:12px;
+    }
+
+    .panel{
+      border-radius:18px;
+      background:rgba(255,255,255,.83);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(10px);
+    }
+
+    .panel-head{
+      min-height:62px;
+      padding:13px 15px;
+      background:linear-gradient(145deg,rgba(255,255,255,.93),rgba(243,239,231,.91));
+    }
+
+    .panel-head h2{
+      font-size:20px;
+      line-height:1.05;
+    }
+
+    .panel-head p,
+    .meeting-meta,
+    .room-banner .meta,
+    .participant-meta,
+    .section-label,
+    .chat-message strong,
+    .chat-message time,
+    .kv,
+    .note,
+    label{
+      font-family:var(--font-ui);
+    }
+
+    .panel-head p{
+      font-size:10px;
+      font-weight:500;
+      line-height:1.45;
+    }
+
+    .small-btn,.primary-btn,.danger-btn,.quiet-btn,.icon-btn,.control-btn{
+      border-radius:9px;
+      padding:8px 11px;
+      font-family:var(--font-ui);
+      font-size:11px;
+      font-weight:650;
+      letter-spacing:.015em;
+      transition:background .16s ease,border-color .16s ease,transform .16s ease;
+    }
+
+    .small-btn:hover,.primary-btn:hover,.danger-btn:hover,.quiet-btn:hover,.icon-btn:hover,.control-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .primary-btn{
+      background:linear-gradient(135deg,#2f8587,#256f71);
+    }
+
+    .control-btn{
+      min-width:78px;
+    }
+
+    .pill{
+      font-family:var(--font-ui);
+      font-size:9px;
+      font-weight:650;
+      letter-spacing:.035em;
+    }
+
+    input,textarea,select{
+      border-radius:9px;
+      padding:10px 11px;
+      font-family:var(--font-ui);
+      font-size:12px;
+      line-height:1.45;
+      background:#fffdf9;
+    }
+
+    label{
+      font-size:10px;
+      font-weight:650;
+      line-height:1.35;
+    }
+
+    .meeting-list{
+      gap:7px;
+      max-height:590px;
+    }
+
+    .meeting-card{
+      border-radius:12px;
+      padding:10px;
+      gap:7px;
+      background:#fffdf9;
+    }
+
+    .meeting-card h3{
+      font-family:var(--font-display);
+      font-size:17px;
+      font-weight:600;
+    }
+
+    .meeting-meta{
+      font-size:9.5px;
+      font-weight:500;
+      line-height:1.45;
+    }
+
+    .stage-panel{
+      min-height:690px;
+    }
+
+    .stage-panel .panel-body{
+      padding:11px;
+    }
+
+    .room-banner{
+      border-radius:12px;
+      padding:10px 11px;
+      margin-bottom:9px;
+      background:linear-gradient(145deg,#fffaf2,#eef5f2);
+    }
+
+    .room-banner strong{
+      font-family:var(--font-display);
+      font-size:17px;
+      font-weight:600;
+    }
+
+    .room-banner .meta{
+      font-size:9.5px;
+      font-weight:500;
+    }
+
+    .stage-grid{
+      min-height:420px;
+      grid-auto-rows:minmax(180px,1fr);
+      gap:8px;
+      padding:8px;
+      border-radius:16px;
+      background:linear-gradient(145deg,#101726,#19243a);
+    }
+
+    .video-tile{
+      min-height:180px;
+      border-radius:12px;
+    }
+
+    .video-tile .avatar{
+      width:76px;
+      height:76px;
+      border-radius:22px;
+      font-family:var(--font-ui);
+      font-size:24px;
+      font-weight:700;
+    }
+
+    .video-label{
+      border-radius:9px;
+      padding:6px 8px;
+      font-family:var(--font-ui);
+      font-size:9px;
+      font-weight:600;
+    }
+
+    .empty-stage{
+      font-family:var(--font-ui);
+      font-size:12px;
+      font-weight:500;
+      line-height:1.6;
+    }
+
+    .empty-stage strong{
+      font-size:27px;
+    }
+
+    .call-controls{
+      gap:6px;
+      margin-top:9px;
+      padding:7px;
+      border-radius:12px;
+      background:#fffdf8;
+    }
+
+    .side-tabs{
+      gap:4px;
+      padding:7px;
+      background:#f4f0e8;
+    }
+
+    .side-tabs button{
+      font-size:9px;
+      padding:7px 5px;
+    }
+
+    .participant-list,.waiting-list,.history-list{
+      gap:6px;
+      max-height:275px;
+    }
+
+    .participant{
+      border-radius:10px;
+      padding:8px;
+      background:#fffdf9;
+    }
+
+    .participant .avatar{
+      width:33px;
+      height:33px;
+      border-radius:10px;
+      font-family:var(--font-ui);
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .participant-name{
+      font-family:var(--font-ui);
+      font-size:11px;
+      font-weight:650;
+    }
+
+    .participant-meta{
+      font-size:9px;
+      font-weight:500;
+    }
+
+    .section-label{
+      font-size:9px;
+      font-weight:650;
+      letter-spacing:.14em;
+    }
+
+    .chat-log{
+      height:390px;
+      border-radius:11px;
+      padding:8px;
+      gap:7px;
+      background:#fffdf9;
+    }
+
+    .chat-message{
+      border-radius:11px;
+      padding:8px 9px;
+      font-family:var(--font-ui);
+    }
+
+    .chat-message.you{
+      background:#dcecea;
+    }
+
+    .chat-message strong{
+      font-size:9px;
+      font-weight:650;
+    }
+
+    .chat-message p{
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    .chat-message time{
+      font-size:8px;
+      font-weight:500;
+    }
+
+    .info-card{
+      border-radius:11px;
+      padding:9px;
+      background:#fffdf9;
+    }
+
+    .info-card h3{
+      font-size:16px;
+    }
+
+    .info-card p{
+      font-family:var(--font-ui);
+      font-size:10.5px;
+      line-height:1.55;
+    }
+
+    .kv{
+      grid-template-columns:105px 1fr;
+      font-size:10px;
+      font-weight:500;
+      line-height:1.45;
+    }
+
+    .note{
+      border-radius:9px;
+      font-size:10px;
+      font-weight:500;
+      line-height:1.55;
+    }
+
+    .modal{
+      border-radius:20px;
+      background:#faf8f2;
+      box-shadow:0 28px 85px rgba(0,0,0,.30);
+    }
+
+    .modal h2{
+      font-size:25px;
+    }
+
+    .modal .lead{
+      font-family:var(--font-ui);
+      font-size:11px;
+      line-height:1.58;
+    }
+
+    .toast{
+      border-radius:999px;
+      font-family:var(--font-ui);
+      font-size:11px;
+      font-weight:650;
+    }
+
+    footer{
+      max-width:1380px;
+      padding:0 22px 34px;
+      font-family:var(--font-ui);
+      font-size:10px;
+      font-weight:500;
+      line-height:1.75;
+      letter-spacing:.025em;
+    }
+
+    footer strong{
+      font-family:var(--font-brand);
+      color:var(--ink);
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:.075em;
+    }
+
+    @media(max-width:1180px){
+      .app-shell{grid-template-columns:260px minmax(420px,1fr)}
+    }
+
+    @media(max-width:780px){
+      .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+        padding-top:28px;
+      }
+      .hero-copy{margin-left:auto;margin-right:auto}
+      .service-number{width:min(370px,100%);margin:auto}
+      .status-card{text-align:center;justify-content:center}
+      .status-actions{justify-content:center}
+      .mobile-tabs button{
+        font-size:9px;
+        padding:9px 7px;
+      }
+      .stage-panel{min-height:650px}
+    }
+
+    @media(max-width:520px){
+      .topline-inner,.hero,.status-strip,.mobile-tabs,.app-shell,footer{
+        padding-left:12px;
+        padding-right:12px;
+      }
+      .crumbs{width:100%;justify-content:center}
+      .network-links{width:100%;justify-content:center}
+      .network-links a{flex:1;text-align:center}
+      .hero{padding-top:24px}
+      .hero-copy{font-size:14px}
+      h1{font-size:42px}
+      .stage-grid{min-height:410px}
+      .control-btn{font-size:9px}
+    }
+
   </style>
 </head>
 <body>
@@ -183,50 +720,51 @@
     <div class="topline-inner">
       <nav class="crumbs" aria-label="Breadcrumb">
         <a href="https://vervenveda.github.io/">Verve N Veda</a><span aria-hidden="true">›</span>
-        <a href="333_Network_index.html">333 Network</a><span aria-hidden="true">›</span>
+        <a href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a><span aria-hidden="true">›</span>
+        <a href="333_network/333_Network_index.html">333 Network</a><span aria-hidden="true">›</span>
         <span>KANSEE</span>
       </nav>
       <nav class="network-links" aria-label="333 Network services">
-        <a href="HOLLO_index.html">HOLLO</a>
-        <a href="Live_Social_Feed_index.html">Live Feed</a>
-        <a href="333_Network_index.html">Network Home</a>
+        <a href="HOLLO™ 333 Direct Connect_index.html">HOLLO Direct Connect</a>
+        <a href="Bazaar Art Live 333 Social Feedindex.html">Bazaar Art Live</a>
+        <a href="333_network/333_Network_index.html">333 Network</a>
       </nav>
     </div>
   </div>
 
   <header class="hero">
     <div>
-      <p class="eyebrow">333 Network · Meeting Rooms</p>
+      <p class="eyebrow">333 Network · Private Meeting Rooms</p>
       <h1>KANSEE™</h1>
-      <p class="hero-copy">Create private meeting rooms, invite trusted 333 Network members, preview your camera and microphone, manage a waiting room, share your screen, exchange room messages, and keep local meeting records—all from one calm conference workspace.</p>
+      <p class="hero-copy">Create a private meeting room, invite trusted people, manage a waiting room, exchange room messages, and preview your camera, microphone, or screen only when you choose. KANSEE keeps the meeting workflow calm and understandable.</p>
     </div>
     <div class="service-number" aria-label="KANSEE network number">
-      <small>KANSEE Meeting Exchange</small>
+      <small>Internal KANSEE Route</small>
       <strong>333-333-7777</strong>
-      <span>Internal 333 Network routing identity</span>
+      <span>Not a public telephone number</span>
     </div>
   </header>
 
   <section class="status-strip" aria-label="Network status">
     <div class="status-card" id="networkStatusCard">
-      <div><span class="status-dot"></span><strong id="networkStatusTitle">Local conference studio</strong> <span id="networkStatusText">Room planning, local media preview, chat, waiting-room simulation, and backups work in this browser. Remote participants require the future KANSEE signaling and media services.</span></div>
+      <div><span class="status-dot"></span><strong id="networkStatusTitle">Local meeting preview</strong> <span id="networkStatusText">Rooms, local camera and microphone preview, chat, waiting-room demonstrations, and backups work on this device. Real participants on other devices require connected KANSEE services.</span></div>
       <div class="status-actions">
-        <button class="quiet-btn" id="openProfileBtn" type="button">Meeting Identity</button>
-        <button class="quiet-btn" id="openSettingsBtn" type="button">Network Settings</button>
+        <button class="quiet-btn" id="openProfileBtn" type="button">My Meeting Profile</button>
+        <button class="quiet-btn" id="openSettingsBtn" type="button">Connection Settings</button>
       </div>
     </div>
   </section>
 
   <nav class="mobile-tabs" aria-label="Mobile KANSEE sections">
-    <button class="small-btn active" type="button" data-mobile-panel="meetingsPanel">Meetings</button>
-    <button class="small-btn" type="button" data-mobile-panel="stagePanel">Room</button>
-    <button class="small-btn" type="button" data-mobile-panel="rightPanel">People & Chat</button>
+    <button class="small-btn active" type="button" role="tab" aria-selected="true" aria-controls="meetingsPanel" data-mobile-panel="meetingsPanel">Rooms</button>
+    <button class="small-btn" type="button" role="tab" aria-selected="false" aria-controls="stagePanel" data-mobile-panel="stagePanel">Meeting</button>
+    <button class="small-btn" type="button" role="tab" aria-selected="false" aria-controls="rightPanel" data-mobile-panel="rightPanel">People & Chat</button>
   </nav>
 
   <main class="app-shell">
     <section class="panel mobile-active" id="meetingsPanel">
       <div class="panel-head">
-        <div><h2>Meetings</h2><p>Create, schedule, or join by room code.</p></div>
+        <div><h2>Rooms</h2><p>Create, schedule, or join by room code.</p></div>
         <button class="icon-btn" id="createMeetingBtn" type="button" aria-label="Create meeting">＋</button>
       </div>
       <div class="panel-body">
@@ -235,27 +773,27 @@
           <button class="primary-btn" id="joinRoomBtn" type="button">Join</button>
         </div>
         <div class="button-row" style="margin-bottom:11px">
-          <button class="small-btn" id="instantMeetingBtn" type="button">Instant Meeting</button>
+          <button class="small-btn" id="instantMeetingBtn" type="button">Start Instant Room</button>
           <button class="small-btn" id="importWorkspaceBtn" type="button">Import Backup</button>
           <input class="hidden" id="workspaceFileInput" type="file" accept="application/json,.json">
         </div>
-        <div class="section-label">Scheduled and recent rooms</div>
+        <div class="section-label">Your scheduled and recent rooms</div>
         <div class="meeting-list" id="meetingList"></div>
       </div>
     </section>
 
     <section class="panel stage-panel" id="stagePanel">
       <div class="panel-head">
-        <div><h2 id="stageTitle">Meeting Room</h2><p id="stageSubtitle">No room is open.</p></div>
+        <div><h2 id="stageTitle">Meeting Room</h2><p id="stageSubtitle">Choose or create a room to begin.</p></div>
         <div class="button-row">
           <button class="small-btn" id="copyInviteBtn" type="button" disabled>Copy Invite</button>
-          <button class="small-btn" id="roomDetailsBtn" type="button" disabled>Room Details</button>
+          <button class="small-btn" id="roomDetailsBtn" type="button" disabled>Details</button>
         </div>
       </div>
       <div class="panel-body">
         <div class="room-banner" id="roomBanner">
           <div><strong id="roomBannerTitle">Ready when you are</strong><div class="meta" id="roomBannerMeta">Create or join a room to begin.</div></div>
-          <span class="pill prototype" id="roomModeBadge">Local prototype</span>
+          <span class="pill prototype" id="roomModeBadge">Local Preview</span>
         </div>
         <div class="stage-grid" id="stageGrid" aria-label="Meeting participant video grid">
           <div class="empty-stage" id="emptyStage"><div><strong>KANSEE Room</strong>Choose an instant or scheduled meeting. Camera and microphone access begins only when you explicitly start your preview.</div></div>
@@ -265,7 +803,7 @@
           <button class="control-btn" id="muteBtn" type="button" disabled>🎙 Mute</button>
           <button class="control-btn" id="cameraBtn" type="button" disabled>📷 Camera</button>
           <button class="control-btn" id="shareBtn" type="button" disabled>▣ Share</button>
-          <button class="control-btn" id="simulateGuestBtn" type="button" disabled>＋ Demo Guest</button>
+          <button class="control-btn" id="simulateGuestBtn" type="button" disabled>＋ Add Demo Guest</button>
           <button class="control-btn danger" id="leaveRoomBtn" type="button" disabled>Leave</button>
         </div>
       </div>
@@ -273,7 +811,7 @@
 
     <aside class="panel right-panel" id="rightPanel">
       <div class="panel-head">
-        <div><h2>Room Console</h2><p>Participants, chat, invitations, and room details.</p></div>
+        <div><h2>Meeting Console</h2><p>People, messages, invitations, and room details.</p></div>
         <span class="pill" id="participantCountBadge">0 people</span>
       </div>
       <div class="side-tabs" role="tablist" aria-label="Room console tabs">
@@ -303,9 +841,9 @@
             <h3>Invite by 333 identity</h3>
             <div class="field"><label for="inviteNumberInput">333 Network number or handle</label><input id="inviteNumberInput" type="text" autocomplete="off" placeholder="333-111-7777 or @JenniferPearl"></div>
             <div class="field"><label for="inviteRoleSelect">Meeting role</label><select id="inviteRoleSelect"><option value="participant">Participant</option><option value="presenter">Presenter</option><option value="cohost">Co-host request</option></select></div>
-            <button class="primary-btn" id="sendInviteBtn" type="button">Create Invitation</button>
+            <button class="primary-btn" id="sendInviteBtn" type="button">Prepare Invitation</button>
           </div>
-          <div class="section-label">Local invitation activity</div>
+          <div class="section-label">Prepared invitations on this device</div>
           <div class="history-list" id="inviteHistoryList"></div>
         </section>
 
@@ -316,7 +854,7 @@
           </div>
           <div class="info-card">
             <h3>Meeting notes</h3>
-            <div class="field"><label for="meetingNotes">Private notes stored with this room</label><textarea id="meetingNotes" placeholder="Agenda, decisions, follow-up items…"></textarea></div>
+            <div class="field"><label for="meetingNotes">Private notes saved with this room</label><textarea id="meetingNotes" placeholder="Agenda, decisions, follow-up items…"></textarea></div>
             <button class="small-btn" id="saveNotesBtn" type="button">Save Notes</button>
           </div>
           <div class="button-row">
@@ -324,15 +862,16 @@
             <button class="small-btn" id="exportHistoryBtn" type="button">Export History</button>
             <button class="danger-btn" id="clearHistoryBtn" type="button">Clear History</button>
           </div>
-          <p class="note" style="margin-top:10px">KANSEE does not activate cameras, microphones, or screen sharing until you choose the related control. A real remote room will require HTTPS, authenticated signaling, TURN relay, and a group media service.</p>
+          <p class="note" style="margin-top:10px">KANSEE never starts your camera, microphone, or screen share until you choose the related control. Cross-device meetings require HTTPS and connected, authenticated KANSEE services.</p>
         </section>
       </div>
     </aside>
   </main>
 
   <footer>
-    KANSEE™ — 333 Meeting Rooms · Internal service identity 333-333-7777<br>
-    Local-first planning and media preview. Remote meeting delivery remains disabled until a trusted KANSEE backend adapter is configured.
+    <strong>KANSEE™ · 333 Meeting Rooms at ProReSources</strong><br>
+    Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026<br>
+    Rooms and media previews remain local to this browser until connected KANSEE services are configured.
   </footer>
 
   <div class="modal-backdrop" id="meetingModalBackdrop" aria-hidden="true">
@@ -511,7 +1050,7 @@
       if(adapter&&adapter.connected===true){
         card.classList.add('connected');$('#networkStatusTitle').textContent='KANSEE network connected';$('#networkStatusText').textContent='A trusted backend adapter is active. Remote delivery depends on the adapter implementation and configured services.';
       }else{
-        card.classList.remove('connected');$('#networkStatusTitle').textContent='Local conference studio';$('#networkStatusText').textContent='Room planning, local media preview, chat, waiting-room simulation, and backups work in this browser. Remote participants require the future KANSEE signaling and media services.';
+        card.classList.remove('connected');$('#networkStatusTitle').textContent='Local meeting preview';$('#networkStatusText').textContent='Rooms, local camera and microphone preview, chat, waiting-room demonstrations, and backups work on this device. Real participants on other devices require connected KANSEE services.';
       }
     }
     function renderMeetings(){
@@ -543,10 +1082,10 @@
       const has=!!room;
       $('#copyInviteBtn').disabled=!has;$('#roomDetailsBtn').disabled=!has;$('#previewBtn').disabled=!has;$('#simulateGuestBtn').disabled=!has;$('#leaveRoomBtn').disabled=!has;
       $('#stageTitle').textContent=has?room.title:'Meeting Room';
-      $('#stageSubtitle').textContent=has?room.code+' · '+formattedWhen(room):'No room is open.';
+      $('#stageSubtitle').textContent=has?room.code+' · '+formattedWhen(room):'Choose or create a room to begin.';
       $('#roomBannerTitle').textContent=has?room.title:'Ready when you are';
       $('#roomBannerMeta').textContent=has?(room.code+' · '+(room.waitingRoom?'Waiting room on':'Waiting room off')+' · '+room.duration+' minutes'):'Create or join a room to begin.';
-      $('#roomModeBadge').textContent=backendAdapter()&&backendAdapter().connected?'Network room':'Local prototype';
+      $('#roomModeBadge').textContent=backendAdapter()&&backendAdapter().connected?'Network room':'Local Preview';
       $('#roomModeBadge').className='pill '+(backendAdapter()&&backendAdapter().connected?'online':'prototype');
       renderStage();
     }
@@ -622,7 +1161,7 @@
       const room=currentMeeting();const list=$('#roomDetailsList');const modal=$('#detailsModalList');list.replaceChildren();modal.replaceChildren();
       const values=room?[
         ['Title',room.title],['Room code',room.code],['Schedule',formattedWhen(room)],['Duration',room.duration+' minutes'],['Access',room.access],['Waiting room',room.waitingRoom?'On':'Off'],['Mute on entry',room.muteOnEntry?'On':'Off'],['Status',room.status]
-      ]:[['Room','No room open'],['Service','333-333-7777'],['Mode','Local prototype']];
+      ]:[['Room','No room open'],['Service','333-333-7777'],['Mode','Local Preview']];
       [list,modal].forEach(target=>values.forEach(([k,v])=>{const dt=document.createElement('dt');dt.textContent=k;const dd=document.createElement('dd');dd.textContent=v;target.append(dt,dd)}));
       $('#meetingNotes').value=room?room.notes:'';$('#meetingNotes').disabled=!room;$('#saveNotesBtn').disabled=!room;$('#sendInviteBtn').disabled=!room;$('#chatInput').disabled=!room;$('#chatForm').querySelector('button').disabled=!room;
     }
@@ -639,7 +1178,7 @@
       const room=state.meetings.find(m=>m.id===id);if(!room)return;
       if(currentRoom&&currentRoom.id!==room.id&&currentRoom.status==='active'){currentRoom.status='scheduled';currentRoom.updatedAt=nowIso()}
       currentRoom=room;state.currentRoomId=room.id;if(markActive!==false)room.status='active';room.updatedAt=nowIso();
-      ensureLocalParticipant(room);addSystemMessage(room,'Room opened locally. Remote delivery is not active in this standalone edition.');
+      ensureLocalParticipant(room);addSystemMessage(room,'Room opened on this device. Cross-device participation is not active yet.');
       saveState();renderAll();activateMobilePanel('stagePanel');announce('Opened '+room.title);
     }
     function ensureLocalParticipant(room){
@@ -748,7 +1287,7 @@
       $$('[data-side-tab]').forEach(b=>{const on=b.dataset.sideTab===name;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on))});$$('[data-side-pane]').forEach(p=>p.classList.toggle('active',p.dataset.sidePane===name));
     }
     function activateMobilePanel(id){
-      if(matchMedia('(min-width:781px)').matches)return;$$('.app-shell>.panel').forEach(p=>p.classList.toggle('mobile-active',p.id===id));$$('[data-mobile-panel]').forEach(b=>b.classList.toggle('active',b.dataset.mobilePanel===id));window.scrollTo({top:document.querySelector('.mobile-tabs').offsetTop-8,behavior:'smooth'});
+      if(matchMedia('(min-width:781px)').matches)return;$$('.app-shell>.panel').forEach(p=>p.classList.toggle('mobile-active',p.id===id));$$('[data-mobile-panel]').forEach(b=>{const on=b.dataset.mobilePanel===id;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on))});window.scrollTo({top:document.querySelector('.mobile-tabs').offsetTop-8,behavior:'smooth'});
     }
 
     $('#createMeetingBtn').addEventListener('click',openMeetingModal);$('#instantMeetingBtn').addEventListener('click',instantMeeting);$('#joinRoomBtn').addEventListener('click',joinByCode);$('#joinCodeInput').addEventListener('keydown',e=>{if(e.key==='Enter')joinByCode()});
@@ -756,7 +1295,37 @@
     $('#copyInviteBtn').addEventListener('click',copyInvite);$('#roomDetailsBtn').addEventListener('click',openDetailsModal);$('#sendInviteBtn').addEventListener('click',sendInvite);$('#saveNotesBtn').addEventListener('click',saveNotes);
     $('#exportWorkspaceBtn').addEventListener('click',exportWorkspace);$('#exportHistoryBtn').addEventListener('click',exportHistory);$('#clearHistoryBtn').addEventListener('click',clearHistory);$('#importWorkspaceBtn').addEventListener('click',()=>$('#workspaceFileInput').click());$('#workspaceFileInput').addEventListener('change',e=>{importWorkspace(e.target.files&&e.target.files[0]);e.target.value=''})
     $('#openProfileBtn').addEventListener('click',openProfileModal);$('#openSettingsBtn').addEventListener('click',openSettingsModal);
-    $$('[data-side-tab]').forEach(b=>b.addEventListener('click',()=>switchSideTab(b.dataset.sideTab)));$$('[data-mobile-panel]').forEach(b=>b.addEventListener('click',()=>activateMobilePanel(b.dataset.mobilePanel)));
+    $$('[data-side-tab]').forEach(b=>b.addEventListener('click',()=>switchSideTab(b.dataset.sideTab)));
+
+    $$('[data-side-tab]').forEach((button,index,buttons)=>{
+      button.addEventListener('keydown',event=>{
+        if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+        event.preventDefault();
+        let next=index;
+        if(event.key==='ArrowRight')next=(index+1)%buttons.length;
+        if(event.key==='ArrowLeft')next=(index-1+buttons.length)%buttons.length;
+        if(event.key==='Home')next=0;
+        if(event.key==='End')next=buttons.length-1;
+        buttons[next].focus();
+        switchSideTab(buttons[next].dataset.sideTab);
+      });
+    });
+$$('[data-mobile-panel]').forEach(b=>b.addEventListener('click',()=>activateMobilePanel(b.dataset.mobilePanel)));
+
+    $$('[data-mobile-panel]').forEach((button,index,buttons)=>{
+      button.addEventListener('keydown',event=>{
+        if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+        event.preventDefault();
+        let next=index;
+        if(event.key==='ArrowRight')next=(index+1)%buttons.length;
+        if(event.key==='ArrowLeft')next=(index-1+buttons.length)%buttons.length;
+        if(event.key==='Home')next=0;
+        if(event.key==='End')next=buttons.length-1;
+        buttons[next].focus();
+        activateMobilePanel(buttons[next].dataset.mobilePanel);
+      });
+    });
+
     $('#chatForm').addEventListener('submit',e=>{e.preventDefault();const input=$('#chatInput');sendChat(input.value);input.value=''});
 
     $('#meetingForm').addEventListener('submit',e=>{e.preventDefault();const data={title:$('#meetingTitleInput').value.trim()||'KANSEE Meeting',date:$('#meetingDateInput').value,time:$('#meetingTimeInput').value,duration:$('#meetingDurationInput').value,access:$('#meetingAccessInput').value,waitingRoom:$('#meetingWaitingInput').checked,muteOnEntry:$('#meetingMuteInput').checked};createMeeting(data,false);closeDialog($('#meetingModalBackdrop'))});
