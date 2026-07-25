@@ -1,420 +1,1433 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Ultimate Campaign Search Gate</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="PLERA Search Gate™ is a privacy-conscious search doorway for choosing an engine, research lane, source guide, and optional query filters before opening results directly with the selected provider.">
+<meta name="theme-color" content="#0b1020">
+<meta name="color-scheme" content="dark light">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>PLERA Search Gate™ — Choose the Way You Search</title>
+
 <style>
-  :root{
-    --red:#C41313;
-    --blue:#1166C3;
-    --white:#FFFFFF;
-    --black:#000000;
-    --muted:#444444;
-    --radius-lg:21px;
-    --radius-md:11px;
-    --gap:14px;
-  }
-  *{box-sizing:border-box;}
+:root{
+  --font-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+  --font-brand:"Cinzel","Aboreto",Georgia,serif;
+  --font-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
 
-  body{
-    margin:7px;
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    background:transparent;
-    color:var(--black);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-  }
+  --night:#090d1a;
+  --night-2:#12182d;
+  --night-3:#1b2442;
+  --paper:#f8f3e8;
+  --ink:#f5f2eb;
+  --muted:#b2b5c4;
+  --faint:#81879f;
+  --gold:#d7b66f;
+  --gold-2:#f0d99d;
+  --teal:#77c9c1;
+  --violet:#9b8bd4;
+  --rose:#c983a3;
+  --good:#79d7a8;
+  --warn:#e4bd70;
+  --bad:#df7d8f;
+  --line:rgba(232,213,168,.17);
+  --line-blue:rgba(119,201,193,.22);
+  --panel:rgba(19,25,47,.86);
+  --panel-strong:rgba(24,31,57,.94);
+  --shadow:0 24px 72px rgba(0,0,0,.34);
+  --radius:19px;
+  --max:1260px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 11% -5%,rgba(215,182,111,.17),transparent 32rem),
+    radial-gradient(circle at 91% 7%,rgba(119,201,193,.12),transparent 31rem),
+    radial-gradient(circle at 48% 100%,rgba(155,139,212,.10),transparent 42rem),
+    linear-gradient(145deg,var(--night),#060914 76%);
+  font-family:var(--font-ui);
+  letter-spacing:.004em;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.26;
+  background:
+    radial-gradient(circle at 20% 26%,rgba(255,255,255,.72) 0 1px,transparent 1.3px),
+    radial-gradient(circle at 74% 58%,rgba(119,201,193,.58) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 51% 82%,rgba(240,217,157,.54) 0 1px,transparent 1.4px);
+  background-size:180px 180px,250px 250px,320px 320px;
+  mask-image:linear-gradient(to bottom,#000,transparent 86%);
+}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid rgba(119,201,193,.72);outline-offset:3px}
+.skip-link{
+  position:fixed;
+  top:-70px;
+  left:14px;
+  z-index:100;
+  padding:10px 13px;
+  border-radius:9px;
+  background:var(--paper);
+  color:#15182a;
+  font-weight:700;
+}
+.skip-link:focus{top:14px}
 
-  .campaign-search-shell{
-    width:100%;
-    max-width:1111px;
-  }
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  border-bottom:1px solid var(--line);
+  background:rgba(8,12,25,.86);
+  backdrop-filter:blur(18px);
+}
+.topbar-inner{
+  width:min(var(--max),calc(100% - 30px));
+  min-height:67px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.brand-mark{
+  width:42px;
+  height:42px;
+  border:1px solid rgba(240,217,157,.48);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 32% 26%,rgba(255,255,255,.16),transparent 34%),
+    conic-gradient(from 210deg,rgba(119,201,193,.35),rgba(155,139,212,.28),rgba(215,182,111,.31),rgba(119,201,193,.35));
+  color:var(--gold-2);
+  font-family:var(--font-brand);
+  font-size:.69rem;
+  font-weight:700;
+  letter-spacing:.07em;
+  box-shadow:0 0 0 5px rgba(215,182,111,.025);
+}
+.brand-copy strong{
+  display:block;
+  font-family:var(--font-brand);
+  font-size:.76rem;
+  font-weight:600;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.brand-copy span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:.65rem;
+}
+.topnav{
+  margin-left:auto;
+  display:flex;
+  gap:5px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.topnav a,.menu-button{
+  border:1px solid transparent;
+  border-radius:8px;
+  padding:8px 10px;
+  background:transparent;
+  color:#d9dce8;
+  font-size:.66rem;
+  font-weight:650;
+}
+.topnav a:hover,.menu-button:hover{
+  border-color:var(--line);
+  background:rgba(255,255,255,.04);
+}
+.menu-button{display:none}
 
-  .campaign-search{
-    background:var(--white);
-    border-radius:var(--radius-lg);
-    border:1px solid var(--blue);
-    box-shadow:7px 11px 24px rgba(0,0,0,.16);
-    padding:24px;
-  }
+.hero{
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{
+  width:min(var(--max),calc(100% - 30px));
+  min-height:495px;
+  margin:auto;
+  padding:62px 0 68px;
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr);
+  gap:55px;
+  align-items:center;
+}
+.eyebrow,.section-kicker{
+  color:var(--gold-2);
+  font-family:var(--font-brand);
+  font-size:.60rem;
+  font-weight:600;
+  letter-spacing:.21em;
+  text-transform:uppercase;
+}
+h1,h2,h3{
+  font-family:var(--font-display);
+  font-weight:600;
+}
+h1{
+  margin:12px 0 17px;
+  font-size:clamp(3.35rem,7.5vw,6.8rem);
+  line-height:.86;
+  letter-spacing:-.035em;
+}
+h1 span{
+  display:block;
+  margin-top:13px;
+  color:var(--gold-2);
+  font-family:var(--font-brand);
+  font-size:.17em;
+  line-height:1.45;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.hero-copy{
+  max-width:730px;
+  margin:0;
+  color:#ced1de;
+  font-size:clamp(.96rem,1.7vw,1.1rem);
+  line-height:1.76;
+}
+.hero-note{
+  max-width:700px;
+  margin-top:18px;
+  padding:11px 13px;
+  border-left:2px solid var(--teal);
+  color:var(--muted);
+  background:rgba(119,201,193,.045);
+  font-size:.69rem;
+  line-height:1.58;
+}
+.gate-visual{
+  position:relative;
+  min-height:370px;
+  display:grid;
+  place-items:center;
+}
+.gate-ring{
+  position:absolute;
+  border:1px solid rgba(240,217,157,.21);
+  border-radius:50%;
+}
+.gate-ring.one{width:325px;height:325px}
+.gate-ring.two{width:255px;height:255px;border-color:rgba(119,201,193,.20)}
+.gate-ring.three{width:405px;height:405px;border-style:dashed;opacity:.66}
+.gate-core{
+  position:relative;
+  z-index:3;
+  width:178px;
+  height:218px;
+  border:1px solid rgba(240,217,157,.48);
+  border-radius:89px 89px 18px 18px;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:8px;
+  background:
+    radial-gradient(circle at 35% 24%,rgba(255,255,255,.15),transparent 34%),
+    linear-gradient(145deg,rgba(119,201,193,.16),rgba(155,139,212,.17));
+  box-shadow:0 30px 80px rgba(0,0,0,.48),inset 0 0 35px rgba(215,182,111,.09);
+}
+.gate-core strong{
+  color:var(--gold-2);
+  font-family:var(--font-brand);
+  font-size:1.42rem;
+  font-weight:600;
+  letter-spacing:.15em;
+}
+.gate-core small{
+  color:#d1d4df;
+  font-size:.52rem;
+  font-weight:700;
+  line-height:1.55;
+  letter-spacing:.18em;
+  text-align:center;
+}
+.gate-dot{
+  position:absolute;
+  z-index:4;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  box-shadow:0 0 15px currentColor;
+}
+.gate-dot.a{top:48px;left:48px;color:var(--gold);background:var(--gold)}
+.gate-dot.b{right:34px;top:124px;color:var(--teal);background:var(--teal)}
+.gate-dot.c{left:58px;bottom:49px;color:var(--violet);background:var(--violet)}
 
-  .campaign-search-header{
-    display:flex;
-    align-items:center;
-    gap:11px;
-    margin-bottom:24px;
-  }
+main{
+  width:min(var(--max),calc(100% - 30px));
+  margin:auto;
+  padding:54px 0 78px;
+}
+.search-studio{
+  position:relative;
+  z-index:5;
+  margin-top:-92px;
+  padding:23px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(119,201,193,.07),transparent 28rem),
+    var(--panel-strong);
+  box-shadow:var(--shadow);
+}
+.studio-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:22px;
+  margin-bottom:17px;
+}
+.studio-head h2{
+  margin:5px 0 0;
+  font-size:clamp(2rem,4vw,3rem);
+  line-height:1;
+}
+.studio-head p{
+  max-width:510px;
+  margin:0;
+  color:var(--muted);
+  font-size:.72rem;
+  line-height:1.62;
+}
+.query-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+}
+.search-input{
+  width:100%;
+  min-height:56px;
+  border:1px solid rgba(119,201,193,.30);
+  border-radius:12px;
+  padding:13px 15px;
+  background:#070b17;
+  color:var(--ink);
+  font-size:clamp(.91rem,1.7vw,1.07rem);
+  box-shadow:inset 0 0 22px rgba(0,0,0,.24);
+}
+.search-input::placeholder{color:#72798f}
+.primary-button,.secondary-button,.quiet-button,.chip,.engine-card{
+  border:1px solid var(--line);
+  border-radius:9px;
+  color:var(--ink);
+  background:rgba(255,255,255,.035);
+  font-weight:650;
+  transition:transform .16s ease,border-color .16s ease,background .16s ease;
+}
+.primary-button:hover,.secondary-button:hover,.quiet-button:hover,.chip:hover,.engine-card:hover{
+  transform:translateY(-1px);
+  border-color:rgba(240,217,157,.48);
+  background:rgba(255,255,255,.065);
+}
+.primary-button{
+  min-width:176px;
+  min-height:56px;
+  border:0;
+  padding:12px 17px;
+  color:#141109;
+  background:linear-gradient(135deg,var(--gold-2),#c99a4a);
+  box-shadow:0 14px 34px rgba(0,0,0,.25);
+  font-size:.75rem;
+}
+.secondary-button,.quiet-button{
+  min-height:38px;
+  padding:8px 11px;
+  font-size:.66rem;
+}
+.secondary-button.teal{
+  border:0;
+  color:#071613;
+  background:linear-gradient(135deg,#a1e4dc,#61b4ac);
+}
+.quiet-button{color:var(--muted)}
+.controls-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.field{
+  min-width:0;
+  display:grid;
+  gap:5px;
+}
+.field label{
+  color:#aeb4c6;
+  font-size:.58rem;
+  font-weight:650;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.field select{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(119,201,193,.21);
+  border-radius:8px;
+  padding:8px 9px;
+  background:#090e1c;
+  color:var(--ink);
+  font-size:.68rem;
+}
+.options{
+  margin-top:9px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:rgba(255,255,255,.022);
+}
+.options summary{
+  min-height:42px;
+  padding:10px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  color:var(--muted);
+  font-size:.65rem;
+  list-style:none;
+}
+.options summary::-webkit-details-marker{display:none}
+.options summary strong{
+  color:#dcdee7;
+  font-size:.66rem;
+}
+.option-body{
+  padding:0 11px 11px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+}
+.check{
+  min-height:40px;
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--muted);
+  background:rgba(255,255,255,.02);
+  font-size:.62rem;
+  font-weight:600;
+}
+.check input{
+  width:auto;
+  accent-color:var(--teal);
+}
+.preview{
+  margin-top:10px;
+  padding:11px 12px;
+  border:1px solid rgba(155,139,212,.22);
+  border-radius:10px;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  background:rgba(7,10,22,.54);
+}
+.preview strong{
+  color:#dcd5f5;
+  font-family:var(--font-brand);
+  font-size:.54rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.preview code{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#c7cbd9;
+  font-family:var(--mono);
+  font-size:.59rem;
+}
+.studio-actions{
+  margin-top:9px;
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.search-status{
+  min-height:38px;
+  margin-top:9px;
+  padding:9px 11px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  color:var(--muted);
+  background:rgba(255,255,255,.02);
+  font-size:.62rem;
+  line-height:1.5;
+}
+.search-status[data-kind="good"]{border-color:rgba(121,215,168,.25);color:#b9e9cf}
+.search-status[data-kind="warn"]{border-color:rgba(228,189,112,.27);color:#ead59e}
+.search-status[data-kind="bad"]{border-color:rgba(223,125,143,.27);color:#f0adb9}
 
-  .campaign-badge{
-    width:44px;
-    height:44px;
-    border-radius:50%;
-    background:radial-gradient(circle at 30% 30%,#ffffff,#C41313 55%,#7a0707 90%);
-    box-shadow:0 6px 14px rgba(196,19,19,.55);
-    flex-shrink:0;
+.quick-section,.directory-section,.privacy-section{
+  margin-top:48px;
+}
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:24px;
+  margin-bottom:16px;
+}
+.section-head h2{
+  margin:5px 0 0;
+  font-size:clamp(1.9rem,4vw,2.8rem);
+  line-height:1;
+}
+.section-head p{
+  max-width:530px;
+  margin:0;
+  color:var(--muted);
+  font-size:.73rem;
+  line-height:1.64;
+}
+.chip-grid{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.chip{
+  min-height:38px;
+  padding:8px 11px;
+  color:#d8dbe6;
+  font-size:.65rem;
+}
+.chip span{color:var(--gold-2)}
+.engine-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.engine-card{
+  min-height:130px;
+  padding:14px;
+  text-align:left;
+}
+.engine-card[aria-pressed="true"]{
+  border-color:var(--gold);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(215,182,111,.10),transparent 13rem),
+    rgba(255,255,255,.045);
+}
+.engine-card strong{
+  display:block;
+  font-family:var(--font-display);
+  font-size:1.04rem;
+  font-weight:600;
+}
+.engine-card span{
+  display:block;
+  margin-top:4px;
+  color:var(--gold-2);
+  font-family:var(--font-brand);
+  font-size:.47rem;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+.engine-card small{
+  display:block;
+  margin-top:9px;
+  color:var(--muted);
+  font-size:.58rem;
+  line-height:1.48;
+}
+.recent-shell{
+  margin-top:13px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:var(--panel);
+  overflow:hidden;
+}
+.recent-head{
+  min-height:47px;
+  padding:10px 13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid var(--line);
+}
+.recent-head strong{
+  font-family:var(--font-display);
+  font-size:1rem;
+  font-weight:600;
+}
+.recent-list{
+  display:grid;
+}
+.recent-item{
+  min-height:48px;
+  padding:9px 12px;
+  border:0;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  text-align:left;
+  background:transparent;
+  color:var(--ink);
+}
+.recent-item:last-child{border-bottom:0}
+.recent-item:hover{background:rgba(255,255,255,.03)}
+.recent-item strong{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:.66rem;
+}
+.recent-item small{
+  display:block;
+  margin-top:3px;
+  color:var(--faint);
+  font-size:.52rem;
+}
+.recent-empty{
+  padding:16px;
+  color:var(--faint);
+  text-align:center;
+  font-size:.63rem;
+}
+.privacy-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.info-card{
+  min-height:190px;
+  padding:17px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:
+    radial-gradient(circle at 100% 100%,rgba(119,201,193,.06),transparent 16rem),
+    var(--panel);
+}
+.info-icon{
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  color:var(--gold-2);
+  background:rgba(255,255,255,.035);
+  font-size:1.08rem;
+}
+.info-card h3{
+  margin:15px 0 7px;
+  font-size:1.22rem;
+}
+.info-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:.66rem;
+  line-height:1.62;
+}
+.notice{
+  margin-top:42px;
+  padding:15px 17px;
+  border:1px solid rgba(228,189,112,.28);
+  border-left:3px solid var(--gold);
+  border-radius:11px;
+  background:rgba(61,47,24,.25);
+  color:#e6d7b8;
+  font-size:.64rem;
+  line-height:1.64;
+}
+footer{
+  border-top:1px solid var(--line);
+  background:#070a13;
+}
+.footer-inner{
+  width:min(var(--max),calc(100% - 30px));
+  margin:auto;
+  padding:28px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  color:var(--faint);
+  font-size:.62rem;
+  line-height:1.7;
+}
+.footer-inner strong{
+  color:var(--gold-2);
+  font-family:var(--font-brand);
+  font-size:.69rem;
+  font-weight:600;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+@media(max-width:1040px){
+  .hero-inner{grid-template-columns:1fr;text-align:center;padding-bottom:118px}
+  .hero-copy,.hero-note{margin-left:auto;margin-right:auto}
+  .gate-visual{min-height:360px}
+  .controls-grid,.option-body{grid-template-columns:1fr 1fr}
+  .engine-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .topbar-inner{min-height:61px}
+  .topnav{
+    position:absolute;
+    left:15px;
+    right:15px;
+    top:66px;
+    display:none;
+    padding:8px;
+    border:1px solid var(--line);
+    border-radius:11px;
+    background:#11172b;
+    box-shadow:var(--shadow);
   }
-
-  .campaign-search-title{
-    font-size:24px;
-    font-weight:777;
-    color:var(--red);
-    letter-spacing:0.03em;
-    text-transform:uppercase;
-  }
-
-  .campaign-search-sub{
-    font-size:24px;
-    color:var(--muted);
-  }
-
-  form{margin-top:11px;}
-
-  .field-row{
-    display:flex;
-    gap:11px;
-    flex-wrap:wrap;
-  }
-  .field-row > *{
-    flex:1 1 222px;
-  }
-
-  .campaign-input,
-  .campaign-select{
-    width:100%;
-    padding:11px 24px;
-    border-radius:var(--radius-md);
-    border:1px solid #cccccc;
-    font-size:24px;
-    color:var(--black);
-    background:var(--white);
-  }
-
-  .campaign-input:focus-visible,
-  .campaign-select:focus-visible{
-    outline:2px solid var(--blue);
-    outline-offset:2px;
-    border-color:var(--blue);
-  }
-
-  .campaign-button{
-    width:100%;
-    padding:11px 14px;
-    border-radius:var(--radius-md);
-    border:none;
-    font-size:24px;
-    font-weight:666;
-    cursor:pointer;
-    background:linear-gradient(90deg,var(--red),var(--blue));
-    color:var(--white);
-    box-shadow:0 11px 24px rgba(0,0,0,.25);
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-    margin-top:24px;
-  }
-
-  .campaign-button:hover{filter:brightness(1.05);}
-  .campaign-button:disabled{
-    opacity:.65;
-    cursor:not-allowed;
-    box-shadow:none;
-  }
-
-  .campaign-caption{
-    margin-top:11px;
-    font-size:24px;
-    color:var(--muted);
-    line-height:1.44;
-  }
-
-  .engine-label{
-    font-size:24px;
-    color:var(--black);
-    font-weight:555;
-    margin-top:11px;
-  }
-
-  .chip-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:11px;
-    margin-top:11px;
-  }
-  .chip{
-    padding:11px 11px;
-    border-radius:7px;
-    border:1px solid #dddddd;
-    font-size:14px;
-    cursor:pointer;
-    background:#f7f7f7;
-    color:var(--black);
-  }
-  .chip:hover{
-    background:#ffffff;
-    border-color:var(--blue);
-    color:var(--blue);
-  }
-
-  @media (max-width:555px){
-    body{padding:14px;}
-    .campaign-search{padding:24px;}
-  }
+  .topnav.open{display:grid}
+  .topnav a{text-align:center}
+  .menu-button{display:inline-flex;margin-left:auto}
+  .hero-inner{padding-top:48px}
+  .gate-visual{transform:scale(.84);margin:-30px -60px}
+  .studio-head,.section-head{display:block}
+  .studio-head p,.section-head p{margin-top:9px}
+  .query-row{grid-template-columns:1fr}
+  .primary-button{width:100%}
+  .search-studio{padding:17px}
+  .engine-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .privacy-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .brand-copy span{display:none}
+  h1{font-size:3.5rem}
+  .controls-grid,.option-body{grid-template-columns:1fr}
+  .preview{grid-template-columns:1fr}
+  .preview code{white-space:normal;overflow-wrap:anywhere}
+  .engine-grid{grid-template-columns:1fr}
+  .footer-inner{align-items:flex-start;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important;transition:none!important}
+}
 </style>
 </head>
+
 <body>
+<a class="skip-link" href="#searchStudio">Skip to search controls</a>
 
-<section class="campaign-search-shell">
-  <div class="campaign-search" aria-label="Ultimate internet search for Jennifer Pearl campaign">
-    <div class="campaign-search-header">
-      <div class="campaign-badge" aria-hidden="true"></div>
-      <div>
-        <div class="campaign-search-title">Plera Search Gate</div>
-        <div class="campaign-search-sub">
-          Choose an engine, choose a lane (jobs, legal, medical, maps, recipes, etc.), and open results in a new tab.
-        </div>
-      </div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="https://vervenveda.github.io/proresource_hub.github.io/" aria-label="ProReSources home">
+      <span class="brand-mark">P</span>
+      <span class="brand-copy">
+        <strong>PLERA Search Gate</strong>
+        <span>Choose the way you search</span>
+      </span>
+    </a>
+
+    <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="topNavigation">Menu</button>
+
+    <nav class="topnav" id="topNavigation" aria-label="Primary navigation">
+      <a href="#searchStudio">Search</a>
+      <a href="#quickLanes">Research Lanes</a>
+      <a href="#engines">Engines</a>
+      <a href="#privacy">Privacy</a>
+      <a href="https://vervenveda.github.io/">Verve N Veda</a>
+      <a href="https://vervenveda.github.io/khaemenesacademy.github.io/">Khaemenes Academy</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" aria-labelledby="pageTitle">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Search with intention · compare sources · keep the doorway transparent</div>
+      <h1 id="pageTitle">PLERA Search Gate™<span>A doorway, not a collector</span></h1>
+      <p class="hero-copy">Choose a search provider, choose the kind of information you need, and decide whether PLERA should add a careful source guide. Your query opens directly with the selected provider—PLERA does not proxy, rank, or secretly rewrite the results.</p>
+      <div class="hero-note"><strong>Important:</strong> A source guide narrows a query with visible search operators. It can improve direction, but it cannot guarantee that every result is accurate, safe, current, or appropriate.</div>
     </div>
 
-    <form id="campaignSearchForm">
-      <div class="field-row">
-        <input
-          id="campaignQuery"
-          class="campaign-input"
-          type="search"
-          placeholder="Search (e.g. Florida voting rules, clean water, housing)…"
-          aria-label="Search the web"
-          required
-        >
-
-        <!-- Search engine picker -->
-        <select id="campaignEngine" class="campaign-select" aria-label="Choose search engine">
-          <optgroup label="Privacy & independent">
-            <option value="duckduckgo" selected>DuckDuckGo</option>
-            <option value="brave">Brave Search</option>
-            <option value="startpage">Startpage</option>
-            <option value="kagi">Kagi</option>
-            <option value="mojeek">Mojeek</option>
-            <option value="swisscows">Swisscows</option>
-            <option value="qwant">Qwant</option>
-            <option value="presearch">Presearch</option>
-          </optgroup>
-          <optgroup label="Major engines">
-            <option value="google">Google</option>
-            <option value="bing">Microsoft Bing</option>
-            <option value="yahoo">Yahoo! Search</option>
-            <option value="ask">Ask.com</option>
-            <option value="lycos">Lycos</option>
-            <option value="you">You.com</option>
-            <option value="ecosia">Ecosia</option>
-          </optgroup>
-          <optgroup label="Regional">
-            <option value="baidu">Baidu (CN)</option>
-            <option value="yandex">Yandex (RU)</option>
-            <option value="naver">Naver (KR)</option>
-            <option value="seznam">Seznam (CZ)</option>
-            <option value="sogou">Sogou (CN)</option>
-            <option value="petal">Petal (Huawei)</option>
-          </optgroup>
-        </select>
-
-        <!-- Search lane picker -->
-        <select id="campaignLane" class="campaign-select" aria-label="Search lane">
-          <optgroup label="Type">
-            <option value="web" selected>Web (everything)</option>
-            <option value="images">Images</option>
-            <option value="videos">Videos</option>
-            <option value="news">News</option>
-            <option value="maps">Maps</option>
-            <option value="shopping">Shopping & prices</option>
-          </optgroup>
-          <optgroup label="Specialty filters">
-            <option value="jobs">Jobs & careers</option>
-            <option value="recipes">Food & recipes</option>
-            <option value="people">People lookup</option>
-            <option value="realestate">Real estate & rentals</option>
-            <option value="medical">Medical & health</option>
-            <option value="scholar">Research & scholarly</option>
-            <option value="legal">Legal & case law</option>
-            <option value="blog">Blogs & commentary</option>
-            <option value="code">Code & open source</option>
-            <option value="datasets">Datasets & open data</option>
-          </optgroup>
-        </select>
+    <div class="gate-visual" aria-label="PLERA search gateway illustration">
+      <span class="gate-ring one"></span>
+      <span class="gate-ring two"></span>
+      <span class="gate-ring three"></span>
+      <span class="gate-dot a"></span>
+      <span class="gate-dot b"></span>
+      <span class="gate-dot c"></span>
+      <div class="gate-core">
+        <strong>PLERA</strong>
+        <small>CHOOSE<br>SEARCH<br>VERIFY</small>
       </div>
-
-      <button type="submit" class="campaign-button">
-        🔍 Open Results in New Tab
-      </button>
-    </form>
-
-    <div class="engine-label">Quick civic topics</div>
-    <div class="chip-row" id="campaignChips">
-      <button type="button" class="chip" data-q="Weather">Weather</button>
-      <button type="button" class="chip" data-q="recipes">Recipes</button>
-      <button type="button" class="chip" data-q="Employment">Jobs</button>
-      <button type="button" class="chip" data-q="shopping">Shopping</button>
-      <button type="button" class="chip" data-q="maps">Maps</button>
-      <button type="button" class="chip" data-q="travel">Travel</button>
-      <button type="button" class="chip" data-q="politics">Politics</button>
-      <button type="button" class="chip" data-q="education">Education</button>
     </div>
-
-   <p class="campaign-caption">
-  Verve N Veda & Khaemenes Academy
-  <strong>JenniferPearlFlorida2026.com</strong>.
-</p>
   </div>
 </section>
 
+<main>
+  <section class="search-studio" id="searchStudio" aria-labelledby="searchHeading">
+    <div class="studio-head">
+      <div>
+        <div class="section-kicker">Search command center</div>
+        <h2 id="searchHeading">Build a transparent search.</h2>
+      </div>
+      <p>The final query is shown before it opens. Search history is not stored unless you deliberately enable local recent searches.</p>
+    </div>
+
+    <form id="searchForm" novalidate>
+      <div class="query-row">
+        <label class="field">
+          <span class="sr-only" style="position:absolute;left:-9999px">Search query</span>
+          <input class="search-input" id="searchQuery" type="search" autocomplete="off" maxlength="500" placeholder="What are you looking for?" aria-describedby="searchStatus" required>
+        </label>
+        <button class="primary-button" type="submit">Open Search Results</button>
+      </div>
+
+      <div class="controls-grid">
+        <div class="field">
+          <label for="searchEngine">Search provider</label>
+          <select id="searchEngine">
+            <optgroup label="Privacy & independent">
+              <option value="duckduckgo" selected>DuckDuckGo</option>
+              <option value="brave">Brave Search</option>
+              <option value="startpage">Startpage</option>
+              <option value="qwant">Qwant</option>
+              <option value="mojeek">Mojeek</option>
+              <option value="ecosia">Ecosia</option>
+            </optgroup>
+            <optgroup label="Major & member-supported">
+              <option value="google">Google</option>
+              <option value="bing">Microsoft Bing</option>
+              <option value="yahoo">Yahoo Search</option>
+              <option value="kagi">Kagi</option>
+              <option value="you">You.com</option>
+            </optgroup>
+            <optgroup label="Regional">
+              <option value="baidu">Baidu</option>
+              <option value="yandex">Yandex</option>
+              <option value="naver">Naver</option>
+              <option value="seznam">Seznam</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="searchLane">Research lane</label>
+          <select id="searchLane">
+            <option value="web" selected>Open Web</option>
+            <option value="images">Images</option>
+            <option value="videos">Videos</option>
+            <option value="news">News</option>
+            <option value="maps">Maps & Places</option>
+            <option value="shopping">Shopping & Prices</option>
+            <option value="jobs">Jobs & Careers</option>
+            <option value="recipes">Food & Recipes</option>
+            <option value="travel">Travel</option>
+            <option value="medical">Medical & Health</option>
+            <option value="scholar">Research & Scholarship</option>
+            <option value="legal">Law & Case Research</option>
+            <option value="government">Government & Public Records</option>
+            <option value="datasets">Datasets & Open Data</option>
+            <option value="code">Code & Documentation</option>
+            <option value="books">Books & Public Archives</option>
+            <option value="music">Music Knowledge</option>
+            <option value="education">Education</option>
+            <option value="civic">Civic Information</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="sourceGuide">Source guidance</label>
+          <select id="sourceGuide">
+            <option value="open" selected>No added source filter</option>
+            <option value="guided">Add visible source guide</option>
+            <option value="public">Public & institutional sources</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fileType">File type</label>
+          <select id="fileType">
+            <option value="">Any file type</option>
+            <option value="pdf">PDF</option>
+            <option value="docx">Word document</option>
+            <option value="xlsx">Spreadsheet</option>
+            <option value="pptx">Presentation</option>
+            <option value="html">Web page</option>
+          </select>
+        </div>
+      </div>
+
+      <details class="options">
+        <summary><span>Optional search controls</span><strong>Phrase · Recency · Local history</strong></summary>
+        <div class="option-body">
+          <label class="check"><input id="exactPhrase" type="checkbox"> Search as an exact phrase</label>
+          <label class="check"><input id="recentOnly" type="checkbox"> Favor recent information</label>
+          <label class="check"><input id="saveHistory" type="checkbox"> Save recent searches on this device</label>
+          <label class="check"><input id="rememberSettings" type="checkbox" checked> Remember provider and lane locally</label>
+        </div>
+      </details>
+
+      <div class="preview">
+        <strong>Visible query</strong>
+        <code id="queryPreview">Enter a query to preview the search.</code>
+        <button class="quiet-button" id="copyLinkButton" type="button" disabled>Copy Search Link</button>
+      </div>
+
+      <div class="studio-actions">
+        <button class="secondary-button teal" id="providerHomeButton" type="button">Open Provider Home</button>
+        <button class="secondary-button" id="clearButton" type="button">Clear Query</button>
+        <button class="secondary-button" id="focusShortcutButton" type="button">Focus Search</button>
+      </div>
+
+      <div class="search-status" id="searchStatus" role="status" aria-live="polite">Ready. Press Ctrl or Command + K from anywhere on the page to focus the search field.</div>
+    </form>
+  </section>
+
+  <section class="quick-section" id="quickLanes" aria-labelledby="quickTitle">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Research lanes</div>
+        <h2 id="quickTitle">Begin with a clear direction.</h2>
+      </div>
+      <p>These buttons choose a lane and place a neutral starting phrase in the search field. Review or rewrite it before opening results.</p>
+    </div>
+    <div class="chip-grid" id="quickChips">
+      <button class="chip" type="button" data-lane="news" data-query="latest developments"><span>◌</span> Current News</button>
+      <button class="chip" type="button" data-lane="medical" data-query="patient information and clinical guidance"><span>✚</span> Health</button>
+      <button class="chip" type="button" data-lane="legal" data-query="statutes regulations and case law"><span>⚖</span> Legal</button>
+      <button class="chip" type="button" data-lane="scholar" data-query="peer reviewed research"><span>⌘</span> Scholarship</button>
+      <button class="chip" type="button" data-lane="jobs" data-query="open positions and career requirements"><span>◇</span> Jobs</button>
+      <button class="chip" type="button" data-lane="government" data-query="official government information"><span>▦</span> Government</button>
+      <button class="chip" type="button" data-lane="datasets" data-query="public datasets"><span>≋</span> Open Data</button>
+      <button class="chip" type="button" data-lane="code" data-query="official documentation and source code"><span>&lt;/&gt;</span> Code</button>
+      <button class="chip" type="button" data-lane="education" data-query="lessons curriculum and educational resources"><span>△</span> Education</button>
+      <button class="chip" type="button" data-lane="music" data-query="music history theory and archives"><span>♪</span> Music</button>
+      <button class="chip" type="button" data-lane="maps" data-query="map directions and nearby places"><span>⌖</span> Maps</button>
+      <button class="chip" type="button" data-lane="recipes" data-query="recipes and cooking techniques"><span>⌂</span> Food</button>
+    </div>
+  </section>
+
+  <section class="directory-section" id="engines" aria-labelledby="engineTitle">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Provider directory</div>
+        <h2 id="engineTitle">Choose the search philosophy.</h2>
+      </div>
+      <p>PLERA does not claim that one provider is best for every question. Selecting a card changes the provider used by the main search controls.</p>
+    </div>
+
+    <div class="engine-grid" id="engineGrid"></div>
+
+    <div class="recent-shell">
+      <div class="recent-head">
+        <strong>Recent local searches</strong>
+        <button class="quiet-button" id="clearHistoryButton" type="button">Clear History</button>
+      </div>
+      <div class="recent-list" id="recentList"></div>
+    </div>
+  </section>
+
+  <section class="privacy-section" id="privacy" aria-labelledby="privacyTitle">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Transparent limits</div>
+        <h2 id="privacyTitle">Know what the gate does—and does not do.</h2>
+      </div>
+      <p>Search tools can help locate information, but verification still requires reading sources, checking dates, comparing evidence, and recognizing commercial or political incentives.</p>
+    </div>
+
+    <div class="privacy-grid">
+      <article class="info-card">
+        <div class="info-icon" aria-hidden="true">↗</div>
+        <h3>Direct Opening</h3>
+        <p>The query opens directly with the provider you select. PLERA does not receive the result page, intercept clicks, or create its own ranking.</p>
+      </article>
+      <article class="info-card">
+        <div class="info-icon" aria-hidden="true">⌁</div>
+        <h3>Visible Guidance</h3>
+        <p>When source guidance is enabled, the added search operators appear in the preview before the search opens. You remain free to remove or change them.</p>
+      </article>
+      <article class="info-card">
+        <div class="info-icon" aria-hidden="true">◈</div>
+        <h3>Local Choice</h3>
+        <p>Provider preferences may be remembered locally. Query history remains off unless you enable it and can be erased from this page at any time.</p>
+      </article>
+    </div>
+
+    <div class="notice"><strong>Medical, legal, financial, safety, and election information:</strong> Search results are a starting point, not professional advice or an official determination. Prefer current primary sources, confirm jurisdiction and publication dates, and consult a qualified professional or responsible agency when consequences are significant.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>PLERA Search Gate™ at ProReSources</strong><br>Choose · Search · Compare · Verify</div>
+    <div>Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026</div>
+  </div>
+</footer>
+
 <script>
-(function(){
-  const form   = document.getElementById("campaignSearchForm");
-  const input  = document.getElementById("campaignQuery");
-  const engine = document.getElementById("campaignEngine");
-  const lane   = document.getElementById("campaignLane");
-  const chips  = document.getElementById("campaignChips");
+(()=>{
+  "use strict";
 
-  function buildUrl(rawQuery, engineId, laneId){
-    let q = (rawQuery || "").trim();
-    if(!q) return null;
+  const STORAGE_SETTINGS="plera_search_settings_v2";
+  const STORAGE_HISTORY="plera_search_history_v2";
+  const MAX_HISTORY=12;
 
-    // --- Specialty filters (add site: hints, not hard rules) ---
-    switch(laneId){
-      case "jobs":
-        q += " (site:indeed.com OR site:glassdoor.com OR site:monster.com OR site:careerbuilder.com)";
-        break;
-      case "recipes":
-        q += " (recipe site:yummly.com OR site:allrecipes.com OR site:foodnetwork.com)";
-        break;
-      case "people":
-        q += " (site:whitepages.com OR site:spokeo.com OR site:zoominfo.com)";
-        break;
-      case "realestate":
-        q += " (site:zillow.com OR site:realtor.com OR site:redfin.com OR site:rightmove.co.uk)";
-        break;
-      case "medical":
-        q += " (site:pubmed.ncbi.nlm.nih.gov OR site:webmd.com OR site:mayoclinic.org)";
-        break;
-      case "scholar":
-        q += " (site:scholar.google.com OR site:semanticscholar.org OR site:arxiv.org)";
-        break;
-      case "legal":
-        q += " (site:scholar.google.com OR site:law.cornell.edu OR site:justia.com OR site:lexisnexis.com)";
-        break;
-      case "blog":
-        q += " (blog OR newsletter site:substack.com OR site:medium.com OR site:wordpress.com)";
-        break;
-      case "code":
-        q += " (source code site:github.com OR site:gitlab.com OR site:bitbucket.org)";
-        break;
-      case "datasets":
-        q += " (dataset site:data.gov OR site:kaggle.com OR site:figshare.com OR site:zenodo.org)";
-        break;
-      default:
-        // web/images/videos/news/maps/shopping handled below
-        break;
+  const engineMeta={
+    duckduckgo:{name:"DuckDuckGo",group:"Privacy & independent",description:"General search with visible URL parameters and broad operator support.",home:"https://duckduckgo.com/"},
+    brave:{name:"Brave Search",group:"Privacy & independent",description:"Independent web index with dedicated image, video, and news views.",home:"https://search.brave.com/"},
+    startpage:{name:"Startpage",group:"Privacy & independent",description:"Privacy-oriented results with a supported GET search route.",home:"https://www.startpage.com/"},
+    qwant:{name:"Qwant",group:"Privacy & independent",description:"European search provider with web and media result categories.",home:"https://www.qwant.com/"},
+    mojeek:{name:"Mojeek",group:"Privacy & independent",description:"Independent crawler-based web search.",home:"https://www.mojeek.com/"},
+    ecosia:{name:"Ecosia",group:"Privacy & independent",description:"Web search provider with an environmental mission.",home:"https://www.ecosia.org/"},
+    google:{name:"Google",group:"Major & member-supported",description:"Broad web, image, news, map, video, and shopping search.",home:"https://www.google.com/"},
+    bing:{name:"Microsoft Bing",group:"Major & member-supported",description:"Broad web search with dedicated media, news, map, and shopping routes.",home:"https://www.bing.com/"},
+    yahoo:{name:"Yahoo Search",group:"Major & member-supported",description:"General web search using Yahoo's result interface.",home:"https://search.yahoo.com/"},
+    kagi:{name:"Kagi",group:"Major & member-supported",description:"Member-supported search service; an account may be required.",home:"https://kagi.com/"},
+    you:{name:"You.com",group:"Major & member-supported",description:"Search and answer interface with its own provider experience.",home:"https://you.com/"},
+    baidu:{name:"Baidu",group:"Regional",description:"Chinese-language and regional web search.",home:"https://www.baidu.com/"},
+    yandex:{name:"Yandex",group:"Regional",description:"Regional and multilingual web search.",home:"https://yandex.com/"},
+    naver:{name:"Naver",group:"Regional",description:"Korean web and portal search.",home:"https://www.naver.com/"},
+    seznam:{name:"Seznam",group:"Regional",description:"Czech web and portal search.",home:"https://www.seznam.cz/"}
+  };
+
+  const laneGuides={
+    web:{open:"",guided:"",public:""},
+    images:{open:"",guided:" image",public:" image (site:.gov OR site:.edu OR site:loc.gov OR site:si.edu)"},
+    videos:{open:"",guided:" video",public:" video (site:.gov OR site:.edu OR site:loc.gov OR site:si.edu)"},
+    news:{open:"",guided:" news",public:" (site:apnews.com OR site:reuters.com OR site:.gov)"},
+    maps:{open:"",guided:" map location directions",public:" map location (site:openstreetmap.org OR site:.gov)"},
+    shopping:{open:"",guided:" price comparison product specifications",public:" product specifications consumer safety site:.gov"},
+    jobs:{open:"",guided:" jobs careers employment",public:" jobs careers (site:usajobs.gov OR site:.gov OR site:.edu)"},
+    recipes:{open:"",guided:" recipe ingredients instructions",public:" food preparation nutrition (site:usda.gov OR site:.edu)"},
+    travel:{open:"",guided:" travel guide transportation lodging",public:" travel advisory transportation (site:travel.state.gov OR site:.gov)"},
+    medical:{open:"",guided:" patient information clinical guidance",public:" (site:nih.gov OR site:medlineplus.gov OR site:cdc.gov OR site:who.int)"},
+    scholar:{open:"",guided:" research study journal paper",public:" (site:pubmed.ncbi.nlm.nih.gov OR site:arxiv.org OR site:semanticscholar.org OR site:.edu)"},
+    legal:{open:"",guided:" law statute regulation case",public:" (site:law.cornell.edu OR site:justice.gov OR site:supremecourt.gov OR site:govinfo.gov)"},
+    government:{open:"",guided:" official government",public:" site:.gov"},
+    datasets:{open:"",guided:" dataset open data",public:" (site:data.gov OR site:census.gov OR site:noaa.gov OR site:zenodo.org)"},
+    code:{open:"",guided:" source code documentation",public:" (site:github.com OR site:gitlab.com OR site:developer.mozilla.org OR site:w3.org)"},
+    books:{open:"",guided:" book text archive",public:" (site:loc.gov OR site:archive.org OR site:gutenberg.org OR site:hathitrust.org)"},
+    music:{open:"",guided:" music history theory archive",public:" (site:loc.gov OR site:si.edu OR site:imslp.org OR site:musicbrainz.org)"},
+    education:{open:"",guided:" lesson curriculum educational resource",public:" (site:.edu OR site:ed.gov OR site:si.edu OR site:loc.gov)"},
+    civic:{open:"",guided:" civic public information",public:" (site:.gov OR site:usa.gov OR site:congress.gov)"}
+  };
+
+  const form=document.getElementById("searchForm");
+  const queryInput=document.getElementById("searchQuery");
+  const engineSelect=document.getElementById("searchEngine");
+  const laneSelect=document.getElementById("searchLane");
+  const sourceGuide=document.getElementById("sourceGuide");
+  const fileType=document.getElementById("fileType");
+  const exactPhrase=document.getElementById("exactPhrase");
+  const recentOnly=document.getElementById("recentOnly");
+  const saveHistory=document.getElementById("saveHistory");
+  const rememberSettings=document.getElementById("rememberSettings");
+  const queryPreview=document.getElementById("queryPreview");
+  const searchStatus=document.getElementById("searchStatus");
+  const copyLinkButton=document.getElementById("copyLinkButton");
+  const recentList=document.getElementById("recentList");
+  const engineGrid=document.getElementById("engineGrid");
+  const menuButton=document.getElementById("menuButton");
+  const topNavigation=document.getElementById("topNavigation");
+
+  function setStatus(message,kind=""){
+    searchStatus.textContent=message;
+    searchStatus.dataset.kind=kind;
+  }
+
+  function safeParse(value,fallback){
+    try{return JSON.parse(value)}catch{return fallback}
+  }
+
+  function loadSettings(){
+    const fallback={engine:"duckduckgo",lane:"web",guide:"open",fileType:"",exact:false,recent:false,saveHistory:false,remember:true};
+    let saved=fallback;
+    try{saved={...fallback,...safeParse(localStorage.getItem(STORAGE_SETTINGS),{})}}catch{}
+    if(engineMeta[saved.engine])engineSelect.value=saved.engine;
+    if(laneGuides[saved.lane])laneSelect.value=saved.lane;
+    if(["open","guided","public"].includes(saved.guide))sourceGuide.value=saved.guide;
+    if(["","pdf","docx","xlsx","pptx","html"].includes(saved.fileType))fileType.value=saved.fileType;
+    exactPhrase.checked=!!saved.exact;
+    recentOnly.checked=!!saved.recent;
+    saveHistory.checked=!!saved.saveHistory;
+    rememberSettings.checked=saved.remember!==false;
+  }
+
+  function saveSettings(){
+    if(!rememberSettings.checked){
+      try{localStorage.removeItem(STORAGE_SETTINGS)}catch{}
+      return;
+    }
+    const settings={
+      engine:engineSelect.value,
+      lane:laneSelect.value,
+      guide:sourceGuide.value,
+      fileType:fileType.value,
+      exact:exactPhrase.checked,
+      recent:recentOnly.checked,
+      saveHistory:saveHistory.checked,
+      remember:true
+    };
+    try{localStorage.setItem(STORAGE_SETTINGS,JSON.stringify(settings))}catch{}
+  }
+
+  function laneSuffix(lane,guide){
+    const record=laneGuides[lane]||laneGuides.web;
+    return record[guide]||"";
+  }
+
+  function buildVisibleQuery(raw){
+    const trimmed=String(raw||"").trim().slice(0,500);
+    if(!trimmed)return "";
+    let query=exactPhrase.checked?`"${trimmed.replace(/"/g," ").trim()}"`:trimmed;
+    query+=laneSuffix(laneSelect.value,sourceGuide.value);
+    if(fileType.value)query+=` filetype:${fileType.value}`;
+    if(recentOnly.checked)query+=" recent latest updated";
+    return query.replace(/\s+/g," ").trim();
+  }
+
+  function encoded(query){return encodeURIComponent(query)}
+
+  function providerUrl(engine,lane,query){
+    const q=encoded(query);
+    const raw=encoded(String(queryInput.value||"").trim());
+
+    if(engine==="google"){
+      if(lane==="images")return `https://www.google.com/search?tbm=isch&q=${q}`;
+      if(lane==="videos")return `https://www.google.com/search?tbm=vid&q=${q}`;
+      if(lane==="news")return `https://news.google.com/search?q=${q}`;
+      if(lane==="maps")return `https://www.google.com/maps/search/?api=1&query=${raw}`;
+      if(lane==="shopping")return `https://www.google.com/search?tbm=shop&q=${q}`;
+      return `https://www.google.com/search?q=${q}`;
     }
 
-    const query = encodeURIComponent(q);
-    const raw   = encodeURIComponent((rawQuery || "").trim());
-
-    // --- Engine-specific paths for major types (where we know them) ---
-
-    // Helpful helpers for main engines
-    function googleBase(){
-      switch(laneId){
-        case "images":   return "https://www.google.com/search?tbm=isch&q=" + query;
-        case "videos":   return "https://www.youtube.com/results?search_query=" + raw;
-        case "news":     return "https://news.google.com/search?q=" + raw;
-        case "maps":     return "https://www.google.com/maps/search/" + raw;
-        case "shopping": return "https://www.google.com/search?tbm=shop&q=" + query;
-        default:         return "https://www.google.com/search?q=" + query;
-      }
-    }
-    function ddgBase(){
-      switch(laneId){
-        case "images":   return "https://duckduckgo.com/?iax=images&ia=images&q=" + query;
-        case "videos":   return "https://duckduckgo.com/?ia=videos&q=" + query;
-        case "news":     return "https://duckduckgo.com/?iar=news&ia=news&q=" + query;
-        default:         return "https://duckduckgo.com/?q=" + query;
-      }
-    }
-    function bingBase(){
-      switch(laneId){
-        case "images":   return "https://www.bing.com/images/search?q=" + query;
-        case "videos":   return "https://www.bing.com/videos/search?q=" + query;
-        case "news":     return "https://www.bing.com/news/search?q=" + query;
-        case "maps":     return "https://www.bing.com/maps?q=" + query;
-        case "shopping": return "https://www.bing.com/shop?q=" + query;
-        default:         return "https://www.bing.com/search?q=" + query;
-      }
-    }
-    function braveBase(){
-      switch(laneId){
-        case "images":   return "https://search.brave.com/images?q=" + query;
-        case "videos":   return "https://search.brave.com/videos?q=" + query;
-        case "news":     return "https://search.brave.com/news?q=" + query;
-        default:         return "https://search.brave.com/search?q=" + query;
-      }
+    if(engine==="duckduckgo"){
+      const mode=lane==="images"?"&iax=images&ia=images":lane==="videos"?"&ia=videos":lane==="news"?"&iar=news&ia=news":"";
+      return `https://duckduckgo.com/?q=${q}${mode}`;
     }
 
-    // --- Engine routing ---
-    switch(engineId){
-      case "google":     return googleBase();
-      case "duckduckgo": return ddgBase();
-      case "bing":       return bingBase();
-      case "brave":      return braveBase();
+    if(engine==="bing"){
+      if(lane==="images")return `https://www.bing.com/images/search?q=${q}`;
+      if(lane==="videos")return `https://www.bing.com/videos/search?q=${q}`;
+      if(lane==="news")return `https://www.bing.com/news/search?q=${q}`;
+      if(lane==="maps")return `https://www.bing.com/maps?q=${q}`;
+      if(lane==="shopping")return `https://www.bing.com/shop?q=${q}`;
+      return `https://www.bing.com/search?q=${q}`;
+    }
 
-      case "startpage":  return "https://www.startpage.com/do/dsearch?query=" + query;
-      case "kagi":       return "https://kagi.com/search?q=" + query;
-      case "mojeek":     return "https://www.mojeek.com/search?q=" + query;
-      case "swisscows":  return "https://swisscows.com/web?query=" + query;
-      case "qwant":      return "https://www.qwant.com/?q=" + query + "&t=web";
-      case "presearch":  return "https://engine.presearch.org/search?q=" + query;
+    if(engine==="brave"){
+      if(lane==="images")return `https://search.brave.com/images?q=${q}`;
+      if(lane==="videos")return `https://search.brave.com/videos?q=${q}`;
+      if(lane==="news")return `https://search.brave.com/news?q=${q}`;
+      return `https://search.brave.com/search?q=${q}`;
+    }
 
-      case "ask":        return "https://www.ask.com/web?q=" + query;
-      case "yahoo":      return "https://search.yahoo.com/search?p=" + query;
-      case "lycos":      return "https://search.lycos.com/web/?q=" + query;
-      case "you":        return "https://you.com/search?q=" + query;
-      case "ecosia":     return "https://www.ecosia.org/search?q=" + query;
+    const templates={
+      startpage:`https://www.startpage.com/do/dsearch?q=${q}&cat=web&language=english`,
+      qwant:`https://www.qwant.com/?q=${q}&t=web`,
+      mojeek:`https://www.mojeek.com/search?q=${q}`,
+      ecosia:`https://www.ecosia.org/search?q=${q}`,
+      yahoo:`https://search.yahoo.com/search?p=${q}`,
+      kagi:`https://kagi.com/search?q=${q}`,
+      you:`https://you.com/search?q=${q}`,
+      baidu:`https://www.baidu.com/s?wd=${q}`,
+      yandex:`https://yandex.com/search/?text=${q}`,
+      naver:`https://search.naver.com/search.naver?query=${q}`,
+      seznam:`https://search.seznam.cz/?q=${q}`
+    };
+    return templates[engine]||`https://duckduckgo.com/?q=${q}`;
+  }
 
-      case "baidu":      return "https://www.baidu.com/s?wd=" + query;
-      case "yandex":     return "https://yandex.com/search/?text=" + query;
-      case "naver":      return "https://search.naver.com/search.naver?query=" + query;
-      case "seznam":     return "https://search.seznam.cz/?q=" + query;
-      case "sogou":      return "https://www.sogou.com/web?query=" + query;
-      case "petal":      return "https://petalsearch.com/search?query=" + query;
+  function currentSearch(){
+    const visibleQuery=buildVisibleQuery(queryInput.value);
+    if(!visibleQuery)return {query:"",url:""};
+    return {
+      query:visibleQuery,
+      url:providerUrl(engineSelect.value,laneSelect.value,visibleQuery)
+    };
+  }
 
-      default:
-        // Fallback: DuckDuckGo
-        return ddgBase();
+  function updatePreview(){
+    const search=currentSearch();
+    queryPreview.textContent=search.query||"Enter a query to preview the search.";
+    copyLinkButton.disabled=!search.url;
+    document.querySelectorAll(".engine-card").forEach(card=>{
+      card.setAttribute("aria-pressed",String(card.dataset.engine===engineSelect.value));
+    });
+    saveSettings();
+  }
+
+  function openUrl(url,statusMessage){
+    if(!url)return;
+    const link=document.createElement("a");
+    link.href=url;
+    link.target="_blank";
+    link.rel="noopener noreferrer";
+    link.referrerPolicy="no-referrer";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setStatus(statusMessage,"good");
+  }
+
+  function historyItems(){
+    if(!saveHistory.checked)return [];
+    try{
+      const value=safeParse(localStorage.getItem(STORAGE_HISTORY),[]);
+      return Array.isArray(value)?value.slice(0,MAX_HISTORY):[];
+    }catch{return []}
+  }
+
+  function addHistory(search){
+    if(!saveHistory.checked||!search.query||!search.url)return;
+    const item={
+      id:`${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      raw:String(queryInput.value||"").trim(),
+      query:search.query,
+      engine:engineSelect.value,
+      lane:laneSelect.value,
+      guide:sourceGuide.value,
+      fileType:fileType.value,
+      exact:exactPhrase.checked,
+      recent:recentOnly.checked,
+      url:search.url,
+      ts:Date.now()
+    };
+    const items=historyItems().filter(existing=>existing.query!==item.query||existing.engine!==item.engine);
+    items.unshift(item);
+    try{localStorage.setItem(STORAGE_HISTORY,JSON.stringify(items.slice(0,MAX_HISTORY)))}catch{}
+    renderHistory();
+  }
+
+  function renderHistory(){
+    recentList.replaceChildren();
+    const items=historyItems();
+    if(!saveHistory.checked){
+      const empty=document.createElement("div");
+      empty.className="recent-empty";
+      empty.textContent="Local recent searches are off. Enable them under Optional search controls to use this list.";
+      recentList.append(empty);
+      return;
+    }
+    if(!items.length){
+      const empty=document.createElement("div");
+      empty.className="recent-empty";
+      empty.textContent="No recent searches are stored on this device.";
+      recentList.append(empty);
+      return;
+    }
+    for(const item of items){
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="recent-item";
+      button.dataset.history=item.id;
+      const copy=document.createElement("div");
+      const title=document.createElement("strong");
+      title.textContent=item.raw||item.query;
+      const meta=document.createElement("small");
+      const date=new Date(item.ts);
+      meta.textContent=`${engineMeta[item.engine]?.name||item.engine} · ${item.lane} · ${Number.isNaN(date.getTime())?"saved locally":date.toLocaleString()}`;
+      copy.append(title,meta);
+      const arrow=document.createElement("span");
+      arrow.textContent="Restore";
+      button.append(copy,arrow);
+      recentList.append(button);
     }
   }
 
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-    const q   = (input.value || "").trim();
-    const eng = engine.value;
-    const ln  = lane.value;
-    if(!q) return;
-    const url = buildUrl(q, eng, ln);
-    if(!url) return;
-    window.open(url, "_blank", "noopener");
+  function restoreHistory(id){
+    const item=historyItems().find(record=>record.id===id);
+    if(!item)return;
+    queryInput.value=item.raw||item.query||"";
+    if(engineMeta[item.engine])engineSelect.value=item.engine;
+    if(laneGuides[item.lane])laneSelect.value=item.lane;
+    if(["open","guided","public"].includes(item.guide))sourceGuide.value=item.guide;
+    fileType.value=item.fileType||"";
+    exactPhrase.checked=!!item.exact;
+    recentOnly.checked=!!item.recent;
+    updatePreview();
+    queryInput.focus();
+    setStatus("The local search settings were restored. Review the visible query before opening results.","good");
+  }
+
+  function renderEngines(){
+    engineGrid.replaceChildren();
+    for(const [id,meta] of Object.entries(engineMeta)){
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="engine-card";
+      button.dataset.engine=id;
+      button.setAttribute("aria-pressed",String(id===engineSelect.value));
+      const name=document.createElement("strong");
+      name.textContent=meta.name;
+      const group=document.createElement("span");
+      group.textContent=meta.group;
+      const description=document.createElement("small");
+      description.textContent=meta.description;
+      button.append(name,group,description);
+      engineGrid.append(button);
+    }
+  }
+
+  form.addEventListener("submit",event=>{
+    event.preventDefault();
+    const search=currentSearch();
+    if(!search.query){
+      setStatus("Enter a search question or topic first.","bad");
+      queryInput.focus();
+      return;
+    }
+    addHistory(search);
+    openUrl(search.url,`Opened ${engineMeta[engineSelect.value]?.name||"the selected provider"} in a new tab.`);
   });
 
-  chips.addEventListener("click", function(e){
-    const btn = e.target.closest("[data-q]");
-    if(!btn) return;
-    const q = btn.getAttribute("data-q") || "";
-    input.value = q;
-    input.focus();
+  [queryInput,engineSelect,laneSelect,sourceGuide,fileType,exactPhrase,recentOnly,rememberSettings].forEach(control=>{
+    control.addEventListener(control===queryInput?"input":"change",updatePreview);
   });
+
+  saveHistory.addEventListener("change",()=>{
+    saveSettings();
+    if(!saveHistory.checked){
+      setStatus("Recent search storage is off. Existing local history remains until you clear it.","good");
+    }else{
+      setStatus("Recent searches will now be stored only in this browser profile.","good");
+    }
+    renderHistory();
+  });
+
+  document.getElementById("providerHomeButton").addEventListener("click",()=>{
+    const meta=engineMeta[engineSelect.value];
+    openUrl(meta?.home||"https://duckduckgo.com/",`Opened ${meta?.name||"provider"} home.`);
+  });
+
+  document.getElementById("clearButton").addEventListener("click",()=>{
+    queryInput.value="";
+    updatePreview();
+    queryInput.focus();
+    setStatus("Search field cleared.","good");
+  });
+
+  document.getElementById("focusShortcutButton").addEventListener("click",()=>queryInput.focus());
+
+  copyLinkButton.addEventListener("click",async()=>{
+    const search=currentSearch();
+    if(!search.url)return;
+    try{
+      await navigator.clipboard.writeText(search.url);
+      setStatus("Search link copied. The query has not been opened.","good");
+    }catch{
+      const textarea=document.createElement("textarea");
+      textarea.value=search.url;
+      textarea.style.position="fixed";
+      textarea.style.opacity="0";
+      document.body.append(textarea);
+      textarea.select();
+      const copied=document.execCommand("copy");
+      textarea.remove();
+      setStatus(copied?"Search link copied.":"The browser blocked clipboard access.",copied?"good":"warn");
+    }
+  });
+
+  document.getElementById("quickChips").addEventListener("click",event=>{
+    const button=event.target.closest("[data-lane]");
+    if(!button)return;
+    laneSelect.value=button.dataset.lane;
+    queryInput.value=button.dataset.query||"";
+    sourceGuide.value=["medical","legal","government","datasets","education","civic"].includes(button.dataset.lane)?"public":"guided";
+    updatePreview();
+    queryInput.focus();
+    setStatus("A starting lane and phrase were selected. Rewrite them as needed before searching.","good");
+  });
+
+  engineGrid.addEventListener("click",event=>{
+    const button=event.target.closest("[data-engine]");
+    if(!button)return;
+    engineSelect.value=button.dataset.engine;
+    updatePreview();
+    queryInput.focus();
+    setStatus(`${engineMeta[button.dataset.engine].name} selected.`,"good");
+  });
+
+  recentList.addEventListener("click",event=>{
+    const button=event.target.closest("[data-history]");
+    if(button)restoreHistory(button.dataset.history);
+  });
+
+  document.getElementById("clearHistoryButton").addEventListener("click",()=>{
+    try{localStorage.removeItem(STORAGE_HISTORY)}catch{}
+    renderHistory();
+    setStatus("Local recent-search history cleared.","good");
+  });
+
+  menuButton.addEventListener("click",()=>{
+    const open=topNavigation.classList.toggle("open");
+    menuButton.setAttribute("aria-expanded",String(open));
+  });
+
+  topNavigation.addEventListener("click",event=>{
+    if(event.target.closest("a")){
+      topNavigation.classList.remove("open");
+      menuButton.setAttribute("aria-expanded","false");
+    }
+  });
+
+  document.addEventListener("keydown",event=>{
+    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k"){
+      event.preventDefault();
+      queryInput.focus();
+      queryInput.select();
+    }
+    if(event.key==="Escape"){
+      if(topNavigation.classList.contains("open")){
+        topNavigation.classList.remove("open");
+        menuButton.setAttribute("aria-expanded","false");
+        menuButton.focus();
+      }else if(document.activeElement===queryInput&&queryInput.value){
+        queryInput.value="";
+        updatePreview();
+        setStatus("Search field cleared.","good");
+      }
+    }
+  });
+
+  loadSettings();
+  renderEngines();
+  renderHistory();
+  updatePreview();
+
+  window.PLERA_SearchGate={
+    version:"2.0.0",
+    buildVisibleQuery,
+    providerUrl,
+    engines:Object.keys(engineMeta),
+    lanes:Object.keys(laneGuides)
+  };
 })();
 </script>
-
 </body>
 </html>
