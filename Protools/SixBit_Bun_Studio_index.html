@@ -4,7 +4,9 @@
 <meta charset="utf-8" />
 <title>SixBit Bun™ — Protected Image-to-Code Studio</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="description" content="A sovereign, offline-first image-to-code studio with protected SVG conversion, BunLink verification, and KhaeZip-ready package export." />
+<meta name="description" content="SixBit Bun™ is a local-first protected image-to-code studio with batch conversion, safe SVG processing, BunLink integrity verification, hashed manifests, and KhaeZip-ready package export." />
+<meta name="theme-color" content="#0a0d1c" />
+<meta name="color-scheme" content="dark" />
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
 <style>
 :root{
@@ -299,9 +301,222 @@ footer span{display:block;line-height:1.5}
 @media(max-width:620px){#app{margin:12px 8px;padding:14px 12px 16px}.card{grid-template-columns:1fr}.preview-wrap{grid-row:auto;width:100%;height:160px}.nav-actions{width:100%}.nav-link{flex:1}.controls{grid-template-columns:1fr 1fr}}
 @media(max-width:420px){.controls{grid-template-columns:1fr}.button-row button{flex:1}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}#starfield{display:none}}
+
+/* =========================================================
+   Verve N Veda refinement — SixBit Bun asset-studio identity
+   ========================================================= */
+:root{
+  --font-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+  --font-brand:"Cinzel","Aboreto",Georgia,serif;
+  --font-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --nebula1:#080916;
+  --nebula2:#1b153b;
+  --accent1:#7bc9ee;
+  --accent2:#aa96df;
+  --success:#76d8aa;
+  --warning:#e6bf70;
+  --danger:#df7d91;
+  --gold:#d8b670;
+  --gold2:#f1d999;
+  --pink:#d592be;
+  --panel-bg:rgba(13,17,34,.95);
+  --card-bg:rgba(7,11,25,.91);
+  --card-border:rgba(123,201,238,.19);
+  --border-glow:rgba(123,201,238,.27);
+  --radius:17px;
+  --shadow:0 24px 72px rgba(0,0,0,.38);
+  --font-main:var(--font-ui);
+}
+html{scroll-padding-top:88px}
+html,body{
+  font-family:var(--font-ui);
+  background:
+    radial-gradient(circle at 13% -4%,rgba(213,146,190,.15),transparent 31rem),
+    radial-gradient(circle at 91% 8%,rgba(123,201,238,.14),transparent 32rem),
+    linear-gradient(145deg,#090b19,#050713 78%);
+}
+#starfield{opacity:.55}
+.skip-link{
+  position:fixed;top:-70px;left:14px;z-index:100;
+  padding:10px 13px;border-radius:9px;background:#f7f2e8;color:#15182a;font-weight:700
+}
+.skip-link:focus{top:14px}
+#app{
+  max-width:1260px;
+  margin:18px auto;
+  padding:17px 18px 23px;
+  border-color:rgba(123,201,238,.26);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(123,201,238,.04),transparent 28rem),
+    rgba(10,14,29,.94);
+  box-shadow:var(--shadow);
+}
+.top-nav{
+  position:sticky;top:8px;z-index:20;
+  margin:-5px -5px 14px;padding:8px 9px 12px;
+  border-bottom:1px solid rgba(216,182,112,.14);
+  background:rgba(9,12,26,.88);
+  backdrop-filter:blur(16px)
+}
+.breadcrumbs{color:#b8bfd5;font-size:10px;font-weight:600}
+.breadcrumbs a{color:#e0e2ea}
+.nav-actions{gap:6px}
+.nav-link,button{
+  min-height:35px;padding:7px 10px;border:1px solid rgba(123,201,238,.18);border-radius:8px;
+  background:rgba(255,255,255,.035);box-shadow:none;color:#dfe2ea;
+  font-family:var(--font-ui);font-size:9.5px;font-weight:700;letter-spacing:.01em
+}
+.nav-link:hover,button:hover:not(:disabled){
+  transform:translateY(-1px);border-color:rgba(241,217,153,.46);box-shadow:none;background:rgba(255,255,255,.065)
+}
+.nav-link.secondary,button.secondary{
+  color:#d8dbe7;background:rgba(255,255,255,.03);border-color:rgba(170,150,223,.19)
+}
+button:not(.secondary):not(.danger){
+  color:#10121a;background:linear-gradient(145deg,#afdff1,#75b7da);border-color:transparent
+}
+button.danger{background:rgba(126,45,65,.40);border-color:rgba(223,125,145,.26);color:#ffdfe6}
+button.copy-done{background:linear-gradient(145deg,#9be3ba,#5ebd8b);color:#07170f}
+.inline-link{margin-top:8px;width:100%}
+.studio-hero{
+  min-height:190px;margin:0 0 14px;padding:24px 25px;
+  display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:24px;align-items:center;text-align:left;
+  border:1px solid rgba(216,182,112,.15);border-radius:16px;
+  background:
+    radial-gradient(circle at 95% 5%,rgba(123,201,238,.10),transparent 20rem),
+    linear-gradient(145deg,rgba(24,23,52,.94),rgba(11,16,32,.94))
+}
+.eyebrow{
+  color:var(--gold2);font-family:var(--font-brand);font-size:8px;font-weight:600;letter-spacing:.19em;text-transform:uppercase
+}
+.logo-chip{
+  margin:8px 0 0;padding:0;border-radius:0;background:none;box-shadow:none;
+  color:#d6c9f5;font-family:var(--font-brand);font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase
+}
+.studio-hero h1{
+  margin:3px 0 3px;font-family:var(--font-display);font-size:clamp(34px,5vw,57px);font-weight:600;letter-spacing:-.025em;
+  background:linear-gradient(90deg,#f1d999,#a9dff2 60%,#c6b6ed);-webkit-background-clip:text;background-clip:text;color:transparent
+}
+.studio-hero small{color:#d7d9e2;font-family:var(--font-brand);font-size:8px;letter-spacing:.14em;text-transform:uppercase}
+.studio-hero .tagline{max-width:770px;margin-top:10px;color:#aeb4c8;font-size:10px;line-height:1.55}
+.mini-bun{
+  position:relative;width:125px;height:134px;margin:auto;border:1px solid rgba(241,217,153,.42);border-radius:60px 60px 43px 43px;
+  display:grid;place-items:center;align-content:center;gap:5px;
+  background:linear-gradient(145deg,rgba(213,146,190,.21),rgba(123,201,238,.15));
+  box-shadow:0 16px 42px rgba(0,0,0,.32)
+}
+.mini-bun .ear{
+  position:absolute;top:-43px;width:29px;height:63px;border:1px solid rgba(241,217,153,.39);border-radius:50%;
+  background:linear-gradient(145deg,rgba(213,146,190,.22),rgba(123,201,238,.10))
+}
+.mini-bun .ear.left{left:24px;transform:rotate(-8deg)}.mini-bun .ear.right{right:24px;transform:rotate(8deg)}
+.mini-bun strong{color:var(--gold2);font-family:var(--font-brand);font-size:20px;letter-spacing:.12em}
+.mini-bun small{color:#d7d9e5;font-size:7px;line-height:1.45;text-align:center}
+.quick-guide{
+  margin-bottom:14px;border:1px solid rgba(216,182,112,.16);border-radius:13px;background:rgba(255,255,255,.022);overflow:hidden
+}
+.quick-guide summary{
+  min-height:46px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  cursor:pointer;list-style:none;color:#aeb4c7;font-size:10px
+}
+.quick-guide summary::-webkit-details-marker{display:none}
+.quick-guide summary span{color:var(--gold2);font-family:var(--font-brand);font-size:8px;letter-spacing:.14em;text-transform:uppercase}
+.quick-guide summary strong{color:#e1e3e9;font-size:9px}
+.guide-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;padding:0 10px 10px}
+.guide-grid>div{min-height:84px;padding:10px;border:1px solid rgba(255,255,255,.065);border-radius:9px;display:flex;gap:8px;background:rgba(255,255,255,.022)}
+.guide-grid b{
+  flex:0 0 auto;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#addff1,#9a86d2);color:#11131e;font-size:9px
+}
+.guide-grid span,.guide-grid strong,.guide-grid small{display:block}
+.guide-grid strong{color:#e2e4ea;font-size:9px}.guide-grid small{margin-top:4px;color:#858da8;font-size:8px;line-height:1.42}
+.main-row{grid-template-columns:minmax(0,1.55fr) minmax(290px,.78fr);gap:13px}
+.drop{
+  min-height:130px;padding:29px 12px 24px;border-color:rgba(123,201,238,.35);border-radius:14px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(213,146,190,.07),transparent 17rem),
+    rgba(6,11,25,.76);color:#d3d8e8;font-size:12px
+}
+.drop small{font-size:9.5px;color:#8c96b1}
+.controls{gap:8px;font-size:10px;color:#b5bbcf}
+.control{gap:4px}
+.controls input[type="number"],.controls select{
+  min-height:35px;padding:7px 8px;border-color:rgba(123,201,238,.21);border-radius:7px;background:#070b18;color:#f3f1ea;font-size:10px
+}
+.control.check{
+  min-height:35px;padding:7px 8px;border:1px solid rgba(255,255,255,.065);border-radius:7px;background:rgba(255,255,255,.02);font-size:9px
+}
+.control-hint,.code-note{font-size:8.5px}
+.button-row{gap:6px;margin-top:10px}
+.summary{padding:9px 11px;border-color:rgba(255,255,255,.07);border-radius:9px;background:rgba(255,255,255,.025);font-size:9.5px}
+.progress-track{height:6px;background:rgba(255,255,255,.07)}
+.progress-bar{background:linear-gradient(90deg,var(--accent1),var(--success),var(--gold))}
+.gallery{gap:10px}
+.card{
+  padding:10px;border-color:rgba(123,201,238,.17);border-radius:11px;
+  background:rgba(6,10,23,.78);box-shadow:0 11px 29px rgba(0,0,0,.19)
+}
+.preview-wrap{border-color:rgba(123,201,238,.16);border-radius:8px;background:#050817}
+.card .name{font-size:10.5px;color:#ece9e4}.card .meta{font-size:8.5px;color:#8993aa}.card .status{font-size:9.5px;color:#a6dcef}
+textarea{
+  border-color:rgba(123,201,238,.20);border-radius:7px;background:#050817;color:#f3f1ea;
+  font-family:var(--mono);font-size:9.5px;line-height:1.5
+}
+.info-panel{
+  padding:11px;border-color:rgba(123,201,238,.14);border-radius:11px;
+  background:rgba(255,255,255,.025);font-size:10px;color:#c7cbda
+}
+.info-panel h2{font-family:var(--display);font-size:15px;font-weight:600;color:#e3e1dd}
+.info-panel p,.info-panel li{font-size:9px;line-height:1.52}
+.limit-list,.empty-note{font-size:8.5px;color:#858fa8}
+.history-list{max-height:255px}
+.history-item{border-color:rgba(123,201,238,.14);background:rgba(4,8,19,.58)}
+.verifier-preview{border-color:rgba(123,201,238,.25);background:#050817}
+.advanced-note{border-left-color:var(--warning);background:rgba(79,58,22,.20);color:#e8d6ac}
+footer{margin-top:17px;padding:17px 10px 3px;color:#81899e;font-size:8.8px;line-height:1.65}
+footer strong{color:var(--gold2);font-family:var(--font-brand);font-size:9.5px;font-weight:600;letter-spacing:.07em}
+.modal{background:rgba(1,3,10,.78);backdrop-filter:blur(6px)}
+.modal-card{border-color:rgba(123,201,238,.31);border-radius:15px;background:#0b1021;color:#dfe1e8;font-size:10px}
+.modal-card h2{font-family:var(--font-display);font-size:20px;font-weight:600;color:#f0ede7}
+.modal-card li{font-size:9.5px;line-height:1.5}
+.toast{border-color:rgba(123,201,238,.30);border-radius:10px;background:#0b1021}
+@media(max-width:920px){
+  .guide-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:820px){
+  .studio-hero{grid-template-columns:1fr;text-align:center;padding-top:50px}.mini-bun{margin-top:35px}
+}
+@media(max-width:620px){
+  #app{margin:6px 5px;padding:9px}
+  .guide-grid{grid-template-columns:1fr}
+  .studio-hero{padding:45px 14px 19px}
+  .nav-actions{width:100%}.nav-link{flex:1}
+}
+
+
+/* Official-logo coordination: keep the studio header compact and centered */
+.centered-studio-hero{
+  min-height:165px;
+  grid-template-columns:1fr;
+  text-align:center;
+  justify-items:center;
+  padding:25px 18px;
+}
+.centered-studio-hero .hero-copy{
+  width:min(880px,100%);
+  margin:auto;
+}
+.centered-studio-hero .tagline{
+  margin-left:auto;
+  margin-right:auto;
+}
+
 </style>
 </head>
 <body>
+<a class="skip-link" href="#converterHeading">Skip to image conversion</a>
 <canvas id="starfield" aria-hidden="true"></canvas>
 <div id="app">
   <nav class="top-nav" aria-label="Breadcrumb and site navigation">
@@ -313,27 +528,42 @@ footer span{display:block;line-height:1.5}
       <span aria-current="page">SixBit Bun</span>
     </div>
     <div class="nav-actions">
-      <a class="nav-link secondary" href="SixBit_Bun_index.html">← SixBit Bun Home</a>
+      <a class="nav-link secondary" href="SixBit_Bun_index.html">SixBit Bun Gateway</a>
       <button class="secondary small" id="motionBtn" type="button">Pause Stars</button>
+      <a class="nav-link secondary" href="KhaeZip™ Protected Archive Studio_index.html">KhaeZip v5</a>
       <a class="nav-link secondary" href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a>
-      <a class="nav-link" href="https://vervenveda.github.io/">⌂ Home</a>
+      <a class="nav-link" href="https://vervenveda.github.io/">Verve N Veda</a>
     </div>
   </nav>
 
-  <header>
-    <div class="logo-chip">SixBit Bun™</div>
-    <h1>Protected Image-to-Code Studio</h1>
-    <small>Batch conversion, protected SVG processing, BunLink verification, and KhaeZip-ready packaging</small>
-    <div class="tagline">Local, offline-first, and designed for PROSE, KhaeZip, ARSHIF, and Pearls Gamut.</div>
-  </header>
+  <header class="studio-hero centered-studio-hero">
+    <div class="hero-copy">
+      <div class="eyebrow">ProReSources · Protected asset tools</div>
+      <div class="logo-chip">SixBit Bun™</div>
+      <h1>Image-to-Code Studio</h1>
+      <small>Convert · protect · verify · package</small>
+      <div class="tagline">A local professional asset studio for ProReSources, KhaeZip, KhaeClean, PROSE, ARSHIF, and the wider Verve N Veda ecosystem. Repository file: <code>SixBit_Bun_Studio_index.html</code>.</div>
+    </div>
+    </header>
+
+  <details class="quick-guide">
+    <summary><span>Protected asset sequence</span><strong>Choose → Convert → Verify → Package</strong></summary>
+    <div class="guide-grid">
+      <div><b>1</b><span><strong>Add images</strong><small>Source files remain in browser memory and are not uploaded.</small></span></div>
+      <div><b>2</b><span><strong>Choose output</strong><small>Preserve compatible bytes or convert with controlled dimensions and quality.</small></span></div>
+      <div><b>3</b><span><strong>Review results</strong><small>Inspect previews, sizes, code, animation notes, and hashes.</small></span></div>
+      <div><b>4</b><span><strong>Create provenance</strong><small>Download BunLinks and a hashed batch manifest.</small></span></div>
+      <div><b>5</b><span><strong>Preserve the batch</strong><small>Create an organized ZIP and pass it to KhaeZip v5 when encryption is needed.</small></span></div>
+    </div>
+  </details>
 
   <div class="main-row">
     <section class="left" aria-labelledby="converterHeading">
       <h2 id="converterHeading" class="sr-only">Image converter</h2>
       <div class="drop" id="dropzone" tabindex="0" role="button" aria-describedby="dropHelp">
         Drop images here or click to browse
-        <small id="dropHelp">PNG, JPEG, GIF, WebP, and SVG stay on your device.</small>
-        <input type="file" id="fileInput" multiple accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml,.svg">
+        <small id="dropHelp">PNG, JPEG, GIF, WebP, AVIF, and SVG stay on your device.</small>
+        <input type="file" id="fileInput" multiple accept="image/png,image/jpeg,image/gif,image/webp,image/avif,image/svg+xml,.svg,.avif">
       </div>
 
       <div class="controls">
@@ -373,6 +603,7 @@ footer span{display:block;line-height:1.5}
         <label class="control check"><input type="checkbox" id="minifySvg"> Minify SVG</label>
         <label class="control check"><input type="checkbox" id="preserveGif" checked> Preserve GIF animation</label>
         <label class="control check"><input type="checkbox" id="visualWrap"> Visually wrap code</label>
+        <label class="control check"><input type="checkbox" id="storeHistory"> Store conversion metadata locally</label>
       </div>
 
       <div class="button-row">
@@ -381,7 +612,7 @@ footer span{display:block;line-height:1.5}
         <button class="secondary" id="manifestBtn" disabled>Download Hashed Manifest</button>
         <button class="secondary" id="downloadImagesBtn" disabled>Download Images</button>
         <button class="secondary" id="downloadCodesBtn" disabled>Download Code</button>
-        <button class="secondary" id="packageBtn" disabled>KhaeZip-ready Package</button>
+        <button class="secondary" id="packageBtn" disabled>Create KhaeZip-ready ZIP</button>
         <button class="secondary" id="clearBtn">Clear Batch</button>
       </div>
 
@@ -400,10 +631,10 @@ footer span{display:block;line-height:1.5}
           <li>User filenames are rendered safely and never inserted as executable HTML.</li>
           <li>SVG files are validated and protected before encoding; active and external content is removed.</li>
           <li>Animated GIFs can remain byte-for-byte intact.</li>
-          <li>History stores metadata only, not large base64 payloads.</li>
+          <li>Conversion history is optional and stores metadata only, never image or base64 payloads.</li>
           <li>BunLink v3 records original and output hashes, MIME types, dimensions, sizes, and conversion settings.</li>
         </ul>
-        <div class="limit-list">Limits: 40 files • 25 MB each • 100 MB total • 50 megapixels per decoded raster.</div>
+        <div class="limit-list">Limits: 40 files • 25 MB each • 100 MB source batch • 160 MB protected output estimate • 50 megapixels per decoded raster.</div>
         <div class="button-row">
           <button class="secondary small" id="guideBtn">Guide</button>
           <button class="secondary small" id="historyBtn">History</button>
@@ -416,6 +647,7 @@ footer span{display:block;line-height:1.5}
         <p>Open a <code>.sbbun.json</code> package, recalculate its SHA-256 value, inspect its metadata, and reconstruct the image locally.</p>
         <input id="bunVerifyInput" type="file" accept="application/json,.json,.sbbun.json" hidden>
         <button class="secondary small" id="verifyInlineBtn">Choose BunLink</button>
+        <a class="nav-link secondary inline-link" href="KhaeZip™ Protected Archive Studio_index.html">Open KhaeZip v5</a>
         <div id="verifyInlineStatus" class="empty-note" style="margin-top:8px">No BunLink selected.</div>
       </div>
 
@@ -431,34 +663,35 @@ footer span{display:block;line-height:1.5}
   </div>
 
   <footer>
-    <span>🐰 SixBit Bun™ Protected Image-to-Code Studio — By Jenny Pearl • Verve N Veda &amp; Khaemenes Academy.</span>
-    <span>No uploads. No tracking. Converted assets remain on this device unless you download them.</span>
+    <span><strong>SixBit Bun™ · Protected Image-to-Code Studio at ProReSources</strong></span>
+    <span>Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026</span>
+    <span>No uploads · No trackers · Source files remain in memory unless you deliberately download a converted asset or package.</span>
   </footer>
 </div>
 
-<div class="modal" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+<div class="modal" id="guideModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="guideTitle">
   <div class="modal-card">
     <div class="modal-head"><h2 id="guideTitle">Using SixBit Bun™</h2><button class="secondary small modalClose">✕ Close</button></div>
     <ul>
       <li>Choose images or drag them into the dropzone.</li>
       <li>Select a target format. “Preserve” keeps original bytes when no raster transformation is required.</li>
-      <li>Animated GIFs are preserved only when the output format is “Preserve”; selecting PNG, JPEG, or WebP intentionally flattens the first frame.</li>
+      <li>Animated GIFs are preserved only when the output format is “Preserve”; selecting PNG, JPEG, or WebP intentionally flattens the first frame. AVIF files can be preserved or converted when the browser can decode them.</li>
       <li>Protected SVG conversion removes scripts, embedded HTML, external references, CSS imports, external CSS URLs, and nested SVG data payloads.</li>
       <li>Visual wrapping changes only the textarea display; copied and downloaded output stays exact.</li>
       <li>BunLink creates a portable, self-contained JSON image package with SHA-256 integrity information. Base64 packaging may be larger than the original binary.</li>
-      <li>The hashed manifest and KhaeZip-ready ZIP include conversion settings, checksums, code files, converted images, BunLinks, and package metadata.</li>
+      <li>The hashed manifest and KhaeZip-ready ZIP include conversion settings, checksums, code files, converted images, BunLinks, and package metadata. Open that ZIP in KhaeZip v5 to encrypt, verify, split, or vault it.</li>
     </ul>
   </div>
 </div>
 
-<div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+<div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="historyTitle">
   <div class="modal-card">
     <div class="modal-head"><h2 id="historyTitle">Conversion history</h2><button class="secondary small modalClose">✕ Close</button></div>
     <div id="historyModalList" class="history-list"></div>
   </div>
 </div>
 
-<div class="modal" id="verifierModal" role="dialog" aria-modal="true" aria-labelledby="verifierTitle">
+<div class="modal" id="verifierModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="verifierTitle">
   <div class="modal-card">
     <div class="modal-head"><h2 id="verifierTitle">BunLink Reader &amp; Verifier</h2><button class="secondary small modalClose">✕ Close</button></div>
     <p>Select a SixBit BunLink package. Verification and reconstruction happen locally.</p>
@@ -516,17 +749,17 @@ el('motionBtn').addEventListener('click',()=>setMotion(!motionEnabled));
 
 const dz=el('dropzone'),fi=el('fileInput'),gallery=el('gallery');
 const resizeInp=el('resizeWidth'),qualityInp=el('quality'),formatSel=el('formatMode'),outputSel=el('outputMode'),batchMode=el('batchMode');
-const strip=el('stripPrefix'),sanitizeSvgCheck=el('sanitizeSvg'),minifySvgCheck=el('minifySvg'),preserveGifCheck=el('preserveGif'),visualWrap=el('visualWrap');
+const strip=el('stripPrefix'),sanitizeSvgCheck=el('sanitizeSvg'),minifySvgCheck=el('minifySvg'),preserveGifCheck=el('preserveGif'),visualWrap=el('visualWrap'),storeHistoryCheck=el('storeHistory');
 const convertBtn=el('convertBtn'),cancelBtn=el('cancelBtn'),manifestBtn=el('manifestBtn'),downloadImagesBtn=el('downloadImagesBtn'),downloadCodesBtn=el('downloadCodesBtn'),packageBtn=el('packageBtn'),clearBtn=el('clearBtn');
 const summaryText=el('summaryText'),progressBar=el('progressBar');
 
-const SETTINGS_KEY='sixbitBunProtectedSettingsV2';
-const HISTORY_KEY='sixbitBunProtectedHistoryV2';
+const SETTINGS_KEY='sixbitBunProtectedSettingsV3';
+const HISTORY_KEY='sixbitBunProtectedHistoryV3';
 const OLD_SETTINGS_KEY='sixbitBunProtectedSettingsV1';
 const OLD_HISTORY_KEY='sixbitBunProtectedHistoryV1';
-const LIMITS=Object.freeze({maxFiles:40,maxFileBytes:25*1024*1024,maxTotalBytes:100*1024*1024,maxPixels:50_000_000,maxVisibleCode:240_000,maxVerifierBytes:45*1024*1024});
-const SUPPORTED_TYPES=new Set(['image/png','image/jpeg','image/gif','image/webp','image/svg+xml']);
-const SAFE_DATA_IMAGE=/^data:image\/(png|jpeg|gif|webp);base64,/i;
+const LIMITS=Object.freeze({maxFiles:40,maxFileBytes:25*1024*1024,maxTotalBytes:100*1024*1024,maxPixels:50_000_000,maxVisibleCode:240_000,maxVerifierBytes:45*1024*1024,maxOutputBytes:160*1024*1024,maxZipEntries:500,maxZipBytes:512*1024*1024,maxNameBytes:4096});
+const SUPPORTED_TYPES=new Set(['image/png','image/jpeg','image/gif','image/webp','image/avif','image/svg+xml']);
+const SAFE_DATA_IMAGE=/^data:image\/(png|jpeg|gif|webp|avif);base64,/i;
 let items=[],history=[],converting=false,conversionToken=0,lastFocusedElement=null,clearedHistoryBackup=null;
 
 const storage={
@@ -540,12 +773,12 @@ function humanSize(bytes){if(!Number.isFinite(bytes)||bytes<=0)return'0 B';const
 function safeFilename(name,fallback='asset'){const cleaned=String(name||'').replace(/[<>:"/\\|?*\x00-\x1F]/g,' ').replace(/\s+/g,' ').trim();return(cleaned||fallback).slice(0,120);}
 function stem(name){return safeFilename(name).replace(/\.[^.]+$/,'')||'asset';}
 function escapeAttr(value){return String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function typeFromFile(file){const ext=(file.name.split('.').pop()||'').toLowerCase();if(file.type)return file.type.toLowerCase();return({png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp',svg:'image/svg+xml'})[ext]||'';}
+function typeFromFile(file){const ext=(file.name.split('.').pop()||'').toLowerCase();if(file.type)return file.type.toLowerCase();return({png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp',avif:'image/avif',svg:'image/svg+xml'})[ext]||'';}
 function isSvgFile(file){return typeFromFile(file)==='image/svg+xml'||/\.svg$/i.test(file.name);}
 function dataUrlMime(dataUrl){const m=/^data:([^;,]+)[;,]/i.exec(dataUrl||'');return m?m[1].toLowerCase():'application/octet-stream';}
 function dataUrlBytes(dataUrl){const comma=String(dataUrl||'').indexOf(',');if(comma<0)return new Uint8Array();const meta=dataUrl.slice(0,comma),body=dataUrl.slice(comma+1);if(/;base64/i.test(meta)){const bin=atob(body.replace(/\s+/g,'')),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return bytes;}return new TextEncoder().encode(decodeURIComponent(body));}
 function bytesToBase64(bytes){let binary='';const chunk=0x8000;for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,i+chunk));return btoa(binary);}
-function extForMime(mime){return({'image/png':'png','image/jpeg':'jpg','image/gif':'gif','image/webp':'webp','image/svg+xml':'svg'})[mime]||'bin';}
+function extForMime(mime){return({'image/png':'png','image/jpeg':'jpg','image/gif':'gif','image/webp':'webp','image/avif':'avif','image/svg+xml':'svg'})[mime]||'bin';}
 function outputFileName(item){return`${stem(item.file.name)}.${extForMime(item.result?.outputMime)}`;}
 function downloadBlob(blob,filename){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=safeFilename(filename);a.style.display='none';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);}
 function downloadText(text,filename,type='text/plain;charset=utf-8'){downloadBlob(new Blob([text||''],{type}),filename);}
@@ -564,12 +797,12 @@ function sha256Fallback(bytes){
 }
 async function sha256Hex(bytes){try{if(crypto?.subtle){const hash=await crypto.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');}}catch(_){}return sha256Fallback(bytes);}
 
-function saveSettings(){storage.set(SETTINGS_KEY,{resize:resizeInp.value||'',quality:qualityInp.value||'85',format:formatSel.value,output:outputSel.value,batchMode:batchMode.value,strip:strip.checked,sanitizeSvg:true,minifySvg:minifySvgCheck.checked,preserveGif:preserveGifCheck.checked,visualWrap:visualWrap.checked,motion:motionEnabled});}
-function loadSettings(){const s=storage.get(SETTINGS_KEY,storage.get(OLD_SETTINGS_KEY,null));if(!s)return;if(s.resize!==undefined)resizeInp.value=s.resize;if(s.quality!==undefined)qualityInp.value=s.quality;if(s.format)formatSel.value=s.format;if(s.output)outputSel.value=s.output;if(s.batchMode)batchMode.value=s.batchMode;strip.checked=!!s.strip;sanitizeSvgCheck.checked=true;sanitizeSvgCheck.disabled=true;minifySvgCheck.checked=!!s.minifySvg;preserveGifCheck.checked=s.preserveGif!==false;visualWrap.checked=!!s.visualWrap;if(typeof s.motion==='boolean')setMotion(s.motion);}
-function saveHistory(){return storage.set(HISTORY_KEY,history.slice(0,20));}
+function saveSettings(){storage.set(SETTINGS_KEY,{resize:resizeInp.value||'',quality:qualityInp.value||'85',format:formatSel.value,output:outputSel.value,batchMode:batchMode.value,strip:strip.checked,sanitizeSvg:true,minifySvg:minifySvgCheck.checked,preserveGif:preserveGifCheck.checked,visualWrap:visualWrap.checked,storeHistory:storeHistoryCheck.checked,motion:motionEnabled});}
+function loadSettings(){const s=storage.get(SETTINGS_KEY,storage.get(OLD_SETTINGS_KEY,null));if(!s){storeHistoryCheck.checked=false;return;}if(s.resize!==undefined)resizeInp.value=s.resize;if(s.quality!==undefined)qualityInp.value=s.quality;if(s.format)formatSel.value=s.format;if(s.output)outputSel.value=s.output;if(s.batchMode)batchMode.value=s.batchMode;strip.checked=!!s.strip;sanitizeSvgCheck.checked=true;sanitizeSvgCheck.disabled=true;minifySvgCheck.checked=!!s.minifySvg;preserveGifCheck.checked=s.preserveGif!==false;visualWrap.checked=!!s.visualWrap;storeHistoryCheck.checked=s.storeHistory===true;if(typeof s.motion==='boolean')setMotion(s.motion);}
+function saveHistory(){if(!storeHistoryCheck.checked){storage.remove(HISTORY_KEY);return true;}return storage.set(HISTORY_KEY,history.slice(0,20));}
 function loadHistory(){const parsed=storage.get(HISTORY_KEY,storage.get(OLD_HISTORY_KEY,[]));history=Array.isArray(parsed)?parsed.slice(0,20):[];}
 function historyItemNode(entry){const wrap=document.createElement('div');wrap.className='history-item';const strong=document.createElement('strong');strong.textContent=`${entry.completed||0} completed${entry.failed?` • ${entry.failed} failed`:''}`;const meta=document.createElement('div');meta.textContent=`${entry.date||'Unknown date'} • ${entry.mode||'data'} • ${entry.format||'preserve'}`;const names=document.createElement('div');names.textContent=(entry.files||[]).map(f=>f.name).join(', ')||'No files';wrap.append(strong,meta,names);return wrap;}
-function renderHistory(){for(const target of[el('historyPreview'),el('historyModalList')]){target.replaceChildren();if(!history.length){const p=document.createElement('div');p.className='empty-note';p.textContent='No conversion history yet.';target.appendChild(p);continue;}history.slice(0,target.id==='historyPreview'?5:20).forEach(entry=>target.appendChild(historyItemNode(entry)));}}
+function renderHistory(){for(const target of[el('historyPreview'),el('historyModalList')]){target.replaceChildren();if(!storeHistoryCheck.checked){const p=document.createElement('div');p.className='empty-note';p.textContent='Local conversion history is off. Enable it in the conversion controls to store metadata only.';target.appendChild(p);continue;}if(!history.length){const p=document.createElement('div');p.className='empty-note';p.textContent='No conversion history yet.';target.appendChild(p);continue;}history.slice(0,target.id==='historyPreview'?5:20).forEach(entry=>target.appendChild(historyItemNode(entry)));}}
 
 function updateBulkButtons(){const has=items.some(i=>i.result);manifestBtn.disabled=!has;downloadImagesBtn.disabled=!has;downloadCodesBtn.disabled=!has;packageBtn.disabled=!has;}
 function setBusy(value){converting=value;convertBtn.disabled=value||!items.length;cancelBtn.disabled=!value;clearBtn.disabled=value;fi.disabled=value;dz.classList.toggle('disabled',value);for(const c of[formatSel,outputSel,batchMode,resizeInp,qualityInp,strip,minifySvgCheck,preserveGifCheck])c.disabled=value||c.dataset.contextDisabled==='true';}
@@ -598,22 +831,78 @@ function readAsText(file){return new Promise((resolve,reject)=>{const r=new File
 function loadImageFromUrl(url){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error('Image decode failed'));img.src=url;});}
 function outputMimeFor(file,format){if(format==='png')return'image/png';if(format==='jpeg')return'image/jpeg';if(format==='webp')return'image/webp';const original=typeFromFile(file);return['image/png','image/jpeg','image/webp'].includes(original)?original:'image/png';}
 function sanitizeSvgDocument(doc){
-  const forbidden=['script','foreignObject','iframe','object','embed','audio','video','canvas','link','style'];
+  const forbidden=['script','foreignObject','iframe','object','embed','audio','video','canvas','link','style','animate','animateMotion','animateTransform','set','discard'];
   forbidden.forEach(tag=>doc.querySelectorAll(tag).forEach(node=>node.remove()));
-  doc.querySelectorAll('*').forEach(node=>{for(const attr of Array.from(node.attributes)){const name=attr.name.toLowerCase(),raw=attr.value.trim(),value=raw.toLowerCase();if(name.startsWith('on')||name==='srcdoc'||value.startsWith('javascript:')||value.startsWith('vbscript:')){node.removeAttribute(attr.name);continue;}if(name==='style'&&/url\s*\(|@import|expression\s*\(|javascript:/i.test(raw)){node.removeAttribute(attr.name);continue;}if(name==='href'||name==='xlink:href'||name==='src'){const safeFragment=value.startsWith('#'),safeRaster=/^data:image\/(png|jpeg|gif|webp);base64,/i.test(raw);if(!safeFragment&&!safeRaster)node.removeAttribute(attr.name);}}});
+  doc.querySelectorAll('*').forEach(node=>{
+    for(const attr of Array.from(node.attributes)){
+      const name=attr.name.toLowerCase(),raw=attr.value.trim(),value=raw.toLowerCase();
+      if(name.startsWith('on')||name==='srcdoc'||value.startsWith('javascript:')||value.startsWith('vbscript:')){node.removeAttribute(attr.name);continue;}
+      if(/@import|expression\s*\(|javascript:|vbscript:/i.test(raw)){node.removeAttribute(attr.name);continue;}
+      const urls=[...raw.matchAll(/url\(\s*(['"]?)(.*?)\1\s*\)/gi)].map(match=>match[2].trim());
+      if(urls.some(url=>url&&!url.startsWith('#'))){node.removeAttribute(attr.name);continue;}
+      if(name==='href'||name==='xlink:href'||name==='src'){
+        const safeFragment=value.startsWith('#');
+        const safeRaster=/^data:image\/(png|jpeg|gif|webp|avif);base64,/i.test(raw);
+        if(!safeFragment&&!safeRaster)node.removeAttribute(attr.name);
+      }
+    }
+  });
   return doc;
 }
 function absoluteSvgLength(raw){if(!raw)return 0;const m=/^\s*([0-9]*\.?[0-9]+)\s*(px|in|cm|mm|pt|pc)?\s*$/i.exec(raw);if(!m)return 0;const value=Number(m[1]),unit=(m[2]||'px').toLowerCase(),factor={px:1,in:96,cm:96/2.54,mm:96/25.4,pt:96/72,pc:16}[unit]||1;return value*factor;}
 function svgDimensions(root){const width=absoluteSvgLength(root.getAttribute('width')),height=absoluteSvgLength(root.getAttribute('height'));if(width&&height)return{width:Math.round(width),height:Math.round(height)};const vb=(root.getAttribute('viewBox')||'').trim().split(/[\s,]+/).map(Number);if(vb.length===4&&vb.every(Number.isFinite)&&vb[2]>0&&vb[3]>0)return{width:Math.round(vb[2]),height:Math.round(vb[3])};return{width:0,height:0};}
 async function convertSvg(file){let text=await readAsText(file);const parser=new DOMParser();let doc=parser.parseFromString(text,'image/svg+xml');if(doc.querySelector('parsererror')||doc.documentElement?.localName!=='svg')throw new Error('Invalid SVG document');doc=sanitizeSvgDocument(doc);const root=doc.documentElement;root.removeAttribute('xmlns:xlink');if(!root.getAttribute('xmlns'))root.setAttribute('xmlns','http://www.w3.org/2000/svg');text=new XMLSerializer().serializeToString(root).replace(/<\?xml[\s\S]*?\?>/gi,'');if(minifySvgCheck.checked)text=text.replace(/<!--[\s\S]*?-->/g,'').replace(/>\s+</g,'><').trim();const bytes=new TextEncoder().encode(text),svgDataUrl='data:image/svg+xml;base64,'+bytesToBase64(bytes),declared=svgDimensions(root),maxWidth=Math.max(0,parseInt(resizeInp.value||'0',10)||0);if(formatSel.value==='preserve'&&!maxWidth)return{dataUrl:svgDataUrl,outputMime:'image/svg+xml',width:declared.width,height:declared.height,animationLost:false,note:'Protected SVG converted'};const img=await loadImageFromUrl(svgDataUrl);let width=img.naturalWidth||declared.width||300,height=img.naturalHeight||declared.height||150;if(width*height>LIMITS.maxPixels)throw new Error('Decoded SVG exceeds 50 megapixels');if(maxWidth&&width>maxWidth){height=Math.max(1,Math.round(height*maxWidth/width));width=maxWidth;}const c=document.createElement('canvas');c.width=width;c.height=height;const cx=c.getContext('2d',{alpha:true});if(!cx)throw new Error('Canvas is unavailable');const outputMime=outputMimeFor(file,formatSel.value);if(outputMime==='image/jpeg'){cx.fillStyle='#fff';cx.fillRect(0,0,width,height);}cx.drawImage(img,0,0,width,height);const quality=Math.min(1,Math.max(.2,(parseInt(qualityInp.value||'85',10)||85)/100)),dataUrl=c.toDataURL(outputMime,quality);return{dataUrl,outputMime:dataUrlMime(dataUrl),width,height,animationLost:false,note:'Protected SVG rasterized'};}
-async function convertRaster(file){const originalMime=typeFromFile(file),maxWidth=Math.max(0,parseInt(resizeInp.value||'0',10)||0),format=formatSel.value;if(originalMime==='image/gif'&&format==='preserve'&&preserveGifCheck.checked){const dataUrl=await readAsDataURL(file),img=await loadImageFromUrl(dataUrl);if(img.naturalWidth*img.naturalHeight>LIMITS.maxPixels)throw new Error('Decoded GIF exceeds 50 megapixels');return{dataUrl,outputMime:'image/gif',width:img.naturalWidth,height:img.naturalHeight,animationLost:false,note:maxWidth?'Animation preserved; resize skipped':'Animated GIF preserved'};}const noTransform=!maxWidth&&format==='preserve';if(noTransform){const dataUrl=await readAsDataURL(file),img=await loadImageFromUrl(dataUrl);if(img.naturalWidth*img.naturalHeight>LIMITS.maxPixels)throw new Error('Decoded image exceeds 50 megapixels');return{dataUrl,outputMime:originalMime,width:img.naturalWidth,height:img.naturalHeight,animationLost:false,note:'Original bytes preserved'};}const source=await readAsDataURL(file),img=await loadImageFromUrl(source);if(img.naturalWidth*img.naturalHeight>LIMITS.maxPixels)throw new Error('Decoded image exceeds 50 megapixels');let width=img.naturalWidth,height=img.naturalHeight;if(maxWidth&&width>maxWidth){height=Math.max(1,Math.round(height*maxWidth/width));width=maxWidth;}const c=document.createElement('canvas');c.width=width;c.height=height;const cx=c.getContext('2d',{alpha:true});if(!cx)throw new Error('Canvas is unavailable');const outputMime=outputMimeFor(file,format);if(outputMime==='image/jpeg'){cx.fillStyle='#fff';cx.fillRect(0,0,width,height);}cx.drawImage(img,0,0,width,height);const quality=Math.min(1,Math.max(.2,(parseInt(qualityInp.value||'85',10)||85)/100)),dataUrl=c.toDataURL(outputMime,quality);return{dataUrl,outputMime:dataUrlMime(dataUrl),width,height,animationLost:originalMime==='image/gif',note:originalMime==='image/gif'?'GIF flattened to one frame':'Raster converted'};}
+
+function readU16BE(bytes,offset){return (bytes[offset]<<8)|bytes[offset+1]}
+function readU24LE(bytes,offset){return bytes[offset]|(bytes[offset+1]<<8)|(bytes[offset+2]<<16)}
+function readU32BE(bytes,offset){return ((bytes[offset]*0x1000000)+(bytes[offset+1]<<16)+(bytes[offset+2]<<8)+bytes[offset+3])>>>0}
+function readU32LE(bytes,offset){return (bytes[offset]|(bytes[offset+1]<<8)|(bytes[offset+2]<<16)|(bytes[offset+3]*0x1000000))>>>0}
+async function inspectRasterDimensions(file){
+  const head=new Uint8Array(await file.slice(0,Math.min(file.size,1024*1024)).arrayBuffer());
+  const type=typeFromFile(file);
+  if(type==='image/png'&&head.length>=24&&head[0]===0x89&&head[1]===0x50)return{width:readU32BE(head,16),height:readU32BE(head,20)};
+  if(type==='image/gif'&&head.length>=10)return{width:head[6]|(head[7]<<8),height:head[8]|(head[9]<<8)};
+  if(type==='image/jpeg'){
+    let offset=2;
+    while(offset+9<head.length){
+      if(head[offset]!==0xff){offset++;continue}
+      const marker=head[offset+1];offset+=2;
+      if(marker===0xd8||marker===0xd9)continue;
+      if(offset+2>head.length)break;
+      const length=readU16BE(head,offset);
+      if(length<2||offset+length>head.length)break;
+      if([0xc0,0xc1,0xc2,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd,0xce,0xcf].includes(marker)){
+        return{height:readU16BE(head,offset+3),width:readU16BE(head,offset+5)};
+      }
+      offset+=length;
+    }
+  }
+  if(type==='image/webp'&&head.length>=30&&String.fromCharCode(...head.subarray(0,4))==='RIFF'&&String.fromCharCode(...head.subarray(8,12))==='WEBP'){
+    const chunk=String.fromCharCode(...head.subarray(12,16));
+    if(chunk==='VP8X')return{width:1+readU24LE(head,24),height:1+readU24LE(head,27)};
+    if(chunk==='VP8L'&&head.length>=25){
+      const b0=head[21],b1=head[22],b2=head[23],b3=head[24];
+      return{width:1+(((b2&0x3f)<<8)|b1),height:1+(((b3<<6)|((b2&0xc0)>>2)|(b0&0x0f))>>>0)};
+    }
+  }
+  return null;
+}
+async function enforceRasterDimensions(file){
+  const dimensions=await inspectRasterDimensions(file);
+  if(dimensions&&dimensions.width>0&&dimensions.height>0&&dimensions.width*dimensions.height>LIMITS.maxPixels){
+    throw new Error(`Declared raster dimensions ${dimensions.width}×${dimensions.height} exceed the ${LIMITS.maxPixels.toLocaleString()} pixel limit.`);
+  }
+  return dimensions;
+}
+
+async function convertRaster(file){await enforceRasterDimensions(file);const originalMime=typeFromFile(file),maxWidth=Math.max(0,parseInt(resizeInp.value||'0',10)||0),format=formatSel.value;if(originalMime==='image/gif'&&format==='preserve'&&preserveGifCheck.checked){const dataUrl=await readAsDataURL(file),img=await loadImageFromUrl(dataUrl);if(img.naturalWidth*img.naturalHeight>LIMITS.maxPixels)throw new Error('Decoded GIF exceeds 50 megapixels');return{dataUrl,outputMime:'image/gif',width:img.naturalWidth,height:img.naturalHeight,animationLost:false,note:maxWidth?'Animation preserved; resize skipped':'Animated GIF preserved'};}const noTransform=!maxWidth&&format==='preserve';if(noTransform){const dataUrl=await readAsDataURL(file),img=await loadImageFromUrl(dataUrl);if(img.naturalWidth*img.naturalHeight>LIMITS.maxPixels)throw new Error('Decoded image exceeds 50 megapixels');return{dataUrl,outputMime:originalMime,width:img.naturalWidth,height:img.naturalHeight,animationLost:false,note:'Original bytes preserved'};}const source=await readAsDataURL(file),img=await loadImageFromUrl(source);if(img.naturalWidth*img.naturalHeight>LIMITS.maxPixels)throw new Error('Decoded image exceeds 50 megapixels');let width=img.naturalWidth,height=img.naturalHeight;if(maxWidth&&width>maxWidth){height=Math.max(1,Math.round(height*maxWidth/width));width=maxWidth;}const c=document.createElement('canvas');c.width=width;c.height=height;const cx=c.getContext('2d',{alpha:true});if(!cx)throw new Error('Canvas is unavailable');const outputMime=outputMimeFor(file,format);if(outputMime==='image/jpeg'){cx.fillStyle='#fff';cx.fillRect(0,0,width,height);}cx.drawImage(img,0,0,width,height);const quality=Math.min(1,Math.max(.2,(parseInt(qualityInp.value||'85',10)||85)/100)),dataUrl=c.toDataURL(outputMime,quality);return{dataUrl,outputMime:dataUrlMime(dataUrl),width,height,animationLost:originalMime==='image/gif',note:originalMime==='image/gif'?'GIF flattened to one frame':'Raster converted'};}
 function makeSnippet(dataUrl,fileName,mime,width,height){const mode=outputSel.value,alt=escapeAttr(stem(fileName));if(mode==='img')return`<img src="${dataUrl}" alt="${alt}">`;if(mode==='css')return`background-image: url("${dataUrl}");`;if(mode==='markdown')return`![${alt}](${dataUrl})`;if(mode==='jsx')return`<img src={${JSON.stringify(dataUrl)}} alt=${JSON.stringify(alt)} />`;if(mode==='json')return JSON.stringify({name:safeFilename(fileName),mime,width,height,data:dataUrl},null,2);if(strip.checked)return dataUrl.replace(/^data:[^;,]+;base64,/i,'');return dataUrl;}
-async function convertItem(index,token){const item=items[index];if(!item)return false;item.status='Converting…';item.statusType='';item.result=null;renderCards();try{const converted=isSvgFile(item.file)?await convertSvg(item.file):await convertRaster(item.file);if(token!==conversionToken)throw new DOMException('Cancelled','AbortError');const bytes=dataUrlBytes(converted.dataUrl),originalBytes=new Uint8Array(await item.file.arrayBuffer()),snippet=makeSnippet(converted.dataUrl,item.file.name,converted.outputMime,converted.width,converted.height);item.result={...converted,snippet,outputBytes:bytes.byteLength,originalBytes:item.file.size,originalMime:typeFromFile(item.file),previewUrl:converted.dataUrl,sha256:await sha256Hex(bytes),originalSha256:await sha256Hex(originalBytes),settings:{resize:Number(resizeInp.value)||0,quality:Number(qualityInp.value)||85,format:formatSel.value,output:outputSel.value,svgProtected:isSvgFile(item.file),svgMinified:isSvgFile(item.file)&&minifySvgCheck.checked,gifPreserved:converted.outputMime==='image/gif'&&!converted.animationLost}};item.status=`Done ✓ — ${converted.note}`;item.statusType=converted.animationLost?'warning':'';return true;}catch(err){if(err?.name==='AbortError'){item.status='Cancelled';item.statusType='warning';}else{item.status='Error: '+(err?.message||'conversion failed');item.statusType='error';}item.result=null;return false;}finally{renderCards();updateBulkButtons();}}
+async function convertItem(index,token){const item=items[index];if(!item)return false;item.status='Converting…';item.statusType='';item.result=null;renderCards();try{const converted=isSvgFile(item.file)?await convertSvg(item.file):await convertRaster(item.file);if(token!==conversionToken)throw new DOMException('Cancelled','AbortError');const bytes=dataUrlBytes(converted.dataUrl);if(bytes.byteLength>LIMITS.maxFileBytes*2)throw new Error('Converted output exceeds the protected per-file output limit.');const currentOutput=items.reduce((sum,current)=>sum+(current.result?.outputBytes||0),0);if(currentOutput+bytes.byteLength>LIMITS.maxOutputBytes)throw new Error(`Batch output would exceed ${humanSize(LIMITS.maxOutputBytes)}.`);const originalBytes=new Uint8Array(await item.file.arrayBuffer()),snippet=makeSnippet(converted.dataUrl,item.file.name,converted.outputMime,converted.width,converted.height);item.result={...converted,snippet,outputBytes:bytes.byteLength,originalBytes:item.file.size,originalMime:typeFromFile(item.file),previewUrl:converted.dataUrl,sha256:await sha256Hex(bytes),originalSha256:await sha256Hex(originalBytes),settings:{resize:Number(resizeInp.value)||0,quality:Number(qualityInp.value)||85,format:formatSel.value,output:outputSel.value,svgProtected:isSvgFile(item.file),svgMinified:isSvgFile(item.file)&&minifySvgCheck.checked,gifPreserved:converted.outputMime==='image/gif'&&!converted.animationLost}};item.status=`Done ✓ — ${converted.note}`;item.statusType=converted.animationLost?'warning':'';return true;}catch(err){if(err?.name==='AbortError'){item.status='Cancelled';item.statusType='warning';}else{item.status='Error: '+(err?.message||'conversion failed');item.statusType='error';}item.result=null;return false;}finally{renderCards();updateBulkButtons();}}
 async function convertSingle(index){if(converting)return;setBusy(true);conversionToken++;const token=conversionToken;setSummary('Converting selected file…',10);const ok=await convertItem(index,token);setBusy(false);updateControlContext();setSummary(ok?'File converted successfully.':'Conversion failed.',100);}
-async function convertAll(){if(converting||!items.length)return;setBusy(true);conversionToken++;const token=conversionToken;let completed=0,failed=0;for(let i=0;i<items.length;i++){if(token!==conversionToken)break;setSummary(`Converting ${i+1} of ${items.length}…`,Math.round(i/items.length*100));const ok=await convertItem(i,token);ok?completed++:failed++;}const cancelled=token!==conversionToken;setBusy(false);updateControlContext();updateBulkButtons();if(cancelled){setSummary(`Cancelled • ${completed} completed • ${failed} failed`,Math.round((completed+failed)/Math.max(1,items.length)*100));return;}const entry={id:uid(),date:new Date().toLocaleString(),createdAt:new Date().toISOString(),completed,failed,mode:outputSel.value,format:formatSel.value,files:items.map(item=>({name:item.file.name,originalBytes:item.file.size,originalMime:typeFromFile(item.file),outputBytes:item.result?.outputBytes||0,outputMime:item.result?.outputMime||'',width:item.result?.width||0,height:item.result?.height||0,sha256:item.result?.sha256||'',status:item.status}))};history.unshift(entry);history=history.slice(0,20);const saved=saveHistory();renderHistory();setSummary(`${completed} completed • ${failed} failed${saved?'':' • history could not be stored'}`,100);}
-function bunLinkPayload(item){const r=item.result,raw=r.dataUrl.replace(/^data:[^;,]+;base64,/i,''),idCore=r.sha256.slice(0,16);return{schema:'sixbit-bunlink',schemaVersion:3,id:`sixbit://${idCore}`,createdAt:new Date().toISOString(),tool:'SixBit Bun Protected Image-to-Code Studio',name:item.file.name,originalMime:r.originalMime,outputMime:r.outputMime,originalBytes:r.originalBytes,outputBytes:r.outputBytes,width:r.width,height:r.height,animationLost:!!r.animationLost,hasPrefix:!strip.checked,integrityStatus:'verified',sha256:r.sha256,originalSha256:r.originalSha256,conversion:r.settings,base64:strip.checked?raw:r.dataUrl};}
+async function convertAll(){if(converting||!items.length)return;setBusy(true);conversionToken++;const token=conversionToken;let completed=0,failed=0;for(let i=0;i<items.length;i++){if(token!==conversionToken)break;setSummary(`Converting ${i+1} of ${items.length}…`,Math.round(i/items.length*100));const ok=await convertItem(i,token);ok?completed++:failed++;}const cancelled=token!==conversionToken;setBusy(false);updateControlContext();updateBulkButtons();if(cancelled){setSummary(`Cancelled • ${completed} completed • ${failed} failed`,Math.round((completed+failed)/Math.max(1,items.length)*100));return;}const entry={id:uid(),date:new Date().toLocaleString(),createdAt:new Date().toISOString(),completed,failed,mode:outputSel.value,format:formatSel.value,files:items.map(item=>({name:item.file.name,originalBytes:item.file.size,originalMime:typeFromFile(item.file),outputBytes:item.result?.outputBytes||0,outputMime:item.result?.outputMime||'',width:item.result?.width||0,height:item.result?.height||0,sha256:item.result?.sha256||'',status:item.status}))};if(storeHistoryCheck.checked){history.unshift(entry);history=history.slice(0,20);}const saved=saveHistory();renderHistory();setSummary(`${completed} completed • ${failed} failed${storeHistoryCheck.checked?(saved?'':' • history could not be stored'):' • history off'}`,100);}
+function bunLinkPayload(item){const r=item.result,raw=r.dataUrl.replace(/^data:[^;,]+;base64,/i,''),idCore=r.sha256.slice(0,16);return{schema:'sixbit-bunlink',schemaVersion:4,id:`sixbit://${idCore}`,createdAt:new Date().toISOString(),tool:'SixBit Bun Protected Image-to-Code Studio v4',name:item.file.name,originalMime:r.originalMime,outputMime:r.outputMime,originalBytes:r.originalBytes,outputBytes:r.outputBytes,width:r.width,height:r.height,animationLost:!!r.animationLost,hasPrefix:!strip.checked,integrityStatus:'verified',sha256:r.sha256,originalSha256:r.originalSha256,conversion:r.settings,base64:strip.checked?raw:r.dataUrl};}
 async function createBunLink(index,button){const item=items[index],r=item?.result;if(!item||!r){alert('Convert this file before creating a BunLink.');return;}button.disabled=true;button.textContent='Packaging…';try{const payload=bunLinkPayload(item),idCore=r.sha256.slice(0,16);downloadText(JSON.stringify(payload,null,2),`${stem(item.file.name)}.${idCore}.sbbun.json`,'application/json;charset=utf-8');item.status=`Verified BunLink created: ${payload.id}`;item.statusType='';renderCards();}catch(err){alert('BunLink creation failed: '+(err?.message||'unknown error'));}finally{button.disabled=false;button.textContent='BunLink';}}
-function batchManifest(){const converted=items.filter(i=>i.result);return{schema:'sixbit-batch-manifest',schemaVersion:2,tool:'SixBit Bun Protected Image-to-Code Studio',createdAt:new Date().toISOString(),count:converted.length,settings:{resize:Number(resizeInp.value)||0,quality:Number(qualityInp.value)||85,format:formatSel.value,output:outputSel.value,svgProtection:true,svgMinify:minifySvgCheck.checked,gifPreservation:preserveGifCheck.checked},assets:converted.map(item=>({name:item.file.name,outputName:outputFileName(item),originalMime:item.result.originalMime,outputMime:item.result.outputMime,originalBytes:item.result.originalBytes,outputBytes:item.result.outputBytes,width:item.result.width,height:item.result.height,animationLost:!!item.result.animationLost,sha256:item.result.sha256,originalSha256:item.result.originalSha256,bunLinkId:`sixbit://${item.result.sha256.slice(0,16)}`,conversion:item.result.settings}))};}
+function batchManifest(){const converted=items.filter(i=>i.result);return{schema:'sixbit-batch-manifest',schemaVersion:2,tool:'SixBit Bun Protected Image-to-Code Studio v4',createdAt:new Date().toISOString(),count:converted.length,settings:{resize:Number(resizeInp.value)||0,quality:Number(qualityInp.value)||85,format:formatSel.value,output:outputSel.value,svgProtection:true,svgMinify:minifySvgCheck.checked,gifPreservation:preserveGifCheck.checked},assets:converted.map(item=>({name:item.file.name,outputName:outputFileName(item),originalMime:item.result.originalMime,outputMime:item.result.outputMime,originalBytes:item.result.originalBytes,outputBytes:item.result.outputBytes,width:item.result.width,height:item.result.height,animationLost:!!item.result.animationLost,sha256:item.result.sha256,originalSha256:item.result.originalSha256,bunLinkId:`sixbit://${item.result.sha256.slice(0,16)}`,conversion:item.result.settings}))};}
 function downloadManifest(){if(!items.some(i=>i.result))return;downloadText(JSON.stringify(batchManifest(),null,2),`sixbit-hashed-manifest-${new Date().toISOString().replace(/[:.]/g,'-')}.json`,'application/json;charset=utf-8');}
 
 /* Minimal STORE-method ZIP writer for KhaeZip-ready packages. */
@@ -622,26 +911,105 @@ function crc32(bytes){let c=0xffffffff;for(const b of bytes)c=CRC_TABLE[(c^b)&25
 function u16(v){return new Uint8Array([v&255,(v>>>8)&255]);}function u32(v){return new Uint8Array([v&255,(v>>>8)&255,(v>>>16)&255,(v>>>24)&255]);}
 function concatBytes(parts){const total=parts.reduce((n,p)=>n+p.length,0),out=new Uint8Array(total);let off=0;for(const p of parts){out.set(p,off);off+=p.length;}return out;}
 function dosDateTime(date=new Date()){const year=Math.max(1980,date.getFullYear()),time=(date.getHours()<<11)|(date.getMinutes()<<5)|(date.getSeconds()>>1),day=((year-1980)<<9)|((date.getMonth()+1)<<5)|date.getDate();return{time,day};}
-function createZip(entries){const locals=[],centrals=[];let offset=0;const {time,day}=dosDateTime();for(const entry of entries){const name=new TextEncoder().encode(entry.name.replace(/^\/+/,'')),data=entry.bytes instanceof Uint8Array?entry.bytes:new Uint8Array(entry.bytes),crc=crc32(data),local=concatBytes([u32(0x04034b50),u16(20),u16(0x0800),u16(0),u16(time),u16(day),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),name,data]);locals.push(local);const central=concatBytes([u32(0x02014b50),u16(20),u16(20),u16(0x0800),u16(0),u16(time),u16(day),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(offset),name]);centrals.push(central);offset+=local.length;}const centralBytes=concatBytes(centrals),eocd=concatBytes([u32(0x06054b50),u16(0),u16(0),u16(entries.length),u16(entries.length),u32(centralBytes.length),u32(offset),u16(0)]);return new Blob([...locals,centralBytes,eocd],{type:'application/zip'});}
+function safeZipPath(name){
+  const path=String(name||'').replace(/\\/g,'/').replace(/^\/+/, '').split('/').filter(part=>part&&part!=='.'&&part!=='..').map(part=>safeFilename(part,'asset')).join('/');
+  if(!path)throw new Error('Archive entry has no safe path.');
+  return path;
+}
+function createZip(entries){
+  if(!Array.isArray(entries)||!entries.length)throw new Error('No package entries are available.');
+  if(entries.length>LIMITS.maxZipEntries||entries.length>65535)throw new Error('Package contains too many entries.');
+  const locals=[],centrals=[],seen=new Set();let offset=0,totalData=0;const {time,day}=dosDateTime(),encoder=new TextEncoder();
+  for(const entry of entries){
+    const safeName=safeZipPath(entry.name);
+    if(seen.has(safeName.toLowerCase()))throw new Error(`Duplicate package path: ${safeName}`);
+    seen.add(safeName.toLowerCase());
+    const name=encoder.encode(safeName);
+    if(name.length>LIMITS.maxNameBytes)throw new Error(`Package path is too long: ${safeName}`);
+    const data=entry.bytes instanceof Uint8Array?entry.bytes:new Uint8Array(entry.bytes),crc=crc32(data);
+    totalData+=data.length;
+    if(totalData>LIMITS.maxZipBytes||data.length>0xffffffff)throw new Error(`Package exceeds ${humanSize(LIMITS.maxZipBytes)}.`);
+    const local=concatBytes([u32(0x04034b50),u16(20),u16(0x0800),u16(0),u16(time),u16(day),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),name,data]);
+    const central=concatBytes([u32(0x02014b50),u16(20),u16(20),u16(0x0800),u16(0),u16(time),u16(day),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(offset),name]);
+    locals.push(local);centrals.push(central);offset+=local.length;
+    if(offset>0xffffffff)throw new Error('Package exceeds standard ZIP offset limits.');
+  }
+  const centralBytes=concatBytes(centrals);
+  if(centralBytes.length>0xffffffff)throw new Error('Package central directory exceeds standard ZIP limits.');
+  const eocd=concatBytes([u32(0x06054b50),u16(0),u16(0),u16(entries.length),u16(entries.length),u32(centralBytes.length),u32(offset),u16(0)]);
+  return new Blob([...locals,centralBytes,eocd],{type:'application/zip'});
+}
 function codeName(item){return`code/${stem(item.file.name)}.sixbit.txt`;}
 function imageName(item){return`assets/${outputFileName(item)}`;}
 function bunName(item){return`bunlinks/${stem(item.file.name)}.${item.result.sha256.slice(0,16)}.sbbun.json`;}
 function downloadImages(){const converted=items.filter(i=>i.result);if(!converted.length)return;downloadBlob(createZip(converted.map(i=>({name:imageName(i),bytes:dataUrlBytes(i.result.dataUrl)}))),'sixbit-converted-images.zip');}
 function downloadCodes(){const converted=items.filter(i=>i.result);if(!converted.length)return;downloadBlob(createZip(converted.map(i=>({name:codeName(i),bytes:new TextEncoder().encode(i.result.snippet)}))),'sixbit-code-files.zip');}
-function downloadPackage(){const converted=items.filter(i=>i.result);if(!converted.length)return;const manifest=batchManifest(),entries=[{name:'manifest.json',bytes:new TextEncoder().encode(JSON.stringify(manifest,null,2))},{name:'README.txt',bytes:new TextEncoder().encode('SixBit Bun KhaeZip-ready package\n\nassets/ contains converted images.\ncode/ contains exact code output.\nbunlinks/ contains self-contained verified BunLink packages.\nmanifest.json records hashes and conversion settings.\n')}];for(const i of converted){entries.push({name:imageName(i),bytes:dataUrlBytes(i.result.dataUrl)},{name:codeName(i),bytes:new TextEncoder().encode(i.result.snippet)},{name:bunName(i),bytes:new TextEncoder().encode(JSON.stringify(bunLinkPayload(i),null,2))});}downloadBlob(createZip(entries),`sixbit-khaezip-ready-${new Date().toISOString().slice(0,10)}.zip`);}
+function downloadPackage(){
+  const converted=items.filter(i=>i.result);if(!converted.length)return;
+  try{
+    const manifest=batchManifest(),readme=[
+      'SixBit Bun KhaeZip-ready package',
+      '',
+      'assets/ contains converted images.',
+      'code/ contains exact code output.',
+      'bunlinks/ contains self-contained BunLink integrity packages.',
+      'manifest.json records original and output hashes, dimensions, sizes, and conversion settings.',
+      '',
+      'This is a standards-compatible ZIP. Open it in KhaeZip v5 to encrypt, verify, split, join, or store it in the local vault.',
+      'Keep independent copies of original source images.'
+    ].join('\n');
+    const entries=[{name:'manifest.json',bytes:new TextEncoder().encode(JSON.stringify(manifest,null,2))},{name:'README.txt',bytes:new TextEncoder().encode(readme)}];
+    for(const item of converted){
+      entries.push(
+        {name:imageName(item),bytes:dataUrlBytes(item.result.dataUrl)},
+        {name:codeName(item),bytes:new TextEncoder().encode(item.result.snippet)},
+        {name:bunName(item),bytes:new TextEncoder().encode(JSON.stringify(bunLinkPayload(item),null,2))}
+      );
+    }
+    const packageBlob=createZip(entries);
+    downloadBlob(packageBlob,`sixbit-khaezip-ready-${new Date().toISOString().slice(0,10)}.zip`);
+    setSummary(`KhaeZip-ready ZIP created • ${humanSize(packageBlob.size)} • ${converted.length} asset${converted.length===1?'':'s'}`,100);
+  }catch(error){
+    alert('Package creation failed: '+(error?.message||'unknown error'));
+  }
+}
 
-function safeBunDataUrl(payload){let data=String(payload.base64||'');if(!data)throw new Error('BunLink has no image payload.');if(payload.hasPrefix===false&&!data.startsWith('data:'))data=`data:${payload.outputMime||'image/png'};base64,${data.replace(/\s+/g,'')}`;if(!/^data:image\/(png|jpeg|gif|webp|svg\+xml);base64,/i.test(data))throw new Error('BunLink image MIME type is not supported.');return data;}
-async function verifyBunFile(file){if(!file)return;if(file.size>LIMITS.maxVerifierBytes){alert('That BunLink exceeds the 45 MB verifier limit.');return;}const target=el('verifierResult');target.replaceChildren();const working=document.createElement('div');working.textContent='Reading and hashing BunLink…';target.appendChild(working);try{const payload=JSON.parse(await file.text());if(payload.schema!=='sixbit-bunlink'||![2,3].includes(Number(payload.schemaVersion)))throw new Error('This is not a supported SixBit BunLink package.');const dataUrl=safeBunDataUrl(payload),bytes=dataUrlBytes(dataUrl),actual=await sha256Hex(bytes),expected=String(payload.sha256||'').toLowerCase(),matches=!!expected&&actual===expected;target.replaceChildren();const preview=document.createElement('div');preview.className='verifier-preview';const img=document.createElement('img');img.src=dataUrl;img.alt='Verified BunLink preview';preview.appendChild(img);const status=document.createElement('div');status.className=matches?'integrity-ok':expected?'integrity-bad':'integrity-warn';status.textContent=matches?'✓ Integrity verified':expected?'✕ Integrity mismatch':'⚠ No stored checksum';const meta=document.createElement('div');meta.className='limit-list';meta.textContent=`${safeFilename(payload.name||file.name)} • ${payload.outputMime||dataUrlMime(dataUrl)} • ${payload.width||'—'}×${payload.height||'—'} • ${humanSize(bytes.length)}`;const hash=document.createElement('div');hash.className='limit-list';hash.textContent=`Calculated SHA-256: ${actual}`;const actions=document.createElement('div');actions.className='button-row';actions.append(createButton('Download Image','',()=>downloadBlob(new Blob([bytes],{type:payload.outputMime||dataUrlMime(dataUrl)}),`${stem(payload.name||'bunlink')}.${extForMime(payload.outputMime||dataUrlMime(dataUrl))}`)),createButton('Copy Data URL','secondary small',function(){copyText(dataUrl,this);}));target.append(preview,status,meta,hash,actions);el('verifyInlineStatus').textContent=matches?`Verified: ${safeFilename(payload.name||file.name)}`:`Opened with ${expected?'an integrity warning':'no stored checksum'}: ${safeFilename(payload.name||file.name)}`;}catch(err){target.replaceChildren();const bad=document.createElement('div');bad.className='integrity-bad';bad.textContent='Verification failed: '+(err?.message||'invalid package');target.appendChild(bad);el('verifyInlineStatus').textContent='Verification failed.';}finally{el('bunVerifyInput').value='';}}
+function safeBunDataUrl(payload){let data=String(payload.base64||'');if(!data)throw new Error('BunLink has no image payload.');if(payload.hasPrefix===false&&!data.startsWith('data:'))data=`data:${payload.outputMime||'image/png'};base64,${data.replace(/\s+/g,'')}`;if(!/^data:image\/(png|jpeg|gif|webp|avif|svg\+xml);base64,/i.test(data))throw new Error('BunLink image MIME type is not supported.');return data;}
+async function verifyBunFile(file){if(!file)return;if(file.size>LIMITS.maxVerifierBytes){alert('That BunLink exceeds the 45 MB verifier limit.');return;}const target=el('verifierResult');target.replaceChildren();const working=document.createElement('div');working.textContent='Reading and hashing BunLink…';target.appendChild(working);try{const payload=JSON.parse(await file.text());if(payload.schema!=='sixbit-bunlink'||![2,3,4].includes(Number(payload.schemaVersion)))throw new Error('This is not a supported SixBit BunLink package.');const dataUrl=safeBunDataUrl(payload),bytes=dataUrlBytes(dataUrl);if(bytes.length>LIMITS.maxFileBytes*2)throw new Error('Decoded BunLink image exceeds the protected output limit.');if(Number.isFinite(Number(payload.outputBytes))&&Number(payload.outputBytes)!==bytes.length)throw new Error(`Declared output size ${payload.outputBytes} does not match decoded size ${bytes.length}.`);const actual=await sha256Hex(bytes),expected=String(payload.sha256||'').toLowerCase(),matches=!!expected&&actual===expected;target.replaceChildren();const preview=document.createElement('div');preview.className='verifier-preview';const img=document.createElement('img');img.src=dataUrl;img.alt='Verified BunLink preview';preview.appendChild(img);const status=document.createElement('div');status.className=matches?'integrity-ok':expected?'integrity-bad':'integrity-warn';status.textContent=matches?'✓ Integrity verified':expected?'✕ Integrity mismatch':'⚠ No stored checksum';const meta=document.createElement('div');meta.className='limit-list';meta.textContent=`${safeFilename(payload.name||file.name)} • ${payload.outputMime||dataUrlMime(dataUrl)} • ${payload.width||'—'}×${payload.height||'—'} • ${humanSize(bytes.length)}`;const hash=document.createElement('div');hash.className='limit-list';hash.textContent=`Calculated SHA-256: ${actual}`;const actions=document.createElement('div');actions.className='button-row';actions.append(createButton('Download Image','',()=>downloadBlob(new Blob([bytes],{type:payload.outputMime||dataUrlMime(dataUrl)}),`${stem(payload.name||'bunlink')}.${extForMime(payload.outputMime||dataUrlMime(dataUrl))}`)),createButton('Copy Data URL','secondary small',function(){copyText(dataUrl,this);}));target.append(preview,status,meta,hash,actions);el('verifyInlineStatus').textContent=matches?`Verified: ${safeFilename(payload.name||file.name)}`:`Opened with ${expected?'an integrity warning':'no stored checksum'}: ${safeFilename(payload.name||file.name)}`;}catch(err){target.replaceChildren();const bad=document.createElement('div');bad.className='integrity-bad';bad.textContent='Verification failed: '+(err?.message||'invalid package');target.appendChild(bad);el('verifyInlineStatus').textContent='Verification failed.';}finally{el('bunVerifyInput').value='';}}
 
 convertBtn.addEventListener('click',convertAll);cancelBtn.addEventListener('click',()=>{if(converting){conversionToken++;setSummary('Cancelling after the current operation…',parseFloat(progressBar.style.width)||0);}});manifestBtn.addEventListener('click',downloadManifest);downloadImagesBtn.addEventListener('click',downloadImages);downloadCodesBtn.addEventListener('click',downloadCodes);packageBtn.addEventListener('click',downloadPackage);clearBtn.addEventListener('click',()=>{if(items.some(i=>i.result)&&!confirm('Clear this converted batch?'))return;clearBatch();});visualWrap.addEventListener('change',()=>{saveSettings();renderCards();});[resizeInp,qualityInp,formatSel,outputSel,batchMode,strip,minifySvgCheck,preserveGifCheck].forEach(control=>control.addEventListener('change',updateControlContext));
-function openModal(modal){lastFocusedElement=document.activeElement;modal.classList.add('open');modal.querySelector('button')?.focus();}function closeModal(modal){modal.classList.remove('open');lastFocusedElement?.focus?.();}
-el('guideBtn').addEventListener('click',()=>openModal(el('guideModal')));el('historyBtn').addEventListener('click',()=>openModal(el('historyModal')));el('verifierBtn').addEventListener('click',()=>openModal(el('verifierModal')));el('verifyInlineBtn').addEventListener('click',()=>el('bunVerifyInput').click());el('chooseVerifyBtn').addEventListener('click',()=>el('bunVerifyInput').click());el('bunVerifyInput').addEventListener('change',e=>verifyBunFile(e.target.files[0]));document.querySelectorAll('.modalClose').forEach(button=>button.addEventListener('click',()=>closeModal(button.closest('.modal'))));document.querySelectorAll('.modal').forEach(modal=>modal.addEventListener('click',e=>{if(e.target===modal)closeModal(modal);}));addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.open').forEach(closeModal);});el('exportHistoryBtn').addEventListener('click',()=>downloadText(JSON.stringify(history,null,2),'sixbit-conversion-history.json','application/json;charset=utf-8'));el('clearHistoryBtn').addEventListener('click',()=>{if(!history.length)return;if(confirm('Clear all locally stored conversion history?')){clearedHistoryBackup=history.slice();history=[];saveHistory();renderHistory();toastHistory('Conversion history cleared.');}});el('undoHistoryBtn').addEventListener('click',()=>{if(clearedHistoryBackup){history=clearedHistoryBackup;clearedHistoryBackup=null;saveHistory();renderHistory();el('undoToast').classList.remove('show');}});
+storeHistoryCheck.addEventListener('change',()=>{saveSettings();if(!storeHistoryCheck.checked){history=[];storage.remove(HISTORY_KEY);}else loadHistory();renderHistory();});
+function openModal(modal){
+  lastFocusedElement=document.activeElement;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  setTimeout(()=>modal.querySelector('button,input,select,textarea,[href],[tabindex]:not([tabindex="-1"])')?.focus(),0);
+}
+function closeModal(modal){
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  lastFocusedElement?.focus?.();
+  lastFocusedElement=null;
+}
+el('guideBtn').addEventListener('click',()=>openModal(el('guideModal')));el('historyBtn').addEventListener('click',()=>openModal(el('historyModal')));el('verifierBtn').addEventListener('click',()=>openModal(el('verifierModal')));el('verifyInlineBtn').addEventListener('click',()=>el('bunVerifyInput').click());el('chooseVerifyBtn').addEventListener('click',()=>el('bunVerifyInput').click());el('bunVerifyInput').addEventListener('change',e=>verifyBunFile(e.target.files[0]));document.querySelectorAll('.modalClose').forEach(button=>button.addEventListener('click',()=>closeModal(button.closest('.modal'))));document.querySelectorAll('.modal').forEach(modal=>modal.addEventListener('click',e=>{if(e.target===modal)closeModal(modal);}));addEventListener('keydown',e=>{
+  const modal=document.querySelector('.modal.open');
+  if(e.key==='Tab'&&modal){
+    const focusable=Array.from(modal.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')).filter(node=>!node.hidden&&node.offsetParent!==null);
+    if(focusable.length){
+      const first=focusable[0],last=focusable.at(-1);
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+    }
+  }
+  if(e.key==='Escape'&&modal)closeModal(modal);
+});el('exportHistoryBtn').addEventListener('click',()=>{if(!storeHistoryCheck.checked||!history.length)return alert('No local conversion history is available to export.');downloadText(JSON.stringify({schema:'sixbit-conversion-history',schemaVersion:1,exportedAt:new Date().toISOString(),history},null,2),'sixbit-conversion-history.json','application/json;charset=utf-8');});el('clearHistoryBtn').addEventListener('click',()=>{if(!history.length)return;if(confirm('Clear all locally stored conversion history?')){clearedHistoryBackup=history.slice();history=[];saveHistory();renderHistory();toastHistory('Conversion history cleared.');}});el('undoHistoryBtn').addEventListener('click',()=>{if(clearedHistoryBackup){history=clearedHistoryBackup;clearedHistoryBackup=null;saveHistory();renderHistory();el('undoToast').classList.remove('show');}});
 addEventListener('beforeunload',()=>{items.forEach(revokeItemPreview);if(starFrame)cancelAnimationFrame(starFrame);});
 
 loadSettings();loadHistory();renderHistory();updateControlContext();setBusy(false);convertBtn.disabled=true;updateBulkButtons();
 const requestedPanel=new URLSearchParams(location.search).get('open');
 if(requestedPanel==='history')openModal(el('historyModal'));
 if(requestedPanel==='verify')openModal(el('verifierModal'));
+window.SixBitBun={version:'4.0.0',limits:LIMITS,createZip,batchManifest,bunLinkPayload,verifyBunFile};
 })();
 
 </script>
