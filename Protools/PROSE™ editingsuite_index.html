@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <title>PROSE™ — Sovereign Editorial Suite</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="A sovereign, local-first editorial suite for drafting, formatting, organizing, protecting, and exporting writing." />
+  <meta name="description" content="PROSE™ is a sovereign, local-first professional editorial suite for drafting, formatting, organizing, reviewing, preserving, and exporting writing." />
+  <meta name="theme-color" content="#191611" />
+  <meta name="color-scheme" content="light dark" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: blob:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; font-src 'none'; media-src data: blob:; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none';" />
   <style>
     /* ===========================
@@ -587,24 +589,300 @@
       .prose-control-label select{max-width:none;flex:1}
     }
 
+
+/* =========================================================
+   PROSE Professional Editorial Edition — Verve N Veda system
+   ========================================================= */
+:root{
+  --prose-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+  --prose-brand:"Cinzel","Aboreto",Georgia,serif;
+  --prose-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --prose-mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --prose-night:#17130f;
+  --prose-night-2:#241d17;
+  --prose-paper:#fffdf8;
+  --prose-parchment:#f7efe0;
+  --prose-ink:#2b2118;
+  --prose-muted:#756b60;
+  --prose-gold:#b99250;
+  --prose-gold-2:#dfc17c;
+  --prose-wine:#633849;
+  --prose-sage:#71826a;
+  --prose-line:rgba(113,88,51,.20);
+  --prose-shadow:0 25px 75px rgba(0,0,0,.33);
+}
+html{scroll-padding-top:78px}
+body{
+  padding:15px 10px 34px;
+  font-family:var(--prose-ui);
+  background:
+    radial-gradient(circle at 13% -5%,rgba(185,146,80,.16),transparent 34rem),
+    radial-gradient(circle at 91% 6%,rgba(99,56,73,.15),transparent 31rem),
+    linear-gradient(145deg,#1c1712,#0c0a08 78%);
+}
+.prose-skip-link{
+  position:fixed;top:-70px;left:14px;z-index:10000;
+  padding:10px 13px;border-radius:8px;background:#fffaf0;color:#251b12;font-weight:700
+}
+.prose-skip-link:focus{top:14px}
+#prose-app{
+  max-width:1480px;
+  margin:0 auto;
+  padding:13px;
+  border:1px solid rgba(223,193,124,.35);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(99,56,73,.07),transparent 28rem),
+    rgba(241,232,215,.985);
+  color:var(--prose-ink);
+  box-shadow:var(--prose-shadow);
+}
+.prose-site-nav{
+  position:sticky;top:7px;z-index:40;
+  min-height:48px;margin:0 0 9px;padding:7px 9px;
+  border:1px solid rgba(185,146,80,.28);border-radius:10px;
+  background:rgba(255,252,245,.91);backdrop-filter:blur(14px);
+  font-size:10px
+}
+.prose-breadcrumbs,.prose-nav-actions{gap:6px}
+.prose-site-nav a{color:#5b4224;font-weight:650}
+.prose-nav-link{
+  min-height:31px;padding:6px 9px;border-color:rgba(113,88,51,.20);
+  border-radius:7px;background:rgba(255,255,255,.44);font-size:9.5px
+}
+.prose-suite-banner{
+  min-height:150px;margin:0 0 9px;padding:21px 23px;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.78fr);gap:22px;align-items:center;
+  border:1px solid rgba(185,146,80,.28);border-radius:14px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(99,56,73,.10),transparent 24rem),
+    linear-gradient(145deg,#fffaf0,#efe1ca);
+  color:#3a291a
+}
+.prose-suite-identity{min-width:0}
+.prose-eyebrow{
+  color:#876328;font-family:var(--prose-brand);font-size:8px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase
+}
+.prose-suite-identity>strong{
+  display:block;margin-top:6px;color:#352315;
+  font-family:var(--prose-brand);font-size:clamp(29px,4.7vw,54px);font-weight:600;line-height:1;letter-spacing:.07em
+}
+.prose-suite-identity>span{
+  display:block;margin-top:4px;color:var(--prose-wine);
+  font-family:var(--prose-display);font-size:clamp(20px,2.7vw,29px);font-weight:600
+}
+.prose-suite-identity p{
+  max-width:760px;margin:9px 0 0;color:#6c5d4d;font-size:11px;line-height:1.62
+}
+.prose-admin-controls{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:end
+}
+.prose-control-label{
+  display:grid;gap:4px;color:#746653;font-size:8.5px;font-weight:650
+}
+.prose-control-label select{max-width:none;width:100%}
+.prose-admin-controls>.prose-small-btn{width:100%}
+.prose-metrics{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;
+  margin:0 0 10px
+}
+.prose-metrics>div{
+  min-height:58px;padding:9px 10px;border:1px solid var(--prose-line);border-radius:9px;
+  background:rgba(255,255,255,.54)
+}
+.prose-metrics span{
+  display:block;color:#8a7a66;font-size:7.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase
+}
+.prose-metrics strong{
+  display:block;margin-top:5px;color:#3e2e21;font-family:var(--prose-display);font-size:17px;font-weight:600
+}
+#prose-shell{
+  grid-template-columns:270px minmax(0,1fr);
+  gap:10px;
+}
+#prose-shell>aside{
+  min-width:0;
+}
+.prose-brand-block{
+  padding:15px;border-color:rgba(185,146,80,.25);border-radius:11px;
+  background:linear-gradient(145deg,#30251d,#1b1612);color:#f4ead7
+}
+.prose-brand-title{
+  color:var(--prose-gold-2);font-family:var(--prose-brand);font-size:24px;font-weight:600;letter-spacing:.11em
+}
+.prose-brand-sub{margin-top:6px;color:#d2c4b1;font-size:10px;line-height:1.55}
+.prose-side{
+  position:sticky;top:64px;max-height:calc(100vh - 82px);overflow:auto;
+  padding:8px;border-color:rgba(113,88,51,.18);border-radius:11px;
+  background:rgba(255,252,246,.83);gap:5px
+}
+.prose-side-label{
+  margin-bottom:4px;padding:7px;border-radius:7px;
+  background:#eee1cf;color:#816f59;font-family:var(--prose-brand);font-size:7.5px;font-weight:600;letter-spacing:.15em
+}
+.prose-side .pro-tool-btn{
+  padding:8px 9px;border-color:rgba(113,88,51,.16);border-radius:7px;
+  background:rgba(255,255,255,.62);color:#473526;font-size:9.5px;font-weight:650;text-align:left
+}
+.prose-side .pro-tool-btn:hover{background:#f0e1c9}
+.prose-outline-list{max-height:150px;padding:6px;font-size:9.5px}
+.prose-wordbank{max-height:190px;border-color:rgba(185,146,80,.32);background:#fffaf1;font-size:9px}
+.prose-wordbank-pill{margin:2px;padding:4px 6px;border-radius:999px;font-size:8.5px}
+.prose-progress-wrap{padding:8px;background:#fffaf1;font-size:9px}
+.prose-main{
+  min-width:0;padding:10px 11px 12px;border-color:rgba(113,88,51,.18);border-radius:12px;
+  background:#f8f0e3
+}
+.prose-topbar{
+  position:sticky;top:63px;z-index:28;
+  margin-bottom:7px;padding:7px;border:1px solid var(--prose-line);border-radius:9px;
+  background:rgba(255,252,247,.94);backdrop-filter:blur(12px)
+}
+.prose-pill-group{gap:5px}
+.prose-pill-btn,.prose-small-btn{
+  min-height:31px;padding:6px 9px;border:1px solid rgba(113,88,51,.20);border-radius:7px;
+  background:rgba(255,255,255,.62);color:#493727;font-family:var(--prose-ui);font-size:9px;font-weight:700
+}
+.prose-pill-btn:hover,.prose-small-btn:hover{background:#ecddc5}
+.prose-pill-btn.active,.prose-pill-btn[aria-pressed="true"]{
+  border-color:#806231;background:#dcc394;color:#342313
+}
+.prose-select{
+  min-height:31px;padding:5px 7px;border-color:rgba(113,88,51,.20);border-radius:7px;
+  background:#fffdf8;color:#392a20;font-size:9px
+}
+.prose-toolbar{
+  position:sticky;top:109px;z-index:27;
+  margin-top:0;padding:6px 7px;border-color:rgba(113,88,51,.20);border-radius:9px;
+  background:rgba(246,236,220,.96);backdrop-filter:blur(12px);
+  box-shadow:0 7px 20px rgba(72,53,32,.08)
+}
+.prose-toolbar-row{gap:5px;margin:5px 0}
+.prose-toolbar-btn{
+  min-height:30px;padding:5px 7px;border-color:rgba(113,88,51,.18);border-radius:6px;
+  background:#fffaf2;color:#3b2b1f;font-size:9.5px
+}
+.prose-toolbar-btn:hover{background:#eadbc3}
+.prose-align-btn{min-width:58px}
+.prose-divider{background:rgba(113,88,51,.18)}
+.prose-doc-title{margin:12px 0 6px}
+.prose-title-input{
+  width:min(760px,90%);padding:7px 10px;border-bottom:1px solid rgba(113,88,51,.31);
+  color:#38271a;font-family:var(--prose-display);font-size:21px;font-weight:600;letter-spacing:.015em
+}
+.prose-editor-wrap{
+  height:clamp(560px,67vh,860px);
+  min-height:560px;max-height:none;overflow:auto;
+  padding:34px clamp(25px,5vw,72px);
+  border:1px solid rgba(113,88,51,.24);border-radius:10px;
+  background:#fffdf8;box-shadow:inset 0 0 28px rgba(82,57,25,.035),0 10px 25px rgba(67,47,25,.08)
+}
+#prose-editor{
+  min-height:calc(100% - 10px);
+  color:#2d241d;font-family:Georgia,"Times New Roman",serif;font-size:17px;line-height:1.82;
+  caret-color:var(--prose-wine)
+}
+#prose-app:not(.prose-wide) #prose-editor{max-width:790px}
+#prose-editor h1,#prose-editor h2,#prose-editor h3{font-family:var(--prose-display);line-height:1.2}
+#prose-editor blockquote{
+  margin:1.2em 0;padding:.4em 1.2em;border-left:3px solid var(--prose-gold);
+  color:#655344;background:rgba(185,146,80,.07)
+}
+.prose-footer{
+  margin-top:7px;padding:0 3px;color:#756a5f;font-size:9px
+}
+.prose-save-dot{background:var(--prose-sage)}
+.prose-panels{
+  padding:9px 10px;border-color:rgba(113,88,51,.18);border-radius:10px;background:#efe3d1;font-size:11px
+}
+.prose-panel-nav{
+  flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin
+}
+.prose-panel-nav button{
+  flex:0 0 auto;min-height:29px;padding:5px 8px;border-radius:6px;
+  background:#fffaf2;color:#483528;font-size:8.5px;font-weight:700
+}
+.prose-panel-nav button.active{background:#d7bd8c;border-color:#8d6d37}
+.prose-panel{
+  min-height:132px;padding:7px 5px
+}
+.prose-panel h3{
+  font-family:var(--prose-display);font-size:17px;font-weight:600;color:#3c2b1e
+}
+.prose-panel-row{gap:6px}
+.prose-panel input[type="text"],.prose-panel input[type="number"],.prose-panel textarea,.prose-panel select{
+  min-height:34px;padding:7px 8px;border-color:rgba(113,88,51,.19);border-radius:7px;background:#fffdf8;font-size:10px
+}
+.prose-panel textarea{min-height:95px}
+.prose-panel small{font-size:9px;line-height:1.5}
+.prose-panel-list{max-height:220px;padding:6px;border-color:rgba(113,88,51,.17);background:#fffdf8;font-size:10px}
+.prose-warning{border-color:#c59a51;background:#fff3d9}
+.prose-toast{
+  bottom:20px;padding:9px 14px;border-radius:8px;background:#201b17;color:#f7efe2;font-size:10px
+}
+@media(max-width:1100px){
+  .prose-suite-banner{grid-template-columns:1fr}
+  .prose-admin-controls{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .prose-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:860px){
+  #prose-shell{grid-template-columns:1fr}
+  .prose-side{position:static;max-height:none}
+  .prose-topbar{top:62px}
+  .prose-toolbar{top:108px}
+  .prose-editor-wrap{height:65vh;min-height:500px}
+}
+@media(max-width:620px){
+  body{padding:5px 3px 18px}
+  #prose-app{padding:7px;border-radius:13px}
+  .prose-suite-banner{padding:16px 14px}
+  .prose-admin-controls{grid-template-columns:1fr 1fr}
+  .prose-metrics{grid-template-columns:1fr 1fr}
+  .prose-site-nav{align-items:flex-start}
+  .prose-nav-actions{width:100%}
+  .prose-nav-link{flex:1}
+  .prose-topbar,.prose-toolbar{position:static}
+  .prose-editor-wrap{height:62vh;min-height:450px;padding:24px 18px}
+  #prose-editor{font-size:16px}
+}
+@media print{
+  body{padding:0;background:#fff}
+  #prose-app{max-width:none;margin:0;padding:0;border:0;box-shadow:none;background:#fff}
+  .prose-skip-link,.prose-site-nav,.prose-suite-banner,.prose-metrics,#prose-shell>aside,
+  .prose-topbar,.prose-toolbar,.prose-footer,.prose-panels,.prose-toast{display:none!important}
+  #prose-shell{display:block}
+  .prose-main{padding:0;border:0;background:#fff}
+  .prose-doc-title{margin:0 0 24px}
+  .prose-title-input{border:0;font-size:24pt}
+  .prose-editor-wrap{height:auto;min-height:0;overflow:visible;padding:0;border:0;box-shadow:none;background:#fff!important}
+  #prose-editor{max-width:none!important;color:#111!important;font-size:12pt;line-height:1.6}
+}
+
 </style>
 </head>
 <body>
+<a class="prose-skip-link" href="#prose-editor">Skip to the writing page</a>
 <div id="prose-app">
   <nav class="prose-site-nav" aria-label="PROSE and site navigation">
     <div class="prose-breadcrumbs">
-      <a href="https://vervenveda.github.io/">Home</a><span aria-hidden="true">›</span>
-      <a href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a><span aria-hidden="true">›</span>
-      <span aria-current="page">PROSE Editorial Suite</span>
+      <a href="PROSE_index.html">PROSE Gateway</a><span aria-hidden="true">›</span>
+      <span aria-current="page">Editorial Suite</span>
     </div>
     <div class="prose-nav-actions">
-      <a class="prose-nav-link" href="https://vervenveda.github.io/proresource_hub.github.io/">← ProReSources</a>
-      <a class="prose-nav-link" href="https://vervenveda.github.io/">⌂ Home</a>
+      <a class="prose-nav-link" href="PROSE_index.html">Editorial Hub</a>
+      <a class="prose-nav-link" href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a>
+      <a class="prose-nav-link" href="https://vervenveda.github.io/">Verve N Veda</a>
     </div>
   </nav>
-  <div class="prose-suite-banner">
-    <div><strong>PROSE™ Editorial Suite</strong><br><span>One protected local writing workspace for drafting, editing, organizing, restoring, and exporting.</span></div>
-    <div class="prose-admin-controls">
+  <header class="prose-suite-banner">
+    <div class="prose-suite-identity">
+      <div class="prose-eyebrow">Professional writing · editorial intelligence · protected local projects</div>
+      <strong>PROSE™</strong>
+      <span>Sovereign Editorial Suite</span>
+      <p>A composed writing room for drafting, revising, organizing, reviewing, preserving, and preparing work for publication.</p>
+    </div>
+    <div class="prose-admin-controls" aria-label="Workspace controls">
       <label class="prose-control-label">Direction
         <select id="prose-direction-select" class="prose-select" aria-label="Writing direction">
           <option value="auto">Auto</option><option value="ltr">Left to right</option><option value="rtl">Right to left</option>
@@ -615,10 +893,23 @@
           <option value="protected">Protected rich text</option><option value="plain">Plain text</option>
         </select>
       </label>
+      <button type="button" id="prose-import-document" class="prose-small-btn">Import Document</button>
+      <input type="file" id="prose-import-document-file" class="prose-hidden-input" accept=".txt,.html,.htm,text/plain,text/html">
       <button type="button" id="prose-clean-document" class="prose-small-btn">Clean Document</button>
+      <button type="button" id="prose-print-document" class="prose-small-btn">Print / PDF</button>
+      <button type="button" id="prose-protect-storage" class="prose-small-btn">Protect Storage</button>
       <button type="button" id="prose-fullscreen-toggle" class="prose-small-btn">Fullscreen</button>
     </div>
-  </div>
+  </header>
+
+  <section class="prose-metrics" aria-label="Live document statistics">
+    <div><span>Words</span><strong id="prose-metric-words">0</strong></div>
+    <div><span>Characters</span><strong id="prose-metric-characters">0</strong></div>
+    <div><span>Sentences</span><strong id="prose-metric-sentences">0</strong></div>
+    <div><span>Paragraphs</span><strong id="prose-metric-paragraphs">0</strong></div>
+    <div><span>Reading time</span><strong id="prose-metric-reading">0 min</strong></div>
+    <div><span>Storage</span><strong id="prose-metric-storage">Local</strong></div>
+  </section>
   <div id="prose-shell">
     <!-- ===========================
          LEFT COLUMN – PRO TOOLS
@@ -626,7 +917,7 @@
     <aside>
       <div class="prose-brand-block">
         <div class="prose-brand-title">PROSE™</div>
-        <div class="prose-brand-sub">Sovereign Editorial Suite<br/>Canonical Protected Edition</div>
+        <div class="prose-brand-sub">Sovereign Editorial Suite<br>Professional Protected Edition</div>
       </div>
 
       <div class="prose-side">
@@ -644,7 +935,7 @@
         <button class="pro-tool-btn" data-panel="images">Images</button>
         <button class="pro-tool-btn" data-panel="library">Recent Docs</button>
         <button class="pro-tool-btn" data-panel="thoughts">Private Thoughts</button>
-        <button class="pro-tool-btn" data-panel="ai">AuroraCore (AI)</button>
+        <button class="pro-tool-btn" data-panel="ai">Aurora Editorial Lens</button>
 
         <div class="prose-side-label" style="margin-top:8px;">Outline</div>
         <div id="prose-outline-list" class="prose-outline-list"></div>
@@ -677,9 +968,9 @@
       <!-- Top controls -->
       <div class="prose-topbar">
         <div class="prose-pill-group">
-          <button type="button" id="prose-focus-toggle" class="prose-pill-btn">Focus Mode</button>
-          <button type="button" id="prose-width-toggle" class="prose-pill-btn">Wide Page</button>
-          <button type="button" id="prose-sound-toggle" class="prose-pill-btn">Sound Off</button>
+          <button type="button" id="prose-focus-toggle" class="prose-pill-btn" aria-pressed="false">Focus Mode</button>
+          <button type="button" id="prose-width-toggle" class="prose-pill-btn" aria-pressed="false">Wide Page</button>
+          <button type="button" id="prose-sound-toggle" class="prose-pill-btn" aria-pressed="false">Sound Off</button>
         </div>
         <div class="prose-pill-group">
           <select id="prose-paper-theme" class="prose-select">
@@ -766,7 +1057,7 @@
           <button type="button" class="prose-toolbar-btn" id="prose-insert-link-btn">Link</button>
           <button type="button" class="prose-toolbar-btn" id="prose-insert-box-btn">Box</button>
           <button type="button" class="prose-toolbar-btn" id="prose-page-color-btn">Page</button>
-          <input type="file" id="prose-image-input" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml,.svg" style="display:none" />
+          <input type="file" id="prose-image-input" accept="image/png,image/jpeg,image/gif,image/webp,image/avif,image/svg+xml,.svg,.avif" style="display:none" />
         </div>
       </div>
 
@@ -781,12 +1072,12 @@
 
       <div class="prose-footer">
         <div id="prose-status-left" class="prose-save-indicator"><span id="prose-save-dot" class="prose-save-dot"></span><span id="prose-save-text">Autosave ready</span></div>
-        <div id="prose-status-right">Protected local workspace • Offline-ready</div>
+        <div id="prose-status-right">Protected local workspace · Ctrl/⌘ S to save</div>
       </div>
 
       <!-- Tool panels (bottom) -->
       <section class="prose-panels">
-        <div class="prose-panel-nav">
+        <div class="prose-panel-nav" role="tablist" aria-label="Editorial tool panels">
           <button type="button" class="prose-panel-tab active" data-panel="find">Find</button>
           <button type="button" class="prose-panel-tab" data-panel="comments">Comments</button>
           <button type="button" class="prose-panel-tab" data-panel="templates">Templates</button>
@@ -800,7 +1091,7 @@
           <button type="button" class="prose-panel-tab" data-panel="images">Images</button>
           <button type="button" class="prose-panel-tab" data-panel="library">Library</button>
           <button type="button" class="prose-panel-tab" data-panel="thoughts">Private Thoughts</button>
-          <button type="button" class="prose-panel-tab" data-panel="ai">AuroraCore</button>
+          <button type="button" class="prose-panel-tab" data-panel="ai">Aurora Lens</button>
         </div>
 
         <!-- FIND -->
@@ -917,6 +1208,8 @@
           <div class="prose-panel-row">
             <button type="button" id="prose-export-html" class="prose-small-btn">Protected HTML</button>
             <button type="button" id="prose-export-text" class="prose-small-btn">Plain Text</button>
+            <button type="button" id="prose-export-markdown" class="prose-small-btn">Markdown</button>
+            <button type="button" id="prose-export-print" class="prose-small-btn">Print / PDF</button>
             <button type="button" id="prose-export-workspace" class="prose-small-btn">Export Complete Workspace</button>
           </div>
           <div class="prose-panel-row">
@@ -943,6 +1236,7 @@
           <h3>Document Library</h3>
           <div class="prose-panel-row">
             <button type="button" id="prose-new-doc" class="prose-small-btn">New Document</button>
+            <button type="button" id="prose-duplicate-doc" class="prose-small-btn">Duplicate Current</button>
             <small>Create a fresh page and keep your recent docs below.</small>
           </div>
           <div class="prose-panel-list" id="prose-recents-list"></div>
@@ -960,16 +1254,16 @@
 
         <!-- AURORACORE -->
         <div class="prose-panel" id="prose-panel-ai">
-          <h3>AuroraCore (AI) Scratchpad</h3>
+          <h3>Aurora Editorial Lens</h3>
           <div class="prose-panel-row">
-            <textarea id="prose-ai-notes" placeholder="Questions, prompts, and instructions you'd like to send to AuroraCore when connected. These are stored privately with this document."></textarea>
+            <textarea id="prose-ai-notes" placeholder="Editorial questions, revision ideas, voice notes, and prompts for future review. These remain private with this document."></textarea>
           </div>
           <div class="prose-panel-row">
-            <button type="button" id="prose-grammar-scan" class="prose-small-btn">Run Grammar Scan</button>
-            <small>Offline “quantum” pass across clarity, rhythm, and filler words.</small>
+            <button type="button" id="prose-grammar-scan" class="prose-small-btn">Run Local Editorial Review</button>
+            <small>Local review of sentence length, clarity, rhythm, repetition, and filler words.</small>
           </div>
           <div class="prose-panel-list" id="prose-grammar-results"></div>
-          <small>This helper never sends data anywhere. All analysis is local-only.</small>
+          <small>This editorial lens is rule-based and local. It does not send writing to an external AI service.</small>
         </div>
       </section>
     </main>
@@ -1024,7 +1318,7 @@
   const STORAGE_KEY_RECOVERY = "prose_suite_v2_workspace_recovery";
   const WORKSPACE_SCHEMA = "prose-editorial-suite-workspace";
   const WORKSPACE_VERSION = 2;
-  const LIMITS = Object.freeze({maxDocuments:100,maxVersions:60,maxComments:300,maxWordsBank:300,maxImportBytes:8*1024*1024,maxImageBytes:5*1024*1024,maxImagePixels:20_000_000,maxImagesPerDoc:16,maxImageWidth:1800});
+  const LIMITS = Object.freeze({maxDocuments:100,maxVersions:60,maxComments:300,maxWordsBank:300,maxImportBytes:24*1024*1024,maxDocumentImportBytes:12*1024*1024,maxImageBytes:5*1024*1024,maxImagePixels:20_000_000,maxImagesPerDoc:16,maxImageWidth:1800});
   const directionSelect = $("#prose-direction-select");
   const pasteModeSelect = $("#prose-paste-mode");
 
@@ -1126,13 +1420,15 @@
   function sanitizeSvgText(text){
     const doc = new DOMParser().parseFromString(asString(text,6_000_000),"image/svg+xml");
     if(doc.querySelector("parsererror") || doc.documentElement?.localName !== "svg") throw new Error("Invalid SVG document");
-    doc.querySelectorAll("script,style,foreignObject,iframe,object,embed,audio,video,canvas,form,input,button,textarea,select,link,meta").forEach(node=>node.remove());
+    doc.querySelectorAll("script,style,foreignObject,iframe,object,embed,audio,video,canvas,form,input,button,textarea,select,link,meta,animate,animateMotion,animateTransform,set,discard").forEach(node=>node.remove());
     doc.querySelectorAll("*").forEach(node=>{
       Array.from(node.attributes).forEach(attr=>{
         const name = attr.name.toLowerCase();
         const val = attr.value.trim();
-        if(name.startsWith("on") || name === "srcdoc" || /javascript:|vbscript:|@import|expression\s*\(|url\s*\(/i.test(val)) node.removeAttribute(attr.name);
-        if(["href","xlink:href","src"].includes(name) && val && !val.startsWith("#") && !/^data:image\/(?:png|jpeg|gif|webp);base64,/i.test(val)) node.removeAttribute(attr.name);
+        if(name.startsWith("on") || name === "srcdoc" || /javascript:|vbscript:|@import|expression\s*\(/i.test(val)){node.removeAttribute(attr.name);return;}
+        const urls=[...val.matchAll(/url\(\s*(['"]?)(.*?)\1\s*\)/gi)].map(match=>match[2].trim());
+        if(urls.some(url=>url&&!url.startsWith("#"))){node.removeAttribute(attr.name);return;}
+        if(["href","xlink:href","src"].includes(name) && val && !val.startsWith("#") && !/^data:image\/(?:png|jpeg|gif|webp|avif);base64,/i.test(val)) node.removeAttribute(attr.name);
       });
     });
     const root = doc.documentElement;
@@ -1142,7 +1438,7 @@
 
   function sanitizeDataImage(src){
     const raw = asString(src,8_000_000).trim();
-    if(/^data:image\/(?:png|jpeg|gif|webp);base64,[a-z0-9+/=\s]+$/i.test(raw)) return raw.replace(/\s+/g,"");
+    if(/^data:image\/(?:png|jpeg|gif|webp|avif);base64,[a-z0-9+/=\s]+$/i.test(raw)) return raw.replace(/\s+/g,"");
     if(/^data:image\/svg\+xml(?:;charset=[^;,]+)?(?:;base64)?,/i.test(raw)){
       try{
         const comma = raw.indexOf(",");
@@ -1696,7 +1992,7 @@
     const readingMinutes = Math.max(1, Math.round(totalWords / 200));
 
     let html = "";
-    html += "<div class='prose-panel-list-item'><strong>Quantum Pass Summary</strong><br/>";
+    html += "<div class='prose-panel-list-item'><strong>Editorial Review Summary</strong><br/>";
     html += "Sentences: "+sentenceCount+" · Words: "+totalWords+" · Avg length: "+avgSentenceLength.toFixed(1)+" words<br/>";
     html += "Clarity: "+clarityScore+"/100 · Rhythm: "+rhythmScore+"/100 · Precision: "+precisionScore+"/100<br/>";
     html += "Estimated reading time: ~"+readingMinutes+" min</div>";
@@ -1908,8 +2204,8 @@
     if(existing>=LIMITS.maxImagesPerDoc){alert("This document has reached the protected limit of "+LIMITS.maxImagesPerDoc+" embedded images.");return;}
     if(file.size>LIMITS.maxImageBytes){alert("Image exceeds the 5 MB protected input limit. Resize it before inserting.");return;}
     const type=(file.type||"").toLowerCase();
-    const allowed=["image/png","image/jpeg","image/gif","image/webp","image/svg+xml"];
-    if(!allowed.includes(type)&&!/\.svg$/i.test(file.name)){alert("Please choose PNG, JPEG, GIF, WebP, or SVG.");return;}
+    const allowed=["image/png","image/jpeg","image/gif","image/webp","image/avif","image/svg+xml"];
+    if(!allowed.includes(type)&&!/\.svg$/i.test(file.name)){alert("Please choose PNG, JPEG, GIF, WebP, AVIF, or SVG.");return;}
     try{
       let dataUrl="";
       if(type==="image/svg+xml"||/\.svg$/i.test(file.name)){
@@ -2574,9 +2870,26 @@
     refreshImageGallery();
   }
 
+
+  function updateEditorialMetrics(){
+    const plain=(editor.innerText||editor.textContent||"").replace(/\u00a0/g," ").trim();
+    const words=plain?plain.split(/\s+/).filter(Boolean):[];
+    const sentences=plain?plain.split(/[.!?]+(?:\s|$)/).map(value=>value.trim()).filter(Boolean):[];
+    const paragraphs=Array.from(editor.querySelectorAll("p,h1,h2,h3,blockquote,li")).filter(node=>(node.innerText||node.textContent||"").trim()).length;
+    const reading=words.length?Math.max(1,Math.ceil(words.length/220)):0;
+    const values={
+      "#prose-metric-words":words.length.toLocaleString(),
+      "#prose-metric-characters":plain.length.toLocaleString(),
+      "#prose-metric-sentences":sentences.length.toLocaleString(),
+      "#prose-metric-paragraphs":paragraphs.toLocaleString(),
+      "#prose-metric-reading":reading+" min"
+    };
+    Object.entries(values).forEach(([selector,value])=>{const element=$(selector);if(element)element.textContent=value;});
+  }
+
   function updateToneStatus(){
     if(!toneSelect) {
-      statusRight.textContent = "Protected local workspace • Offline-ready";
+      statusRight.textContent = "Protected local workspace · Ctrl/⌘ S to save";
       return;
     }
     const val = toneSelect.value;
@@ -2586,7 +2899,7 @@
     else if(val === "epic") label = "Epic";
     else if(val === "sacred") label = "Sacred";
     else if(val === "formal") label = "Formal";
-    statusRight.textContent = "Tone: "+label+" • Protected local workspace • Offline-ready";
+    statusRight.textContent = "Tone: "+label+" · Protected local workspace · Ctrl/⌘ S to save";
   }
 
   /* ---------- New document ---------- */
@@ -2618,12 +2931,14 @@
 
   /* ---------- Top controls ---------- */
   $("#prose-focus-toggle").onclick = function(){
-    app.classList.toggle("prose-focus");
-    this.classList.toggle("active");
+    const active=app.classList.toggle("prose-focus");
+    this.classList.toggle("active",active);
+    this.setAttribute("aria-pressed",String(active));
   };
   $("#prose-width-toggle").onclick = function(){
-    app.classList.toggle("prose-wide");
-    this.classList.toggle("active");
+    const active=app.classList.toggle("prose-wide");
+    this.classList.toggle("active",active);
+    this.setAttribute("aria-pressed",String(active));
   };
   let soundEnabled = false;
   function playSoftClick(){
@@ -2646,6 +2961,7 @@
   $("#prose-sound-toggle").onclick = function(){
     soundEnabled = !soundEnabled;
     this.classList.toggle("active", soundEnabled);
+    this.setAttribute("aria-pressed",String(soundEnabled));
     this.textContent = soundEnabled ? "Sound On" : "Sound Off";
     if(soundEnabled) playSoftClick();
   };
@@ -2869,10 +3185,15 @@
 
   function activatePanel(name){
     $$(".prose-panel").forEach(p=>{
-      p.classList.toggle("active", p.id === "prose-panel-"+name);
+      const active=p.id === "prose-panel-"+name;
+      p.classList.toggle("active",active);
+      p.hidden=!active;
     });
     $$(".prose-panel-tab").forEach(t=>{
-      t.classList.toggle("active", t.dataset.panel === name);
+      const active=t.dataset.panel === name;
+      t.classList.toggle("active",active);
+      t.setAttribute("role","tab");
+      t.setAttribute("aria-selected",String(active));
     });
   }
 
@@ -2974,6 +3295,45 @@
     setTimeout(()=>URL.revokeObjectURL(url), 1000);
   }
 
+
+  function editorHtmlToMarkdown(sourceHtml){
+    const doc=new DOMParser().parseFromString("<div id='md-root'>"+sanitizeEditorHtml(sourceHtml)+"</div>","text/html");
+    const rootNode=doc.getElementById("md-root");
+    function convert(node,depth=0){
+      if(node.nodeType===Node.TEXT_NODE)return node.nodeValue||"";
+      if(node.nodeType!==Node.ELEMENT_NODE)return "";
+      const tag=node.tagName.toLowerCase();
+      const content=Array.from(node.childNodes).map(child=>convert(child,depth)).join("");
+      if(tag==="br")return "\n";
+      if(tag==="strong"||tag==="b")return "**"+content+"**";
+      if(tag==="em"||tag==="i")return "*"+content+"*";
+      if(tag==="s"||tag==="strike")return "~~"+content+"~~";
+      if(tag==="code")return "`"+content.replace(/`/g,"\\`")+"`";
+      if(tag==="pre")return "\n```\n"+(node.innerText||node.textContent||"").trim()+"\n```\n\n";
+      if(/^h[1-3]$/.test(tag))return "\n"+"#".repeat(Number(tag[1]))+" "+content.trim()+"\n\n";
+      if(tag==="blockquote")return "\n"+content.trim().split("\n").map(line=>"> "+line).join("\n")+"\n\n";
+      if(tag==="a"){
+        const href=safeLinkUrl(node.getAttribute("href"));
+        return href?"["+content.trim()+"]("+href+")":content;
+      }
+      if(tag==="img"){
+        const alt=(node.getAttribute("alt")||"image").replace(/[\[\]]/g,"");
+        const src=sanitizeDataImage(node.getAttribute("src")||"");
+        return src?"!["+alt+"]("+src+")":"["+alt+" image]";
+      }
+      if(tag==="li"){
+        const parent=node.parentElement?.tagName.toLowerCase();
+        const marker=parent==="ol"?"1. ":"- ";
+        return marker+content.trim()+"\n";
+      }
+      if(tag==="ul"||tag==="ol")return "\n"+content+"\n";
+      if(["p","div","figure","figcaption"].includes(tag))return content.trim()+"\n\n";
+      if(tag==="hr")return "\n---\n\n";
+      return content;
+    }
+    return convert(rootNode).replace(/\n{3,}/g,"\n\n").trim()+"\n";
+  }
+
   $("#prose-export-html").onclick = function(){
     const doc = getDoc();
     const safeContent=sanitizeEditorHtml(doc.content);
@@ -2989,6 +3349,12 @@
     const text = (tmp.innerText || tmp.textContent || "");
     exportFile(safeFilename(doc.title)+".txt", text, "text/plain");
   };
+  $("#prose-export-markdown").onclick = function(){
+    const doc=getDoc();
+    exportFile(safeFilename(doc.title)+".md",editorHtmlToMarkdown(doc.content),"text/markdown");
+    showToast("Markdown exported");
+  };
+  $("#prose-export-print").onclick = ()=>window.print();
 
   const exportWorkspaceBtn=$("#prose-export-workspace");
   const importWorkspaceBtn=$("#prose-import-workspace");
@@ -3002,7 +3368,7 @@
     importWorkspaceBtn.onclick=()=>importWorkspaceFile.click();
     importWorkspaceFile.onchange=async e=>{
       const file=e.target.files?.[0];e.target.value="";if(!file)return;
-      if(file.size>LIMITS.maxImportBytes)return alert("Workspace backup exceeds the 8 MB protected import limit.");
+      if(file.size>LIMITS.maxImportBytes)return alert("Workspace backup exceeds the 24 MB protected import limit.");
       try{
         const data=JSON.parse(await file.text());
         if(data.schema!==WORKSPACE_SCHEMA||!Array.isArray(data.documents))throw new Error("This is not a supported PROSE workspace backup.");
@@ -3079,6 +3445,93 @@
   if(showAllVersions)showAllVersions.addEventListener("change",renderVersions);
 
 
+
+  async function importStandaloneDocument(file){
+    if(!file)return;
+    if(file.size>LIMITS.maxDocumentImportBytes)throw new Error("Document exceeds the 12 MB protected import limit.");
+    const lower=file.name.toLowerCase();
+    const raw=await file.text();
+    let content="";
+    if(lower.endsWith(".html")||lower.endsWith(".htm")||file.type==="text/html"){
+      const parsed=new DOMParser().parseFromString(raw,"text/html");
+      content=sanitizeEditorHtml(parsed.body?.innerHTML||"");
+    }else{
+      content=raw.split(/\r?\n\r?\n/).map(part=>"<p>"+escapeHtml(part).replace(/\r?\n/g,"<br>")+"</p>").join("");
+    }
+    if(!content.trim())throw new Error("The imported document contains no readable text.");
+    if(isDirty&&!flushPendingAutosave())throw new Error("The current document could not be protected before import.");
+    const now=new Date().toISOString();
+    const imported=normalizeDoc({
+      docId:String(Date.now())+Math.random().toString(36).slice(2),
+      createdAt:now,updatedAt:now,
+      title:file.name.replace(/\.(?:txt|html?|htm)$/i,"")||"Imported Document",
+      content
+    });
+    applyDoc(imported);
+    saveDoc(false);
+    showToast("Document imported safely");
+  }
+
+  async function requestPersistentProseStorage(){
+    const metric=$("#prose-metric-storage");
+    if(!navigator.storage?.persist){
+      if(metric)metric.textContent="Best effort";
+      showToast("Persistent storage is unavailable");
+      return;
+    }
+    try{
+      const granted=await navigator.storage.persist();
+      if(metric)metric.textContent=granted?"Persistent":"Best effort";
+      showToast(granted?"Persistent storage granted":"Browser kept best-effort storage");
+      updateStorageMeter();
+    }catch(_){
+      if(metric)metric.textContent="Best effort";
+      showToast("Storage protection request failed");
+    }
+  }
+
+  async function updateProseStorageMetric(){
+    const metric=$("#prose-metric-storage");
+    if(!metric)return;
+    try{
+      const persisted=navigator.storage?.persisted?await navigator.storage.persisted():false;
+      metric.textContent=persisted?"Persistent":"Local";
+    }catch(_){metric.textContent="Local";}
+  }
+
+  function duplicateCurrentDocument(){
+    if(!flushPendingAutosave()){
+      alert("PROSE could not protect the current document before duplication.");
+      return;
+    }
+    const source=getDoc();
+    const now=new Date().toISOString();
+    const copy=normalizeDoc({...source,docId:String(Date.now())+Math.random().toString(36).slice(2),createdAt:now,updatedAt:now,title:(source.title||"Untitled Document")+" Copy"});
+    applyDoc(copy);
+    saveDoc(true);
+    showToast("Document duplicated");
+  }
+
+  const importDocumentButton=$("#prose-import-document");
+  const importDocumentFile=$("#prose-import-document-file");
+  if(importDocumentButton&&importDocumentFile){
+    importDocumentButton.onclick=()=>importDocumentFile.click();
+    importDocumentFile.onchange=async event=>{
+      const file=event.target.files?.[0];
+      event.target.value="";
+      if(!file)return;
+      try{await importStandaloneDocument(file);}
+      catch(error){alert("Document import failed: "+(error?.message||"unknown error"));}
+    };
+  }
+  const printDocumentButton=$("#prose-print-document");
+  if(printDocumentButton)printDocumentButton.onclick=()=>window.print();
+  const protectStorageButton=$("#prose-protect-storage");
+  if(protectStorageButton)protectStorageButton.onclick=requestPersistentProseStorage;
+  const duplicateDocumentButton=$("#prose-duplicate-doc");
+  if(duplicateDocumentButton)duplicateDocumentButton.onclick=duplicateCurrentDocument;
+
+
   /* ---------- Lifecycle protection ---------- */
   document.addEventListener("visibilitychange", ()=>{
     if(document.visibilityState === "hidden" && isDirty) saveDoc(false);
@@ -3100,7 +3553,7 @@
   function verifyCoreControls(){
     const required = [
       "#prose-editor","#prose-title","#prose-save-button",
-      "#prose-find-btn","#prose-export-html","#prose-new-doc"
+      "#prose-find-btn","#prose-export-html","#prose-new-doc","#prose-import-document","#prose-metric-words"
     ];
     const missing = required.filter(sel=>!$(sel));
     if(missing.length){
@@ -3117,11 +3570,26 @@
   renderComments();
   renderVersions();
   renderRecents();
-  applyDoc(null);      // ensure defaults
-  loadDocFromStorage(); // then try saved
+  const launchParams=new URLSearchParams(location.search);
+  applyDoc(null);
+  if(launchParams.get("new")==="1"){
+    const blank=makeBlankDoc();
+    blank.docId=String(Date.now())+Math.random().toString(36).slice(2);
+    blank.createdAt=new Date().toISOString();
+    blank.updatedAt=blank.createdAt;
+    applyDoc(blank);
+    saveDoc(false);
+  }else{
+    loadDocFromStorage();
+  }
+  if(launchParams.get("library")==="1"){
+    activatePanel("library");
+    setTimeout(()=>$("#prose-panel-library")?.scrollIntoView({behavior:"smooth",block:"center"}),120);
+  }
   refreshState();
   updateToneStatus();
   updateStorageMeter();
+  updateProseStorageMetric();
 })();
 </script>
 </body>
