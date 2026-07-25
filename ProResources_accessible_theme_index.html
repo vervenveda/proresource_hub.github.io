@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ProReSources — a categorized gateway to sovereign browser-based professional tools for writing, research, communication, media, code, design, files, productivity, assets, and creative production.">
+<meta name="theme-color" content="#07111f">
+<meta name="color-scheme" content="dark">
+<title>ProReSources | Professional Tools & Future Roadmap</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cinzel:wght@500;600&family=Montserrat:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#06101c;
+  --bg-soft:#091827;
+  --panel:#0c1a2a;
+  --panel-2:#10233a;
+  --panel-3:#132943;
+  --ink:#f2f8fd;
+  --muted:#a9bac9;
+  --faint:#71889d;
+  --line:rgba(157,199,229,.16);
+  --line-strong:rgba(157,199,229,.30);
+  --cyan:#63dfff;
+  --cyan-soft:#a6eeff;
+  --violet:#a98cff;
+  --mint:#72e7c1;
+  --amber:#ffd078;
+  --rose:#ff8fc9;
+  --shadow:0 22px 65px rgba(0,0,0,.30);
+  --soft-shadow:0 10px 30px rgba(0,0,0,.20);
+  --radius:18px;
+  --max:1220px;
+  --font-boost:.25rem;
+  --display:"Gaspacho","Cinzel","Aboreto",Georgia,serif;
+  --sans:"Brandon Grotesque","Montserrat","Avenir Next",Avenir,Arial,sans-serif;
+  --mono:"Space Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 0%,rgba(99,223,255,.09),transparent 24rem),
+    radial-gradient(circle at 88% 10%,rgba(169,140,255,.09),transparent 26rem),
+    linear-gradient(180deg,#050d17 0%,#071421 48%,#06101c 100%);
+  font-family:var(--sans);
+  line-height:1.65;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.055;
+  background-image:
+    linear-gradient(rgba(142,190,220,.34) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(142,190,220,.34) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:linear-gradient(to bottom,black,transparent 84%);
+}
+body.menu-open{overflow:hidden}
+a{color:inherit}
+button,input,select{font:inherit}
+button{color:inherit}
+img,svg{max-width:100%}
+::selection{background:rgba(99,223,255,.28);color:#fff}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+
+.wrap{width:min(calc(100% - 2rem),var(--max));margin-inline:auto}
+.skip-link{
+  position:fixed;top:12px;left:12px;z-index:3000;
+  padding:.75rem 1rem;border-radius:10px;background:#fff;color:#06101c;
+  transform:translateY(-160%);transition:transform .18s ease;
+}
+.skip-link:focus{transform:none}
+
+/* Header */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid var(--line);
+  background:rgba(5,13,23,.88);
+  backdrop-filter:blur(18px);
+}
+.header-inner{
+  min-height:76px;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.brand{
+  min-width:0;display:inline-flex;align-items:center;gap:.85rem;text-decoration:none;
+}
+.brand-mark{
+  width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;
+  border:1px solid rgba(99,223,255,.35);border-radius:8px;
+  color:#06101c;background:linear-gradient(145deg,var(--cyan),var(--violet));
+  font-family:var(--mono);font-weight:700;font-size:calc(.82rem + var(--font-boost));
+  box-shadow:0 0 28px rgba(99,223,255,.14);
+}
+.brand-copy{display:grid;min-width:0;line-height:1}
+.brand-copy strong{
+  font-family:var(--display);font-size:calc(1.02rem + var(--font-boost));font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+}
+.brand-copy small{
+  margin-top:.35rem;color:var(--muted);font-size:calc(.66rem + var(--font-boost));
+  letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+}
+.header-actions{display:flex;align-items:center;gap:.5rem}
+.header-link,.menu-button,.theme-button{
+  min-height:42px;display:inline-flex;align-items:center;justify-content:center;
+  padding:.65rem .82rem;border:1px solid var(--line);border-radius:9px;
+  background:rgba(16,35,58,.62);color:var(--ink);text-decoration:none;
+  font-weight:700;font-size:calc(.77rem + var(--font-boost));letter-spacing:.05em;text-transform:uppercase;
+}
+.header-link:hover,.menu-button:hover,.theme-button:hover{border-color:rgba(99,223,255,.5);background:rgba(99,223,255,.08)}
+.home-link{color:var(--cyan-soft)}
+.menu-button{display:none;cursor:pointer}
+.theme-button{cursor:pointer}
+
+/* Hero */
+.hero{padding:clamp(5.4rem,10vw,8.2rem) 0 clamp(4.2rem,8vw,6.4rem);text-align:center}
+.hero-inner{width:min(100%,900px);margin:0 auto}
+.eyebrow{
+  margin:0;color:var(--cyan-soft);font-size:calc(.7rem + var(--font-boost));font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;
+}
+.hero h1{
+  margin:1rem 0 .8rem;
+  font-family:var(--display);font-size:calc(clamp(3.3rem,9vw,7.7rem) + var(--font-boost));
+  font-weight:500;line-height:.96;letter-spacing:.02em;text-transform:none;
+}
+.hero-subtitle{
+  margin:.65rem 0 0;color:var(--violet);font-family:var(--mono);
+  font-size:calc(clamp(.78rem,1.4vw,.94rem) + var(--font-boost));letter-spacing:.14em;text-transform:uppercase;
+}
+.hero-copy{
+  max-width:760px;margin:1.55rem auto 0;color:var(--muted);
+  font-size:calc(clamp(1rem,1.8vw,1.17rem) + var(--font-boost));line-height:1.8;
+}
+.hero-actions{display:flex;justify-content:center;gap:.7rem;flex-wrap:wrap;margin-top:2rem}
+.btn{
+  min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.78rem 1rem;border:1px solid transparent;border-radius:10px;
+  text-decoration:none;font-weight:800;font-size:calc(.83rem + var(--font-boost));letter-spacing:.035em;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{color:#06101c;background:linear-gradient(135deg,var(--cyan),var(--mint));box-shadow:0 12px 28px rgba(99,223,255,.14)}
+.btn-secondary{color:var(--ink);background:rgba(16,35,58,.72);border-color:var(--line)}
+.btn-secondary:hover{border-color:rgba(169,140,255,.5);background:rgba(169,140,255,.09)}
+.status-strip{
+  max-width:850px;margin:2.4rem auto 0;padding:.8rem;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;
+  border:1px solid var(--line);border-radius:12px;background:var(--line);
+  box-shadow:var(--soft-shadow);overflow:hidden;
+}
+.status-item{padding:.85rem .7rem;background:rgba(8,23,38,.96);text-align:center}
+.status-item strong{display:block;color:var(--cyan);font-family:var(--mono);font-size:calc(1.18rem + var(--font-boost))}
+.status-item span{display:block;margin-top:.2rem;color:var(--muted);font-size:calc(.7rem + var(--font-boost));letter-spacing:.08em;text-transform:uppercase}
+.system-line{
+  margin:1rem auto 0;display:inline-flex;align-items:center;gap:.55rem;
+  color:var(--muted);font-family:var(--mono);font-size:calc(.72rem + var(--font-boost));letter-spacing:.05em;
+}
+.system-dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 14px rgba(114,231,193,.75)}
+
+/* Sections */
+.section{padding:clamp(4.2rem,8vw,6.8rem) 0}
+.section-alt{border-block:1px solid var(--line);background:rgba(5,15,26,.42)}
+.section-head{max-width:780px;margin:0 auto 2.3rem;text-align:center}
+.kicker{
+  margin:0;color:var(--cyan);font-size:calc(.68rem + var(--font-boost));font-weight:800;
+  letter-spacing:.2em;text-transform:uppercase;
+}
+.section-head h2{
+  margin:.55rem 0 .8rem;font-family:var(--display);
+  font-size:calc(clamp(2.15rem,5vw,4.25rem) + var(--font-boost));font-weight:500;line-height:1.05;letter-spacing:.025em;
+}
+.section-head p{margin:0;color:var(--muted);line-height:1.75}
+
+/* Quick launch */
+.launch-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.launch-group{
+  padding:1.05rem;border:1px solid var(--line);border-radius:var(--radius);
+  background:rgba(11,27,44,.82);box-shadow:var(--soft-shadow);
+}
+.launch-group h3{
+  margin:0 0 .8rem;color:var(--muted);font-size:calc(.68rem + var(--font-boost));
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.launch-list{display:grid;gap:.55rem}
+.launch-link{
+  min-height:58px;padding:.8rem .9rem;display:grid;grid-template-columns:38px 1fr auto;
+  align-items:center;gap:.7rem;text-decoration:none;border:1px solid rgba(157,199,229,.13);
+  border-radius:9px;background:#07111d;transition:.18s ease;
+}
+.launch-link:hover{transform:translateX(3px);border-color:rgba(99,223,255,.42);background:#0a1a2a}
+.launch-icon{
+  width:36px;height:36px;display:grid;place-items:center;border-radius:7px;
+  color:var(--cyan-soft);background:rgba(99,223,255,.08);font-family:var(--mono);font-size:calc(.83rem + var(--font-boost));
+}
+.launch-copy{min-width:0}
+.launch-copy strong{display:block;font-size:calc(.88rem + var(--font-boost));line-height:1.25}
+.launch-copy small{display:block;margin-top:.2rem;color:var(--muted);font-size:calc(.68rem + var(--font-boost))}
+.launch-arrow{color:var(--cyan);font-size:calc(.9rem + var(--font-boost))}
+.launch-open{
+  min-height:42px;padding:.58rem .72rem;border-radius:8px;white-space:nowrap;
+  font-size:calc(.68rem + var(--font-boost));
+}
+
+/* Catalog */
+.catalog-shell{
+  padding:1rem;border:1px solid var(--line);border-radius:20px;
+  background:rgba(7,20,34,.82);box-shadow:var(--shadow);
+}
+.catalog-tools{display:grid;grid-template-columns:minmax(240px,1fr) 220px auto;gap:.65rem}
+.field{
+  width:100%;min-height:48px;padding:0 .9rem;color:var(--ink);
+  border:1px solid var(--line);border-radius:9px;background:#091827;
+}
+.field::placeholder{color:#7f93a5}
+.field:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(99,223,255,.09)}
+.favorite-filter{
+  min-height:48px;padding:.7rem .9rem;border:1px solid var(--line);border-radius:9px;
+  color:var(--ink);background:#0d2135;font-weight:800;cursor:pointer;
+}
+.favorite-filter[aria-pressed="true"]{color:var(--amber);border-color:rgba(255,208,120,.45);background:rgba(255,208,120,.08)}
+.filter-strip{display:flex;justify-content:center;gap:.45rem;flex-wrap:wrap;margin:1rem 0 .4rem}
+.filter{
+  padding:.5rem .68rem;border:1px solid var(--line);border-radius:8px;
+  color:var(--muted);background:rgba(16,35,58,.52);font-size:calc(.72rem + var(--font-boost));font-weight:800;cursor:pointer;
+}
+.filter.active{color:#06101c;background:var(--cyan);border-color:transparent}
+.result-note{margin:.85rem 0 0;text-align:center;color:var(--muted);font-size:calc(.78rem + var(--font-boost))}
+.category-stack{display:grid;gap:1.1rem;margin-top:1.35rem}
+.tool-category{
+  padding:1rem;border:1px solid rgba(157,199,229,.11);border-radius:15px;background:rgba(8,22,37,.65);
+}
+.tool-category[hidden]{display:none}
+.category-heading{
+  margin:0 0 .85rem;padding-bottom:.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  border-bottom:1px solid var(--line);
+}
+.category-heading h3{
+  margin:0;font-size:calc(.82rem + var(--font-boost));letter-spacing:.1em;text-transform:uppercase;
+}
+.category-heading span{color:var(--muted);font-size:calc(.72rem + var(--font-boost))}
+.tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+.tool-card{
+  min-height:230px;padding:1rem;display:flex;flex-direction:column;
+  border:1px solid var(--line);border-radius:12px;background:linear-gradient(160deg,#10253b,#091827);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.tool-card:hover{transform:translateY(-3px);border-color:rgba(99,223,255,.38);box-shadow:var(--soft-shadow)}
+.tool-card[hidden]{display:none}
+.tool-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.7rem}
+.tool-icon{
+  width:42px;height:42px;display:grid;place-items:center;border-radius:9px;
+  color:var(--cyan-soft);background:rgba(99,223,255,.08);border:1px solid rgba(99,223,255,.15);
+  font-family:var(--mono);font-size:calc(.9rem + var(--font-boost));
+}
+.favorite-button{
+  width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;
+  color:var(--muted);background:#091827;cursor:pointer;
+}
+.favorite-button.active{color:var(--amber);border-color:rgba(255,208,120,.4)}
+.tool-label{
+  display:inline-flex;align-self:flex-start;margin-top:.8rem;color:var(--violet);
+  font-size:calc(.62rem + var(--font-boost));font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+}
+.tool-card h4{margin:.5rem 0 .35rem;font-size:calc(1rem + var(--font-boost));line-height:1.35}
+.tool-card p{
+  margin:0;color:var(--muted);font-size:calc(.79rem + var(--font-boost));line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.tool-actions{display:flex;gap:.45rem;margin-top:auto;padding-top:.9rem}
+.tool-actions .btn{width:100%;min-height:46px;padding:.68rem .75rem;font-size:calc(.75rem + var(--font-boost))}
+.empty-state{
+  display:none;margin-top:1rem;padding:1.5rem;text-align:center;border:1px dashed var(--line-strong);
+  border-radius:12px;color:var(--muted);
+}
+
+/* Roadmap */
+.roadmap-stack{display:grid;gap:1rem}
+.roadmap-category{
+  padding:1rem;border:1px solid rgba(255,208,120,.13);border-radius:15px;
+  background:rgba(8,22,37,.58);
+}
+.roadmap-category .category-heading{margin-bottom:.85rem}
+.roadmap-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem}
+.roadmap-card{
+  min-height:205px;padding:1rem;display:flex;flex-direction:column;
+  border:1px dashed rgba(255,208,120,.32);border-radius:12px;
+  background:linear-gradient(160deg,rgba(25,31,43,.94),rgba(8,21,36,.94));
+}
+.roadmap-card .tool-icon{color:var(--amber);background:rgba(255,208,120,.08);border-color:rgba(255,208,120,.18)}
+.roadmap-card h3{margin:.85rem 0 .35rem;font-size:calc(.92rem + var(--font-boost))}
+.roadmap-card p{margin:0;color:var(--muted);font-size:calc(.76rem + var(--font-boost));line-height:1.5}
+.roadmap-status{
+  margin-top:auto;padding-top:.9rem;color:var(--amber);font-size:calc(.65rem + var(--font-boost));font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;
+}
+
+/* Documentation */
+.docs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+.doc-card{
+  min-height:205px;padding:1rem;display:flex;flex-direction:column;
+  border:1px solid var(--line);border-radius:12px;background:rgba(13,31,50,.78);
+}
+.doc-card h3{margin:.8rem 0 .35rem;font-size:calc(.95rem + var(--font-boost))}
+.doc-card p{margin:0;color:var(--muted);font-size:calc(.79rem + var(--font-boost));line-height:1.55}
+.doc-card .btn{margin-top:auto;align-self:flex-start}
+
+/* Network */
+.network-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+.network-panel{
+  padding:1rem;border:1px solid var(--line);border-radius:14px;background:rgba(9,24,39,.72);
+}
+.network-panel h3{
+  margin:0 0 .75rem;color:var(--cyan-soft);font-size:calc(.72rem + var(--font-boost));letter-spacing:.13em;text-transform:uppercase;
+}
+.network-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+.network-link,.network-build{
+  min-height:48px;padding:.65rem .72rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+  border:1px solid rgba(157,199,229,.12);border-radius:8px;background:#07131f;
+  text-decoration:none;font-size:calc(.77rem + var(--font-boost));line-height:1.3;
+}
+.network-link:hover{border-color:rgba(169,140,255,.42);background:#0c1d30}
+.network-build{color:var(--muted);border-style:dashed}
+.network-link small,.network-build small{color:var(--faint);font-size:calc(.62rem + var(--font-boost))}
+.network-open{
+  min-height:36px;padding:.48rem .64rem;display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:7px;color:#06101c;
+  background:linear-gradient(135deg,var(--cyan),var(--mint));
+  text-decoration:none;font-weight:800;font-size:calc(.62rem + var(--font-boost));white-space:nowrap;
+}
+.network-open:hover{transform:translateY(-1px);box-shadow:var(--soft-shadow)}
+.network-symbol{color:var(--violet)}
+
+/* Footer */
+.site-footer{padding:2.2rem 0 2.8rem;border-top:1px solid var(--line);background:rgba(4,12,21,.72)}
+.footer-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.footer-brand{
+  margin:0;font-family:var(--display);font-size:calc(1.15rem + var(--font-boost));letter-spacing:.08em;
+}
+.footer-note{margin:.35rem 0 0;color:var(--muted);font-size:calc(.78rem + var(--font-boost))}
+.footer-meta{color:var(--muted);font-size:calc(.72rem + var(--font-boost));line-height:1.7;text-align:right}
+
+/* Network drawer */
+.drawer-overlay{
+  position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.62);
+  opacity:0;visibility:hidden;transition:.2s ease;
+}
+.drawer-overlay.open{opacity:1;visibility:visible}
+.drawer{
+  position:absolute;right:0;top:0;width:min(94vw,470px);height:100%;
+  padding:1rem;display:flex;flex-direction:column;
+  border-left:1px solid var(--line);background:#071321;box-shadow:-20px 0 70px rgba(0,0,0,.38);
+  transform:translateX(103%);transition:transform .24s ease;
+}
+.drawer-overlay.open .drawer{transform:none}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:.85rem;border-bottom:1px solid var(--line)}
+.drawer-head h2{margin:0;font-family:var(--display);font-size:calc(1.25rem + var(--font-boost));letter-spacing:.04em}
+.close-button{
+  width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);
+  border-radius:8px;color:var(--ink);background:var(--panel-2);cursor:pointer;
+}
+.drawer-search{margin:.8rem 0 0}
+.drawer-filters{display:flex;gap:.4rem;flex-wrap:wrap;margin:.7rem 0}
+.drawer-filter{
+  padding:.45rem .55rem;border:1px solid var(--line);border-radius:7px;
+  color:var(--muted);background:#0c1d30;font-size:calc(.66rem + var(--font-boost));font-weight:800;cursor:pointer;
+}
+.drawer-filter.active{color:#06101c;background:var(--cyan);border-color:transparent}
+.drawer-results{margin:0 0 .55rem;color:var(--muted);font-size:calc(.7rem + var(--font-boost))}
+.drawer-nav{min-height:0;overflow:auto;display:grid;gap:.75rem;padding-right:.2rem}
+.drawer-group{border-top:1px solid var(--line);padding-top:.65rem}
+.drawer-group h3{margin:0 0 .35rem;color:var(--cyan);font-size:calc(.65rem + var(--font-boost));letter-spacing:.13em;text-transform:uppercase}
+.drawer-link{
+  min-height:48px;padding:.65rem .5rem;display:grid;grid-template-columns:32px 1fr auto;
+  align-items:center;gap:.65rem;border-bottom:1px solid rgba(157,199,229,.08);text-decoration:none;
+}
+.drawer-link:hover{color:var(--cyan-soft)}
+.drawer-link strong{display:block;font-size:calc(.83rem + var(--font-boost))}
+.drawer-link small{display:block;margin-top:.12rem;color:var(--muted);font-size:calc(.65rem + var(--font-boost))}
+.drawer-link .network-symbol{font-size:calc(.9rem + var(--font-boost))}
+.drawer-open{
+  min-height:34px;padding:.42rem .58rem;border:1px solid var(--line);border-radius:7px;
+  color:#06101c;background:linear-gradient(135deg,var(--cyan),var(--mint));
+  text-decoration:none;font-weight:800;font-size:calc(.58rem + var(--font-boost));white-space:nowrap;
+}
+.drawer-footer{margin-top:auto;padding-top:.8rem;border-top:1px solid var(--line);color:var(--muted);font-size:calc(.68rem + var(--font-boost))}
+
+.toast{
+  position:fixed;left:50%;bottom:18px;z-index:700;
+  transform:translate(-50%,140%);padding:.75rem 1rem;border-radius:999px;
+  color:#06101c;background:#eafaff;font-weight:800;box-shadow:var(--shadow);transition:.22s ease;
+}
+.toast.show{transform:translate(-50%,0)}
+
+
+/* Accessible light theme */
+html[data-theme="light"]{
+  --bg:#eef4f8;
+  --bg-soft:#e5edf3;
+  --panel:#ffffff;
+  --panel-2:#edf4f8;
+  --panel-3:#e1ebf1;
+  --ink:#142536;
+  --muted:#455b6d;
+  --faint:#627788;
+  --line:rgba(24,64,89,.17);
+  --line-strong:rgba(24,64,89,.30);
+  --cyan:#087f9f;
+  --cyan-soft:#086c88;
+  --violet:#674ea8;
+  --mint:#238a6d;
+  --amber:#9a6813;
+  --rose:#a03e75;
+  --shadow:0 22px 60px rgba(41,66,84,.17);
+  --soft-shadow:0 10px 28px rgba(41,66,84,.13);
+}
+html[data-theme="light"] body{
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 0%,rgba(8,127,159,.10),transparent 24rem),
+    radial-gradient(circle at 88% 10%,rgba(103,78,168,.09),transparent 26rem),
+    linear-gradient(180deg,#f8fbfd 0%,#eef4f8 48%,#e7eff4 100%);
+}
+html[data-theme="light"] body::before{
+  opacity:.035;
+  background-image:
+    linear-gradient(rgba(24,64,89,.30) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(24,64,89,.30) 1px,transparent 1px);
+}
+html[data-theme="light"] ::selection{background:rgba(8,127,159,.20);color:#102536}
+html[data-theme="light"] .site-header{
+  background:rgba(248,251,253,.94);
+  box-shadow:0 8px 26px rgba(41,66,84,.08);
+}
+html[data-theme="light"] .header-link,
+html[data-theme="light"] .menu-button,
+html[data-theme="light"] .theme-button{
+  color:var(--ink);
+  background:rgba(237,244,248,.94);
+}
+html[data-theme="light"] .status-item,
+html[data-theme="light"] .launch-link,
+html[data-theme="light"] .favorite-button,
+html[data-theme="light"] .network-link,
+html[data-theme="light"] .network-build{
+  background:#f8fbfd;
+}
+html[data-theme="light"] .launch-group,
+html[data-theme="light"] .catalog-shell,
+html[data-theme="light"] .tool-category,
+html[data-theme="light"] .network-panel,
+html[data-theme="light"] .roadmap-category{
+  background:rgba(255,255,255,.90);
+}
+html[data-theme="light"] .field,
+html[data-theme="light"] .favorite-filter,
+html[data-theme="light"] .filter,
+html[data-theme="light"] .drawer-filter{
+  color:var(--ink);
+  background:#f4f8fb;
+}
+html[data-theme="light"] .field::placeholder{color:#6d8291}
+html[data-theme="light"] .tool-card{
+  color:var(--ink);
+  background:linear-gradient(160deg,#ffffff,#edf4f8);
+}
+html[data-theme="light"] .roadmap-card{
+  color:var(--ink);
+  background:linear-gradient(160deg,#fffaf0,#eef4f8);
+}
+html[data-theme="light"] .doc-card{background:rgba(255,255,255,.94)}
+html[data-theme="light"] .site-footer{background:rgba(241,247,250,.92)}
+html[data-theme="light"] .drawer{background:#f5f9fb}
+html[data-theme="light"] .drawer-overlay{background:rgba(27,43,54,.48)}
+html[data-theme="light"] .drawer-link{color:var(--ink)}
+html[data-theme="light"] .btn-secondary{color:var(--ink);background:#f2f7fa}
+html[data-theme="light"] .tool-card p,
+html[data-theme="light"] .roadmap-card p,
+html[data-theme="light"] .doc-card p,
+html[data-theme="light"] .footer-note,
+html[data-theme="light"] .footer-meta{color:var(--muted)}
+html[data-theme="light"] .network-open,
+html[data-theme="light"] .drawer-open,
+html[data-theme="light"] .btn-primary{
+  color:#ffffff;
+  background:linear-gradient(135deg,#087f9f,#238a6d);
+}
+html[data-theme="light"] .brand-mark{
+  color:#ffffff;
+  background:linear-gradient(145deg,#087f9f,#674ea8);
+}
+
+@media(max-width:1000px){
+  .header-link.section-nav{display:none}
+  .menu-button{display:inline-flex}
+  .launch-groups{grid-template-columns:1fr 1fr}
+  .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .roadmap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .header-inner{min-height:70px}
+  .brand-copy small{display:none}
+  .brand-copy strong{font-size:calc(.84rem + var(--font-boost))}
+  .home-link{display:none}
+  .status-strip{grid-template-columns:1fr 1fr}
+  .catalog-tools{grid-template-columns:1fr}
+  .network-panels{grid-template-columns:1fr}
+  .footer-inner{display:block;text-align:center}
+  .footer-meta{margin-top:1rem;text-align:center}
+}
+@media(max-width:560px){
+  .wrap{width:min(calc(100% - 1.2rem),var(--max))}
+  .hero{padding-top:4.5rem}
+  .hero h1{font-size:calc(clamp(2.7rem,16vw,4.5rem) + var(--font-boost))}
+  .hero-actions{display:grid}
+  .hero-actions .btn{width:100%}
+  .launch-groups,.tool-grid,.roadmap-grid,.docs-grid{grid-template-columns:1fr}
+  .launch-group:last-child{grid-column:auto}
+  .network-list{grid-template-columns:1fr}
+  .drawer{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+@media print{
+  .site-header,.hero-actions,.catalog-tools,.filter-strip,.favorite-button,.drawer-overlay,.toast{display:none!important}
+  body{background:#fff;color:#111}
+  body::before{display:none}
+  .section-alt,.catalog-shell,.tool-category,.tool-card,.roadmap-card,.doc-card,.network-panel{background:#fff;color:#111;box-shadow:none}
+  .tool-card p,.roadmap-card p,.doc-card p,.footer-note,.footer-meta{color:#444}
+}
+</style>
+<script>
+(function(){
+  try{
+    const saved=localStorage.getItem("proresources-theme-v1");
+    const theme=saved==="light"||saved==="dark" ? saved :
+      (window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    document.documentElement.dataset.theme=theme;
+  }catch{document.documentElement.dataset.theme="dark";}
+})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#catalog">Skip to professional tools</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="ProReSources home">
+      <span class="brand-mark" aria-hidden="true">PR</span>
+      <span class="brand-copy"><strong>ProReSources</strong><small>Professional Tool Matrix</small></span>
+    </a>
+
+    <nav class="header-actions" aria-label="Primary navigation">
+      <a class="header-link section-nav" href="#launch">Launchpad</a>
+      <a class="header-link section-nav" href="#catalog">Tools</a>
+      <a class="header-link section-nav" href="#roadmap">Roadmap</a>
+      <a class="header-link section-nav" href="#network">Network</a>
+      <a class="header-link home-link" href="https://vervenveda.github.io/">Verve N Veda</a>
+      <button class="theme-button" id="themeToggle" type="button" aria-pressed="false" aria-label="Switch to light theme">Light Theme</button>
+      <button class="menu-button" id="menuButton" type="button" aria-controls="networkDrawer" aria-expanded="false">Matrix Menu</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Sovereign · Local-first · Browser-based</p>
+      <h1 id="heroTitle">ProReSources</h1>
+      <p class="hero-subtitle">Professional Tool Matrix</p>
+      <p class="hero-copy">A clear, categorized workspace for writing, research, communication, media, audio, code, design, files, organization, asset production, and independent professional work.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#catalog">Browse All Tools</a>
+        <a class="btn btn-secondary" id="heroProse" href="#">Open PROSE Editorial Gateway</a>
+        <a class="btn btn-secondary" id="heroEvidence" href="#">Evidence & Citation Studio</a>
+        <a class="btn btn-secondary" id="heroFleaPit" href="#">Movies & Media at FleaPit</a>
+      </div>
+      <div class="status-strip" aria-label="ProReSources statistics">
+        <div class="status-item"><strong id="liveCount">0</strong><span>Live tools</span></div>
+        <div class="status-item"><strong id="categoryCount">0</strong><span>Categories</span></div>
+        <div class="status-item"><strong id="plannedCount">0</strong><span>Future builds</span></div>
+        <div class="status-item"><strong id="siteCount">0</strong><span>Connected sites</span></div>
+      </div>
+      <div class="system-line"><span class="system-dot" aria-hidden="true"></span><span>System ready · Your browser · Your work</span></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="launch" aria-labelledby="launchTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Quick launch</p>
+        <h2 id="launchTitle">Start with the right workspace</h2>
+        <p>The most frequently needed tools are grouped by purpose so visitors can begin without searching the full catalog.</p>
+      </div>
+      <div class="launch-groups" id="launchGroups"></div>
+    </div>
+  </section>
+
+  <section class="section" id="catalog" aria-labelledby="catalogTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Live tool registry</p>
+        <h2 id="catalogTitle">Professional tools by category</h2>
+        <p>Search by task, title, format, or filename. Live tools are separated from future construction sites so finished applications remain easy to find.</p>
+      </div>
+
+      <div class="catalog-shell">
+        <div class="catalog-tools">
+          <input class="field" id="searchInput" type="search" placeholder="Search writing, research, media, code, files, design, assets…" aria-label="Search professional tools">
+          <select class="field" id="categorySelect" aria-label="Choose a tool category">
+            <option value="all">All live categories</option>
+          </select>
+          <button class="favorite-filter" id="favoritesOnly" type="button" aria-pressed="false">☆ Saved Tools</button>
+        </div>
+        <div class="filter-strip" id="filterStrip" aria-label="Quick tool filters"></div>
+        <p class="result-note" id="resultNote" aria-live="polite"></p>
+        <div class="category-stack" id="categoryStack"></div>
+        <div class="empty-state" id="emptyState">No live tools match that search. Try another word or category.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="roadmap" aria-labelledby="roadmapTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Future construction</p>
+        <h2 id="roadmapTitle">Professional tools in development</h2>
+        <p>Reserved concepts are grouped by purpose rather than mixed into the live catalog. Private Administration tools such as RouteKeeper and One Door remain intentionally excluded.</p>
+      </div>
+      <div class="roadmap-stack" id="roadmapGrid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="documentation" aria-labelledby="documentationTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Project records</p>
+        <h2 id="documentationTitle">Documentation and architecture</h2>
+        <p>Repository guidance, architecture, deployment records, and supporting documentation for ProReSources, the 333 Network, and the Evidence & Citation Studio.</p>
+      </div>
+      <div class="docs-grid" id="docsGrid"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="network" aria-labelledby="networkTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="kicker">Connected matrix</p>
+        <h2 id="networkTitle">Verve N Veda landing pages</h2>
+        <p>The current ProReSources page and Administration are intentionally omitted here. Administration remains available only through the protected Verve N Veda gateway.</p>
+      </div>
+      <div class="network-panels" id="networkPanels"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <p class="footer-brand">ProReSources</p>
+      <p class="footer-note">A sovereign Verve N Veda professional tool matrix.</p>
+    </div>
+    <div class="footer-meta">
+      <div>Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl</div>
+      <div>All Rights Reserved 2026</div>
+      <div>Vanilla HTML · CSS · JavaScript · Local-first architecture</div>
+    </div>
+  </div>
+</footer>
+
+<div class="drawer-overlay" id="networkDrawer" role="dialog" aria-modal="true" aria-label="Connected site matrix" aria-hidden="true">
+  <aside class="drawer">
+    <div class="drawer-head">
+      <h2>Explore the Matrix</h2>
+      <button class="close-button" id="closeDrawer" type="button" aria-label="Close menu">✕</button>
+    </div>
+    <input class="field drawer-search" id="drawerSearch" type="search" placeholder="Search connected landing pages…" aria-label="Search connected landing pages">
+    <div class="drawer-filters" id="drawerFilters" aria-label="Filter connected sites"></div>
+    <p class="drawer-results" id="drawerResults" aria-live="polite"></p>
+    <nav class="drawer-nav" id="drawerNav" aria-label="Connected Verve N Veda sites"></nav>
+    <div class="drawer-footer">ProReSources · Professional tools within the Verve N Veda matrix.</div>
+  </aside>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const TOOL_BASE = "./Protools/";
+const categories = {"network":{"label":"333 Network & Communication","icon":"333","tones":["#53d8ff","#9b7cff"]},"writing":{"label":"Writing & Editorial","icon":"✎","tones":["#53d8ff","#9b7cff"]},"research":{"label":"Research & Verification","icon":"⌕","tones":["#9b7cff","#53d8ff"]},"code":{"label":"Code & Cleanup","icon":"</>","tones":["#67e3bd","#53d8ff"]},"media":{"label":"Media & Discovery","icon":"◉","tones":["#ff78c8","#9b7cff"]},"audio":{"label":"Audio & Music","icon":"♫","tones":["#9b7cff","#67e3bd"]},"files":{"label":"Files & Preservation","icon":"⇩","tones":["#ffc96b","#ff8f70"]},"productivity":{"label":"Tasks & Workflow","icon":"✓","tones":["#67e3bd","#ffc96b"]},"design":{"label":"Design & Engineering","icon":"⌗","tones":["#53d8ff","#ff78c8"]},"assets":{"label":"Images & Digital Assets","icon":"▧","tones":["#ff78c8","#53d8ff"]},"business":{"label":"Business & Finance","icon":"▦","tones":["#ffc96b","#67e3bd"]},"operations":{"label":"Operations & Administration","icon":"⌘","tones":["#67e3bd","#9b7cff"]},"publishing":{"label":"Publishing & Presentation","icon":"P","tones":["#ff78c8","#ffc96b"]}};
+const tools = [{"id":"333-network","title":"333 Network","file":"333_network/index.html","category":"network","icon":"333","description":"The three-way communication gateway connecting HOLLO direct contact, KANSEE meeting rooms, and Bazaar Art Live.","tags":"333 network gateway hollo kansee bazaar art live communication","status":"live"},{"id":"hollo","title":"HOLLO™ — 333 Direct Connect","file":"HOLLO™ 333 Direct Connect_index.html","category":"network","icon":"◎","description":"Trusted contacts, direct messages, consent-based invitations, and private voice or video connection pathways.","tags":"hollo 333 direct connect messages contacts voice video","status":"live"},{"id":"kansee","title":"KANSEE™ — 333 Meeting Rooms","file":"KANSEE™ 333 Meeting Rooms_index.html","category":"network","icon":"K","description":"Meeting rooms with participant grids, room chat, waiting-room controls, invitations, and media previews.","tags":"kansee 333 meeting conference room chat participants video","status":"live"},{"id":"bazaar-live","title":"Bazaar Art Live — 333 Social Feed","file":"Bazaar Art Live 333 Social Feedindex.html","category":"media","icon":"BA","description":"A creative social-media workspace for posts, stories, profiles, reactions, comments, groups, events, and community participation.","tags":"bazaar art live social feed stories posts events groups profiles 333","status":"live"},{"id":"daily-spark","title":"DailySpark™ Task Studio","file":"DailySpark™_task_studio_index.html","category":"productivity","icon":"✦","description":"Plan priorities, organize tasks, and turn intentions into clear, manageable daily actions.","tags":"daily spark task studio productivity planning goals workflow","status":"live"},{"id":"evidence-studio","title":"Evidence & Citation Studio","file":"Evidence_Citation_Studio/index.html","category":"research","icon":"ECS","description":"Build transparent research projects with claims, sources, quotations, evidence relationships, provenance hashes, citations, and portable exports.","tags":"evidence citation studio claims sources provenance bibliography research verification","status":"live"},{"id":"plera-search","title":"PLERA™ Search Gate","file":"PLERA™ Search Gate_index.html","category":"research","icon":"⌕","description":"Choose a search provider, research lane, source guidance, file filter, and visible query before opening results.","tags":"plera search gate research providers public resources discovery privacy","status":"live"},{"id":"fleapit","title":"FleaPit™ Media Hub","file":"FleaPit™_media_hub_Index.html","category":"media","icon":"▶","description":"Search, collect, organize, and explore video and media sources in one focused environment.","tags":"fleapit media hub search video player aggregator discovery","status":"live"},{"id":"fleapit-protected","title":"FleaPit™ Protected Media Hub","file":"FleaPit™ Protected Media Hub_index.html","category":"media","icon":"FP","description":"A protected local media workspace for organizing, reviewing, and preserving media references and collections.","tags":"fleapit protected media hub local collection preservation","status":"live"},{"id":"harmony-haven","title":"Harmony's Haven Studio™ Multi-Track","file":"Harmony's Haven Studio™ Multi-Track_index.html","category":"audio","icon":"♫","description":"An 88-key browser instrument and multi-track creative studio for arranging, recording concepts, playback, and musical experimentation.","tags":"harmony haven multitrack keyboard music audio recording mixing studio","status":"live"},{"id":"khaeclean","title":"KhaeClean™","file":"KhaeClean™_index.html","category":"code","icon":"◇","description":"Inspect, clean, format, compare, and prepare HTML, CSS, JavaScript, JSON, and code through a protected local workspace.","tags":"khaeclean nebula cleaning bench code formatter inspector html css javascript json","status":"live"},{"id":"khaezip","title":"KhaeZip™","file":"KhaeZip™_index.html","category":"files","icon":"⬡","description":"Create, inspect, encrypt, verify, split, join, preserve, and recover local archive packages.","tags":"khaezip zip archive encryption compression integrity files local","status":"live"},{"id":"ohmic-gateway","title":"OHMIC Foundry™ CAD Gateway","file":"Ohmic_CAD_index.html","category":"design","icon":"OH","description":"The public entrance to the OHMIC planning environment, local drafts, project library, and protected CAD studio.","tags":"ohmic cad gateway foundry drafting planning engineering","status":"live"},{"id":"ohmic-studio","title":"OHMIC Foundry™ Protected CAD Studio","file":"Ohmic_CAD_Studio.html","category":"design","icon":"⌗","description":"A full-screen local CAD workspace with layers, rooms, walls, symbols, measurements, versions, and professional exports.","tags":"ohmic cad studio drawing layers rooms walls dxf svg png json","status":"live"},{"id":"prose-gateway","title":"PROSE™ Editorial & Inspiration Gateway","file":"PROSE_index.html","category":"writing","icon":"P","description":"The editorial gateway connecting the mature PROSE writing room with research, inspiration, publishing, media, and preservation tools.","tags":"prose editorial gateway writing inspiration research publishing","status":"live"},{"id":"prose","title":"PROSE™ Sovereign Editorial Suite","file":"PROSE™ editingsuite_index.html","category":"writing","icon":"¶","description":"The complete local-first editorial suite for drafting, formatting, reviewing, organizing, versioning, restoring, and exporting written work.","tags":"prose editorial editing suite writing document formatting export versions","status":"live"},{"id":"sixbit-gateway","title":"SixBit Bun — Protected Asset Gateway","file":"SixBit_Bun_index.html","category":"assets","icon":"6B","description":"The centered public gateway for protected image conversion, BunLink verification, code generation, and archive-ready asset packages.","tags":"sixbit bun image assets gateway bunlink conversion code package","status":"live"},{"id":"sixbit-studio","title":"SixBit Bun — Image-to-Code Studio","file":"SixBit_Bun_Studio_index.html","category":"assets","icon":"IMG","description":"Convert and resize images, generate code formats, create manifests, verify BunLinks, and prepare protected ZIP packages.","tags":"sixbit bun studio image to code png jpeg gif webp avif svg bunlink zip","status":"live"},{"id":"pdf-forge","title":"PDF Forge","file":null,"category":"files","icon":"PDF","description":"PDF workbench for merging, splitting, compressing, rearranging, annotating, signing, redacting, and exporting documents.","tags":"future pdf merge split compress annotate sign redact","status":"planned"},{"id":"ledger-light","title":"LedgerLight Finance Studio","file":null,"category":"business","icon":"$","description":"Professional workspace for invoices, estimates, budgets, expenses, cash-flow views, reconciliation, and business reports.","tags":"future finance invoice estimate budget cash flow business","status":"planned"},{"id":"proposal-studio","title":"Proposal & Contract Studio","file":null,"category":"business","icon":"§","description":"Guided builder for proposals, scopes of work, service agreements, amendments, and reusable business terms.","tags":"future proposal contract scope agreement business","status":"planned"},{"id":"data-lens","title":"DataLens CSV Workbench","file":null,"category":"business","icon":"▥","description":"Local analytics studio for CSV cleanup, filtering, summaries, charts, comparisons, validation, and export.","tags":"future data csv analytics chart cleanup report","status":"planned"},{"id":"launch-map","title":"LaunchMap Project Studio","file":null,"category":"productivity","icon":"↗","description":"Project workspace combining milestones, calendars, Kanban boards, timelines, risks, dependencies, and launch checklists.","tags":"future project kanban gantt timeline milestone launch","status":"planned"},{"id":"brand-foundry","title":"BrandFoundry","file":null,"category":"design","icon":"BF","description":"Identity and campaign studio for logos, palettes, typography, posters, social templates, and brand guidance.","tags":"future brand logo palette typography poster social templates","status":"planned"},{"id":"form-craft","title":"FormCraft","file":null,"category":"productivity","icon":"☷","description":"Form, survey, intake, application, assessment, and printable questionnaire builder with local exports.","tags":"future form survey intake application questionnaire","status":"planned"},{"id":"site-check","title":"SiteCheck Accessibility & Readiness Auditor","file":null,"category":"code","icon":"✓","description":"Check links, headings, contrast, labels, metadata, keyboard access, route readiness, and common deployment problems.","tags":"future website accessibility audit links contrast metadata routes","status":"planned"},{"id":"project-passport","title":"Portable Project Passport","file":null,"category":"operations","icon":"ID","description":"A common project manifest carrying identity, files, tasks, sources, rights, milestones, hashes, and related exports between Verve N Veda tools.","tags":"future project passport interchange manifest portable files tasks sources","status":"planned"},{"id":"meeting-decision","title":"Meeting & Decision Studio","file":null,"category":"operations","icon":"MD","description":"Create agendas, attendance records, decisions, votes, action items, responsible parties, deadlines, and follow-up summaries.","tags":"future meeting agenda decision vote action follow up minutes","status":"planned"},{"id":"caption-transcript","title":"Caption & Transcript Studio","file":null,"category":"media","icon":"CC","description":"Edit transcripts, speaker labels, timestamps, caption lines, reading speed, and SRT, VTT, TXT, or HTML exports.","tags":"future captions transcripts srt vtt speaker timestamps accessibility","status":"planned"},{"id":"rights-permissions","title":"Rights & Permissions Desk","file":null,"category":"operations","icon":"©","description":"Track copyright, licenses, releases, permissions, attribution, territory, allowed uses, restrictions, and expiration dates.","tags":"future copyright license permissions releases attribution rights","status":"planned"},{"id":"grant-path","title":"GrantPath Program Studio","file":null,"category":"business","icon":"G","description":"Organize grant eligibility, deadlines, narratives, budgets, attachments, outcomes, reporting duties, and submission readiness.","tags":"future grant proposal deadline budget reporting nonprofit","status":"planned"},{"id":"dispatch-studio","title":"Dispatch & Newsletter Studio","file":null,"category":"publishing","icon":"✉","description":"Prepare newsletters, announcements, press releases, invitations, mailing labels, recurring sections, and local mail-merge exports.","tags":"future newsletter press release announcement invitation mail merge","status":"planned"},{"id":"asset-ledger","title":"Asset & Collections Ledger","file":null,"category":"operations","icon":"AL","description":"Catalog artworks, equipment, archive materials, school property, inventory, condition reports, locations, values, and maintenance.","tags":"future asset inventory collection artwork equipment condition location","status":"planned"},{"id":"document-merge","title":"Document Merge Studio","file":null,"category":"productivity","icon":"DM","description":"Combine templates with CSV or JSON records to produce letters, certificates, labels, reports, badges, and acknowledgments.","tags":"future document merge template csv json certificate label letter","status":"planned"},{"id":"policy-builder","title":"Policy & Procedure Builder","file":null,"category":"operations","icon":"PP","description":"Draft and maintain privacy notices, codes of conduct, accessibility statements, emergency plans, handbooks, and procedures.","tags":"future policy procedure privacy handbook emergency plan code conduct","status":"planned"},{"id":"outcome-reporter","title":"Outcome & Impact Reporter","file":null,"category":"business","icon":"OI","description":"Track goals, participation, volunteer hours, program milestones, expenses, evidence, outcomes, annual reports, and grant reporting.","tags":"future impact outcome nonprofit report volunteer program evidence","status":"planned"},{"id":"storyboard","title":"Storyboard & Sequence Planner","file":null,"category":"publishing","icon":"SB","description":"Plan scenes, chapters, shots, illustration notes, dialogue, audio cues, image references, and visual sequence order.","tags":"future storyboard scenes chapters shot list illustration dialogue","status":"planned"},{"id":"voice-proof","title":"Voice & Read-Aloud Proofing Room","file":null,"category":"writing","icon":"VO","description":"Read writing aloud with sentence highlighting, pace estimates, pronunciation notes, repetition flags, and rehearsal copies.","tags":"future read aloud speech proofreading pronunciation pace accessibility","status":"planned"},{"id":"portfolio-packager","title":"Professional Portfolio Packager","file":null,"category":"publishing","icon":"PF","description":"Combine biographies, résumés, project descriptions, work samples, images, press, references, and static portfolio exports.","tags":"future portfolio resume biography work samples artist writer musician","status":"planned"},{"id":"memoir-studio","title":"Memoir Studio","file":null,"category":"writing","icon":"M","description":"Organize life timelines, memories, people, places, private reflections, chapters, photographs, and narrative themes.","tags":"future memoir biography life timeline memories chapters","status":"planned"},{"id":"poetry-workroom","title":"Poetry Workroom","file":null,"category":"writing","icon":"❦","description":"Develop poems through forms, meter, imagery, revision layers, readings, collection sequencing, and publication preparation.","tags":"future poetry poem meter imagery revision collection","status":"planned"},{"id":"speech-builder","title":"Speech & Address Builder","file":null,"category":"writing","icon":"SA","description":"Plan audience, timing, argument, rhetoric, delivery notes, evidence, rehearsal, and printable speaking copies.","tags":"future speech address rhetoric audience delivery rehearsal","status":"planned"},{"id":"script-room","title":"Script Room","file":null,"category":"writing","icon":"SC","description":"Develop scenes, dialogue, characters, stage directions, production notes, revisions, and performance drafts.","tags":"future script screenplay play dialogue scene character","status":"planned"},{"id":"children-story","title":"Children's Story Studio","file":null,"category":"publishing","icon":"CS","description":"Plan age-aware language, pages, read-aloud rhythm, illustration notes, characters, activities, and print-ready story layouts.","tags":"future children story book pages illustration read aloud","status":"planned"}];
+const docs = [{"title":"ProReSources README","file":"README.md","icon":"ⓘ","description":"Repository overview, purpose, current file map, operating notes, and public tool guidance."},{"title":"333 Network README","file":"333_network/README.md","icon":"333","description":"The communication-network overview and relationship among the 333 gateway, HOLLO, KANSEE, and Bazaar Art Live."},{"title":"333 Network Architecture","file":"333_network/ARCHITECTURE.md","icon":"⌘","description":"System map for shared identity, applications, APIs, realtime events, storage, media, and deployment boundaries."},{"title":"333 Deployment Checklist","file":"333_network/DEPLOYMENT_CHECKLIST.md","icon":"☑","description":"Practical publication, route, security, backend, and verification sequence for the 333 Network."},{"title":"Evidence & Citation Studio README","file":"Evidence_Citation_Studio/README.md","icon":"ECS","description":"Research principles, source provenance, exports, citation cautions, privacy, and connected-workflow documentation."}];
+const sites = [{"title":"Verve N Veda","repo":"vervenveda.github.io","url":"https://vervenveda.github.io/","icon":"✦","status":"live","description":"The public front door to the Verve N Veda network and its shared mission."},{"title":"Administration","repo":"admin.github.io","url":"https://vervenveda.github.io/admin.github.io/","icon":"⌘","status":"live","description":"Administrative systems, project controls, records, and organizational workspaces."},{"title":"ProReSources Hub","repo":"proresource_hub.github.io","url":"https://vervenveda.github.io/proresource_hub.github.io/","icon":"PR","status":"live","description":"Professional browser tools for communication, writing, code, media, design, files, and workflow."},{"title":"Firmament Law","repo":"firmament.github.io","url":"https://vervenveda.github.io/firmament.github.io/","icon":"⚖","status":"live","description":"Legal-information tools, evidence workspaces, heritage archives, and public-resource libraries."},{"title":"Arcade","repo":"arcade.github.io","url":"https://vervenveda.github.io/arcade.github.io/","icon":"◈","status":"live","description":"Games, strategy, creativity, trivia, puzzles, and playful learning experiences."},{"title":"ARSHIF Archives","repo":"Arshif.github.io","url":"https://vervenveda.github.io/Arshif.github.io/","icon":"▥","status":"live","description":"Deep research, archives, evidence preservation, cultural records, and intellectual collections."},{"title":"Khaemenes Academy","repo":"khaemenesacademy.github.io","url":"https://vervenveda.github.io/khaemenesacademy.github.io/","icon":"△","status":"live","description":"Sovereign curriculum, student portals, educational resources, and lifelong learning halls."},{"title":"Khaemenes Elementary","repo":"Khaemenes-elementary.github.io","url":"https://github.com/vervenveda/Khaemenes-elementary.github.io","icon":"E","status":"construction","description":"Elementary-school repository reserved for age-appropriate classes, tools, and learning portals."},{"title":"Khaemenes Junior High","repo":"Khaemenes-jrhigh.github.io","url":"https://github.com/vervenveda/Khaemenes-jrhigh.github.io","icon":"JH","status":"construction","description":"Junior-high repository reserved for courses, student tools, and grade-level portals."},{"title":"Khaemenes High School","repo":"Khaemenes-High_github.io","url":"https://github.com/vervenveda/Khaemenes-High_github.io","icon":"HS","status":"construction","description":"High-school repository reserved for curriculum, college preparation, records, and student portals."},{"title":"Khaemenes University","repo":"Khaemenes-university.github.io","url":"https://github.com/vervenveda/Khaemenes-university.github.io","icon":"U","status":"construction","description":"University and adult-learning repository reserved for advanced courses and professional study."},{"title":"KinderGarden","repo":"KinderGarden.github.io","url":"https://vervenveda.github.io/KinderGarden.github.io/","icon":"❀","status":"live","description":"Kindergarten lessons, foundational activities, games, and child-friendly learning spaces."},{"title":"Crèche Preschool","repo":"creche_preschool.github.io","url":"https://vervenveda.github.io/creche_preschool.github.io/","icon":"★","status":"live","description":"Early-learning stories, games, foundational lessons, and family-friendly exploration."},{"title":"Linguistics","repo":"linguistics.github.io","url":"https://vervenveda.github.io/linguistics.github.io/","icon":"Aa","status":"live","description":"Language learning, linguistics, vocabulary, translation, and communication resources."},{"title":"One Nation for All","repo":"onenationforall.github.io","url":"https://vervenveda.github.io/onenationforall.github.io/","icon":"◐","status":"live","description":"Civic engagement, public policy, unity, accountability, and community-centered national ideas."},{"title":"Solanar","repo":"solanar.github.io","url":"https://vervenveda.github.io/solanar.github.io/","icon":"☀","status":"live","description":"Weather, earth science, environmental awareness, lunar information, and global observation."},{"title":"The Verifier","repo":"theverifier.github.io","url":"https://vervenveda.github.io/theverifier.github.io/","icon":"⌕","status":"live","description":"Information literacy, source comparison, news discovery, verification, and research navigation."},{"title":"PLERA Search","repo":"PLERASearch.github.io","url":"https://vervenveda.github.io/PLERASearch.github.io/","icon":"⌖","status":"live","description":"A broad search gateway connecting trusted research, public resources, and learning tools."},{"title":"River to Road","repo":"river_to_road.github.io","url":"https://vervenveda.github.io/river_to_road.github.io/","icon":"♧","status":"live","description":"Environmental stewardship, community cleanup, local action, and neighborhood restoration."},{"title":"Bazaar Art","repo":"bazaarart.github.io","url":"https://vervenveda.github.io/bazaarart.github.io/","icon":"BA","status":"live","description":"Art community, artist resources, creative tools, portfolios, events, and social experiences."},{"title":"Aurora","repo":"aurora.github.io","url":"https://vervenveda.github.io/aurora.github.io/","icon":"✧","status":"live","description":"A creative and exploratory repository for emerging Aurora projects and connected experiences."},{"title":"My Art Gallery","repo":"myartgallery.github.io","url":"https://vervenveda.github.io/myartgallery.github.io/","icon":"▣","status":"live","description":"A dedicated gallery destination for exhibiting and exploring artwork and artist collections."},{"title":"Sanctuary","repo":"Sanctuary.github.io","url":null,"icon":"◌","status":"planned","description":"A planned quiet digital sanctuary for grounding, reflection, creativity, restoration, and personal space."}];
+
+const featuredGroups = [{"title":"Write & Edit","ids":["prose-gateway","prose"]},{"title":"Research & Verify","ids":["evidence-studio","plera-search"]},{"title":"Communicate & Organize","ids":["333-network","daily-spark"]},{"title":"Build & Preserve","ids":["ohmic-gateway","khaezip"]}];
+
+const liveTools = tools.filter(tool => tool.status === "live");
+const plannedTools = tools.filter(tool => tool.status === "planned");
+const networkSites = sites.filter(site => !["Administration","ProReSources Hub"].includes(site.title));
+
+const siteGroupOrder = ["Core Gateways","Academy & Learning","Research, News & Public Resources","Civic & Community","Art, Games & Creativity"];
+const siteGroupFor = title => {
+  if(["Verve N Veda","Aurora","Sanctuary"].includes(title)) return "Core Gateways";
+  if(["Khaemenes Academy","Khaemenes Elementary","Khaemenes Junior High","Khaemenes High School","Khaemenes University","KinderGarden","Crèche Preschool","Linguistics"].includes(title)) return "Academy & Learning";
+  if(["Firmament Law","ARSHIF Archives","The Verifier","PLERA Search","Solanar"].includes(title)) return "Research, News & Public Resources";
+  if(["One Nation for All","River to Road"].includes(title)) return "Civic & Community";
+  return "Art, Games & Creativity";
+};
+
+const $ = selector => document.querySelector(selector);
+const $$ = selector => [...document.querySelectorAll(selector)];
+const escapeHTML = value => String(value).replace(/[&<>'"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[ch]));
+const encodePath = value => String(value).split("/").map(part => encodeURIComponent(part)).join("/");
+const urlForTool = tool => tool.file ? TOOL_BASE + encodePath(tool.file) : "";
+const urlForDoc = doc => TOOL_BASE + encodePath(doc.file);
+const favoriteKey = "proresources-favorites-v3";
+const themeKey = "proresources-theme-v1";
+
+let selectedCategory = "all";
+let favoritesMode = false;
+let favorites = new Set(loadFavorites());
+let drawerCategory = "All";
+let lastFocusedElement = null;
+
+function safeJSON(raw, fallback){
+  try{const parsed = JSON.parse(raw); return parsed ?? fallback;}catch{return fallback;}
+}
+
+function loadFavorites(){
+  try{return safeJSON(localStorage.getItem(favoriteKey), []);}catch{return [];}
+}
+
+function saveFavorites(){
+  try{localStorage.setItem(favoriteKey, JSON.stringify([...favorites]));}
+  catch{showToast("Saved tools are available for this session only");}
+}
+
+function showToast(message){
+  const toast = $("#toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+function applyTheme(theme){
+  const next = theme === "light" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  const light = next === "light";
+  $("#themeToggle").textContent = light ? "Dark Theme" : "Light Theme";
+  $("#themeToggle").setAttribute("aria-pressed", String(light));
+  $("#themeToggle").setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
+  try{localStorage.setItem(themeKey, next);}catch{}
+}
+
+function initializeTheme(){
+  applyTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
+}
+
+function toolById(id){
+  return tools.find(tool => tool.id === id);
+}
+
+function renderLaunchpad(){
+  $("#launchGroups").innerHTML = featuredGroups.map(group => `
+    <article class="launch-group">
+      <h3>${escapeHTML(group.title)}</h3>
+      <div class="launch-list">
+        ${group.ids.map(id => {
+          const tool = toolById(id);
+          const cat = categories[tool.category];
+          const sublabels = {
+            "prose-gateway":"Editorial gateway and inspiration directory",
+            "prose":"Complete sovereign writing room",
+            "evidence-studio":"Claims, sources, citations and provenance",
+            "plera-search":"Transparent multi-provider research",
+            "333-network":"Three connected communication paths",
+            "daily-spark":"Tasks, priorities and daily workflow",
+            "ohmic-gateway":"CAD gateway and local project access",
+            "khaezip":"Archive, encryption and preservation"
+          };
+          const sublabel = sublabels[id] || cat.label;
+          return `<article class="launch-link">
+            <span class="launch-icon" aria-hidden="true">${escapeHTML(tool.icon)}</span>
+            <span class="launch-copy"><strong>${escapeHTML(tool.title)}</strong><small>${escapeHTML(sublabel)}</small></span>
+            <a class="btn btn-primary launch-open" href="${urlForTool(tool)}">Open Tool</a>
+          </article>`;
+        }).join("")}
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderCategoryControls(){
+  const liveCategoryIds = Object.keys(categories).filter(id => liveTools.some(tool => tool.category === id));
+  $("#categorySelect").innerHTML = `<option value="all">All live categories</option>` +
+    liveCategoryIds.map(id => `<option value="${id}">${escapeHTML(categories[id].label)}</option>`).join("");
+
+  $("#filterStrip").innerHTML = `<button class="filter active" type="button" data-category="all">All Tools</button>` +
+    liveCategoryIds.map(id => `<button class="filter" type="button" data-category="${id}">${escapeHTML(categories[id].icon)} ${escapeHTML(categories[id].label)}</button>`).join("");
+}
+
+function toolCard(tool){
+  const cat = categories[tool.category];
+  const active = favorites.has(tool.id);
+  return `<article class="tool-card" data-id="${tool.id}" data-category="${tool.category}" data-search="${escapeHTML((tool.title+" "+tool.description+" "+tool.tags+" "+(tool.file||"")+" "+cat.label).toLowerCase())}">
+    <div class="tool-top">
+      <span class="tool-icon" aria-hidden="true">${escapeHTML(tool.icon)}</span>
+      <button class="favorite-button${active?" active":""}" type="button" data-favorite="${tool.id}" aria-pressed="${active}" aria-label="${active?"Remove":"Add"} ${escapeHTML(tool.title)} ${active?"from":"to"} saved tools">${active?"★":"☆"}</button>
+    </div>
+    <span class="tool-label">${escapeHTML(cat.label)}</span>
+    <h4>${escapeHTML(tool.title)}</h4>
+    <p>${escapeHTML(tool.description)}</p>
+    <div class="tool-actions">
+      <a class="btn btn-primary" href="${urlForTool(tool)}">Open Tool</a>
+    </div>
+  </article>`;
+}
+
+function renderToolCategories(){
+  const grouped = liveTools.reduce((result, tool) => {
+    (result[tool.category] ||= []).push(tool);
+    return result;
+  }, {});
+
+  const order = Object.keys(categories).filter(id => grouped[id]);
+  $("#categoryStack").innerHTML = order.map(id => `
+    <section class="tool-category" data-tool-group="${id}">
+      <div class="category-heading">
+        <h3>${escapeHTML(categories[id].icon)} ${escapeHTML(categories[id].label)}</h3>
+        <span>${grouped[id].length} ${grouped[id].length===1?"tool":"tools"}</span>
+      </div>
+      <div class="tool-grid">${grouped[id].map(toolCard).join("")}</div>
+    </section>
+  `).join("");
+
+  bindToolActions();
+}
+
+function bindToolActions(){
+  $$("[data-favorite]").forEach(button => button.addEventListener("click", () => {
+    const id = button.dataset.favorite;
+    favorites.has(id) ? favorites.delete(id) : favorites.add(id);
+    saveFavorites();
+    renderToolCategories();
+    filterTools();
+    showToast(favorites.has(id) ? "Saved to your tools" : "Removed from saved tools");
+  }));
+}
+
+function filterTools(){
+  const query = $("#searchInput").value.trim().toLowerCase();
+  selectedCategory = $("#categorySelect").value;
+  let visible = 0;
+
+  $$(".tool-card").forEach(card => {
+    const show = (selectedCategory === "all" || card.dataset.category === selectedCategory) &&
+      (!query || card.dataset.search.includes(query)) &&
+      (!favoritesMode || favorites.has(card.dataset.id));
+    card.hidden = !show;
+    if(show) visible++;
+  });
+
+  $$("[data-tool-group]").forEach(group => {
+    group.hidden = !group.querySelector(".tool-card:not([hidden])");
+  });
+
+  $$(".filter").forEach(button => button.classList.toggle("active", button.dataset.category === selectedCategory));
+  $("#resultNote").textContent = `${visible} of ${liveTools.length} live tools shown${favoritesMode?" · saved tools only":""}.`;
+  $("#emptyState").style.display = visible ? "none" : "block";
+}
+
+function renderRoadmap(){
+  const grouped = plannedTools.reduce((result, tool) => {
+    (result[tool.category] ||= []).push(tool);
+    return result;
+  }, {});
+
+  const order = Object.keys(categories).filter(id => grouped[id]);
+  $("#roadmapGrid").innerHTML = order.map(id => `
+    <section class="roadmap-category">
+      <div class="category-heading">
+        <h3>${escapeHTML(categories[id].icon)} ${escapeHTML(categories[id].label)}</h3>
+        <span>${grouped[id].length} future ${grouped[id].length===1?"project":"projects"}</span>
+      </div>
+      <div class="roadmap-grid">
+        ${grouped[id].map(tool => `<article class="roadmap-card">
+          <span class="tool-icon" aria-hidden="true">${escapeHTML(tool.icon)}</span>
+          <span class="tool-label">${escapeHTML(categories[id].label)}</span>
+          <h3>${escapeHTML(tool.title)}</h3>
+          <p>${escapeHTML(tool.description)}</p>
+          <div class="roadmap-status">Construction site reserved</div>
+        </article>`).join("")}
+      </div>
+    </section>
+  `).join("");
+}
+
+function renderDocs(){
+  $("#docsGrid").innerHTML = docs.map(doc => `<article class="doc-card">
+    <span class="tool-icon" aria-hidden="true">${escapeHTML(doc.icon)}</span>
+    <h3>${escapeHTML(doc.title)}</h3>
+    <p>${escapeHTML(doc.description)}</p>
+    <a class="btn btn-secondary" href="${urlForDoc(doc)}">Open Document</a>
+  </article>`).join("");
+}
+
+function groupedSites(items){
+  return items.reduce((groups, site) => {
+    const group = siteGroupFor(site.title);
+    (groups[group] ||= []).push(site);
+    return groups;
+  }, {});
+}
+
+function renderNetworkPanels(){
+  const groups = groupedSites(networkSites);
+  $("#networkPanels").innerHTML = siteGroupOrder.filter(group => groups[group]).map(group => `
+    <section class="network-panel">
+      <h3>${escapeHTML(group)}</h3>
+      <div class="network-list">
+        ${groups[group].map(site => site.url
+          ? `<div class="network-link"><span>${escapeHTML(site.title)}</span><a class="network-open" href="${escapeHTML(site.url)}" target="_blank" rel="noopener noreferrer">Open</a></div>`
+          : `<div class="network-build"><span>${escapeHTML(site.title)}<small> Planned</small></span><span aria-hidden="true">◇</span></div>`
+        ).join("")}
+      </div>
+    </section>
+  `).join("");
+}
+
+function renderDrawerFilters(){
+  const labels = ["All", ...siteGroupOrder];
+  $("#drawerFilters").innerHTML = labels.map(label => `<button class="drawer-filter${label===drawerCategory?" active":""}" type="button" data-drawer-category="${escapeHTML(label)}">${escapeHTML(label)}</button>`).join("");
+}
+
+function renderDrawer(){
+  renderDrawerFilters();
+  const query = $("#drawerSearch").value.trim().toLowerCase();
+  const filtered = networkSites.filter(site => {
+    const group = siteGroupFor(site.title);
+    const categoryMatch = drawerCategory === "All" || group === drawerCategory;
+    const searchMatch = !query || [site.title,site.repo,site.description,group].join(" ").toLowerCase().includes(query);
+    return categoryMatch && searchMatch;
+  });
+  const groups = groupedSites(filtered);
+
+  $("#drawerResults").textContent = `${filtered.length} connected ${filtered.length===1?"destination":"destinations"}`;
+  $("#drawerNav").innerHTML = filtered.length ? siteGroupOrder.filter(group => groups[group]).map(group => `
+    <section class="drawer-group">
+      <h3>${escapeHTML(group)}</h3>
+      ${groups[group].map(site => site.url
+        ? `<div class="drawer-link">
+            <span class="network-symbol" aria-hidden="true">${escapeHTML(site.icon)}</span>
+            <span><strong>${escapeHTML(site.title)}</strong><small>${escapeHTML(site.description)}</small></span>
+            <a class="drawer-open" href="${escapeHTML(site.url)}" target="_blank" rel="noopener noreferrer">Open</a>
+          </div>`
+        : `<div class="drawer-link">
+            <span class="network-symbol" aria-hidden="true">${escapeHTML(site.icon)}</span>
+            <span><strong>${escapeHTML(site.title)}</strong><small>Planned destination</small></span>
+            <span aria-hidden="true">◇</span>
+          </div>`
+      ).join("")}
+    </section>
+  `).join("") : `<p class="empty-state" style="display:block;margin:0;">No connected pages match that search.</p>`;
+}
+
+function openDrawer(){
+  lastFocusedElement = document.activeElement;
+  $("#networkDrawer").classList.add("open");
+  $("#networkDrawer").setAttribute("aria-hidden","false");
+  $("#menuButton").setAttribute("aria-expanded","true");
+  document.body.classList.add("menu-open");
+  setTimeout(() => $("#drawerSearch").focus(), 80);
+}
+
+function closeDrawer(){
+  $("#networkDrawer").classList.remove("open");
+  $("#networkDrawer").setAttribute("aria-hidden","true");
+  $("#menuButton").setAttribute("aria-expanded","false");
+  document.body.classList.remove("menu-open");
+  $("#drawerSearch").value = "";
+  drawerCategory = "All";
+  renderDrawer();
+  if(lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
+}
+
+function trapDrawerFocus(event){
+  if(event.key !== "Tab" || !$("#networkDrawer").classList.contains("open")) return;
+  const focusable = $$(`#networkDrawer a[href], #networkDrawer button:not([disabled]), #networkDrawer input:not([disabled])`).filter(element => element.offsetParent !== null);
+  if(!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if(event.shiftKey && document.activeElement === first){event.preventDefault(); last.focus();}
+  else if(!event.shiftKey && document.activeElement === last){event.preventDefault(); first.focus();}
+}
+
+initializeTheme();
+renderLaunchpad();
+renderCategoryControls();
+renderToolCategories();
+renderRoadmap();
+renderDocs();
+renderNetworkPanels();
+renderDrawer();
+filterTools();
+
+$("#themeToggle").addEventListener("click", () => {
+  applyTheme(document.documentElement.dataset.theme === "light" ? "dark" : "light");
+  showToast(document.documentElement.dataset.theme === "light" ? "Light theme enabled" : "Dark theme enabled");
+});
+
+$("#liveCount").textContent = liveTools.length;
+$("#categoryCount").textContent = Object.keys(categories).filter(id => liveTools.some(tool => tool.category === id)).length;
+$("#plannedCount").textContent = plannedTools.length;
+$("#siteCount").textContent = networkSites.length;
+$("#heroProse").href = urlForTool(toolById("prose-gateway"));
+$("#heroEvidence").href = urlForTool(toolById("evidence-studio"));
+$("#heroFleaPit").href = urlForTool(toolById("fleapit"));
+
+$("#searchInput").addEventListener("input", filterTools);
+$("#categorySelect").addEventListener("change", filterTools);
+$("#filterStrip").addEventListener("click", event => {
+  const button = event.target.closest("[data-category]");
+  if(!button) return;
+  $("#categorySelect").value = button.dataset.category;
+  filterTools();
+});
+$("#favoritesOnly").addEventListener("click", () => {
+  favoritesMode = !favoritesMode;
+  $("#favoritesOnly").setAttribute("aria-pressed", String(favoritesMode));
+  $("#favoritesOnly").textContent = favoritesMode ? "★ Saved Tools On" : "☆ Saved Tools";
+  filterTools();
+});
+
+$("#menuButton").addEventListener("click", openDrawer);
+$("#closeDrawer").addEventListener("click", closeDrawer);
+$("#networkDrawer").addEventListener("click", event => {if(event.target === $("#networkDrawer")) closeDrawer();});
+$("#drawerSearch").addEventListener("input", renderDrawer);
+$("#drawerFilters").addEventListener("click", event => {
+  const button = event.target.closest("[data-drawer-category]");
+  if(!button) return;
+  drawerCategory = button.dataset.drawerCategory;
+  renderDrawer();
+});
+$("#drawerNav").addEventListener("click", event => {if(event.target.closest("a")) closeDrawer();});
+
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape" && $("#networkDrawer").classList.contains("open")) closeDrawer();
+  trapDrawerFocus(event);
+  if(event.key === "/" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){
+    event.preventDefault();
+    $("#searchInput").focus();
+  }
+});
+</script>
+</body>
+</html>
