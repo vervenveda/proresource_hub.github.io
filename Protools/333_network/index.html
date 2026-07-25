@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The 333 Network gateway for HOLLO direct communication, KANSEE meetings, and the optional Live Social Feed.">
+  <meta name="description" content="The 333 Network gateway connecting HOLLO direct communication, KANSEE meeting rooms, and Bazaar Art Live creative community participation.">
   <meta name="theme-color" content="#0b1020">
-  <title>333 Network — Communication by Choice</title>
+  <title>333 Network — Three Ways to Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --midnight:#0b1020;
@@ -211,6 +214,471 @@
       .topbar{align-items:flex-start;padding:12px 0}.topnav{display:none}.hero{padding:39px 0 53px}.number-orbit{transform:scale(.86);margin:-22px 0}.service-card{padding:21px}.dialer,.number-map{padding:21px}.number-row{grid-template-columns:1fr auto}.number-row>div{grid-column:1/-1}.copy-small{grid-row:1}.footer-inner{align-items:flex-start;flex-direction:column}.founder-seal .number{font-size:22px}
     }
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+    /* =========================================================
+       Verve N Veda refinement layer
+       ========================================================= */
+    :root{
+      --font-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+      --font-brand:"Cinzel","Aboreto",Georgia,serif;
+      --font-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+      --midnight:#0e1324;
+      --midnight-2:#182039;
+      --ink:#20202b;
+      --parchment:#f5efe4;
+      --paper:#fffdf8;
+      --paper-2:#f0e9dc;
+      --gold:#c6a561;
+      --gold-2:#a98143;
+      --gold-3:#6e4f22;
+      --teal:#4ea9a3;
+      --violet:#8574c4;
+      --rose:#c7819f;
+      --muted:#6d685f;
+      --line:rgba(97,76,45,.16);
+      --shadow:0 15px 40px rgba(14,18,34,.14);
+      --radius:18px;
+      --radius-sm:10px;
+      --max:1160px;
+    }
+
+    body{
+      font-family:var(--font-ui);
+      letter-spacing:.004em;
+      background:
+        radial-gradient(circle at 14% 5%,rgba(198,165,97,.14),transparent 26rem),
+        radial-gradient(circle at 89% 20%,rgba(78,169,163,.10),transparent 25rem),
+        linear-gradient(145deg,#faf6ee 0%,#eee6d8 100%);
+    }
+
+    h1,h2,h3,.founder-seal .name{
+      font-family:var(--font-display);
+      font-weight:600;
+    }
+
+    .network-sky{
+      background:
+        radial-gradient(circle at 48% -22%,rgba(63,82,137,.72),transparent 48%),
+        linear-gradient(145deg,#151d37,#080c19 72%);
+      border-bottom-color:rgba(198,165,97,.26);
+    }
+
+    .topbar{
+      min-height:62px;
+    }
+
+    .brand-mark{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      font-family:var(--font-brand);
+      font-size:.68rem;
+      font-weight:600;
+      letter-spacing:.06em;
+    }
+
+    .brand-copy strong{
+      font-family:var(--font-brand);
+      font-size:.73rem;
+      font-weight:600;
+      letter-spacing:.14em;
+    }
+
+    .brand-copy span{
+      font-family:var(--font-ui);
+      font-size:.66rem;
+    }
+
+    .topnav{
+      gap:4px;
+    }
+
+    .topnav a{
+      border-radius:8px;
+      padding:8px 10px;
+      font-family:var(--font-ui);
+      font-size:.66rem;
+      font-weight:600;
+    }
+
+    .hero{
+      padding:48px 0 54px;
+      grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
+      gap:42px;
+    }
+
+    .eyebrow{
+      font-family:var(--font-brand);
+      font-size:.61rem;
+      font-weight:600;
+      letter-spacing:.2em;
+    }
+
+    h1{
+      margin:11px 0 16px;
+      font-family:var(--font-display);
+      font-size:clamp(2.7rem,6vw,5.25rem);
+      line-height:.98;
+      letter-spacing:-.025em;
+    }
+
+    h1 span{
+      margin-top:7px;
+      font-family:var(--font-display);
+      font-size:.67em;
+      font-style:normal;
+      letter-spacing:.01em;
+    }
+
+    .hero-copy{
+      max-width:680px;
+      font-family:var(--font-ui);
+      font-size:clamp(.9rem,1.6vw,1.06rem);
+      line-height:1.72;
+    }
+
+    .hero-actions{
+      gap:8px;
+      margin-top:23px;
+    }
+
+    .btn{
+      min-height:42px;
+      padding:9px 14px;
+      border-radius:9px;
+      font-family:var(--font-ui);
+      font-size:.7rem;
+      font-weight:650;
+      letter-spacing:.015em;
+    }
+
+    .number-orbit{
+      min-height:320px;
+    }
+
+    .orbit-ring.one{width:290px;height:290px}
+    .orbit-ring.two{width:222px;height:222px}
+    .orbit-ring.three{width:154px;height:154px}
+
+    .founder-seal{
+      width:184px;
+      height:184px;
+      box-shadow:0 0 0 8px rgba(198,165,97,.035),0 20px 55px rgba(0,0,0,.40),inset 0 0 26px rgba(198,165,97,.10);
+    }
+
+    .founder-seal .small{
+      font-family:var(--font-brand);
+      font-size:.52rem;
+      font-weight:600;
+      letter-spacing:.17em;
+    }
+
+    .founder-seal .number{
+      margin:9px 0 6px;
+      font-family:var(--font-ui);
+      font-size:1.18rem;
+      font-weight:700;
+    }
+
+    .founder-seal .name{
+      font-size:.95rem;
+    }
+
+    .founder-seal button{
+      margin-top:11px;
+      border-radius:8px;
+      font-family:var(--font-ui);
+      font-size:.61rem;
+      font-weight:600;
+    }
+
+    main{
+      padding:52px 0 72px;
+    }
+
+    .section-head{
+      gap:22px;
+      margin-bottom:20px;
+    }
+
+    .section-head h2{
+      margin-top:5px;
+      font-family:var(--font-display);
+      font-size:clamp(2rem,4vw,3rem);
+      font-weight:600;
+      letter-spacing:.005em;
+    }
+
+    .section-head p{
+      max-width:500px;
+      font-family:var(--font-ui);
+      font-size:.83rem;
+      line-height:1.65;
+    }
+
+    .service-grid{
+      gap:13px;
+    }
+
+    .service-card{
+      min-height:365px;
+      padding:21px;
+      border-radius:17px;
+      box-shadow:var(--shadow);
+    }
+
+    .service-card::after{
+      width:190px;
+      height:190px;
+      opacity:.55;
+    }
+
+    .service-icon{
+      width:50px;
+      height:50px;
+      border-radius:14px;
+      font-size:1.35rem;
+    }
+
+    .route-chip{
+      border-radius:8px;
+      padding:6px 8px;
+      font-family:var(--font-ui);
+      font-size:.56rem;
+      font-weight:700;
+      letter-spacing:.08em;
+    }
+
+    .service-card h3{
+      margin:20px 0 4px;
+      font-family:var(--font-display);
+      font-size:1.75rem;
+      font-weight:600;
+    }
+
+    .service-sub{
+      font-family:var(--font-brand);
+      font-size:.58rem;
+      font-weight:600;
+      letter-spacing:.14em;
+    }
+
+    .service-card p{
+      margin:14px 0 13px;
+      font-family:var(--font-ui);
+      font-size:.77rem;
+      line-height:1.65;
+    }
+
+    .feature-list{
+      gap:8px;
+      font-family:var(--font-ui);
+      font-size:.71rem;
+      line-height:1.45;
+    }
+
+    .feature-list li::before{
+      font-size:.58rem;
+    }
+
+    .service-actions{
+      padding-top:20px;
+      gap:6px;
+    }
+
+    .dial-section{
+      margin-top:50px;
+      grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);
+      gap:15px;
+    }
+
+    .panel{
+      border-radius:17px;
+      box-shadow:var(--shadow);
+    }
+
+    .dialer,.number-map{
+      padding:23px;
+    }
+
+    .dialer h2,.number-map h2{
+      font-family:var(--font-display);
+      font-size:1.9rem;
+      font-weight:600;
+    }
+
+    .dialer p,.number-map>p{
+      font-family:var(--font-ui);
+      font-size:.76rem;
+      line-height:1.62;
+    }
+
+    .dial-display{
+      margin:15px 0 11px;
+      padding:13px;
+      border-radius:10px;
+      font-family:var(--font-ui);
+      font-size:1.1rem;
+      font-weight:650;
+    }
+
+    .dial-pad{
+      gap:6px;
+    }
+
+    .dial-key{
+      min-height:43px;
+      border-radius:9px;
+      font-family:var(--font-ui);
+      font-size:.86rem;
+      font-weight:650;
+    }
+
+    .dial-controls{
+      gap:6px;
+      margin-top:6px;
+    }
+
+    .dial-controls button{
+      min-height:40px;
+      border-radius:9px;
+      font-family:var(--font-ui);
+      font-size:.7rem;
+      font-weight:650;
+    }
+
+    .dial-status{
+      min-height:48px;
+      margin-top:11px;
+      border-radius:10px;
+      font-family:var(--font-ui);
+      font-size:.68rem;
+      line-height:1.5;
+    }
+
+    .number-row{
+      grid-template-columns:118px minmax(0,1fr) auto;
+      gap:11px;
+      padding:13px 0;
+    }
+
+    .number-row strong{
+      font-family:var(--font-ui);
+      font-size:.7rem;
+      font-weight:700;
+    }
+
+    .number-row span{
+      font-family:var(--font-display);
+      font-size:.94rem;
+      font-weight:600;
+    }
+
+    .number-row small{
+      font-family:var(--font-ui);
+      font-size:.65rem;
+      line-height:1.4;
+    }
+
+    .copy-small{
+      border-radius:8px;
+      font-family:var(--font-ui);
+      font-size:.61rem;
+      font-weight:650;
+    }
+
+    .principles{
+      margin-top:50px;
+      gap:12px;
+    }
+
+    .principle{
+      padding:18px;
+      border-top-width:2px;
+      border-radius:0 0 14px 14px;
+    }
+
+    .principle h3{
+      font-family:var(--font-display);
+      font-size:1.18rem;
+      font-weight:600;
+    }
+
+    .principle p{
+      font-family:var(--font-ui);
+      font-size:.71rem;
+      line-height:1.62;
+    }
+
+    .honesty-note{
+      margin-top:30px;
+      padding:14px 16px;
+      border-radius:12px;
+      font-family:var(--font-ui);
+      font-size:.67rem;
+      line-height:1.62;
+    }
+
+    .footer-inner{
+      padding:25px 0;
+      font-family:var(--font-ui);
+      font-size:.66rem;
+      line-height:1.65;
+    }
+
+    .footer-inner strong{
+      font-family:var(--font-brand);
+      font-size:.7rem;
+      font-weight:600;
+      letter-spacing:.08em;
+    }
+
+    .toast{
+      border-radius:9px;
+      font-family:var(--font-ui);
+      font-size:.67rem;
+      font-weight:650;
+    }
+
+    @media(max-width:950px){
+      .hero{
+        gap:26px;
+        text-align:center;
+      }
+      .hero-actions{justify-content:center}
+      .number-orbit{min-height:300px}
+      .service-grid{grid-template-columns:1fr}
+      .service-card{min-height:0}
+    }
+
+    @media(max-width:650px){
+      .topbar{
+        padding:12px 0;
+        align-items:center;
+      }
+      .brand-copy span{display:none}
+      .hero{
+        padding:35px 0 43px;
+      }
+      .number-orbit{
+        transform:scale(.9);
+        margin:-24px 0;
+      }
+      .service-card,.dialer,.number-map{
+        padding:18px;
+      }
+      .number-row{
+        grid-template-columns:1fr auto;
+      }
+      .number-row>div{
+        grid-column:1/-1;
+      }
+      .footer-inner{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -218,26 +686,27 @@
 
 <header class="network-sky">
   <div class="topbar">
-    <a class="brand" href="https://vervenveda.github.io/" aria-label="Verve N Veda home">
+    <a class="brand" href="https://vervenveda.github.io/proresource_hub.github.io/" aria-label="ProReSources home">
       <span class="brand-mark">333</span>
-      <span class="brand-copy"><strong>333 Network</strong><span>Communication by choice</span></span>
+      <span class="brand-copy"><strong>333 Network</strong><span>Connected tools at ProReSources</span></span>
     </a>
     <nav class="topnav" aria-label="Primary navigation">
-      <a href="#services">Services</a>
-      <a href="#dialer">Internal Dialer</a>
-      <a href="#principles">Network Principles</a>
+      <a href="#services">Choose an App</a>
+      <a href="#dialer">333 Route Finder</a>
+      <a href="#principles">How It Works</a>
+      <a href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a>
       <a href="https://vervenveda.github.io/">Verve N Veda</a>
     </nav>
   </div>
 
   <section class="hero" aria-labelledby="pageTitle">
     <div>
-      <div class="eyebrow">HOLLO · KANSEE · LIVE SOCIAL FEED</div>
-      <h1 id="pageTitle">One identity.<span>Three ways to connect.</span></h1>
-      <p class="hero-copy">The 333 Network brings direct communication, meeting rooms, and optional community participation into one recognizable family—without forcing every member into the same kind of connection.</p>
+      <div class="eyebrow">HOLLO · KANSEE · BAZAAR ART LIVE</div>
+      <h1 id="pageTitle">One network.<span>Three clear ways to connect.</span></h1>
+      <p class="hero-copy">The 333 Network is the shared doorway for three focused tools: private direct communication through HOLLO, meeting rooms through KANSEE, and an optional creative community feed through Bazaar Art Live.</p>
       <div class="hero-actions">
-        <a class="btn primary" href="#services">Enter the Network</a>
-        <a class="btn ghost" href="#dialer">Open 333 Dialer</a>
+        <a class="btn primary" href="#services">Choose Your Connection</a>
+        <a class="btn ghost" href="#dialer">Use the Route Finder</a>
       </div>
     </div>
 
@@ -259,59 +728,66 @@
 <main>
   <section id="services" aria-labelledby="servicesTitle">
     <div class="section-head">
-      <div><div class="eyebrow" style="color:var(--gold-3)">Choose your connection</div><h2 id="servicesTitle">Three distinct network doors</h2></div>
-      <p>Each app remains its own page and purpose. Shared 333 identities can connect them later through one secure account and directory.</p>
+      <div><div class="eyebrow" style="color:var(--gold-3)">Choose your connection</div><h2 id="servicesTitle">Three focused tools</h2></div>
+      <p>Open only the experience you need. The apps are connected by identity and navigation, but each keeps its own clear purpose.</p>
     </div>
+
 
     <div class="service-grid">
       <article class="service-card hollo">
-        <div class="service-top"><div class="service-icon" aria-hidden="true">◌</div><span class="route-chip">333-222-7777</span></div>
+        <div class="service-top">
+          <div class="service-icon" aria-hidden="true">◌</div>
+          <span class="route-chip">333-222-7777</span>
+        </div>
         <h3>HOLLO™</h3>
-        <div class="service-sub">Direct calls & trusted contacts</div>
-        <p>A consent-centered space for personal voice, video, messages, invitations, and contact relationships.</p>
+        <div class="service-sub">Direct Connect</div>
+        <p>For trusted one-to-one contact, local messages, and consent-based voice or video invitations.</p>
         <ul class="feature-list">
-          <li>One-to-one voice and video calling</li>
-          <li>Accept, decline, mute, block, or appear invisible</li>
-          <li>Private messages, voicemail, and missed calls</li>
-          <li>Human and companion directory</li>
+          <li>Trusted contacts and private message threads</li>
+          <li>Voice, camera, and invitation previews</li>
+          <li>Local-first profile, history, and backup tools</li>
         </ul>
         <div class="service-actions">
-          <a class="btn open" href="HOLLO_index.html">Open HOLLO</a>
-          <button class="btn" type="button" data-dial="3332227777">Dial route</button>
+          <a class="btn open" href="../HOLLO™ 333 Direct Connect_index.html">Open HOLLO</a>
+          <button class="btn" type="button" data-dial="3332227777">Load Route</button>
         </div>
       </article>
 
       <article class="service-card kansee">
-        <div class="service-top"><div class="service-icon" aria-hidden="true">▦</div><span class="route-chip">333-333-7777</span></div>
+        <div class="service-top">
+          <div class="service-icon" aria-hidden="true">▦</div>
+          <span class="route-chip">333-333-7777</span>
+        </div>
         <h3>KANSEE™</h3>
-        <div class="service-sub">Meetings & conference rooms</div>
-        <p>A Zoom-style meeting destination for scheduled rooms, invited participants, shared conversation, and group collaboration.</p>
+        <div class="service-sub">Meeting Rooms</div>
+        <p>For private rooms, scheduled meetings, participant controls, room chat, and local media preview.</p>
         <ul class="feature-list">
-          <li>One-to-one and group meeting rooms</li>
-          <li>Camera, microphone, room chat, and screen sharing</li>
-          <li>Waiting rooms, invitations, and host controls</li>
-          <li>Join by meeting link or 333 identity</li>
+          <li>Create, schedule, or join with a room code</li>
+          <li>Waiting room, invitations, chat, and notes</li>
+          <li>Camera, microphone, and screen preview by choice</li>
         </ul>
         <div class="service-actions">
-          <a class="btn open" href="KANSEE_index.html">Open KANSEE</a>
-          <button class="btn" type="button" data-dial="3333337777">Dial route</button>
+          <a class="btn open" href="../KANSEE™ 333 Meeting Rooms_index.html">Open KANSEE</a>
+          <button class="btn" type="button" data-dial="3333337777">Load Route</button>
         </div>
       </article>
 
       <article class="service-card feed">
-        <div class="service-top"><div class="service-icon" aria-hidden="true">✦</div><span class="route-chip">333-444-7777</span></div>
-        <h3>Live Social Feed</h3>
-        <div class="service-sub">Optional community participation</div>
-        <p>A separate live-feed page for members who choose to post, discover people, share creative work, and join public community activity.</p>
+        <div class="service-top">
+          <div class="service-icon" aria-hidden="true">✦</div>
+          <span class="route-chip">333-444-7777</span>
+        </div>
+        <h3>Bazaar Art Live</h3>
+        <div class="service-sub">Creative Community Feed</div>
+        <p>For artists, neighbors, builders, and dreamers who choose to share work, ideas, groups, reels, and events.</p>
         <ul class="feature-list">
-          <li>Text, image, and future video posts</li>
-          <li>Profiles, reactions, comments, events, and groups</li>
-          <li>Public, members-only, group, and private visibility</li>
-          <li>Use HOLLO and KANSEE without joining the feed</li>
+          <li>Posts, images, reels, reactions, and comments</li>
+          <li>Artists, groups, events, and saved inspiration</li>
+          <li>Optional participation—HOLLO and KANSEE stand alone</li>
         </ul>
         <div class="service-actions">
-          <a class="btn open" href="Live_Social_Feed_index.html">Open Live Feed</a>
-          <button class="btn" type="button" data-dial="3334447777">Community route</button>
+          <a class="btn open" href="../Bazaar Art Live 333 Social Feed_index.html">Open Bazaar Art Live</a>
+          <button class="btn" type="button" data-dial="3334447777">Load Route</button>
         </div>
       </article>
     </div>
@@ -320,8 +796,8 @@
   <section class="dial-section" id="dialer" aria-label="333 internal routing tools">
     <div class="panel dialer">
       <div class="eyebrow">Internal network routing</div>
-      <h2>333 Dialer</h2>
-      <p>Enter a recognized 333 Network number. This landing-page dialer routes to the correct app; member-to-member calling will connect when the secure network backend is attached.</p>
+      <h2>333 Route Finder</h2>
+      <p>Enter or load one of the internal service routes below. The route finder opens the matching app; it is not a public telephone dialer.</p>
       <input class="dial-display" id="dialDisplay" inputmode="numeric" autocomplete="off" maxlength="14" value="333-" aria-label="333 Network number">
       <div class="dial-pad" aria-label="Dial pad">
         <button class="dial-key" type="button" data-key="1">1</button><button class="dial-key" type="button" data-key="2">2</button><button class="dial-key" type="button" data-key="3">3</button>
@@ -329,33 +805,33 @@
         <button class="dial-key" type="button" data-key="7">7</button><button class="dial-key" type="button" data-key="8">8</button><button class="dial-key" type="button" data-key="9">9</button>
         <button class="dial-key" type="button" data-key="back" aria-label="Backspace">⌫</button><button class="dial-key" type="button" data-key="0">0</button><button class="dial-key" type="button" data-key="clear" aria-label="Clear">C</button>
       </div>
-      <div class="dial-controls"><button id="dialClear" type="button">Reset</button><button id="dialConnect" type="button">Connect</button></div>
-      <div class="dial-status" id="dialStatus" role="status" aria-live="polite">Ready for an internal 333 Network number.</div>
+      <div class="dial-controls"><button id="dialClear" type="button">Reset</button><button id="dialConnect" type="button">Open Route</button></div>
+      <div class="dial-status" id="dialStatus" role="status" aria-live="polite">Ready for an internal 333 service route.</div>
     </div>
 
     <div class="panel number-map">
-      <div class="eyebrow" style="color:var(--gold-3)">Founder number family</div>
-      <h2>One identity, routed with purpose</h2>
-      <p>The repeating number family keeps the system memorable while sending each route to a distinct communication experience.</p>
+      <div class="eyebrow" style="color:var(--gold-3)">Internal route map</div>
+      <h2>Memorable routes with clear purposes</h2>
+      <p>The repeating number family makes the system easy to recognize while sending each route to a distinct tool.</p>
 
       <div class="number-row"><strong>333-111-7777</strong><div><span>Main Founder Line</span><small>Jennifer Kay Pearl · central identity and network entry</small></div><button class="copy-small" type="button" data-copy="333-111-7777">Copy</button></div>
       <div class="number-row"><strong>333-222-7777</strong><div><span>HOLLO Direct Line</span><small>Personal calls, contacts, messages, and invitations</small></div><button class="copy-small" type="button" data-copy="333-222-7777">Copy</button></div>
       <div class="number-row"><strong>333-333-7777</strong><div><span>KANSEE Meeting Line</span><small>Conference rooms, scheduled meetings, and group calls</small></div><button class="copy-small" type="button" data-copy="333-333-7777">Copy</button></div>
-      <div class="number-row"><strong>333-444-7777</strong><div><span>Community Network Desk</span><small>Live Social Feed entry and future network administration</small></div><button class="copy-small" type="button" data-copy="333-444-7777">Copy</button></div>
+      <div class="number-row"><strong>333-444-7777</strong><div><span>Bazaar Art Live Route</span><small>Creative community feed, groups, events, and reels</small></div><button class="copy-small" type="button" data-copy="333-444-7777">Copy</button></div>
     </div>
   </section>
 
   <section class="principles" id="principles" aria-label="333 Network principles">
     <article class="principle"><h3>Connection by choice</h3><p>Members decide whether to answer a call, join a room, appear in a directory, or participate in the social feed.</p></article>
-    <article class="principle"><h3>Separate, but connected</h3><p>HOLLO, KANSEE, and the Live Social Feed remain focused pages while sharing a future identity, contact, and permission layer.</p></article>
+    <article class="principle"><h3>Separate, but connected</h3><p>HOLLO, KANSEE, and Bazaar Art Live remain focused apps while sharing navigation, internal routes, and a future permission layer.</p></article>
     <article class="principle"><h3>Honest sovereignty</h3><p>The 333 numbers begin as internal network identities. Public telephone calling requires a legitimate carrier bridge and production infrastructure.</p></article>
   </section>
 
-  <div class="honesty-note"><strong>Current build note:</strong> This file is a sovereign, static network gateway. Its app buttons use relative filenames so the three pages can live in the same repository. The dialer demonstrates internal routing; it does not claim that 333 is a public telephone area code or place calls through the public telephone network.</div>
+  <div class="honesty-note"><strong>Current build note:</strong> This is a local-first gateway for three browser applications. The 333 numbers are memorable internal routes, not public telephone numbers. Cross-device messaging, calling, meetings, and social participation will require authenticated network services when those are connected.</div>
 </main>
 
 <footer>
-  <div class="footer-inner"><div><strong>333 Network</strong><br>HOLLO · KANSEE · Live Social Feed</div><div>© 2026 Jennifer Kay Pearl · Communication by Choice</div></div>
+  <div class="footer-inner"><div><strong>333 Network at ProReSources</strong><br>HOLLO · KANSEE · Bazaar Art Live</div><div>Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026</div></div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -366,9 +842,9 @@
 
   const ROUTES = Object.freeze({
     '3331117777': {name:'Founder Network Line', href:'#services', message:'Founder line recognized. Opening the 333 Network services.'},
-    '3332227777': {name:'HOLLO Direct Line', href:'HOLLO_index.html', message:'HOLLO route recognized: direct calls, contacts, and messages.'},
-    '3333337777': {name:'KANSEE Meeting Line', href:'KANSEE_index.html', message:'KANSEE route recognized: meetings and conference rooms.'},
-    '3334447777': {name:'Community Network Desk', href:'Live_Social_Feed_index.html', message:'Community route recognized: optional Live Social Feed.'}
+    '3332227777': {name:'HOLLO Direct Line', href:'../HOLLO™ 333 Direct Connect_index.html', message:'Opening HOLLO Direct Connect.'},
+    '3333337777': {name:'KANSEE Meeting Line', href:'../KANSEE™ 333 Meeting Rooms_index.html', message:'Opening KANSEE Meeting Rooms.'},
+    '3334447777': {name:'Bazaar Art Live Route', href:'../Bazaar Art Live 333 Social Feed_index.html', message:'Opening Bazaar Art Live.'}
   });
 
   const display = document.getElementById('dialDisplay');
@@ -404,15 +880,11 @@
     if(!digits.startsWith('333')){status.textContent='This gateway currently recognizes internal numbers beginning with 333.';return;}
     const route=ROUTES[digits];
     if(!route){status.textContent='333 member number recognized. Individual member routing will activate when the secure directory backend is connected.';return;}
-    status.textContent=route.message + ' Select Connect again or use the matching app card.';
-    if(display.dataset.ready === digits){
-      display.dataset.ready='';
-      if(route.href.startsWith('#')) document.querySelector(route.href)?.scrollIntoView({behavior:'smooth'});
-      else window.location.href=route.href;
-    }else{
-      display.dataset.ready=digits;
-      showToast(route.name + ' ready');
-    }
+    status.textContent=route.message;
+    display.dataset.ready='';
+    showToast(route.name);
+    if(route.href.startsWith('#')) document.querySelector(route.href)?.scrollIntoView({behavior:'smooth'});
+    else window.location.href=route.href;
   }
 
   display.addEventListener('input',()=>{setNumber(display.value);display.dataset.ready='';});
@@ -421,13 +893,13 @@
     if(key==='back') d=d.slice(0,-1); else if(key==='clear') d='333'; else if(d.length<10) d+=key;
     setNumber(d);display.dataset.ready='';
   }));
-  document.getElementById('dialClear').addEventListener('click',()=>{setNumber('333');display.dataset.ready='';status.textContent='Ready for an internal 333 Network number.';});
+  document.getElementById('dialClear').addEventListener('click',()=>{setNumber('333');display.dataset.ready='';status.textContent='Ready for an internal 333 service route.';});
   document.getElementById('dialConnect').addEventListener('click',connectNumber);
   display.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();connectNumber();}});
 
   document.querySelectorAll('[data-copy]').forEach(button=>button.addEventListener('click',()=>copyValue(button.dataset.copy)));
   document.querySelectorAll('[data-dial]').forEach(button=>button.addEventListener('click',()=>{
-    setNumber(button.dataset.dial);display.dataset.ready='';document.getElementById('dialer').scrollIntoView({behavior:'smooth'});status.textContent='Route loaded. Select Connect to confirm.';
+    setNumber(button.dataset.dial);display.dataset.ready='';document.getElementById('dialer').scrollIntoView({behavior:'smooth'});status.textContent='Route loaded. Select Open Route to continue.';
   }));
 
   setNumber('333');
