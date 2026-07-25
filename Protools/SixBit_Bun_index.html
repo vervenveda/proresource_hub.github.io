@@ -206,6 +206,60 @@ footer strong{color:var(--gold2);font-family:var(--font-brand);font-size:.69rem;
   .relationship{grid-template-columns:1fr}.relationship .actions{justify-content:flex-start}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* SixBit Bun official-logo refinement */
+.centered-hero{
+  min-height:auto;
+  padding:clamp(38px,6vw,66px) clamp(18px,5vw,54px);
+  display:block;
+  text-align:center;
+}
+.hero-centered{
+  width:min(900px,100%);
+  margin:0 auto;
+  display:grid;
+  justify-items:center;
+}
+.logo-stage{
+  width:min(460px,82vw);
+  margin:22px auto 18px;
+  display:grid;
+  place-items:center;
+}
+.sixbit-logo{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:575px;
+  object-fit:contain;
+  border-radius:18px;
+  filter:drop-shadow(0 25px 55px rgba(0,0,0,.34));
+}
+.centered-hero h1{
+  margin:4px 0 15px;
+  font-size:clamp(2.5rem,6vw,4.9rem);
+  line-height:.95;
+}
+.centered-hero p{
+  max-width:780px;
+  margin:0 auto;
+}
+.centered-actions{
+  justify-content:center;
+}
+@media(max-width:720px){
+  .centered-hero{
+    padding:35px 15px 38px;
+  }
+  .logo-stage{
+    width:min(350px,91vw);
+    margin-top:18px;
+  }
+  .centered-hero h1{
+    font-size:2.75rem;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -223,27 +277,23 @@ footer strong{color:var(--gold2);font-family:var(--font-brand);font-size:.69rem;
     <a href="SixBit_Bun_Studio_index.html">Open Studio</a>
   </nav>
 
-  <header class="hero">
-    <div>
+  <header class="hero centered-hero">
+    <div class="hero-centered">
       <div class="eyebrow">Images → protected code → verified packages</div>
-      <h1>SixBit Bun™<span>Protected Asset Gateway</span></h1>
+
+      <div class="logo-stage">
+        <img class="sixbit-logo" src="SixBit_Bun_logo.webp"
+             alt="SixBit Bun rabbit mascot working on a laptop, with the words SixBit Bun — Nibble your files down.">
+      </div>
+
+      <h1>Protected Asset Gateway</h1>
       <p>A playful professional doorway for turning images into portable code and verified asset packages. The full studio converts batches, protects SVG, preserves compatible originals, creates BunLinks, verifies checksums, and prepares organized ZIP packages for KhaeZip.</p>
-      <div class="actions">
+
+      <div class="actions centered-actions">
         <a class="button primary" href="SixBit_Bun_Studio_index.html">Enter the Image-to-Code Studio</a>
         <a class="button gold" href="SixBit_Bun_Studio_index.html?open=verify">Verify a BunLink</a>
         <a class="button" href="KhaeZip™ Protected Archive Studio_index.html">Open KhaeZip v5</a>
       </div>
-    </div>
-
-    <div class="bun-visual" aria-label="SixBit Bun protected asset illustration">
-      <span class="orbit one"></span><span class="orbit two"></span>
-      <div class="bun-core">
-        <div class="bun-ears"><span class="bun-ear"></span><span class="bun-ear"></span></div>
-        <strong>SIXBIT</strong>
-        <small>CONVERT<br>VERIFY<br>PACKAGE</small>
-      </div>
-      <div class="asset-chip a"><strong>BunLink</strong><span>Portable image data with SHA-256 integrity information.</span></div>
-      <div class="asset-chip b"><strong>KhaeZip-ready</strong><span>Images, code, BunLinks, manifest, and package notes together.</span></div>
     </div>
   </header>
 
