@@ -1,0 +1,43 @@
+*Daily Spark™ at ProReSources
+
+a thoughtful local-first system with tasks, recommendations, reminders, templates, focus sessions, progress tracking, imports, exports, and recovery snapshots.
+
+Style improvements
+Centered and simplified the Daily Spark identity and primary workspace.
+Reduced the heavy glass effects, oversized shadows, background grid, and competing gradients.
+Retained the mint, blue, violet, and gold technology palette in a more restrained form.
+Reorganized the header into three clear areas:
+Daily Spark identity
+Focus timer
+Navigation and primary actions
+Changed the many pill-shaped controls into crisper professional buttons.
+Improved spacing, typography, card hierarchy, forms, task rows, templates, and progress displays.
+Made dark and light modes properly theme-aware. The original light theme could leave dark text against the header’s permanently dark background.
+Improved tablet and mobile layouts.
+Added a complete footer:
+
+Daily Spark™ at ProReSources
+Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026
+
+Functional repairs
+Removed the uncertain Daily_Spark_index.html navigation and retained the known Verve N Veda and ProReSources destinations.
+Fixed archived-task controls. The old completion square appeared clickable on archived tasks but performed no action; it now restores the task.
+Progress levels now begin at Level 1, rather than Level 0.
+State is mirrored to both IndexedDB and local storage for stronger local persistence.
+Added keyboard navigation to the six main workspace tabs.
+Added modal focus management, focus trapping, Escape-to-close behavior, and focus restoration.
+Added explicit modal visibility states for screen readers.
+Added confirmation and a recovery snapshot before deleting a custom template.
+Reset the custom-template form each time a new template is started.
+Improved synchronous saving when the page closes.
+Added appropriate metadata and changed “protected” to the more accurate description private local-first.
+
+The original transparent priority-scoring system, recurring tasks, reminders, recovery system, planner, timer, templates, and completion ledger remain intact.
+
+I also completed:
+
+JavaScript syntax validation
+HTML parsing validation
+Duplicate-ID inspection
+JavaScript-to-DOM reference inspection
+Sample task sanitation, migration, ledger, and priority-scoring tests
