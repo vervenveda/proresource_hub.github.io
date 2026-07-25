@@ -3,8 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="description" content="KhaeZip Protected Archive Edition — a sovereign, offline-first ZIP and encrypted KhaeZip archive utility." />
-<title>KhaeZip™ — Protected Archive Edition</title>
+<meta name="description" content="KhaeZip™ is a sovereign, local-first protected archive studio for creating, compressing, encrypting, inspecting, verifying, repairing, splitting, joining, and preserving ZIP and KhaeZip archives." />
+<meta name="theme-color" content="#090d1d" />
+<meta name="color-scheme" content="dark" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'" />
+<title>KhaeZip™ — Protected Archive Studio</title>
 <style>
 :root{
   --nebula1:#08031f;
@@ -140,28 +143,659 @@ footer a{text-decoration:none}
 @media(max-width:850px){.grid{grid-template-columns:1fr}.panel.wide{grid-column:auto}.app{padding:17px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
 @media(max-width:520px){.shell{padding:0 8px 18px}.app{padding:13px}.breadcrumbs{gap:5px}.breadcrumbs a{padding:6px 8px}.file-row,.entry-row,.vault-row,.part-row{grid-template-columns:1fr}.row-actions{justify-content:flex-start}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* ============================================================
+   Verve N Veda refinement layer — KhaeZip archive personality
+   ============================================================ */
+:root{
+  --font-display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+  --font-brand:"Cinzel","Aboreto",Georgia,serif;
+  --font-ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+
+  --nebula1:#070a16;
+  --nebula2:#17133e;
+  --panel:rgba(11,16,31,.94);
+  --panel2:rgba(6,10,22,.95);
+  --line:rgba(216,184,112,.17);
+  --line-strong:rgba(119,200,210,.34);
+  --accent:#77c8d2;
+  --accent2:#aa98df;
+  --gold:#d8b870;
+  --gold2:#f1d99b;
+  --good:#79d7aa;
+  --warn:#e5bd69;
+  --bad:#df7c8c;
+  --text:#f6f4ee;
+  --muted:#aeb4ca;
+  --muted2:#7f89a8;
+  --radius:17px;
+  --shadow:0 22px 66px rgba(0,0,0,.38);
+  --font:var(--font-ui);
+}
+
+html{scroll-padding-top:88px}
+body{
+  font-family:var(--font-ui);
+  letter-spacing:.004em;
+  background:
+    radial-gradient(circle at 13% -5%,rgba(170,152,223,.19),transparent 34rem),
+    radial-gradient(circle at 91% 8%,rgba(119,200,210,.12),transparent 33rem),
+    radial-gradient(circle at 48% 100%,rgba(216,184,112,.08),transparent 42rem),
+    linear-gradient(145deg,#080b17,#050711 75%);
+}
+
+#starfield{opacity:.55}
+
+.skip-link{
+  position:fixed;
+  top:-70px;
+  left:14px;
+  z-index:100;
+  padding:10px 13px;
+  border-radius:9px;
+  background:#f5f1e8;
+  color:#15182a;
+  font-weight:700;
+  transition:top .16s ease;
+}
+.skip-link:focus{top:14px}
+
+.shell{
+  max-width:1320px;
+  margin:18px auto;
+  padding:0 14px 36px;
+}
+
+.breadcrumbs{
+  position:sticky;
+  top:8px;
+  z-index:30;
+  gap:6px;
+  margin-bottom:10px;
+  padding:8px 9px;
+  border-color:var(--line);
+  border-radius:11px;
+  background:rgba(8,12,25,.88);
+  backdrop-filter:blur(16px);
+  font-size:10px;
+  font-weight:600;
+}
+
+.breadcrumbs a{
+  min-height:32px;
+  padding:7px 9px;
+  border-color:rgba(119,200,210,.18);
+  border-radius:8px;
+  background:rgba(255,255,255,.025);
+  color:#d9ddeb;
+}
+
+.breadcrumbs .current{
+  color:var(--gold2);
+  font-family:var(--font-brand);
+  font-size:9px;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.app{
+  padding:17px;
+  border-color:rgba(119,200,210,.25);
+  border-radius:23px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(119,200,210,.05),transparent 28rem),
+    rgba(9,13,26,.93);
+  box-shadow:var(--shadow);
+}
+
+.hero{
+  min-height:275px;
+  margin:0;
+  padding:34px 28px 28px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 260px;
+  gap:36px;
+  align-items:center;
+  text-align:left;
+}
+
+.eyebrow{
+  color:var(--gold2);
+  font-family:var(--font-brand);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  margin:8px 0 1px;
+  font-family:var(--font-brand);
+  font-size:clamp(40px,6vw,72px);
+  line-height:1;
+  letter-spacing:.055em;
+  font-weight:600;
+  background:linear-gradient(100deg,#f2dca4,#87cfd5 62%,#ad9de4);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero-subtitle{
+  color:#d9dcea;
+  font-family:var(--font-display);
+  font-size:clamp(22px,3vw,32px);
+  font-weight:600;
+  line-height:1.1;
+}
+
+.hero p{
+  max-width:850px;
+  margin:14px 0 0;
+  color:#bfc5d8;
+  font-size:14px;
+  line-height:1.72;
+}
+
+.badges{
+  justify-content:flex-start;
+  margin-top:17px;
+}
+
+.badge{
+  border-radius:8px;
+  padding:7px 9px;
+  color:#dce0ec;
+  background:rgba(255,255,255,.025);
+  font-size:9.5px;
+  font-weight:650;
+  letter-spacing:.02em;
+}
+
+.badge.good{
+  border-color:rgba(121,215,170,.28);
+  color:#b9ebd0;
+}
+
+.vault-seal{
+  position:relative;
+  min-height:220px;
+  display:grid;
+  place-items:center;
+}
+
+.seal-ring{
+  position:absolute;
+  border:1px solid rgba(119,200,210,.20);
+  border-radius:50%;
+}
+.seal-ring.one{width:210px;height:210px}
+.seal-ring.two{
+  width:165px;
+  height:165px;
+  border-color:rgba(216,184,112,.25);
+  border-style:dashed;
+}
+
+.seal-door{
+  width:132px;
+  height:140px;
+  border:1px solid rgba(241,217,155,.46);
+  border-radius:44px 44px 20px 20px;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  gap:7px;
+  background:
+    radial-gradient(circle at 34% 25%,rgba(255,255,255,.13),transparent 36%),
+    linear-gradient(145deg,rgba(119,200,210,.18),rgba(170,152,223,.16));
+  box-shadow:0 18px 48px rgba(0,0,0,.35),inset 0 0 30px rgba(216,184,112,.08);
+}
+
+.seal-door strong{
+  color:var(--gold2);
+  font-family:var(--font-brand);
+  font-size:29px;
+  font-weight:600;
+  letter-spacing:.1em;
+}
+
+.seal-door small{
+  color:#cad0e3;
+  font-size:7px;
+  font-weight:700;
+  line-height:1.5;
+  letter-spacing:.16em;
+  text-align:center;
+}
+
+.quick-guide{
+  margin:0 4px 14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+  overflow:hidden;
+}
+
+.quick-guide summary{
+  min-height:48px;
+  padding:11px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  color:var(--muted);
+  font-size:11px;
+  list-style:none;
+}
+.quick-guide summary::-webkit-details-marker{display:none}
+.quick-guide summary span{
+  color:var(--gold2);
+  font-family:var(--font-brand);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.quick-guide summary strong{
+  color:#dfe2ed;
+  font-size:10px;
+  font-weight:650;
+}
+
+.guide-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px;
+  padding:0 11px 11px;
+}
+
+.guide-grid>div{
+  min-height:92px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:10px;
+  display:flex;
+  gap:9px;
+  background:rgba(255,255,255,.025);
+}
+
+.guide-grid b{
+  flex:0 0 auto;
+  width:25px;
+  height:25px;
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,var(--accent),var(--accent2));
+  color:#101423;
+  font-size:10px;
+}
+
+.guide-grid span,.guide-grid strong,.guide-grid small{display:block}
+.guide-grid strong{color:#e4e6ef;font-size:10px}
+.guide-grid small{margin-top:4px;color:var(--muted2);font-size:9px;line-height:1.45}
+
+.settingsbar{
+  margin:0 4px 12px;
+  padding:9px 11px;
+  border-color:var(--line);
+  border-radius:11px;
+  background:rgba(255,255,255,.025);
+}
+
+.toggle{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+}
+
+.grid{
+  gap:12px;
+}
+
+.panel{
+  padding:16px;
+  border-color:rgba(119,200,210,.17);
+  border-radius:var(--radius);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.025),transparent),
+    rgba(15,20,38,.76);
+  box-shadow:inset 0 0 24px rgba(0,0,0,.17),0 12px 32px rgba(0,0,0,.12);
+}
+
+.panel h2{
+  margin:0 0 5px;
+  color:#f0eee8;
+  font-family:var(--font-display);
+  font-size:22px;
+  font-weight:600;
+  line-height:1;
+}
+
+.panel-intro{
+  color:var(--muted2);
+  font-size:10px;
+  line-height:1.55;
+}
+
+.dropzone{
+  min-height:112px;
+  padding:18px;
+  border-color:rgba(119,200,210,.26);
+  border-radius:12px;
+  color:#d9ddeb;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(170,152,223,.08),transparent 18rem),
+    rgba(3,7,18,.46);
+}
+
+.dropzone strong{
+  font-family:var(--font-display);
+  font-size:17px;
+  font-weight:600;
+}
+
+.dropzone small{
+  color:var(--muted2);
+  font-size:9px;
+}
+
+.form-grid{gap:8px}
+.field{gap:4px}
+label{
+  color:#aeb5cc;
+  font-size:9px;
+  font-weight:650;
+  letter-spacing:.035em;
+}
+
+input,select{
+  min-height:36px;
+  padding:7px 9px;
+  border-color:rgba(119,200,210,.23);
+  border-radius:8px;
+  background:#070b18;
+  color:var(--text);
+  font-size:11px;
+}
+
+.help{
+  color:var(--muted2);
+  font-size:8.5px;
+  line-height:1.45;
+}
+
+.actions{gap:6px;margin-top:11px}
+
+button{
+  min-height:37px;
+  padding:8px 11px;
+  border:1px solid transparent;
+  border-radius:8px;
+  color:#0d1720;
+  background:linear-gradient(145deg,#8dd5d7,#63aeb8);
+  box-shadow:none;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.015em;
+}
+
+button.secondary{
+  color:#d9ddeb;
+  background:rgba(255,255,255,.035);
+  border-color:rgba(170,152,223,.20);
+}
+
+button.danger{
+  color:#ffdfe5;
+  background:rgba(143,50,69,.34);
+  border-color:rgba(223,124,140,.27);
+}
+
+button.good{
+  color:#071b14;
+  background:linear-gradient(145deg,#a0e4bd,#66c793);
+}
+
+button.small{
+  min-height:30px;
+  padding:6px 8px;
+  font-size:9px;
+}
+
+.filebox{
+  border-color:rgba(119,200,210,.14);
+  border-radius:10px;
+  background:rgba(1,5,14,.37);
+}
+
+.file-row,.entry-row,.vault-row,.part-row{
+  padding:9px 7px;
+}
+
+.name{
+  color:#ece9e3;
+  font-size:10.5px;
+}
+
+.meta{
+  color:var(--muted2);
+  font-size:8.5px;
+  line-height:1.45;
+}
+
+.statusline{
+  color:#c8ccda;
+  font-size:9.5px;
+  line-height:1.55;
+}
+
+.progress{
+  height:6px;
+  background:rgba(255,255,255,.07);
+}
+
+.progress>i{
+  background:linear-gradient(90deg,var(--accent),var(--good),var(--gold));
+}
+
+.summary,.warning{
+  border-radius:9px;
+  font-size:9.5px;
+  line-height:1.5;
+}
+
+.report{
+  font-family:var(--mono);
+  font-size:9px;
+  line-height:1.55;
+}
+
+.storage-dashboard{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:7px;
+  margin:10px 0;
+}
+
+.storage-dashboard>div{
+  min-height:60px;
+  padding:9px 10px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:9px;
+  background:rgba(255,255,255,.025);
+}
+
+.storage-dashboard span{
+  display:block;
+  color:var(--muted2);
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+}
+
+.storage-dashboard strong{
+  display:block;
+  margin-top:5px;
+  color:#e4e5ec;
+  font-family:var(--font-display);
+  font-size:15px;
+  font-weight:600;
+}
+
+.storage-dashboard .storage-wide{
+  grid-column:1/-1;
+  min-height:auto;
+}
+
+.storage-meter{
+  height:6px;
+  margin-top:7px;
+  border-radius:999px;
+  background:rgba(255,255,255,.07);
+  overflow:hidden;
+}
+
+.storage-meter i{
+  display:block;
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,var(--accent),var(--good),var(--gold));
+}
+
+.privacy{
+  margin-top:12px;
+  border-color:var(--line);
+  border-radius:12px;
+  color:var(--muted);
+  font-size:9.5px;
+  line-height:1.65;
+}
+
+.privacy h2{
+  color:#e9e7e2;
+  font-family:var(--font-display);
+  font-size:18px;
+  font-weight:600;
+}
+
+footer{
+  padding:18px 15px 5px;
+  color:var(--muted2);
+  font-size:9.5px;
+  line-height:1.72;
+  letter-spacing:.02em;
+}
+
+footer strong{
+  color:var(--gold2);
+  font-family:var(--font-brand);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.075em;
+}
+
+dialog{
+  border-color:rgba(119,200,210,.35)!important;
+  border-radius:17px!important;
+  background:#0a0f20!important;
+  color:var(--text)!important;
+  font-family:var(--font-ui);
+}
+
+dialog h2{
+  color:#f1eee8!important;
+  font-family:var(--font-display);
+  font-size:22px;
+  font-weight:600;
+}
+
+dialog ul{
+  color:var(--muted)!important;
+  font-size:11px;
+}
+
+@media(max-width:980px){
+  .hero{grid-template-columns:1fr;text-align:center}
+  .hero p{margin-left:auto;margin-right:auto}
+  .badges{justify-content:center}
+  .vault-seal{min-height:190px}
+  .guide-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:850px){
+  .grid{grid-template-columns:1fr}
+}
+
+@media(max-width:560px){
+  .shell{padding:0 5px 22px}
+  .app{padding:8px;border-radius:16px}
+  .breadcrumbs{justify-content:center}
+  .hero{padding:29px 16px 22px}
+  .hero h1{font-size:42px}
+  .hero-subtitle{font-size:23px}
+  .vault-seal{transform:scale(.9);margin:-8px 0}
+  .quick-guide summary{display:grid;text-align:center}
+  .guide-grid{grid-template-columns:1fr}
+  .storage-dashboard{grid-template-columns:1fr}
+  .storage-dashboard .storage-wide{grid-column:auto}
+  .file-row,.entry-row,.vault-row,.part-row{grid-template-columns:1fr}
+  .row-actions{justify-content:flex-start}
+  button{flex:1 1 135px}
+}
+
 </style>
 </head>
 <body>
+<a class="skip-link" href="#archiveWorkspace">Skip to the archive workspace</a>
 <canvas id="starfield" aria-hidden="true"></canvas>
 <div class="shell">
   <nav class="breadcrumbs" aria-label="Breadcrumb">
-    <a href="https://vervenveda.github.io/" aria-label="Return to Verve N Veda home">⌂ Home</a>
+    <a href="https://vervenveda.github.io/" aria-label="Return to Verve N Veda home">Verve N Veda</a>
     <span aria-hidden="true">›</span>
-    <a href="https://vervenveda.github.io/proresource_hub.github.io/" aria-label="Return to ProReSources">← ProReSources</a>
+    <a href="https://vervenveda.github.io/proresource_hub.github.io/" aria-label="Return to ProReSources">ProReSources</a>
     <span aria-hidden="true">›</span>
     <span class="current" aria-current="page">KhaeZip™</span>
   </nav>
 
   <main class="app">
     <header class="hero">
-      <h1>KhaeZip™</h1>
-      <p>Protected Archive Edition — create, encrypt, inspect, verify, split, join, recover, and preserve archives locally in your browser.</p>
-      <div class="badges" aria-label="Core protections">
-        <span class="badge">Offline-first</span><span class="badge">CRC verification</span><span class="badge">AES-GCM</span>
-        <span class="badge">UTF-8 paths</span><span class="badge">Split joining</span><span class="badge">No CDN</span>
+      <div class="hero-copy">
+        <div class="eyebrow">ProReSources · Sovereign Preservation Tools</div>
+        <h1>KhaeZip™</h1>
+        <div class="hero-subtitle">Protected Archive Studio</div>
+        <p>Create, compress, encrypt, inspect, verify, repair, split, join, and preserve archives locally in your browser. KhaeZip keeps original files untouched and makes every permission and compatibility limit visible.</p>
+        <div class="badges" aria-label="Core protections">
+          <span class="badge good">✓ Local-first</span>
+          <span class="badge good">✓ CRC-32 + SHA-256</span>
+          <span class="badge good">✓ AES-GCM</span>
+          <span class="badge" id="compressionBadge">Compression check</span>
+          <span class="badge">No trackers or CDN</span>
+        </div>
+      </div>
+      <div class="vault-seal" aria-label="KhaeZip protected archive seal">
+        <span class="seal-ring one"></span>
+        <span class="seal-ring two"></span>
+        <span class="seal-door">
+          <strong>KZ</strong>
+          <small>CREATE<br>VERIFY<br>PRESERVE</small>
+        </span>
       </div>
     </header>
+
+    <details class="quick-guide">
+      <summary><span>Protected archive sequence</span><strong>Create → Verify → Preserve</strong></summary>
+      <div class="guide-grid">
+        <div><b>1</b><span><strong>Keep originals</strong><small>Never treat a newly created archive as the only copy of irreplaceable files.</small></span></div>
+        <div><b>2</b><span><strong>Choose compatibility</strong><small>Use Store for maximum compatibility or DEFLATE where supported.</small></span></div>
+        <div><b>3</b><span><strong>Encrypt deliberately</strong><small>Password-protected KhaeZip archives use authenticated AES-GCM encryption.</small></span></div>
+        <div><b>4</b><span><strong>Verify deeply</strong><small>CRC checks archive structure; Deep Scan also checks the internal SHA-256 manifest.</small></span></div>
+        <div><b>5</b><span><strong>Preserve the vault</strong><small>Request persistent storage and export backups of important local records.</small></span></div>
+      </div>
+    </details>
 
     <section class="settingsbar" aria-label="Accessibility and application settings">
       <div class="group">
@@ -174,10 +808,10 @@ footer a{text-decoration:none}
       </div>
     </section>
 
-    <div class="grid">
+    <div class="grid" id="archiveWorkspace">
       <section class="panel" aria-labelledby="createTitle">
         <h2 id="createTitle">Create Protected Archive</h2>
-        <p class="panel-intro">Creates compatible store-mode ZIP files or a password-protected KhaeZip wrapper. Files remain on this device.</p>
+        <p class="panel-intro">Creates standards-compatible ZIP files or an authenticated password-protected KhaeZip wrapper. Files remain on this device.</p>
         <div id="createDrop" class="dropzone" tabindex="0" role="button" aria-controls="createInput">
           <div><strong>Drop files here or click to browse</strong><small>Up to 100 files • 256 MB each • 512 MB total</small></div>
         </div>
@@ -186,7 +820,8 @@ footer a{text-decoration:none}
 
         <div class="form-grid">
           <div class="field full"><label for="archiveName">Archive name</label><input id="archiveName" value="khaezip_archive" maxlength="100"><span class="help">A safe .zip or .kz extension is added automatically.</span></div>
-          <div class="field"><label for="compressionMode">Compression</label><select id="compressionMode"><option value="store">Store only — maximum compatibility</option></select></div>
+          <div class="field"><label for="compressionMode">Compression</label><select id="compressionMode"><option value="store">Store — maximum compatibility</option>
+<option value="deflate">DEFLATE — smaller files when supported</option></select></div>
           <div class="field"><label for="splitSize">Split size (MB)</label><input id="splitSize" type="number" min="0" max="512" step="1" value="0"><span class="help">0 creates one file. Split archives include a verification manifest.</span></div>
           <div class="field"><label for="createPwd">Password (optional)</label><input id="createPwd" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div>
           <div class="field"><label for="confirmPwd">Confirm password</label><input id="confirmPwd" type="password" autocomplete="new-password" placeholder="Repeat password"></div>
@@ -208,12 +843,13 @@ footer a{text-decoration:none}
 
       <section class="panel" aria-labelledby="openTitle">
         <h2 id="openTitle">Open, Verify & Recover</h2>
-        <p class="panel-intro">Inspects ZIP and KhaeZip archives using strict bounds checks. Store entries and supported DEFLATE entries can be extracted.</p>
+        <p class="panel-intro">Inspects ZIP and KhaeZip archives using strict boundary, path, overlap, flag, CRC, and manifest checks. Store and supported DEFLATE entries can be extracted.</p>
         <div class="field"><label for="openInput">Archive file</label><input id="openInput" type="file" accept=".zip,.kz,application/zip,application/octet-stream"></div>
         <div class="field" style="margin-top:9px"><label for="openPwd">KhaeZip password</label><input id="openPwd" type="password" autocomplete="current-password" placeholder="Only needed for encrypted .kz files"></div>
         <div class="actions">
           <button id="openBtn" type="button">Open Archive</button>
-          <button id="scanBtn" class="secondary" type="button" disabled>Integrity Scan</button>
+          <button id="scanBtn" class="secondary" type="button" disabled>CRC Integrity Scan</button>
+<button id="deepScanBtn" class="secondary" type="button" disabled>Deep SHA-256 Scan</button>
           <button id="repairBtn" class="secondary" type="button" disabled>Repair & Recover</button>
           <button id="downloadAllBtn" class="good" type="button" hidden>Download Verified Files</button>
           <button id="clearOpenBtn" class="secondary" type="button">Clear</button>
@@ -243,7 +879,21 @@ footer a{text-decoration:none}
       <section class="panel" aria-labelledby="vaultTitle">
         <h2 id="vaultTitle">Local Vault</h2>
         <p class="panel-intro">A visible IndexedDB vault for optional local archive copies and archive-history records. Nothing is synchronized externally.</p>
-        <div class="actions"><button id="refreshVaultBtn" type="button">Refresh Vault</button><button id="exportVaultBtn" class="secondary" type="button">Export Vault Log</button><button id="clearVaultBtn" class="danger" type="button">Clear Vault</button></div>
+        <div class="storage-dashboard" aria-label="Browser storage status">
+          <div><span>Persistence</span><strong id="persistenceState">Checking…</strong></div>
+          <div><span>Usage</span><strong id="storageUsage">Checking…</strong></div>
+          <div><span>Available quota</span><strong id="storageQuota">Checking…</strong></div>
+          <div class="storage-wide"><span>Storage use</span><div class="storage-meter" aria-hidden="true"><i id="vaultStorageBar"></i></div></div>
+        </div>
+        <div class="actions">
+          <button id="refreshVaultBtn" type="button">Refresh Vault</button>
+          <button id="requestStorageBtn" class="secondary" type="button">Request Persistent Storage</button>
+          <button id="exportVaultBtn" class="secondary" type="button">Export Vault Index</button>
+          <button id="exportVaultBackupBtn" class="secondary" type="button">Export Vault Backup</button>
+          <button id="importVaultBackupBtn" class="secondary" type="button">Import Vault Backup</button>
+          <input id="vaultBackupInput" class="hidden-input" type="file" accept="application/json,.json">
+          <button id="clearVaultBtn" class="danger" type="button">Clear Vault</button>
+        </div>
         <div id="vaultStatus" class="statusline" role="status" aria-live="polite"></div>
         <div id="vaultList" class="filebox" aria-live="polite"><div class="empty">Refresh to view local records.</div></div>
       </section>
@@ -251,12 +901,13 @@ footer a{text-decoration:none}
 
     <section id="privacy" class="privacy" aria-labelledby="privacyTitle">
       <h2 id="privacyTitle">Privacy First</h2>
-      KhaeZip performs archive work inside this browser. It does not upload files, contact an archive service, load a CDN, or transmit passwords. Browser downloads and optional IndexedDB vault records remain under the control of this device and browser profile.
+      KhaeZip performs archive work inside this browser. It does not upload files, contact an archive service, load a CDN, transmit passwords, or synchronize the local vault. Browser downloads and IndexedDB records remain under the control—and storage policies—of this device and browser profile.
     </section>
 
     <footer>
-      <div>KhaeZip™ Protected Archive Edition v4.0 • Sovereign ProReSource</div>
-      <div><a href="https://vervenveda.github.io/">Verve N Veda</a> • <a href="https://vervenveda.github.io/proresource_hub.github.io/">ProReSources</a> • <a href="#privacy">Privacy First</a></div>
+      <strong>KhaeZip™ · Protected Archive Studio at ProReSources</strong><br>
+      Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026<br>
+      Local archive operations do not modify source files. Keep independent originals of irreplaceable material and verify important archives before relying on them.
     </footer>
   </main>
 </div>
@@ -267,8 +918,8 @@ footer a{text-decoration:none}
     <li>Keep an original copy of irreplaceable files outside any new archive.</li>
     <li>Encrypted KhaeZip files require the exact password, including spaces.</li>
     <li>Split archives need every numbered part. Keep the verification manifest with them.</li>
-    <li>Integrity Scan verifies CRC-32 after extraction. Repair never alters the source archive.</li>
-    <li>This edition intentionally rejects ZIP64-scale or suspiciously large jobs.</li>
+    <li>CRC Integrity Scan verifies ZIP checksums. Deep SHA-256 Scan also validates KhaeZip’s internal manifest when present.</li>
+    <li>This edition intentionally rejects ZIP64-scale, overlapping, path-traversal, suspiciously large, or malformed archive structures.</li>
   </ul>
   <form method="dialog" style="text-align:right"><button type="submit">Close</button></form>
 </dialog>
@@ -276,8 +927,19 @@ footer a{text-decoration:none}
 <script>
 (() => {
 "use strict";
-const VERSION = "4.0.0";
+const VERSION = "5.0.0";
 const INTERNAL_MANIFEST = ".khaezip/manifest.json";
+const CRYPTO_POLICY = Object.freeze({
+  currentIterations: 600000,
+  minIterations: 150000,
+  maxIterations: 2000000,
+  maxHeaderBytes: 64 * 1024,
+  saltBytes: 16,
+  ivBytes: 12,
+  tagLength: 128
+});
+const VAULT_BACKUP_LIMIT = 96 * 1024 * 1024;
+const MANIFEST_FILE_LIMIT = 1024 * 1024;
 const LIMITS = Object.freeze({
   files: 100,
   fileBytes: 256 * 1024 * 1024,
@@ -291,10 +953,10 @@ const LIMITS = Object.freeze({
 const $ = id => document.getElementById(id);
 const els = {
   canvas: $("starfield"), voiceToggle: $("voiceToggle"), motionToggle: $("motionToggle"), guideBtn: $("guideBtn"), guideDialog: $("guideDialog"), globalStatus: $("globalStatus"),
-  createDrop: $("createDrop"), createInput: $("createInput"), createFiles: $("createFiles"), archiveName: $("archiveName"), splitSize: $("splitSize"), createPwd: $("createPwd"), confirmPwd: $("confirmPwd"), showPasswords: $("showPasswords"), storeVault: $("storeVault"), createSummary: $("createSummary"), memoryWarning: $("memoryWarning"), createBtn: $("createBtn"), cancelCreateBtn: $("cancelCreateBtn"), clearCreateBtn: $("clearCreateBtn"), createProgress: $("createProgress"), createStatus: $("createStatus"),
-  openInput: $("openInput"), openPwd: $("openPwd"), openBtn: $("openBtn"), scanBtn: $("scanBtn"), repairBtn: $("repairBtn"), downloadAllBtn: $("downloadAllBtn"), clearOpenBtn: $("clearOpenBtn"), openProgress: $("openProgress"), openStatus: $("openStatus"), openEntries: $("openEntries"), repairReport: $("repairReport"), downloadRepairReportBtn: $("downloadRepairReportBtn"), downloadRecoveredBtn: $("downloadRecoveredBtn"),
+  createDrop: $("createDrop"), createInput: $("createInput"), createFiles: $("createFiles"), archiveName: $("archiveName"), compressionMode: $("compressionMode"), splitSize: $("splitSize"), createPwd: $("createPwd"), confirmPwd: $("confirmPwd"), showPasswords: $("showPasswords"), storeVault: $("storeVault"), createSummary: $("createSummary"), memoryWarning: $("memoryWarning"), createBtn: $("createBtn"), cancelCreateBtn: $("cancelCreateBtn"), clearCreateBtn: $("clearCreateBtn"), createProgress: $("createProgress"), createStatus: $("createStatus"),
+  openInput: $("openInput"), openPwd: $("openPwd"), openBtn: $("openBtn"), scanBtn: $("scanBtn"), deepScanBtn: $("deepScanBtn"), repairBtn: $("repairBtn"), downloadAllBtn: $("downloadAllBtn"), clearOpenBtn: $("clearOpenBtn"), openProgress: $("openProgress"), openStatus: $("openStatus"), openEntries: $("openEntries"), repairReport: $("repairReport"), downloadRepairReportBtn: $("downloadRepairReportBtn"), downloadRecoveredBtn: $("downloadRecoveredBtn"),
   partsInput: $("partsInput"), partsList: $("partsList"), joinBtn: $("joinBtn"), clearPartsBtn: $("clearPartsBtn"), joinProgress: $("joinProgress"), joinStatus: $("joinStatus"),
-  refreshVaultBtn: $("refreshVaultBtn"), exportVaultBtn: $("exportVaultBtn"), clearVaultBtn: $("clearVaultBtn"), vaultStatus: $("vaultStatus"), vaultList: $("vaultList")
+  refreshVaultBtn: $("refreshVaultBtn"), requestStorageBtn: $("requestStorageBtn"), exportVaultBtn: $("exportVaultBtn"), exportVaultBackupBtn: $("exportVaultBackupBtn"), importVaultBackupBtn: $("importVaultBackupBtn"), vaultBackupInput: $("vaultBackupInput"), clearVaultBtn: $("clearVaultBtn"), vaultStatus: $("vaultStatus"), vaultList: $("vaultList"), persistenceState: $("persistenceState"), storageUsage: $("storageUsage"), storageQuota: $("storageQuota"), vaultStorageBar: $("vaultStorageBar"), compressionBadge: $("compressionBadge")
 };
 let createFiles = [];
 let createRun = null;
@@ -458,20 +1120,34 @@ function dosDateTime(ms){
   return {date,time};
 }
 
+function supportsDeflateRaw(){
+  if(typeof CompressionStream!=="function"||typeof DecompressionStream!=="function") return false;
+  try{new CompressionStream("deflate-raw");new DecompressionStream("deflate-raw");return true;}catch(_e){return false;}
+}
+
+async function deflateRaw(bytes){
+  if(!supportsDeflateRaw()) throw new Error("DEFLATE creation is unavailable in this browser.");
+  const stream=new Blob([bytes]).stream().pipeThrough(new CompressionStream("deflate-raw"));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
 async function createZipBlob(entries){
   if(entries.length > 65535) throw new Error("Too many entries for standard ZIP. ZIP64 is not supported.");
   const encoder=new TextEncoder(); const locals=[]; const centrals=[]; let offset=0;
   for(const ent of entries){
     const name=normalizeArchivePath(ent.name); const nameBytes=encoder.encode(name);
     if(nameBytes.length>LIMITS.nameBytes) throw new Error(`Entry name is too long: ${name}`);
-    const data=ent.data; const size=data.byteLength;
-    if(size>0xFFFFFFFF) throw new Error("An entry exceeds standard ZIP size limits.");
+    const data=ent.data instanceof Uint8Array?ent.data:new Uint8Array(ent.data);
+    const method=ent.compression===8?8:0;
+    const payload=method===8?(ent.compressedData instanceof Uint8Array?ent.compressedData:new Uint8Array(ent.compressedData)):data;
+    const size=data.byteLength,compSize=payload.byteLength;
+    if(size>0xFFFFFFFF||compSize>0xFFFFFFFF) throw new Error("An entry exceeds standard ZIP size limits.");
     const crc=ent.crc32 ?? crc32(data); const dt=dosDateTime(ent.lastModified); const flags=0x0800;
     const local=new Uint8Array(30+nameBytes.length);
-    writeU32(local,0,0x04034b50);writeU16(local,4,20);writeU16(local,6,flags);writeU16(local,8,0);writeU16(local,10,dt.time);writeU16(local,12,dt.date);writeU32(local,14,crc);writeU32(local,18,size);writeU32(local,22,size);writeU16(local,26,nameBytes.length);writeU16(local,28,0);local.set(nameBytes,30);
+    writeU32(local,0,0x04034b50);writeU16(local,4,20);writeU16(local,6,flags);writeU16(local,8,method);writeU16(local,10,dt.time);writeU16(local,12,dt.date);writeU32(local,14,crc);writeU32(local,18,compSize);writeU32(local,22,size);writeU16(local,26,nameBytes.length);writeU16(local,28,0);local.set(nameBytes,30);
     const central=new Uint8Array(46+nameBytes.length);
-    writeU32(central,0,0x02014b50);writeU16(central,4,0x031E);writeU16(central,6,20);writeU16(central,8,flags);writeU16(central,10,0);writeU16(central,12,dt.time);writeU16(central,14,dt.date);writeU32(central,16,crc);writeU32(central,20,size);writeU32(central,24,size);writeU16(central,28,nameBytes.length);writeU16(central,30,0);writeU16(central,32,0);writeU16(central,34,0);writeU16(central,36,0);writeU32(central,38,0);writeU32(central,42,offset);central.set(nameBytes,46);
-    locals.push(local,data);centrals.push(central);offset+=local.length+size;
+    writeU32(central,0,0x02014b50);writeU16(central,4,0x031E);writeU16(central,6,20);writeU16(central,8,flags);writeU16(central,10,method);writeU16(central,12,dt.time);writeU16(central,14,dt.date);writeU32(central,16,crc);writeU32(central,20,compSize);writeU32(central,24,size);writeU16(central,28,nameBytes.length);writeU16(central,30,0);writeU16(central,32,0);writeU16(central,34,0);writeU16(central,36,0);writeU32(central,38,0);writeU32(central,42,offset);central.set(nameBytes,46);
+    locals.push(local,payload);centrals.push(central);offset+=local.length+compSize;
     if(offset>0xFFFFFFFF) throw new Error("Archive exceeds standard ZIP offset limits. ZIP64 is not supported.");
   }
   const centralSize=centrals.reduce((sum,x)=>sum+x.length,0); const centralOffset=offset;
@@ -480,35 +1156,61 @@ async function createZipBlob(entries){
   return new Blob([...locals,...centrals,eocd],{type:"application/zip"});
 }
 
-/* KhaeZip encryption v4 and KZ3 compatibility */
-async function deriveKey(password,salt,iterations=310000){
+/* KhaeZip encryption v5 with v4 and KZ3 compatibility */
+async function deriveKey(password,salt,iterations=CRYPTO_POLICY.currentIterations){
+  if(!globalThis.crypto?.subtle) throw new Error("Web Crypto is unavailable in this browser.");
+  if(!(salt instanceof Uint8Array)||salt.length!==CRYPTO_POLICY.saltBytes) throw new Error("Invalid encryption salt.");
+  if(!Number.isInteger(iterations)||iterations<CRYPTO_POLICY.minIterations||iterations>CRYPTO_POLICY.maxIterations) throw new Error("Encrypted archive requests an unsafe PBKDF2 work factor.");
   const material=await globalThis.crypto.subtle.importKey("raw",new TextEncoder().encode(password),{name:"PBKDF2"},false,["deriveKey"]);
   return globalThis.crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
 }
-async function encryptKZ4(blob,password){
-  const salt=globalThis.crypto.getRandomValues(new Uint8Array(16)); const iv=globalThis.crypto.getRandomValues(new Uint8Array(12)); const iterations=310000;
-  const header={schema:"khaezip-encrypted",schemaVersion:4,algorithm:"AES-GCM",keyLength:256,kdf:"PBKDF2",hash:"SHA-256",iterations,salt:bytesToBase64(salt),iv:bytesToBase64(iv),tagLength:128,createdAt:new Date().toISOString()};
+
+function validateEncryptedHeader(header,expectedVersion){
+  if(!header||typeof header!=="object") throw new Error("Encrypted header is missing.");
+  if(header.schema!=="khaezip-encrypted"||header.schemaVersion!==expectedVersion) throw new Error("Unsupported KhaeZip encryption schema.");
+  if(header.algorithm!=="AES-GCM"||header.keyLength!==256||header.kdf!=="PBKDF2"||header.hash!=="SHA-256") throw new Error("Unsupported encryption settings.");
+  if(header.tagLength!==CRYPTO_POLICY.tagLength) throw new Error("Unsupported AES-GCM authentication tag length.");
+  if(!Number.isInteger(header.iterations)||header.iterations<CRYPTO_POLICY.minIterations||header.iterations>CRYPTO_POLICY.maxIterations) throw new Error("Encrypted archive requests an unsafe PBKDF2 work factor.");
+  let salt,iv;
+  try{salt=base64ToBytes(header.salt);iv=base64ToBytes(header.iv);}catch(_e){throw new Error("Encrypted header contains invalid binary parameters.");}
+  if(salt.length!==CRYPTO_POLICY.saltBytes||iv.length!==CRYPTO_POLICY.ivBytes) throw new Error("Encrypted header contains invalid salt or IV lengths.");
+  return {salt,iv};
+}
+
+async function encryptKZ5(blob,password){
+  const salt=globalThis.crypto.getRandomValues(new Uint8Array(CRYPTO_POLICY.saltBytes));
+  const iv=globalThis.crypto.getRandomValues(new Uint8Array(CRYPTO_POLICY.ivBytes));
+  const iterations=CRYPTO_POLICY.currentIterations;
+  const header={schema:"khaezip-encrypted",schemaVersion:5,algorithm:"AES-GCM",keyLength:256,kdf:"PBKDF2",hash:"SHA-256",iterations,salt:bytesToBase64(salt),iv:bytesToBase64(iv),tagLength:CRYPTO_POLICY.tagLength,createdAt:new Date().toISOString(),khaeZipVersion:VERSION};
   const headerBytes=new TextEncoder().encode(JSON.stringify(header));
+  if(headerBytes.length>CRYPTO_POLICY.maxHeaderBytes) throw new Error("Encrypted header exceeds the protected size limit.");
   const key=await deriveKey(password,salt,iterations); const plain=await blob.arrayBuffer();
-  const cipher=await globalThis.crypto.subtle.encrypt({name:"AES-GCM",iv,additionalData:headerBytes,tagLength:128},key,plain);
-  const prefix=new Uint8Array(8+headerBytes.length);prefix.set(new TextEncoder().encode("KZP4"),0);writeU32(prefix,4,headerBytes.length);prefix.set(headerBytes,8);
+  const cipher=await globalThis.crypto.subtle.encrypt({name:"AES-GCM",iv,additionalData:headerBytes,tagLength:CRYPTO_POLICY.tagLength},key,plain);
+  const prefix=new Uint8Array(8+headerBytes.length);prefix.set(new TextEncoder().encode("KZP5"),0);writeU32(prefix,4,headerBytes.length);prefix.set(headerBytes,8);
   return new Blob([prefix,cipher],{type:"application/octet-stream"});
 }
+
+async function decryptModernKhae(buf,password,version){
+  if(buf.length<12) throw new Error("Encrypted archive is too small.");
+  const headerLen=readU32(buf,4);
+  if(headerLen<2||headerLen>CRYPTO_POLICY.maxHeaderBytes||8+headerLen>=buf.length) throw new Error(`Invalid KhaeZip v${version} header size.`);
+  const headerBytes=buf.subarray(8,8+headerLen); let header;
+  try{header=JSON.parse(new TextDecoder().decode(headerBytes));}catch(_e){throw new Error("Encrypted header is not valid JSON.");}
+  const {salt,iv}=validateEncryptedHeader(header,version);
+  const key=await deriveKey(password,salt,header.iterations);
+  try{
+    const plain=await globalThis.crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:headerBytes,tagLength:header.tagLength},key,buf.subarray(8+headerLen));
+    return {blob:new Blob([plain],{type:"application/zip"}),header};
+  }catch(_e){throw new Error("Decryption failed. The password may be incorrect or the archive may be damaged.");}
+}
+
 async function decryptKhae(file,password){
+  if(file.size>LIMITS.archiveBytes) throw new Error(`Encrypted archive exceeds the ${human(LIMITS.archiveBytes)} protected inspection limit.`);
   const buf=new Uint8Array(await file.arrayBuffer());
   if(buf.length<4) throw new Error("Encrypted archive is too small.");
   const magic4=new TextDecoder().decode(buf.subarray(0,4));
-  if(magic4==="KZP4"){
-    const headerLen=readU32(buf,4); if(headerLen<2||8+headerLen>=buf.length) throw new Error("Invalid KhaeZip v4 header.");
-    const headerBytes=buf.subarray(8,8+headerLen); let header;
-    try{header=JSON.parse(new TextDecoder().decode(headerBytes));}catch(_e){throw new Error("Encrypted header is not valid JSON.");}
-    if(header.schema!=="khaezip-encrypted"||header.schemaVersion!==4||header.algorithm!=="AES-GCM"||header.kdf!=="PBKDF2") throw new Error("Unsupported KhaeZip encryption header.");
-    const salt=base64ToBytes(header.salt); const iv=base64ToBytes(header.iv); const key=await deriveKey(password,salt,header.iterations);
-    try{
-      const plain=await globalThis.crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:headerBytes,tagLength:header.tagLength||128},key,buf.subarray(8+headerLen));
-      return {blob:new Blob([plain],{type:"application/zip"}),header};
-    }catch(_e){throw new Error("Decryption failed. The password may be incorrect or the archive may be damaged.");}
-  }
+  if(magic4==="KZP5") return decryptModernKhae(buf,password,5);
+  if(magic4==="KZP4") return decryptModernKhae(buf,password,4);
   const magic3=new TextDecoder().decode(buf.subarray(0,3));
   if(magic3==="KZ3"){
     if(buf.length<32) throw new Error("Invalid KZ3 archive.");
@@ -517,9 +1219,10 @@ async function decryptKhae(file,password){
   }
   throw new Error("This file is not a recognized encrypted KhaeZip archive.");
 }
+
 async function detectEncrypted(file){
   const bytes=new Uint8Array(await file.slice(0,4).arrayBuffer()); const text=new TextDecoder().decode(bytes);
-  return text==="KZP4"||text.startsWith("KZ3");
+  return text==="KZP5"||text==="KZP4"||text.startsWith("KZ3");
 }
 
 /* Strict ZIP parser */
@@ -558,6 +1261,32 @@ function parseZipStrict(buf){
     p=end;
   }
   if(p!==centralOffset+centralSize) throw new Error("Central directory size does not match parsed entries.");
+
+  const normalized=new Set(),ranges=[];
+  for(const entry of entries){
+    if(normalized.has(entry.safeName.toLowerCase())) throw new Error(`Duplicate normalized archive path: ${entry.safeName}`);
+    normalized.add(entry.safeName.toLowerCase());
+
+    const off=entry.localOffset;
+    if(off+30>centralOffset||off+30>buf.length||readU32(buf,off)!==0x04034b50) throw new Error(`Invalid local header for ${entry.name}.`);
+    const localFlags=readU16(buf,off+6),localMethod=readU16(buf,off+8),localCrc=readU32(buf,off+14),localComp=readU32(buf,off+18),localUncomp=readU32(buf,off+22),localNameLen=readU16(buf,off+26),localExtraLen=readU16(buf,off+28);
+    if(localNameLen>LIMITS.nameBytes) throw new Error(`Local filename is too long for ${entry.name}.`);
+    const headerEnd=off+30+localNameLen+localExtraLen;
+    const dataEnd=headerEnd+entry.compSize;
+    if(headerEnd>centralOffset||dataEnd>centralOffset||dataEnd>buf.length) throw new Error(`Local data for ${entry.name} overlaps the central directory or file boundary.`);
+    const localName=decodeName(buf.subarray(off+30,off+30+localNameLen),!!(localFlags&0x0800));
+    if(localName!==entry.name) throw new Error(`Local and central filenames disagree for ${entry.name}.`);
+    if(localMethod!==entry.compression) throw new Error(`Local and central compression methods disagree for ${entry.name}.`);
+    if((localFlags&0x0809)!==(entry.flags&0x0809)) throw new Error(`Local and central flags disagree for ${entry.name}.`);
+    if(!(localFlags&8)){
+      if(localCrc!==entry.crc32||localComp!==entry.compSize||localUncomp!==entry.uncompSize) throw new Error(`Local and central size or CRC fields disagree for ${entry.name}.`);
+    }
+    entry.dataStart=headerEnd;entry.dataEnd=dataEnd;
+    ranges.push({start:off,end:dataEnd,name:entry.name});
+  }
+  ranges.sort((a,b)=>a.start-b.start);
+  for(let i=1;i<ranges.length;i++) if(ranges[i].start<ranges[i-1].end) throw new Error(`Archive entries overlap: ${ranges[i-1].name} and ${ranges[i].name}.`);
+
   return {entries,eocd,centralOffset,centralSize,totalEntries,totalExpanded};
 }
 async function inflateRaw(bytes){
@@ -572,7 +1301,7 @@ async function extractEntryBytes(buf,entry,verify=true){
   const localFlags=readU16(buf,off+6),localMethod=readU16(buf,off+8),nameLen=readU16(buf,off+26),extraLen=readU16(buf,off+28);
   if(localMethod!==entry.compression) throw new Error("Local and central compression methods disagree.");
   if((localFlags&1)!==(entry.flags&1)) throw new Error("Local and central encryption flags disagree.");
-  const dataStart=off+30+nameLen+extraLen,dataEnd=dataStart+entry.compSize;
+  const dataStart=entry.dataStart??(off+30+nameLen+extraLen),dataEnd=entry.dataEnd??(dataStart+entry.compSize);
   if(dataStart<off||dataEnd<dataStart||dataEnd>buf.length) throw new Error("Entry data extends beyond archive boundaries.");
   const compressed=buf.subarray(dataStart,dataEnd);let data;
   if(entry.compression===0) data=new Uint8Array(compressed);
@@ -631,7 +1360,7 @@ els.createInput.addEventListener("change",()=>addCreateFiles(els.createInput.fil
 els.createPwd.addEventListener("input",renderCreateFiles);
 els.showPasswords.addEventListener("change",()=>{const type=els.showPasswords.checked?"text":"password";els.createPwd.type=type;els.confirmPwd.type=type;});
 function lockCreate(locked){
-  for(const el of [els.createInput,els.archiveName,els.splitSize,els.createPwd,els.confirmPwd,els.showPasswords,els.storeVault,els.clearCreateBtn,els.createBtn])el.disabled=locked;
+  for(const el of [els.createInput,els.archiveName,els.compressionMode,els.splitSize,els.createPwd,els.confirmPwd,els.showPasswords,els.storeVault,els.clearCreateBtn,els.createBtn])el.disabled=locked;
   els.cancelCreateBtn.hidden=!locked;
 }
 els.clearCreateBtn.addEventListener("click",()=>{if(createRun)return;createFiles=[];els.createInput.value="";els.createPwd.value="";els.confirmPwd.value="";setProgress(els.createProgress,0);setStatus(els.createStatus,"");renderCreateFiles();});
@@ -659,18 +1388,29 @@ els.createBtn.addEventListener("click",async()=>{
   let saveSucceeded=false;
   try{
     const entries=[],manifestFiles=[];
+    const requestedCompression=els.compressionMode.value;
+    const canDeflate=supportsDeflateRaw();
+    if(requestedCompression==="deflate"&&!canDeflate) throw new Error("DEFLATE creation is unavailable in this browser. Choose Store mode.");
     for(let i=0;i<snapshot.length;i++){
-      checkCancelled(run);const item=snapshot[i],data=new Uint8Array(await item.file.arrayBuffer());const crc=crc32(data),sha=await sha256Hex(data);
-      entries.push({name:item.path,data,crc32:crc,lastModified:item.file.lastModified});
-      manifestFiles.push({path:item.path,originalName:item.file.name,size:item.file.size,type:item.file.type||"application/octet-stream",lastModified:new Date(item.file.lastModified||Date.now()).toISOString(),crc32:crc.toString(16).padStart(8,"0"),sha256:sha});
-      setProgress(els.createProgress,5+((i+1)/snapshot.length)*45);setStatus(els.createStatus,`Reading and hashing ${i+1} of ${snapshot.length}: ${item.path}`);await sleep();
+      checkCancelled(run);
+      const item=snapshot[i],data=new Uint8Array(await item.file.arrayBuffer()),crc=crc32(data),sha=await sha256Hex(data);
+      let compressedData=data,compression=0;
+      if(requestedCompression==="deflate"&&data.length){
+        setStatus(els.createStatus,`Compressing ${i+1} of ${snapshot.length}: ${item.path}`);
+        const candidate=await deflateRaw(data);
+        if(candidate.length<data.length){compressedData=candidate;compression=8;}
+      }
+      entries.push({name:item.path,data,compressedData,compression,crc32:crc,lastModified:item.file.lastModified});
+      manifestFiles.push({path:item.path,originalName:item.file.name,size:item.file.size,compressedSize:compressedData.length,compression:compression===8?"deflate":"store",type:item.file.type||"application/octet-stream",lastModified:new Date(item.file.lastModified||Date.now()).toISOString(),crc32:crc.toString(16).padStart(8,"0"),sha256:sha});
+      setProgress(els.createProgress,5+((i+1)/snapshot.length)*48);setStatus(els.createStatus,`Prepared ${i+1} of ${snapshot.length}: ${item.path}`);await sleep();
     }
     checkCancelled(run);
-    const manifest={schema:"khaezip-manifest",schemaVersion:2,khaeZipVersion:VERSION,archiveId:run.id,createdAt:new Date().toISOString(),compression:"store",fileCount:manifestFiles.length,files:manifestFiles};
+    const usedCompression=[...new Set(manifestFiles.map(file=>file.compression))];
+    const manifest={schema:"khaezip-manifest",schemaVersion:3,khaeZipVersion:VERSION,archiveId:run.id,createdAt:new Date().toISOString(),compression:usedCompression.length===1?usedCompression[0]:"mixed",fileCount:manifestFiles.length,files:manifestFiles};
     const manifestData=new TextEncoder().encode(JSON.stringify(manifest,null,2));entries.unshift({name:INTERNAL_MANIFEST,data:manifestData,crc32:crc32(manifestData),lastModified:Date.now()});
     setStatus(els.createStatus,"Building standards-compatible ZIP structure…");setProgress(els.createProgress,58);const zipBlob=await createZipBlob(entries);if(zipBlob.size>LIMITS.archiveBytes)throw new Error(`Result exceeds the ${human(LIMITS.archiveBytes)} archive limit.`);
     checkCancelled(run);let finalBlob=zipBlob,extension=".zip",encrypted=false;
-    if(password){if(!globalThis.crypto?.subtle)throw new Error("Web Crypto encryption is unavailable in this browser.");setStatus(els.createStatus,"Encrypting with AES-GCM and PBKDF2…");setProgress(els.createProgress,68);finalBlob=await encryptKZ4(zipBlob,password);extension=".kz";encrypted=true;}
+    if(password){if(!globalThis.crypto?.subtle)throw new Error("Web Crypto encryption is unavailable in this browser.");setStatus(els.createStatus,"Encrypting with AES-GCM and PBKDF2…");setProgress(els.createProgress,68);finalBlob=await encryptKZ5(zipBlob,password);extension=".kz";encrypted=true;}
     checkCancelled(run);setStatus(els.createStatus,"Saving archive…");setProgress(els.createProgress,80);const partMB=Math.max(0,Number(els.splitSize.value)||0);const saved=await splitAndSave(finalBlob,baseName,extension,partMB,run);saveSucceeded=saved.saved;
     if(!saveSucceeded){setStatus(els.createStatus,"Save was cancelled. The archive was not downloaded.","warn");return;}
     setProgress(els.createProgress,96);
@@ -682,7 +1422,7 @@ els.createBtn.addEventListener("click",async()=>{
 });
 
 /* Open archive */
-function resetOpen(){currentArchive=null;repairState=null;els.openInput.value="";els.openPwd.value="";els.openEntries.innerHTML='<div class="empty">Archive entries will appear here.</div>';els.repairReport.hidden=true;els.repairReport.textContent="";els.downloadRepairReportBtn.hidden=true;els.downloadRecoveredBtn.hidden=true;els.downloadAllBtn.hidden=true;els.scanBtn.disabled=true;els.repairBtn.disabled=true;setProgress(els.openProgress,0);setStatus(els.openStatus,"No archive loaded.");}
+function resetOpen(){currentArchive=null;repairState=null;els.openInput.value="";els.openPwd.value="";els.openEntries.innerHTML='<div class="empty">Archive entries will appear here.</div>';els.repairReport.hidden=true;els.repairReport.textContent="";els.downloadRepairReportBtn.hidden=true;els.downloadRecoveredBtn.hidden=true;els.downloadAllBtn.hidden=true;els.scanBtn.disabled=true;els.deepScanBtn.disabled=true;els.repairBtn.disabled=true;setProgress(els.openProgress,0);setStatus(els.openStatus,"No archive loaded.");}
 els.clearOpenBtn.addEventListener("click",resetOpen);
 function entryCapability(entry){
   if(entry.directory)return "folder";if(entry.unsafeReason)return "unsafe path";if(entry.encrypted)return "standard ZIP encryption unsupported";if(entry.compression===0)return "store";if(entry.compression===8)return typeof DecompressionStream==="function"?"deflate":"deflate unavailable";return `method ${entry.compression} unsupported`;
@@ -709,9 +1449,18 @@ async function loadArchiveFile(file){
 }
 els.openBtn.addEventListener("click",async()=>{
   const file=els.openInput.files?.[0];if(!file){setStatus(els.openStatus,"Choose an archive first.","bad");return;}
-  els.openBtn.disabled=true;els.scanBtn.disabled=true;els.repairBtn.disabled=true;els.downloadAllBtn.hidden=true;setProgress(els.openProgress,5);setStatus(els.openStatus,"Loading archive…");els.repairReport.hidden=true;
-  try{currentArchive=await loadArchiveFile(file);setProgress(els.openProgress,100);const p=currentArchive.parsed;setStatus(els.openStatus,`${p.totalEntries} entries loaded • claimed expanded size ${human(p.totalExpanded)}${currentArchive.encryptionHeader?` • encrypted format v${currentArchive.encryptionHeader.schemaVersion}`:""}.`,"good");els.scanBtn.disabled=false;els.repairBtn.disabled=false;els.downloadAllBtn.hidden=false;renderEntries();speak("Archive opened successfully.");}
-  catch(e){console.error(e);currentArchive=null;setStatus(els.openStatus,`Open failed: ${e.message||e}`,"bad");els.repairBtn.disabled=false;repairState={sourceFile:file,rawBuffer:new Uint8Array(await file.arrayBuffer()).slice()};els.repairReport.hidden=false;els.repairReport.textContent="Strict parsing failed. Repair & Recover can scan local file headers without changing the source file.";}
+  els.openBtn.disabled=true;els.scanBtn.disabled=true;els.deepScanBtn.disabled=true;els.repairBtn.disabled=true;els.downloadAllBtn.hidden=true;setProgress(els.openProgress,5);setStatus(els.openStatus,"Loading archive…");els.repairReport.hidden=true;
+  try{currentArchive=await loadArchiveFile(file);setProgress(els.openProgress,100);const p=currentArchive.parsed;setStatus(els.openStatus,`${p.totalEntries} entries loaded • claimed expanded size ${human(p.totalExpanded)}${currentArchive.encryptionHeader?` • encrypted format v${currentArchive.encryptionHeader.schemaVersion}`:""}.`,"good");els.scanBtn.disabled=false;els.deepScanBtn.disabled=false;els.repairBtn.disabled=false;els.downloadAllBtn.hidden=false;renderEntries();speak("Archive opened successfully.");}
+  catch(e){
+    console.error(e);currentArchive=null;setStatus(els.openStatus,`Open failed: ${e.message||e}`,"bad");
+    const repairAllowed=file.size<=LIMITS.archiveBytes;
+    els.repairBtn.disabled=!repairAllowed;
+    repairState=repairAllowed?{sourceFile:file}:null;
+    els.repairReport.hidden=false;
+    els.repairReport.textContent=repairAllowed
+      ?"Strict parsing failed. Repair & Recover can scan local file headers without changing the source file."
+      :`Repair is disabled because this file exceeds the ${human(LIMITS.archiveBytes)} protected memory limit.`;
+  }
   finally{els.openBtn.disabled=false;}
 });
 async function verifyOne(entry){
@@ -729,6 +1478,71 @@ async function integrityScan(){
   setProgress(els.openProgress,100);renderEntries();repairState={report,recoveredEntries:[],sourceFile:currentArchive.file};els.repairReport.hidden=false;els.repairReport.textContent=JSON.stringify(report,null,2);els.downloadRepairReportBtn.hidden=false;setStatus(els.openStatus,`Integrity scan: ${report.summary.verified} verified • ${report.summary.failed} failed • ${report.summary.unsupported} unsupported.`,report.summary.failed?"warn":"good");return report;
 }
 els.scanBtn.addEventListener("click",async()=>{els.scanBtn.disabled=true;try{await integrityScan();}finally{els.scanBtn.disabled=false;}});
+
+async function deepIntegrityScan(){
+  if(!currentArchive)return null;
+  els.deepScanBtn.disabled=true;
+  const report={schema:"khaezip-deep-integrity-report",schemaVersion:1,archive:currentArchive.name,checkedAt:new Date().toISOString(),manifest:null,entries:[],summary:{verified:0,failed:0,missing:0,extra:0,unsupported:0}};
+  try{
+    const manifestEntry=currentArchive.parsed.entries.find(entry=>entry.safeName===INTERNAL_MANIFEST);
+    if(!manifestEntry)throw new Error("This archive has no KhaeZip internal SHA-256 manifest.");
+    if(manifestEntry.uncompSize>MANIFEST_FILE_LIMIT)throw new Error("The internal manifest exceeds the protected size limit.");
+    const manifestBytes=await extractEntryBytes(currentArchive.buffer,manifestEntry,true);
+    let manifest;
+    try{manifest=JSON.parse(new TextDecoder().decode(manifestBytes));}catch(_e){throw new Error("The internal manifest is not valid JSON.");}
+    if(manifest.schema!=="khaezip-manifest"||![2,3].includes(manifest.schemaVersion)||!Array.isArray(manifest.files))throw new Error("Unsupported internal manifest schema.");
+    if(manifest.files.length>LIMITS.entries)throw new Error("The manifest declares too many files.");
+    report.manifest={schemaVersion:manifest.schemaVersion,khaeZipVersion:manifest.khaeZipVersion||null,archiveId:manifest.archiveId||null,fileCount:manifest.fileCount};
+
+    const archiveFiles=new Map(currentArchive.parsed.entries.filter(entry=>!entry.directory&&entry.safeName!==INTERNAL_MANIFEST).map(entry=>[entry.safeName,entry]));
+    const declared=new Set();
+    for(let i=0;i<manifest.files.length;i++){
+      const spec=manifest.files[i];
+      setProgress(els.openProgress,(i/Math.max(1,manifest.files.length))*100);
+      if(!spec||typeof spec.path!=="string"||!/^[a-f0-9]{64}$/i.test(String(spec.sha256||""))){
+        report.summary.failed++;report.entries.push({path:spec?.path||`manifest-item-${i+1}`,status:"invalid manifest record"});continue;
+      }
+      let path;
+      try{path=normalizeArchivePath(spec.path);}catch(e){report.summary.failed++;report.entries.push({path:spec.path,status:"unsafe manifest path",reason:e.message});continue;}
+      if(declared.has(path)){report.summary.failed++;report.entries.push({path,status:"duplicate manifest path"});continue;}
+      declared.add(path);
+      const entry=archiveFiles.get(path);
+      if(!entry){report.summary.missing++;report.entries.push({path,status:"missing from archive"});continue;}
+      if(entry.unsafeReason||entry.encrypted||![0,8].includes(entry.compression)||(entry.compression===8&&typeof DecompressionStream!=="function")){
+        report.summary.unsupported++;report.entries.push({path,status:"unsupported",reason:entryCapability(entry)});continue;
+      }
+      try{
+        const data=await extractEntryBytes(currentArchive.buffer,entry,true);
+        const hash=await sha256Hex(data);
+        if(hash.toLowerCase()!==String(spec.sha256).toLowerCase())throw new Error("SHA-256 mismatch.");
+        if(Number(spec.size)!==data.length)throw new Error(`Size mismatch: manifest ${spec.size}, archive ${data.length}.`);
+        entry.integrity="CRC + SHA-256 verified";
+        report.summary.verified++;report.entries.push({path,status:"verified",sha256:hash,size:data.length});
+      }catch(e){
+        entry.integrity=`FAILED: ${e.message}`;
+        report.summary.failed++;report.entries.push({path,status:"failed",reason:e.message});
+      }
+      await sleep();
+    }
+    for(const path of archiveFiles.keys()){
+      if(!declared.has(path)){report.summary.extra++;report.entries.push({path,status:"extra archive entry"});}
+    }
+    if(Number(manifest.fileCount)!==manifest.files.length)report.entries.push({path:INTERNAL_MANIFEST,status:"warning",reason:"Manifest fileCount does not match the files array."});
+    setProgress(els.openProgress,100);renderEntries();
+    repairState={report,recoveredEntries:[],sourceFile:currentArchive.file};
+    els.repairReport.hidden=false;els.repairReport.textContent=JSON.stringify(report,null,2);els.downloadRepairReportBtn.hidden=false;
+    const hasProblems=report.summary.failed||report.summary.missing||report.summary.extra||report.summary.unsupported;
+    setStatus(els.openStatus,`Deep scan: ${report.summary.verified} SHA-256 verified • ${report.summary.failed} failed • ${report.summary.missing} missing • ${report.summary.extra} extra • ${report.summary.unsupported} unsupported.`,hasProblems?"warn":"good");
+    speak(hasProblems?"Deep integrity scan completed with warnings.":"Deep integrity scan completed successfully.");
+    return report;
+  }catch(e){
+    setStatus(els.openStatus,`Deep scan failed: ${e.message}`,"bad");
+    els.repairReport.hidden=false;els.repairReport.textContent=`Deep SHA-256 scan failed: ${e.message}`;
+    return null;
+  }finally{els.deepScanBtn.disabled=false;}
+}
+els.deepScanBtn.addEventListener("click",deepIntegrityScan);
+
 els.downloadRepairReportBtn.addEventListener("click",()=>repairState?.report&&downloadJSON(repairState.report,`${safeDownloadName(currentArchive?.name||repairState.sourceFile?.name||"archive")}.integrity.json`));
 els.downloadAllBtn.addEventListener("click",async()=>{
   if(!currentArchive)return;els.downloadAllBtn.disabled=true;try{const entries=[];const used=new Set();let verified=0,skipped=0;for(const entry of currentArchive.parsed.entries){if(entry.directory||entry.unsafeReason||entry.encrypted||![0,8].includes(entry.compression)||(entry.compression===8&&typeof DecompressionStream!=="function")){skipped++;continue;}try{const data=await extractEntryBytes(currentArchive.buffer,entry,true);const path=uniquePath(entry.safeName,used);entries.push({name:path,data,lastModified:Date.now()});verified++;}catch(_e){skipped++;}}
@@ -755,7 +1569,7 @@ async function recoverLocalEntries(buf){
 els.repairBtn.addEventListener("click",async()=>{
   els.repairBtn.disabled=true;els.downloadRecoveredBtn.hidden=true;try{
     let buf=currentArchive?.buffer;
-    if(!buf){const file=els.openInput.files?.[0]||repairState?.sourceFile;if(!file)throw new Error("Choose an archive first.");if(await detectEncrypted(file)){const password=els.openPwd.value;if(!password)throw new Error("Password required before repairing an encrypted archive.");buf=new Uint8Array(await (await decryptKhae(file,password)).blob.arrayBuffer());}else buf=new Uint8Array(await file.arrayBuffer());}
+    if(!buf){const file=els.openInput.files?.[0]||repairState?.sourceFile;if(!file)throw new Error("Choose an archive first.");if(file.size>LIMITS.archiveBytes)throw new Error(`Repair is limited to ${human(LIMITS.archiveBytes)} archives.`);if(await detectEncrypted(file)){const password=els.openPwd.value;if(!password)throw new Error("Password required before repairing an encrypted archive.");buf=new Uint8Array(await (await decryptKhae(file,password)).blob.arrayBuffer());}else buf=new Uint8Array(await file.arrayBuffer());}
     setStatus(els.openStatus,"Scanning local file headers for recoverable entries…");setProgress(els.openProgress,20);const recovery=await recoverLocalEntries(buf);setProgress(els.openProgress,100);
     const report={schema:"khaezip-repair-report",schemaVersion:1,archive:currentArchive?.name||els.openInput.files?.[0]?.name||"unknown",createdAt:new Date().toISOString(),localHeadersScanned:recovery.scanned,recoveredCount:recovery.recovered.length,issues:recovery.issues,recovered:recovery.recovered.map(x=>({name:x.name,size:x.data.length,crc32:x.crc32.toString(16).padStart(8,"0")}))};
     repairState={...(repairState||{}),report,recoveredEntries:recovery.recovered};els.repairReport.hidden=false;els.repairReport.textContent=JSON.stringify(report,null,2);els.downloadRepairReportBtn.hidden=false;els.downloadRecoveredBtn.hidden=!recovery.recovered.length;setStatus(els.openStatus,`${recovery.recovered.length} verified entries recovered without modifying the source archive${recovery.issues.length?` • ${recovery.issues.length} issues noted`:""}.`,recovery.recovered.length?"good":"warn");
@@ -775,12 +1589,38 @@ els.clearPartsBtn.addEventListener("click",()=>{partFiles=[];els.partsInput.valu
 els.joinBtn.addEventListener("click",async()=>{
   if(!partFiles.length){setStatus(els.joinStatus,"Select split parts first.","bad");return;}els.joinBtn.disabled=true;setProgress(els.joinProgress,0);try{
     const manifests=partFiles.filter(f=>f.name.toLowerCase().endsWith(".kzparts.json"));const parts=partFiles.filter(f=>!f.name.toLowerCase().endsWith(".kzparts.json"));if(!parts.length)throw new Error("No numbered archive parts were selected.");
-    let manifest=null;if(manifests.length){try{manifest=JSON.parse(await manifests[0].text());}catch(_e){throw new Error("Split manifest is not valid JSON.");}if(manifest.schema!=="khaezip-split-manifest")throw new Error("Selected JSON file is not a KhaeZip split manifest.");}
-    let ordered=[];if(manifest){const byName=new Map(parts.map(f=>[f.name,f]));for(const spec of manifest.parts){const file=byName.get(spec.fileName);if(!file)throw new Error(`Missing part: ${spec.fileName}`);ordered.push({file,spec});}if(ordered.length!==parts.length)throw new Error("Unexpected extra part files were selected.");}
-    else{ordered=parts.map(file=>{const parsed=parsePartNumber(file.name);if(!parsed)throw new Error(`Cannot determine part number from ${file.name}`);return {file,parsed};}).sort((a,b)=>a.parsed.number-b.parsed.number);for(let i=0;i<ordered.length;i++)if(ordered[i].parsed.number!==i+1)throw new Error(`Missing or out-of-order part near number ${i+1}.`);}
-    const total=ordered.reduce((s,x)=>s+x.file.size,0);if(total>LIMITS.archiveBytes)throw new Error(`Joined archive exceeds ${human(LIMITS.archiveBytes)}.`);
+    if(manifests.length>1)throw new Error("Select only one split manifest.");
+    let manifest=null;
+    if(manifests.length){
+      if(manifests[0].size>MANIFEST_FILE_LIMIT)throw new Error("Split manifest exceeds the protected size limit.");
+      try{manifest=JSON.parse(await manifests[0].text());}catch(_e){throw new Error("Split manifest is not valid JSON.");}
+      if(manifest.schema!=="khaezip-split-manifest"||manifest.schemaVersion!==1||!Array.isArray(manifest.parts))throw new Error("Selected JSON file is not a supported KhaeZip split manifest.");
+      if(!Number.isInteger(manifest.partCount)||manifest.partCount!==manifest.parts.length||manifest.partCount<1)throw new Error("Split manifest part count is invalid.");
+      if(!Number.isFinite(manifest.totalSize)||manifest.totalSize<0||manifest.totalSize>LIMITS.archiveBytes)throw new Error("Split manifest total size is invalid.");
+    }
+    let ordered=[];
+    if(manifest){
+      const byName=new Map();
+      for(const file of parts){if(byName.has(file.name))throw new Error(`Duplicate selected part name: ${file.name}`);byName.set(file.name,file);}
+      const seenNames=new Set(),seenIndexes=new Set();
+      for(let i=0;i<manifest.parts.length;i++){
+        const spec=manifest.parts[i];
+        if(!spec||!Number.isInteger(spec.index)||spec.index!==i+1||typeof spec.fileName!=="string"||!Number.isFinite(spec.size)||spec.size<0||!/^[a-f0-9]{64}$/i.test(String(spec.sha256||"")))throw new Error(`Invalid split manifest record at part ${i+1}.`);
+        if(seenNames.has(spec.fileName)||seenIndexes.has(spec.index))throw new Error("Split manifest contains duplicate part records.");
+        seenNames.add(spec.fileName);seenIndexes.add(spec.index);
+        const file=byName.get(spec.fileName);if(!file)throw new Error(`Missing part: ${spec.fileName}`);ordered.push({file,spec});
+      }
+      if(ordered.length!==parts.length)throw new Error("Unexpected extra part files were selected.");
+    }else{
+      ordered=parts.map(file=>{const parsed=parsePartNumber(file.name);if(!parsed)throw new Error(`Cannot determine part number from ${file.name}`);return {file,parsed};}).sort((a,b)=>a.parsed.number-b.parsed.number);
+      const bases=new Set(ordered.map(item=>item.parsed.base.toLowerCase()));
+      if(bases.size!==1)throw new Error("Selected parts do not share one archive base name.");
+      const numbers=new Set();
+      for(let i=0;i<ordered.length;i++){if(numbers.has(ordered[i].parsed.number))throw new Error(`Duplicate part number ${ordered[i].parsed.number}.`);numbers.add(ordered[i].parsed.number);if(ordered[i].parsed.number!==i+1)throw new Error(`Missing or out-of-order part near number ${i+1}.`);}
+    }
+    const total=ordered.reduce((s,x)=>s+x.file.size,0);if(total>LIMITS.archiveBytes)throw new Error(`Joined archive exceeds ${human(LIMITS.archiveBytes)}.`);if(manifest&&total!==manifest.totalSize)throw new Error(`Joined size ${human(total)} does not match manifest total ${human(manifest.totalSize)}.`);
     for(let i=0;i<ordered.length;i++){const item=ordered[i];setStatus(els.joinStatus,`Verifying part ${i+1} of ${ordered.length}…`);if(item.spec){if(item.file.size!==item.spec.size)throw new Error(`${item.file.name} has the wrong size.`);const hash=await sha256Hex(item.file);if(hash.toLowerCase()!==String(item.spec.sha256).toLowerCase())throw new Error(`${item.file.name} failed SHA-256 verification.`);}setProgress(els.joinProgress,((i+1)/ordered.length)*85);await sleep();}
-    const blob=new Blob(ordered.map(x=>x.file),{type:"application/octet-stream"});const outputName=manifest?.outputName||ordered[0].parsed.base;const ok=await saveBlob(blob,outputName);if(!ok){setStatus(els.joinStatus,"Save cancelled.","warn");return;}setProgress(els.joinProgress,100);setStatus(els.joinStatus,`${ordered.length} verified parts joined as ${outputName}.`,"good");speak("Split archive joined successfully.");
+    const blob=new Blob(ordered.map(x=>x.file),{type:"application/octet-stream"});const outputName=safeDownloadName(manifest?.outputName||ordered[0].parsed.base,"joined_archive");const ok=await saveBlob(blob,outputName);if(!ok){setStatus(els.joinStatus,"Save cancelled.","warn");return;}setProgress(els.joinProgress,100);setStatus(els.joinStatus,`${ordered.length} verified parts joined as ${outputName}.`,"good");speak("Split archive joined successfully.");
   }catch(e){setStatus(els.joinStatus,`Join failed: ${e.message}`,"bad");}finally{els.joinBtn.disabled=false;}
 });
 
@@ -796,16 +1636,106 @@ async function vaultClear(){const db=await openVault();return new Promise((resol
 async function renderVault(){
   try{const records=(await vaultGetAll()).sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));els.vaultList.innerHTML="";if(!records.length){els.vaultList.innerHTML='<div class="empty">Vault is empty.</div>';return;}for(const rec of records){const row=document.createElement("div");row.className="vault-row";const info=document.createElement("div");const n=document.createElement("div");n.className="name";n.textContent=rec.name;const m=document.createElement("div");m.className="meta";m.textContent=`${new Date(rec.createdAt).toLocaleString()} • ${human(rec.size)} • ${rec.fileCount} files • ${rec.blob?"archive stored":"metadata only"}`;info.append(n,m);const actions=document.createElement("div");actions.className="row-actions";if(rec.blob){const dl=document.createElement("button");dl.className="small";dl.textContent="Download";dl.onclick=()=>saveBlob(rec.blob,rec.name,{picker:false});actions.append(dl);}const del=document.createElement("button");del.className="danger small";del.textContent="Delete";del.onclick=async()=>{if(confirm(`Delete ${rec.name} from this browser vault?`)){await vaultDelete(rec.id);renderVault();}};actions.append(del);row.append(info,actions);els.vaultList.append(row);}}
   catch(e){setStatus(els.vaultStatus,`Vault unavailable: ${e.message}`,"bad");}
+  finally{updateStorageDashboard();}
 }
-els.refreshVaultBtn.addEventListener("click",renderVault);
-els.exportVaultBtn.addEventListener("click",async()=>{try{const records=await vaultGetAll();const safe=records.map(({blob,...rest})=>({...rest,storedBlob:!!blob}));await downloadJSON({schema:"khaezip-vault-log",schemaVersion:1,exportedAt:new Date().toISOString(),records:safe},"khaezip_vault_log.json");}catch(e){setStatus(els.vaultStatus,e.message,"bad");}});
+
+async function updateStorageDashboard(){
+  if(!navigator.storage){
+    els.persistenceState.textContent="Unavailable";
+    els.storageUsage.textContent="Unavailable";
+    els.storageQuota.textContent="Unavailable";
+    return;
+  }
+  try{
+    const estimate=await navigator.storage.estimate();
+    const usage=Number(estimate.usage)||0,quota=Number(estimate.quota)||0;
+    const persisted=typeof navigator.storage.persisted==="function"?await navigator.storage.persisted():false;
+    els.persistenceState.textContent=persisted?"Persistent":"Best effort";
+    els.storageUsage.textContent=human(usage);
+    els.storageQuota.textContent=quota?human(quota):"Unknown";
+    els.vaultStorageBar.style.width=quota?`${Math.min(100,(usage/quota)*100)}%`:"0%";
+  }catch(e){
+    setStatus(els.vaultStatus,`Storage estimate unavailable: ${e.message}`,"warn");
+  }
+}
+
+async function requestPersistentStorage(){
+  if(!navigator.storage||typeof navigator.storage.persist!=="function"){
+    setStatus(els.vaultStatus,"Persistent storage requests are unavailable in this browser.","warn");return;
+  }
+  try{
+    const granted=await navigator.storage.persist();
+    setStatus(els.vaultStatus,granted?"Persistent storage was granted for this site.":"The browser kept this site in best-effort storage mode.",granted?"good":"warn");
+    await updateStorageDashboard();
+  }catch(e){setStatus(els.vaultStatus,`Persistent storage request failed: ${e.message}`,"bad");}
+}
+
+async function exportVaultBackup(){
+  try{
+    const records=await vaultGetAll();
+    const blobTotal=records.reduce((sum,record)=>sum+(record.blob?.size||0),0);
+    if(blobTotal>VAULT_BACKUP_LIMIT)throw new Error(`Stored archives total ${human(blobTotal)}. Full JSON backup is limited to ${human(VAULT_BACKUP_LIMIT)}; download large archives individually.`);
+    const exported=[];
+    for(let i=0;i<records.length;i++){
+      const record=records[i],copy={...record};
+      if(record.blob){
+        const bytes=new Uint8Array(await record.blob.arrayBuffer());
+        copy.blobBase64=bytesToBase64(bytes);
+        copy.blobType=record.blob.type||"application/octet-stream";
+      }
+      delete copy.blob;
+      exported.push(copy);
+      setStatus(els.vaultStatus,`Preparing vault backup ${i+1} of ${records.length}…`);
+      await sleep();
+    }
+    await downloadJSON({schema:"khaezip-vault-backup",schemaVersion:1,khaeZipVersion:VERSION,exportedAt:new Date().toISOString(),records:exported},"khaezip_vault_backup.json");
+    setStatus(els.vaultStatus,`Vault backup exported with ${records.length} record${records.length===1?"":"s"}.`,"good");
+  }catch(e){setStatus(els.vaultStatus,`Vault backup failed: ${e.message}`,"bad");}
+}
+
+async function importVaultBackup(file){
+  try{
+    if(!file)throw new Error("Choose a vault backup file.");
+    if(file.size>VAULT_BACKUP_LIMIT*1.5)throw new Error("Vault backup exceeds the protected import limit.");
+    let payload;
+    try{payload=JSON.parse(await file.text());}catch(_e){throw new Error("Vault backup is not valid JSON.");}
+    if(payload.schema!=="khaezip-vault-backup"||payload.schemaVersion!==1||!Array.isArray(payload.records))throw new Error("Unsupported vault backup schema.");
+    if(payload.records.length>500)throw new Error("Vault backup contains too many records.");
+    let imported=0,totalBlobBytes=0;
+    for(const sourceRecord of payload.records){
+      if(!sourceRecord||typeof sourceRecord.id!=="string"||typeof sourceRecord.name!=="string")continue;
+      const record={...sourceRecord,id:sourceRecord.id,name:safeDownloadName(sourceRecord.name,"archive"),createdAt:sourceRecord.createdAt||new Date().toISOString()};
+      if(typeof sourceRecord.blobBase64==="string"){
+        const bytes=base64ToBytes(sourceRecord.blobBase64);
+        totalBlobBytes+=bytes.length;
+        if(totalBlobBytes>VAULT_BACKUP_LIMIT)throw new Error("Imported archive data exceeds the protected vault backup limit.");
+        record.blob=new Blob([bytes],{type:sourceRecord.blobType||"application/octet-stream"});
+      }
+      delete record.blobBase64;delete record.blobType;
+      await vaultPut(record);imported++;
+    }
+    await renderVault();
+    setStatus(els.vaultStatus,`Imported ${imported} vault record${imported===1?"":"s"}. Existing records with the same IDs were replaced.`,"good");
+  }catch(e){setStatus(els.vaultStatus,`Vault import failed: ${e.message}`,"bad");}
+}
+
+els.refreshVaultBtn.addEventListener("click",async()=>{await renderVault();await updateStorageDashboard();});
+els.requestStorageBtn.addEventListener("click",requestPersistentStorage);
+els.exportVaultBtn.addEventListener("click",async()=>{try{const records=await vaultGetAll();const safe=records.map(({blob,...rest})=>({...rest,storedBlob:!!blob}));await downloadJSON({schema:"khaezip-vault-index",schemaVersion:1,exportedAt:new Date().toISOString(),records:safe},"khaezip_vault_index.json");setStatus(els.vaultStatus,"Vault index exported.","good");}catch(e){setStatus(els.vaultStatus,e.message,"bad");}});
+els.exportVaultBackupBtn.addEventListener("click",exportVaultBackup);
+els.importVaultBackupBtn.addEventListener("click",()=>els.vaultBackupInput.click());
+els.vaultBackupInput.addEventListener("change",async()=>{await importVaultBackup(els.vaultBackupInput.files?.[0]);els.vaultBackupInput.value="";});
 els.clearVaultBtn.addEventListener("click",async()=>{if(!confirm("Delete every KhaeZip Vault record and locally stored archive from this browser?"))return;try{await vaultClear();setStatus(els.vaultStatus,"Vault cleared.","good");renderVault();}catch(e){setStatus(els.vaultStatus,e.message,"bad");}});
 
 /* Guide and init */
 els.guideBtn.addEventListener("click",()=>els.guideDialog.showModal());
-renderCreateFiles();renderParts();renderVault();
-setStatus(els.globalStatus,"Ready — all archive operations are local.","good");
-window.KhaeZip={version:VERSION,createZipBlob,parseZipStrict,extractEntryBytes,crc32,sha256Hex,encryptKZ4,decryptKhae,openVault:renderVault};
+const deflateAvailable=supportsDeflateRaw();
+els.compressionBadge.textContent=deflateAvailable?"DEFLATE available":"Store mode only";
+els.compressionBadge.className="badge "+(deflateAvailable?"good":"warn");
+if(!deflateAvailable){const option=els.compressionMode.querySelector('option[value="deflate"]');if(option)option.disabled=true;els.compressionMode.value="store";}
+renderCreateFiles();renderParts();renderVault();updateStorageDashboard();
+setStatus(els.globalStatus,`Ready — archive operations are local. KhaeZip v${VERSION}.`,"good");
+window.KhaeZip={version:VERSION,createZipBlob,parseZipStrict,extractEntryBytes,crc32,sha256Hex,encryptKZ5,decryptKhae,deepIntegrityScan,supportsDeflateRaw,openVault:renderVault};
 })();
 </script>
 </body>
