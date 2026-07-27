@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<meta name="description" content="OHMIC Foundry™ Protected CAD Studio — a local-first browser drafting environment with precision tools, layers, symbols, recovery, project storage, and portable exports.">
+<meta name="description" content="OHMIC Foundry™ Protected CAD Studio — a local-first browser drafting environment with precision tools, visible undo and redo, version history, model metadata, constraint-based layout generation, recovery, printing, project storage, and portable exports.">
 <meta name="theme-color" content="#09111b">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
 <title>OHMIC Foundry™ — Protected CAD Studio</title>
@@ -160,6 +160,84 @@ label{font-size:9px;font-weight:600}
   .brand strong{font-size:10px}
 }
 
+
+/* ============================================================
+   Professional workflow additions
+   ============================================================ */
+.history-control{
+  min-width:76px;
+  font-size:10px;
+  color:#f3ead3;
+  border-color:rgba(217,185,114,.34);
+}
+.history-control:not(:disabled){
+  background:rgba(217,185,114,.09);
+}
+.top-file-action{
+  border-color:rgba(117,211,199,.34);
+}
+.analysis-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+}
+.analysis-stat{
+  min-height:58px;
+  padding:8px;
+  border:1px solid rgba(117,211,199,.14);
+  border-radius:8px;
+  background:rgba(255,255,255,.025);
+}
+.analysis-stat strong{
+  display:block;
+  color:#f1e6c9;
+  font-family:var(--font-display);
+  font-size:16px;
+  font-weight:600;
+}
+.analysis-stat span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:8.5px;
+  line-height:1.35;
+}
+.metadata-note{
+  color:var(--muted);
+  font-size:8.5px;
+  line-height:1.45;
+}
+.generator-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+.generator-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:14px;
+  flex-wrap:wrap;
+}
+.version-note{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.45;
+}
+.print-summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+  margin:10px 0;
+}
+@media(max-width:780px){
+  .generator-grid{grid-template-columns:1fr 1fr}
+  .history-control{min-width:auto}
+}
+@media(max-width:520px){
+  .generator-grid,.analysis-grid{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -176,12 +254,13 @@ label{font-size:9px;font-weight:600}
 
   <header class="topbar">
     <div class="brand"><div class="mark">Ω</div><div><strong>OHMIC FOUNDRY</strong><small>Protected CAD & planning studio</small></div></div>
-    <button id="newBtn" class="hide-focus">New</button><button id="saveBtn" class="hide-focus">Save</button><button id="projectsBtn" class="hide-focus">Projects</button>
-    <button id="undoBtn" title="Undo (Ctrl+Z)" aria-label="Undo">↶</button><button id="redoBtn" title="Redo (Ctrl+Y)" aria-label="Redo">↷</button>
+    <button id="newBtn" class="hide-focus">New</button><button id="saveBtn" class="hide-focus">Save Local</button><button id="projectsBtn" class="hide-focus">Projects</button>
+    <button id="undoBtn" class="history-control" title="Undo the last drawing change (Ctrl/⌘ Z)" aria-label="Undo the last drawing change">↶ Undo</button><button id="redoBtn" class="history-control" title="Redo the last undone change (Ctrl/⌘ Shift Z or Ctrl/⌘ Y)" aria-label="Redo the last undone change">↷ Redo</button>
     <span class="spacer"></span>
     <button id="gridBtn" class="active hide-focus" aria-pressed="true">Grid</button><button id="snapBtn" class="active hide-focus" aria-pressed="true">Snap</button>
     <select id="unitSelect" aria-label="Display units" style="width:92px" class="hide-focus"><option value="mm">mm</option><option value="cm">cm</option><option value="in">inches</option><option value="ft">feet</option></select>
     <button id="wideBtn" title="Toggle wide canvas" aria-pressed="false">Wide</button><button id="focusBtn" title="Toggle focus canvas" aria-pressed="false">Focus</button><button id="fullBtn" title="Browser fullscreen">⛶</button>
+    <button id="downloadBtn" class="hide-focus top-file-action" title="Save or download the current project JSON">Save to Computer</button><button id="printBtn" class="hide-focus top-file-action">Print / PDF</button>
     <button id="exportBtn" class="hide-focus">Export</button><button id="helpBtn" class="hide-focus">Help</button><button id="sideBtn" aria-label="Toggle properties panel">☰</button>
   </header>
 
@@ -224,13 +303,31 @@ label{font-size:9px;font-weight:600}
         <div class="grid2"><label id="pWLabel">Width / X2 <span class="unitLabel">mm</span><input id="pW" type="number" step="any"></label><label id="pHLabel">Height / Y2 <span class="unitLabel">mm</span><input id="pH" type="number" step="any"></label></div>
         <div class="grid2"><label>Stroke<input id="pStroke" type="color"></label><label>Fill<input id="pFill" type="color"></label></div>
         <div class="grid2"><label>Line width <span class="unitLabel">mm</span><input id="pLineWidth" type="number" min="0.05" step="any"></label><label>Rotation °<input id="pRotation" type="number" step="1"></label></div>
+        <div class="grid2"><label>Part number<input id="pPartNumber" maxlength="80" placeholder="PART-001"></label><label>Assembly<input id="pAssembly" maxlength="80" placeholder="Assembly A"></label></div>
+        <div class="grid2"><label>Material<input id="pMaterial" maxlength="120" placeholder="Material or specification"></label><label>Tolerance<input id="pTolerance" maxlength="80" placeholder="± 0.5 mm"></label></div>
+        <label>Manufacturing / model note<textarea id="pNotes" maxlength="1000" rows="3" placeholder="Finish, process, inspection, installation, or product note"></textarea></label>
+        <div class="metadata-note">These model-based definition fields are preserved in project JSON and embedded inside SVG metadata.</div>
         <button id="applyProps">Apply properties</button><button id="duplicateBtn">Duplicate</button>
       </div></section>
 
       <section class="card"><h2>CAD Library</h2><label>Category<select id="symbolCategory"><option>Architectural</option><option>Bathhouse</option><option>Landscape</option><option>Furniture</option><option>Utilities</option></select></label><label>Symbol<select id="symbolType"></select></label><button id="placeSymbolBtn">Use selected symbol</button></section>
       <section class="card"><h2>Layers</h2><div id="layers" class="list"></div><div class="row"><input id="newLayerName" maxlength="80" placeholder="New layer"><button id="addLayerBtn" aria-label="Add layer">+</button></div></section>
       <section class="card"><h2>Objects</h2><div id="objectList" class="list"></div></section>
-      <section class="card"><h2>View & Safety</h2><div class="grid2"><button id="sidebarWideBtn">Wide canvas</button><button id="sidebarFocusBtn">Focus canvas</button></div><button id="recoveryBtn">Recovery snapshots</button><button id="clearBtn" class="danger">Clear drawing</button></section>
+      <section class="card"><h2>Design Analysis</h2>
+        <div class="analysis-grid">
+          <div class="analysis-stat"><strong id="analysisArea">0</strong><span>Room / zone area</span></div>
+          <div class="analysis-stat"><strong id="analysisLength">0</strong><span>Wall and line length</span></div>
+          <div class="analysis-stat"><strong id="analysisOpenings">0</strong><span>Doors and windows</span></div>
+          <div class="analysis-stat"><strong id="analysisMbd">0%</strong><span>MBD metadata coverage</span></div>
+        </div>
+        <p class="metadata-note">Live geometric planning estimates only—not structural, thermal, modal, code, or manufacturing simulation.</p>
+      </section>
+      <section class="card"><h2>View & Safety</h2>
+        <div class="grid2"><button id="sidebarWideBtn">Wide canvas</button><button id="sidebarFocusBtn">Focus canvas</button></div>
+        <div class="grid2"><button id="generativeBtn">Generate layout</button><button id="versionHistoryBtn">Version history</button></div>
+        <div class="grid2"><button id="sidebarDownloadBtn">Save to computer</button><button id="sidebarPrintBtn">Print / PDF</button></div>
+        <button id="recoveryBtn">Recovery snapshots</button><button id="clearBtn" class="danger">Clear drawing</button>
+      </section>
     </aside>
   </div>
 
@@ -238,10 +335,40 @@ label{font-size:9px;font-weight:600}
 </div>
 
 <div class="modal" id="newModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="newTitle"><div class="dialog"><div class="row"><h2 id="newTitle" style="flex:1">New Project</h2><button data-close="newModal">Close</button></div><p class="notice">Starting a template creates a recovery snapshot first. Current unsaved work can be restored from Recovery.</p><div class="template-grid" id="templateGrid"></div></div></div>
-<div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="projectsTitle" aria-hidden="true"><div class="dialog"><div class="row"><h2 id="projectsTitle" style="flex:1">Local Projects</h2><button id="persistBtn">Protect storage</button><button id="importAllBtn">Import library</button><input id="libraryImport" type="file" accept=".json,application/json" hidden><button id="exportAllBtn">Export library</button><button data-close="projectModal">Close</button></div><div id="storageText" style="color:var(--muted);margin:10px 0"></div><div class="meter"><i id="storageMeter"></i></div><div id="projectList" class="list" style="max-height:52vh;margin-top:14px"></div></div></div>
-<div class="modal" id="exportModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="exportTitle"><div class="dialog"><div class="row"><h2 id="exportTitle" style="flex:1">Import & Export</h2><button data-close="exportModal">Close</button></div><div class="template-grid"><button data-export="json">Project JSON</button><button data-export="svg">Vector SVG</button><button data-export="png">PNG image</button><button data-export="dxf">Basic DXF</button></div><hr><div class="grid2"><label>PNG pixels per drawing millimeter<select id="pngScale"><option value="0.25" selected>0.25×</option><option value="0.5">0.5×</option><option value="1">1×</option><option value="2">2×</option></select></label><label>Import project JSON<input id="importInput" type="file" accept=".json,application/json"></label></div><div class="notice" style="margin-top:12px">DXF export is a safe basic geometry exchange. Curved doors and complex symbols are represented with simplified entities. Verify exported dimensions in the receiving application.</div></div></div>
+<div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="projectsTitle" aria-hidden="true"><div class="dialog"><div class="row"><h2 id="projectsTitle" style="flex:1">Local Projects</h2><button id="versionsBtn">Current versions</button><button id="persistBtn">Protect storage</button><button id="importAllBtn">Import library</button><input id="libraryImport" type="file" accept=".json,application/json" hidden><button id="exportAllBtn">Export library</button><button data-close="projectModal">Close</button></div><div id="storageText" style="color:var(--muted);margin:10px 0"></div><div class="meter"><i id="storageMeter"></i></div><div id="projectList" class="list" style="max-height:52vh;margin-top:14px"></div></div></div>
+<div class="modal" id="exportModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="exportTitle"><div class="dialog"><div class="row"><h2 id="exportTitle" style="flex:1">Save, Print, Import & Export</h2><button data-close="exportModal">Close</button></div>
+  <div class="template-grid">
+    <button data-export="computer">Save JSON to Computer</button>
+    <button data-export="json">Download Project JSON</button>
+    <button data-export="print">Print / Save as PDF</button>
+    <button data-export="svg">Vector SVG + MBD Metadata</button>
+    <button data-export="png">PNG Image</button>
+    <button data-export="dxf">Basic DXF</button>
+    <button data-export="csv">Part Schedule CSV</button>
+  </div>
+  <hr>
+  <div class="grid2"><label>PNG pixels per drawing millimeter<select id="pngScale"><option value="0.25" selected>0.25×</option><option value="0.5">0.5×</option><option value="1">1×</option><option value="2">2×</option></select></label><label>Import project JSON<input id="importInput" type="file" accept=".json,application/json"></label></div>
+  <div class="notice" style="margin-top:12px">JSON is the complete editable OHMIC project format. SVG preserves visible vector geometry and embeds model metadata. DXF is simplified exchange geometry. PNG and print/PDF are presentation outputs. Verify all production dimensions and professional requirements.</div>
+</div></div>
 <div class="modal" id="recoveryModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="recoveryTitle"><div class="dialog"><div class="row"><h2 id="recoveryTitle" style="flex:1">Recovery Snapshots</h2><button data-close="recoveryModal">Close</button></div><div id="recoveryList" class="list" style="max-height:60vh"></div></div></div>
-<div class="modal" id="helpModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="helpTitle"><div class="dialog"><div class="row"><h2 id="helpTitle" style="flex:1">Studio Guide</h2><button data-close="helpModal">Close</button></div><div class="help-grid"><div><h3>Expandable workspace</h3><p><b>Wide</b> hides the inspector. <b>Focus</b> hides both side panels. <b>⛶</b> enters browser fullscreen. The right inspector can be resized on desktop.</p><h3>Drawing</h3><p>Choose a tool, click-drag, and release. Doors, windows, text, and symbols are click-to-place. Wheel zooms around the pointer.</p><h3>Units</h3><p>All geometry is stored internally in millimeters. Changing the unit selector changes display and input conversion without changing physical size.</p></div><div><h3>Protection</h3><p>Drafts autosave locally. Important destructive actions create recovery snapshots. Saved projects are mirrored between IndexedDB and a local fallback when space permits.</p><h3>Backups</h3><p>Export Project JSON or the complete project library regularly. Browser storage can still be cleared by the browser or device owner.</p><h3>Shortcuts</h3><p><kbd>Ctrl/⌘ S</kbd> Save · <kbd>Ctrl/⌘ Z</kbd> Undo · <kbd>Ctrl/⌘ D</kbd> Duplicate · <kbd>Arrow keys</kbd> Nudge · <kbd>Shift F</kbd> Focus · <kbd>Esc</kbd> cancel drawing or close a dialog.</p></div></div><div class="notice">Concept-planning tool only. It is not certified engineering, BIM, permitting, manufacturing, or construction software. Independently verify dimensions and professional requirements.</div></div></div>
+<div class="modal" id="versionModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="versionTitle"><div class="dialog"><div class="row"><h2 id="versionTitle" style="flex:1">Saved Version History</h2><button data-close="versionModal">Close</button></div><p class="version-note">A version is recorded each time a named project is explicitly saved. Draft autosaves and recovery snapshots remain separate safety systems.</p><div id="versionList" class="list" style="max-height:62vh"></div></div></div>
+<div class="modal" id="generativeModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="generativeTitle"><div class="dialog"><div class="row"><h2 id="generativeTitle" style="flex:1">Constraint-Based Layout Generator</h2><button data-close="generativeModal">Close</button></div>
+  <p class="notice">This is a transparent rule-based concept generator—not AI structural optimization. It creates equal planning zones from your dimensions and constraints, then places the result into the editable CAD canvas.</p>
+  <div class="generator-grid">
+    <label>Layout width (mm)<input id="genWidth" type="number" min="100" max="200000" value="10000"></label>
+    <label>Layout height (mm)<input id="genHeight" type="number" min="100" max="200000" value="7000"></label>
+    <label>Outer margin (mm)<input id="genMargin" type="number" min="0" max="20000" value="500"></label>
+    <label>Rows<input id="genRows" type="number" min="1" max="20" value="2"></label>
+    <label>Columns<input id="genCols" type="number" min="1" max="20" value="3"></label>
+    <label>Gap between rooms (mm)<input id="genGap" type="number" min="0" max="10000" value="150"></label>
+    <label>Wall thickness (mm)<input id="genWall" type="number" min="1" max="2000" value="120"></label>
+    <label>Door width (mm)<input id="genDoor" type="number" min="100" max="5000" value="900"></label>
+    <label>Room label prefix<input id="genPrefix" maxlength="40" value="Room"></label>
+  </div>
+  <div class="row" style="margin-top:12px"><label style="display:flex;grid-template-columns:auto 1fr;align-items:center;gap:7px"><input id="genDoors" type="checkbox" checked style="width:auto"> Add one door per room</label><label style="display:flex;grid-template-columns:auto 1fr;align-items:center;gap:7px"><input id="genReplace" type="checkbox" checked style="width:auto"> Replace current drawing objects</label></div>
+  <div class="generator-actions"><button id="generateLayoutBtn" class="active">Generate Editable Layout</button></div>
+</div></div>
+<div class="modal" id="helpModal" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="helpTitle"><div class="dialog"><div class="row"><h2 id="helpTitle" style="flex:1">Studio Guide</h2><button data-close="helpModal">Close</button></div><div class="help-grid"><div><h3>Expandable workspace</h3><p><b>Wide</b> hides the inspector. <b>Focus</b> hides both side panels. <b>⛶</b> enters browser fullscreen. The right inspector can be resized on desktop.</p><h3>Drawing</h3><p>Choose a tool, click-drag, and release. Doors, windows, text, and symbols are click-to-place. Wheel zooms around the pointer.</p><h3>Units</h3><p>All geometry is stored internally in millimeters. Changing the unit selector changes display and input conversion without changing physical size.</p></div><div><h3>Protection</h3><p>Drafts autosave locally. Important destructive actions create recovery snapshots. Saved projects are mirrored between IndexedDB and a local fallback when space permits.</p><h3>Backups</h3><p>Use Save Local for IndexedDB storage, Save to Computer or Project JSON for a portable editable file, and export the complete project library regularly. Browser storage can still be cleared by the browser or device owner.</p><h3>History and versions</h3><p>Undo and Redo move through the current editing session. Explicit project saves also create named version records that can be restored or downloaded.</p><h3>Shortcuts</h3><p><kbd>Ctrl/⌘ S</kbd> Save Local · <kbd>Ctrl/⌘ Z</kbd> Undo · <kbd>Ctrl/⌘ Shift Z</kbd> Redo · <kbd>Ctrl/⌘ D</kbd> Duplicate · <kbd>Arrow keys</kbd> Nudge · <kbd>Shift F</kbd> Focus · <kbd>Esc</kbd> cancel drawing or close a dialog.</p></div></div><div class="notice">Professional concept-planning and drafting foundation only. The layout generator, geometric analysis, MBD fields, exports, and versioning do not constitute certified structural, thermal, modal, BIM, CAM, permitting, manufacturing, or construction validation. Independently verify dimensions and professional requirements.</div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 "use strict";
@@ -249,6 +376,8 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const app=$("#app"), canvas=$("#stage"), ctx=canvas.getContext("2d"), wrap=$("#stageWrap");
 const DRAFT_KEY="ohmic_cad_draft_v2", RECOVERY_KEY="ohmic_cad_recovery_v2", FALLBACK_KEY="ohmic_cad_projects_v2", LAYOUT_KEY="ohmic_cad_layout_v2";
 const DB_NAME="OhmicCADFoundry", DB_VERSION=1, PROJECT_STORE="projects", VERSION_STORE="versions";
+const OHMIC_SCHEMA_VERSION="2.2";
+let currentFileHandle=null;
 const LIBRARY_LIMIT=25*1024*1024, MAX_PROJECTS=250, MAX_VERSIONS_PER_PROJECT=20;
 const FACTOR={mm:1,cm:10,in:25.4,ft:304.8}, UNIT_LABEL={mm:"mm",cm:"cm",in:"in",ft:"ft"};
 const ALLOWED_TYPES=new Set(["line","wall","rect","door","window","dimension","text","symbol"]);
@@ -260,7 +389,7 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const safeText=(v,max=300)=>String(v??"").replace(/[\u0000-\u001f\u007f]/g," ").slice(0,max);
 const safeColor=(v,d="#162536")=>/^#[0-9a-f]{6}$/i.test(String(v))?String(v):d;
 function defaultLayers(){return[{id:"walls",name:"Walls",visible:true,locked:false},{id:"openings",name:"Doors & Windows",visible:true,locked:false},{id:"fixtures",name:"Fixtures",visible:true,locked:false},{id:"annotations",name:"Annotations",visible:true,locked:false},{id:"landscape",name:"Landscape",visible:true,locked:false}]}
-function defaultState(){return{version:"2.0",name:"Untitled Project",internalUnit:"mm",displayUnit:"mm",scale:"1:50",sheet:{w:12000,h:8000},grid:250,showGrid:true,snap:true,autoLayer:true,camera:{x:120,y:70,zoom:.75},tool:"select",selected:null,layers:defaultLayers(),activeLayer:"walls",objects:[]}}
+function defaultState(){return{version:OHMIC_SCHEMA_VERSION,name:"Untitled Project",internalUnit:"mm",displayUnit:"mm",scale:"1:50",sheet:{w:12000,h:8000},grid:250,showGrid:true,snap:true,autoLayer:true,camera:{x:120,y:70,zoom:.75},tool:"select",selected:null,layers:defaultLayers(),activeLayer:"walls",objects:[]}}
 let state=defaultState(), history=[], future=[], drawing=null, dragging=null, panning=null, mouse={x:0,y:0,wx:0,wy:0}, dirty=false, autosaveTimer=null, db=null, sidebarDrag=null;
 function toDisplay(mm){return mm/FACTOR[state.displayUnit]}
 function fromDisplay(v){return finite(v)*FACTOR[state.displayUnit]}
@@ -272,11 +401,20 @@ function saveDraft(){try{const savedAt=new Date().toISOString();localStorage.set
 function loadDraft(){try{const raw=localStorage.getItem(DRAFT_KEY);if(!raw)return null;const parsed=JSON.parse(raw);return sanitizeProject(parsed.data||parsed).project}catch{return null}}
 function saveRecovery(reason){try{const list=JSON.parse(localStorage.getItem(RECOVERY_KEY)||"[]");list.unshift({id:uid(),ts:Date.now(),reason,data:clone(state)});if(list.length>12)list.length=12;localStorage.setItem(RECOVERY_KEY,JSON.stringify(list))}catch(e){console.warn("Recovery snapshot failed",e)}}
 function recoveryItems(){try{return JSON.parse(localStorage.getItem(RECOVERY_KEY)||"[]")}catch{return[]}}
-function pushHistory(mark=true){history.push(JSON.stringify(state));if(history.length>100)history.shift();future=[];updateUI();if(mark)setDirty(true)}
+function pushHistory(mark=true){
+  const snapshot=JSON.stringify(state);
+  if(history.at(-1)!==snapshot){
+    history.push(snapshot);
+    if(history.length>150)history.shift();
+    future=[];
+  }
+  updateUI();
+  if(mark)setDirty(true);
+}
 function replaceState(next,{historyReset=true,fitView=false,mark=false}={}){state=next;state.selected=null;drawing=dragging=panning=null;if(historyReset){history=[JSON.stringify(state)];future=[]}syncControls();if(fitView)fit();else render();refreshPanels();setDirty(mark)}
 function restore(snapshot){state=JSON.parse(snapshot);state.selected=null;syncControls();render();refreshPanels();updateUI();setDirty(true)}
-function undo(){if(history.length<2)return;future.push(history.pop());restore(history.at(-1))}
-function redo(){if(!future.length)return;const s=future.pop();history.push(s);restore(s)}
+function undo(){if(history.length<2)return;future.push(history.pop());restore(history.at(-1));toast("Undid the last drawing change.",1200)}
+function redo(){if(!future.length)return;const s=future.pop();history.push(s);restore(s);toast("Redid the drawing change.",1200)}
 function worldToScreen(x,y){return{x:state.camera.x+x*state.camera.zoom,y:state.camera.y+y*state.camera.zoom}}
 function screenToWorld(x,y){return{x:(x-state.camera.x)/state.camera.zoom,y:(y-state.camera.y)/state.camera.zoom}}
 function snapValue(v){return state.snap?Math.round(v/state.grid)*state.grid:v}
@@ -321,8 +459,42 @@ function setTool(t){state.tool=t;$$('.tool[data-tool]').forEach(b=>{const active
 $("#toolbar").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.tool)setTool(b.dataset.tool);if(b.dataset.action==="delete")deleteSelected()});
 function deleteSelected(){if(!state.selected)return;const current=selected();if(current&&layerLocked(current.layer))return toast("Unlock this layer before deleting its objects.");state.objects=state.objects.filter(o=>o.id!==state.selected);state.selected=null;pushHistory();render();refreshPanels()}
 function selected(){return state.objects.find(o=>o.id===state.selected)}
-function refreshProperties(){const o=selected();$("#noSelection").hidden=!!o;$("#props").hidden=!o;if(!o)return;$("#pLabel").value=o.text||o.symbol||o.label||o.type;$("#pLayer").value=o.layer;$("#pX").value=fmt(o.x);$("#pY").value=fmt(o.y);const pointBased="x2" in o;$("#pW").value=fmt(pointBased?o.x2:(o.w??0));$("#pH").value=fmt(pointBased?o.y2:(o.h??0));$("#pWLabel").firstChild.textContent=pointBased?"X2 ":"Width ";$("#pHLabel").firstChild.textContent=pointBased?"Y2 ":"Height ";$("#pStroke").value=safeColor(o.stroke);$("#pFill").value=safeColor(o.fill,"#ffffff");$("#pLineWidth").value=fmt(o.lineWidth||3);$("#pRotation").value=o.rotation||0;$("#pRotation").disabled=!["symbol","text"].includes(o.type)}
-$("#applyProps").onclick=()=>{const o=selected();if(!o)return;const old=clone(o);o.x=fromDisplay($("#pX").value);o.y=fromDisplay($("#pY").value);if("x2" in o){o.x2=fromDisplay($("#pW").value);o.y2=fromDisplay($("#pH").value)}else{o.w=Math.max(.01,Math.abs(fromDisplay($("#pW").value)));o.h=Math.max(.01,Math.abs(fromDisplay($("#pH").value)))}o.stroke=safeColor($("#pStroke").value);o.fill=safeColor($("#pFill").value,"#ffffff");o.lineWidth=clamp(Math.abs(fromDisplay($("#pLineWidth").value)),.05,1000);o.rotation=clamp(finite($("#pRotation").value),-3600,3600);const nextLayer=state.layers.some(l=>l.id===$("#pLayer").value)?$("#pLayer").value:o.layer;if(layerLocked(nextLayer))return toast("Unlock the destination layer before moving this object.");o.layer=nextLayer;if(o.type==="text")o.text=safeText($("#pLabel").value);else if(o.type==="symbol")o.label=safeText($("#pLabel").value);else o.label=safeText($("#pLabel").value);if(JSON.stringify(old)!==JSON.stringify(o))pushHistory();render();refreshPanels()};
+function refreshProperties(){const o=selected();$("#noSelection").hidden=!!o;$("#props").hidden=!o;if(!o)return;$("#pLabel").value=o.text||o.symbol||o.label||o.type;$("#pLayer").value=o.layer;$("#pX").value=fmt(o.x);$("#pY").value=fmt(o.y);const pointBased="x2" in o;$("#pW").value=fmt(pointBased?o.x2:(o.w??0));$("#pH").value=fmt(pointBased?o.y2:(o.h??0));$("#pWLabel").firstChild.textContent=pointBased?"X2 ":"Width ";$("#pHLabel").firstChild.textContent=pointBased?"Y2 ":"Height ";$("#pStroke").value=safeColor(o.stroke);$("#pFill").value=safeColor(o.fill,"#ffffff");$("#pLineWidth").value=fmt(o.lineWidth||3);$("#pRotation").value=o.rotation||0;$("#pRotation").disabled=!["symbol","text"].includes(o.type);$("#pPartNumber").value=o.partNumber||"";$("#pAssembly").value=o.assembly||"";$("#pMaterial").value=o.material||"";$("#pTolerance").value=o.tolerance||"";$("#pNotes").value=o.notes||""}
+$("#applyProps").onclick=()=>{
+  const o=selected();
+  if(!o)return;
+  const old=clone(o);
+  o.x=fromDisplay($("#pX").value);
+  o.y=fromDisplay($("#pY").value);
+  if("x2" in o){
+    o.x2=fromDisplay($("#pW").value);
+    o.y2=fromDisplay($("#pH").value);
+  }else{
+    o.w=Math.max(.01,Math.abs(fromDisplay($("#pW").value)));
+    o.h=Math.max(.01,Math.abs(fromDisplay($("#pH").value)));
+  }
+  o.stroke=safeColor($("#pStroke").value);
+  o.fill=safeColor($("#pFill").value,"#ffffff");
+  o.lineWidth=clamp(Math.abs(fromDisplay($("#pLineWidth").value)),.05,1000);
+  o.rotation=clamp(finite($("#pRotation").value),-3600,3600);
+  const nextLayer=state.layers.some(l=>l.id===$("#pLayer").value)?$("#pLayer").value:o.layer;
+  if(layerLocked(nextLayer)){
+    Object.assign(o,old);
+    refreshProperties();
+    return toast("Unlock the destination layer before moving this object.");
+  }
+  o.layer=nextLayer;
+  if(o.type==="text")o.text=safeText($("#pLabel").value);
+  else o.label=safeText($("#pLabel").value);
+  o.partNumber=safeText($("#pPartNumber").value,80);
+  o.assembly=safeText($("#pAssembly").value,80);
+  o.material=safeText($("#pMaterial").value,120);
+  o.tolerance=safeText($("#pTolerance").value,80);
+  o.notes=safeText($("#pNotes").value,1000);
+  if(JSON.stringify(old)!==JSON.stringify(o))pushHistory();
+  render();
+  refreshPanels();
+};
 $("#duplicateBtn").onclick=()=>{const o=selected();if(!o)return;if(layerLocked(o.layer))return toast("Unlock this layer before duplicating its objects.");if(state.objects.length>=MAX_OBJECTS)return toast(`Object limit reached (${MAX_OBJECTS}).`);const c=clone(o);c.id=uid();c.x+=state.grid;c.y+=state.grid;if("x2" in c){c.x2+=state.grid;c.y2+=state.grid}state.objects.push(c);state.selected=c.id;pushHistory();render();refreshPanels()};
 const symbolMap={Architectural:["Stairs","Closet"],Bathhouse:["Toilet","Sink","Shower","Tub","Bench"],Landscape:["Plant","Tree"],Furniture:["Table","Chair","Bench"],Utilities:["Electrical","Plumbing"]};
 function updateSymbols(){const select=$("#symbolType");select.replaceChildren(...symbolMap[$("#symbolCategory").value].map(name=>{const o=document.createElement("option");o.textContent=name;return o}))}
@@ -333,10 +505,43 @@ $("#layers").onclick=e=>{const b=e.target.closest("button");if(!b)return;if(b.da
 $("#addLayerBtn").onclick=()=>{const name=safeText($("#newLayerName").value.trim(),80);if(!name)return;if(state.layers.length>=MAX_LAYERS)return toast("Layer limit reached.");const id="layer_"+uid();state.layers.push({id,name,visible:true,locked:false});state.activeLayer=id;$("#newLayerName").value="";pushHistory();renderLayers()};
 function renderObjects(){const host=$("#objectList");host.replaceChildren();if(!state.objects.length){const e=document.createElement("div");e.className="empty";e.textContent="No objects yet.";host.append(e);return}for(const o of state.objects){const b=document.createElement("button");b.className="object-btn"+(state.selected===o.id?" active":"");b.dataset.object=o.id;const s=document.createElement("span");s.textContent=o.label||o.text||o.symbol||o.type;const sm=document.createElement("small");const layer=state.layers.find(l=>l.id===o.layer);sm.textContent=(layer?.locked?"🔒 ":"")+(layer?.name||"Unknown layer");b.append(s,sm);host.append(b)}}
 $("#objectList").onclick=e=>{const b=e.target.closest("[data-object]");if(!b)return;state.selected=b.dataset.object;refreshPanels();render()};
-function refreshPanels(){refreshProperties();renderLayers();renderObjects();updateUI()}
+function areaLabel(mm2){
+  const factor=FACTOR[state.displayUnit]**2;
+  const value=mm2/factor;
+  const places=state.displayUnit==="mm"?0:2;
+  return `${Math.round(value*10**places)/10**places} ${UNIT_LABEL[state.displayUnit]}²`;
+}
+function updateAnalysis(){
+  const visible=state.objects.filter(o=>layerVisible(o.layer));
+  const area=visible.filter(o=>o.type==="rect").reduce((sum,o)=>sum+Math.abs((o.w||0)*(o.h||0)),0);
+  const lineLength=visible.reduce((sum,o)=>{
+    if(["line","wall","dimension"].includes(o.type))return sum+Math.hypot((o.x2||o.x)-o.x,(o.y2||o.y)-o.y);
+    if(o.type==="rect")return sum+2*(Math.abs(o.w||0)+Math.abs(o.h||0));
+    if(["window","door"].includes(o.type))return sum+Math.abs(o.w||0);
+    return sum;
+  },0);
+  const openings=visible.filter(o=>o.type==="door"||o.type==="window").length;
+  const metadataTargets=visible.filter(o=>["wall","rect","door","window","symbol","line"].includes(o.type));
+  const metadataComplete=metadataTargets.filter(o=>o.partNumber||o.material||o.tolerance||o.assembly).length;
+  const coverage=metadataTargets.length?Math.round(metadataComplete/metadataTargets.length*100):0;
+  $("#analysisArea").textContent=areaLabel(area);
+  $("#analysisLength").textContent=`${fmt(lineLength)} ${UNIT_LABEL[state.displayUnit]}`;
+  $("#analysisOpenings").textContent=String(openings);
+  $("#analysisMbd").textContent=coverage+"%";
+}
+function refreshPanels(){refreshProperties();renderLayers();renderObjects();updateAnalysis();updateUI()}
 function syncUnitLabels(){$$(".unitLabel").forEach(x=>x.textContent=UNIT_LABEL[state.displayUnit])}
 function syncControls(){$("#projectName").value=state.name;$("#unitSelect").value=state.displayUnit;$("#sheetW").value=fmt(state.sheet.w);$("#sheetH").value=fmt(state.sheet.h);$("#gridSize").value=fmt(state.grid);$("#scaleText").value=state.scale;$("#layerMode").value=state.autoLayer?"auto":"active";$("#gridBtn").classList.toggle("active",state.showGrid);$("#gridBtn").setAttribute("aria-pressed",String(state.showGrid));$("#snapBtn").classList.toggle("active",state.snap);$("#snapBtn").setAttribute("aria-pressed",String(state.snap));syncUnitLabels();refreshPanels()}
-function updateUI(){$("#undoBtn").disabled=history.length<2;$("#redoBtn").disabled=!future.length;const wide=app.classList.contains("wide"),focus=app.classList.contains("focus");$("#wideBtn").classList.toggle("active",wide);$("#wideBtn").setAttribute("aria-pressed",String(wide));$("#focusBtn").classList.toggle("active",focus);$("#focusBtn").setAttribute("aria-pressed",String(focus))}
+function updateUI(){
+  const undoAvailable=history.length>=2,redoAvailable=future.length>0;
+  $("#undoBtn").disabled=!undoAvailable;
+  $("#redoBtn").disabled=!redoAvailable;
+  $("#undoBtn").title=undoAvailable?`Undo · ${history.length-1} earlier state${history.length-1===1?"":"s"} available`:"Nothing to undo";
+  $("#redoBtn").title=redoAvailable?`Redo · ${future.length} state${future.length===1?"":"s"} available`:"Nothing to redo";
+  const wide=app.classList.contains("wide"),focus=app.classList.contains("focus");
+  $("#wideBtn").classList.toggle("active",wide);$("#wideBtn").setAttribute("aria-pressed",String(wide));
+  $("#focusBtn").classList.toggle("active",focus);$("#focusBtn").setAttribute("aria-pressed",String(focus));
+}
 $("#applySheet").onclick=()=>{const newW=fromDisplay($("#sheetW").value),newH=fromDisplay($("#sheetH").value),grid=fromDisplay($("#gridSize").value);if(!(newW>=10&&newW<=MAX_SHEET_MM&&newH>=10&&newH<=MAX_SHEET_MM))return toast(`Sheet dimensions must be between 10 mm and ${MAX_SHEET_MM.toLocaleString()} mm.`,4500);if(!(grid>=.1&&grid<=MAX_SHEET_MM/10))return toast("Grid size is outside the safe range.");state.name=safeText($("#projectName").value.trim()||"Untitled Project",100);state.sheet={w:newW,h:newH};state.grid=grid;state.scale=safeText($("#scaleText").value,30);state.autoLayer=$("#layerMode").value==="auto";pushHistory();render();toast("Project settings applied.")};
 $("#unitSelect").onchange=e=>{state.displayUnit=e.target.value;syncControls();render();pushHistory();toast(`Display converted to ${UNIT_LABEL[state.displayUnit]}; physical geometry is unchanged.`)};
 $("#gridBtn").onclick=()=>{state.showGrid=!state.showGrid;pushHistory();syncControls();render()};$("#snapBtn").onclick=()=>{state.snap=!state.snap;pushHistory();syncControls()};$("#undoBtn").onclick=undo;$("#redoBtn").onclick=redo;
@@ -417,7 +622,7 @@ async function deleteProject(name){
   const all=fallbackProjects();delete all[name];writeFallbackProjects(all);
   try{await dbDelete(PROJECT_STORE,name)}catch{}
 }
-async function saveProject(){state.name=safeText($("#projectName").value.trim()||"Untitled Project",100);const existing=await getProject(state.name);if(existing&&!confirm(`Replace saved project “${state.name}”? A version record will be kept.`))return;const rec={name:state.name,savedAt:new Date().toISOString(),schema:"ohmic-cad",version:"2.0",data:clone(state)};try{await putProject(rec);saveDraft();toast(`Saved locally: ${state.name}`);await renderProjects()}catch(e){toast("Project save failed. Export JSON immediately.",5000)}}
+async function saveProject(){state.name=safeText($("#projectName").value.trim()||"Untitled Project",100);const existing=await getProject(state.name);if(existing&&!confirm(`Replace saved project “${state.name}”? A version record will be kept.`))return;const rec={name:state.name,savedAt:new Date().toISOString(),schema:"ohmic-cad",version:OHMIC_SCHEMA_VERSION,data:clone(state)};try{await putProject(rec);saveDraft();toast(`Saved locally and versioned: ${state.name}`);await renderProjects()}catch(e){toast("Project save failed. Export JSON immediately.",5000)}}
 async function renderProjects(){const host=$("#projectList");host.replaceChildren();const list=await listProjects();if(!list.length){const e=document.createElement("div");e.className="empty";e.textContent="No locally saved projects.";host.append(e)}for(const rec of list){const row=document.createElement("div");row.className="project-row";const load=document.createElement("button");load.className="project-btn";const n=document.createElement("span");n.textContent=rec.name;const date=document.createElement("small");date.textContent=new Date(rec.savedAt).toLocaleString();load.append(n,date);load.onclick=()=>loadProject(rec.name);const copy=button("Copy");copy.onclick=async()=>{const source=await getProject(rec.name);const validated=sanitizeProject(source.data).project;validated.name=uniqueName(rec.name+" Copy",list.map(x=>x.name));await putProject({name:validated.name,savedAt:new Date().toISOString(),schema:"ohmic-cad",version:"2.0",data:validated});renderProjects()};const del=button("Delete");del.className="danger";del.onclick=async()=>{if(confirm(`Delete saved project “${rec.name}”?`)){await deleteProject(rec.name);renderProjects()}};row.append(load,copy,del);host.append(row)}updateStorageMeter()}
 function uniqueName(base,names){let n=base,i=2;while(names.includes(n))n=`${base} ${i++}`;return n}
 async function loadProject(name){const rec=await getProject(name);if(!rec)return;saveRecovery("Before loading saved project");const result=sanitizeProject(rec.data);replaceState(result.project,{fitView:true,mark:false});closeModal("projectModal");toast(result.warnings.length?`Loaded with ${result.warnings.length} repaired field(s).`:`Loaded ${name}.`,3600)}
@@ -449,7 +654,7 @@ async function importProjectLibrary(file){
     if(names.includes(name))name=uniqueName(name+" Imported",names);
     names.push(name);
     result.project.name=name;
-    await putProject({name,savedAt:record.savedAt||new Date().toISOString(),schema:"ohmic-cad",version:"2.1",data:result.project});
+    await putProject({name,savedAt:record.savedAt||new Date().toISOString(),schema:"ohmic-cad",version:OHMIC_SCHEMA_VERSION,data:result.project});
     imported++;
     repaired+=result.warnings.length;
   }
@@ -468,20 +673,187 @@ $("#saveBtn").onclick=saveProject;$("#projectsBtn").onclick=async()=>{await rend
 $("#exportAllBtn").onclick=async()=>{const projects=await listProjects();download("ohmic_cad_project_library.json",new Blob([JSON.stringify({schema:"ohmic-cad-library",version:2,exportedAt:new Date().toISOString(),projects},null,2)],{type:"application/json"}));toast(`Exported ${projects.length} project${projects.length===1?"":"s"}.`)};
 function sanitizeProject(raw){const warnings=[];if(!raw||typeof raw!=="object")throw new Error("Project is not an object");const s=defaultState();s.name=safeText(raw.name||"Imported Project",100);s.displayUnit=FACTOR[raw.displayUnit||raw.units]?raw.displayUnit||raw.units:"mm";s.scale=safeText(raw.scale||"1:50",30);s.sheet.w=clamp(Math.abs(finite(raw.sheet?.w,12000)),10,MAX_SHEET_MM);s.sheet.h=clamp(Math.abs(finite(raw.sheet?.h,8000)),10,MAX_SHEET_MM);s.grid=clamp(Math.abs(finite(raw.grid,250)),.1,MAX_SHEET_MM/10);s.showGrid=raw.showGrid!==false;s.snap=raw.snap!==false;s.autoLayer=raw.autoLayer!==false;s.camera={x:finite(raw.camera?.x,120),y:finite(raw.camera?.y,70),zoom:clamp(finite(raw.camera?.zoom,.75),.02,12)};
  const rawLayers=Array.isArray(raw.layers)?raw.layers:defaultLayers();if(rawLayers.length>MAX_LAYERS)warnings.push(`Layers reduced to ${MAX_LAYERS}`);const sourceLayers=rawLayers.slice(0,MAX_LAYERS),idMap=new Map();s.layers=[];for(const [i,l] of sourceLayers.entries()){const id=i<5&&defaultLayers()[i]&&safeText(l?.id,80)===defaultLayers()[i].id?defaultLayers()[i].id:"layer_"+uid();idMap.set(String(l?.id??i),id);s.layers.push({id,name:safeText(l?.name||`Layer ${i+1}`,80),visible:l?.visible!==false,locked:l?.locked===true})}if(!s.layers.length)s.layers=defaultLayers();s.activeLayer=idMap.get(String(raw.activeLayer))||s.layers[0].id;
- const rawObjects=Array.isArray(raw.objects)?raw.objects:[];if(rawObjects.length>MAX_OBJECTS)warnings.push(`Objects reduced to ${MAX_OBJECTS}`);const srcObjects=rawObjects.slice(0,MAX_OBJECTS);s.objects=[];for(const item of srcObjects){if(!item||!ALLOWED_TYPES.has(item.type)){warnings.push("Unsupported object removed");continue}const o={id:uid(),type:item.type,layer:idMap.get(String(item.layer))||s.layers[0].id,stroke:safeColor(item.stroke),fill:safeColor(item.fill,"#ffffff"),lineWidth:clamp(Math.abs(finite(item.lineWidth,3)),.05,1000),label:safeText(item.label,300)};o.x=clamp(finite(item.x),-MAX_SHEET_MM,MAX_SHEET_MM*2);o.y=clamp(finite(item.y),-MAX_SHEET_MM,MAX_SHEET_MM*2);if(["line","wall","dimension"].includes(o.type)){o.x2=clamp(finite(item.x2,o.x),-MAX_SHEET_MM,MAX_SHEET_MM*2);o.y2=clamp(finite(item.y2,o.y),-MAX_SHEET_MM,MAX_SHEET_MM*2)}else{o.w=clamp(Math.abs(finite(item.w,60)),.01,MAX_SHEET_MM);o.h=clamp(Math.abs(finite(item.h,60)),.01,MAX_SHEET_MM)}if(o.type==="text"){o.text=safeText(item.text||item.label||"Label",500);o.fontSize=clamp(Math.abs(finite(item.fontSize,18)),1,5000);o.rotation=clamp(finite(item.rotation),-3600,3600)}if(o.type==="symbol"){o.symbol=safeText(item.symbol||"Symbol",80);o.rotation=clamp(finite(item.rotation),-3600,3600)}s.objects.push(o)}s.version="2.0";s.internalUnit="mm";return{project:s,warnings}}
+ const rawObjects=Array.isArray(raw.objects)?raw.objects:[];if(rawObjects.length>MAX_OBJECTS)warnings.push(`Objects reduced to ${MAX_OBJECTS}`);const srcObjects=rawObjects.slice(0,MAX_OBJECTS);s.objects=[];for(const item of srcObjects){if(!item||!ALLOWED_TYPES.has(item.type)){warnings.push("Unsupported object removed");continue}const o={id:uid(),type:item.type,layer:idMap.get(String(item.layer))||s.layers[0].id,stroke:safeColor(item.stroke),fill:safeColor(item.fill,"#ffffff"),lineWidth:clamp(Math.abs(finite(item.lineWidth,3)),.05,1000),label:safeText(item.label,300),partNumber:safeText(item.partNumber,80),assembly:safeText(item.assembly,80),material:safeText(item.material,120),tolerance:safeText(item.tolerance,80),notes:safeText(item.notes,1000)};o.x=clamp(finite(item.x),-MAX_SHEET_MM,MAX_SHEET_MM*2);o.y=clamp(finite(item.y),-MAX_SHEET_MM,MAX_SHEET_MM*2);if(["line","wall","dimension"].includes(o.type)){o.x2=clamp(finite(item.x2,o.x),-MAX_SHEET_MM,MAX_SHEET_MM*2);o.y2=clamp(finite(item.y2,o.y),-MAX_SHEET_MM,MAX_SHEET_MM*2)}else{o.w=clamp(Math.abs(finite(item.w,60)),.01,MAX_SHEET_MM);o.h=clamp(Math.abs(finite(item.h,60)),.01,MAX_SHEET_MM)}if(o.type==="text"){o.text=safeText(item.text||item.label||"Label",500);o.fontSize=clamp(Math.abs(finite(item.fontSize,18)),1,5000);o.rotation=clamp(finite(item.rotation),-3600,3600)}if(o.type==="symbol"){o.symbol=safeText(item.symbol||"Symbol",80);o.rotation=clamp(finite(item.rotation),-3600,3600)}s.objects.push(o)}s.version=OHMIC_SCHEMA_VERSION;s.internalUnit="mm";return{project:s,warnings}}
 function download(name,blob){if(!blob)return;const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1200)}
 function safeName(){return(state.name||"ohmic-cad").replace(/[^a-z0-9_-]+/gi,"_").slice(0,80)}
 function xml(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"}[m]))}
 function svgObject(o){const st=xml(safeColor(o.stroke,"#111111")),fill=xml(safeColor(o.fill,"#ffffff")),sw=o.lineWidth||(o.type==="wall"?120:20);if(["line","wall"].includes(o.type))return `<line x1="${o.x}" y1="${o.y}" x2="${o.x2}" y2="${o.y2}" stroke="${st}" stroke-width="${sw}" stroke-linecap="round"/>`;if(o.type==="rect")return `<rect x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" fill="${fill}" stroke="${st}" stroke-width="${sw}"/>`;if(o.type==="window")return `<g stroke="${st}" stroke-width="2"><line x1="${o.x}" y1="${o.y-40}" x2="${o.x+o.w}" y2="${o.y-40}"/><line x1="${o.x}" y1="${o.y+40}" x2="${o.x+o.w}" y2="${o.y+40}"/></g>`;if(o.type==="door"){const r=Math.abs(o.w),endX=o.x+o.w,sweep=o.w>=0?1:0,endY=o.w>=0?o.y+r:o.y-r;return `<g fill="none" stroke="${st}" stroke-width="${sw}"><line x1="${o.x}" y1="${o.y}" x2="${endX}" y2="${o.y}"/><path d="M ${endX} ${o.y} A ${r} ${r} 0 0 ${sweep} ${o.x} ${endY}"/></g>`}if(o.type==="dimension"){const len=Math.hypot(o.x2-o.x,o.y2-o.y),mx=(o.x+o.x2)/2,my=(o.y+o.y2)/2;return `<g stroke="${st}" fill="${st}"><line x1="${o.x}" y1="${o.y}" x2="${o.x2}" y2="${o.y2}"/><text x="${mx}" y="${my-10}" text-anchor="middle" font-size="130">${xml(fmt(len)+" "+UNIT_LABEL[state.displayUnit])}</text></g>`}if(o.type==="text")return `<text x="${o.x}" y="${o.y}" transform="rotate(${o.rotation||0} ${o.x} ${o.y})" font-size="${o.fontSize||18}" fill="${st}">${xml(o.text||"Label")}</text>`;const b=bounds(o),cx=b.x+b.w/2,cy=b.y+b.h/2;return `<g transform="rotate(${o.rotation||0} ${cx} ${cy})"><rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" fill="${fill}" stroke="${st}" stroke-width="${sw}"/><text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" fill="${st}" font-size="${Math.max(11,Math.min(b.w,b.h)*.22)}">${xml(o.symbol||o.type)}</text></g>`}
-function buildSVG(pixelScale=1){const visible=state.objects.filter(o=>layerVisible(o.layer));return `<svg xmlns="http://www.w3.org/2000/svg" width="${state.sheet.w*pixelScale}" height="${state.sheet.h*pixelScale}" viewBox="0 0 ${state.sheet.w} ${state.sheet.h}"><rect width="100%" height="100%" fill="white"/>${visible.map(svgObject).join("")}</svg>`}
-function exportJSON(){download(safeName()+".json",new Blob([JSON.stringify({schema:"ohmic-cad",schemaVersion:2,exportedAt:new Date().toISOString(),data:state},null,2)],{type:"application/json"}))}
-function exportSVG(){download(safeName()+".svg",new Blob([buildSVG()],{type:"image/svg+xml"}))}
+function buildSVG(pixelScale=1){
+  const visible=state.objects.filter(o=>layerVisible(o.layer));
+  const metadata={
+    schema:"ohmic-mbd",
+    schemaVersion:1,
+    project:state.name,
+    scale:state.scale,
+    internalUnit:"mm",
+    displayUnit:state.displayUnit,
+    exportedAt:new Date().toISOString(),
+    objects:visible.map(o=>({id:o.id,type:o.type,layer:o.layer,label:o.label||o.text||o.symbol||"",partNumber:o.partNumber||"",assembly:o.assembly||"",material:o.material||"",tolerance:o.tolerance||"",notes:o.notes||""}))
+  };
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${state.sheet.w*pixelScale}" height="${state.sheet.h*pixelScale}" viewBox="0 0 ${state.sheet.w} ${state.sheet.h}"><metadata id="ohmic-model-definition">${xml(JSON.stringify(metadata))}</metadata><rect width="100%" height="100%" fill="white"/>${visible.map(svgObject).join("")}</svg>`;
+}
+function projectFilePayload(){
+  return {schema:"ohmic-cad",schemaVersion:OHMIC_SCHEMA_VERSION,exportedAt:new Date().toISOString(),data:state};
+}
+function projectJSONBlob(){
+  return new Blob([JSON.stringify(projectFilePayload(),null,2)],{type:"application/json"});
+}
+function exportJSON(){download(safeName()+".json",projectJSONBlob());toast("Editable project JSON downloaded.")}
+async function saveToComputer(){
+  const blob=projectJSONBlob();
+  if("showSaveFilePicker" in window){
+    try{
+      currentFileHandle=await window.showSaveFilePicker({
+        suggestedName:safeName()+".json",
+        types:[{description:"OHMIC CAD Project JSON",accept:{"application/json":[".json"]}}]
+      });
+      const writable=await currentFileHandle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      toast("Project JSON saved to your computer.");
+      return;
+    }catch(error){
+      if(error?.name==="AbortError")return;
+      toast("Direct file save was unavailable; downloading JSON instead.",3600);
+    }
+  }
+  download(safeName()+".json",blob);
+}
+function exportSVG(){download(safeName()+".svg",new Blob([buildSVG()],{type:"image/svg+xml"}));toast("Vector SVG with embedded model metadata downloaded.")}
 async function exportPNG(){const scale=finite($("#pngScale").value,1),w=Math.round(state.sheet.w*scale),h=Math.round(state.sheet.h*scale);if(w*h>MAX_EXPORT_PIXELS||w>14000||h>14000)return toast(`PNG would be ${w.toLocaleString()} × ${h.toLocaleString()} pixels. Choose a smaller scale.`,5000);const off=document.createElement("canvas");off.width=w;off.height=h;const out=off.getContext("2d");const url=URL.createObjectURL(new Blob([buildSVG(scale)],{type:"image/svg+xml"}));const im=new Image();im.onload=()=>{out.drawImage(im,0,0,w,h);URL.revokeObjectURL(url);off.toBlob(b=>b?download(safeName()+".png",b):toast("PNG encoding failed."),"image/png")};im.onerror=()=>{URL.revokeObjectURL(url);toast("PNG rendering failed.")};im.src=url}
 function exportDXF(){const L=["0","SECTION","2","HEADER","9","$INSUNITS","70","4","0","ENDSEC","0","SECTION","2","ENTITIES"],line=(x1,y1,x2,y2,layer="0")=>L.push("0","LINE","8",safeText(layer,60),"10",String(x1),"20",String(-y1),"11",String(x2),"21",String(-y2));for(const o of state.objects.filter(o=>layerVisible(o.layer))){if(["line","wall","dimension","window"].includes(o.type))line(o.x,o.y,o.x2??o.x+o.w,o.y2??o.y,state.layers.find(layer=>layer.id===o.layer)?.name||"0");else{const b=bounds(o);const layerName=state.layers.find(layer=>layer.id===o.layer)?.name||"0";line(b.x,b.y,b.x+b.w,b.y,layerName);line(b.x+b.w,b.y,b.x+b.w,b.y+b.h,layerName);line(b.x+b.w,b.y+b.h,b.x,b.y+b.h,layerName);line(b.x,b.y+b.h,b.x,b.y,layerName)}}L.push("0","ENDSEC","0","EOF");download(safeName()+".dxf",new Blob([L.join("\n")],{type:"application/dxf"}))}
-$$("[data-export]").forEach(b=>b.onclick=()=>({json:exportJSON,svg:exportSVG,png:exportPNG,dxf:exportDXF}[b.dataset.export])());
+
+function csvCell(value){
+  const s=String(value??"");
+  return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;
+}
+function exportPartSchedule(){
+  const rows=[["Object ID","Type","Label","Layer","Part Number","Assembly","Material","Tolerance","Notes","X mm","Y mm","Length or Width mm","Height mm"]];
+  for(const o of state.objects.filter(o=>layerVisible(o.layer))){
+    const layer=state.layers.find(l=>l.id===o.layer)?.name||"";
+    const length="x2" in o?Math.hypot(o.x2-o.x,o.y2-o.y):(o.w||0);
+    rows.push([o.id,o.type,o.label||o.text||o.symbol||"",layer,o.partNumber||"",o.assembly||"",o.material||"",o.tolerance||"",o.notes||"",o.x,o.y,length,o.h||0]);
+  }
+  const csv=rows.map(row=>row.map(csvCell).join(",")).join("\n");
+  download(safeName()+"_part_schedule.csv",new Blob([csv],{type:"text/csv;charset=utf-8"}));
+  toast("Part schedule CSV downloaded.");
+}
+function printDrawing(){
+  const win=window.open("","_blank","width=1200,height=850");
+  if(!win)return toast("The print window was blocked by the browser.",4200);
+  const visible=state.objects.filter(o=>layerVisible(o.layer));
+  const partRows=visible.filter(o=>o.partNumber||o.material||o.tolerance||o.assembly).map(o=>{
+    const layer=state.layers.find(l=>l.id===o.layer)?.name||"";
+    return `<tr><td>${xml(o.partNumber||"—")}</td><td>${xml(o.label||o.text||o.symbol||o.type)}</td><td>${xml(o.assembly||"—")}</td><td>${xml(o.material||"—")}</td><td>${xml(o.tolerance||"—")}</td><td>${xml(layer)}</td></tr>`;
+  }).join("");
+  const doc=`<!doctype html><html><head><meta charset="utf-8"><title>${xml(state.name)} · OHMIC Foundry</title><style>
+    @page{size:landscape;margin:10mm}
+    *{box-sizing:border-box}body{margin:0;color:#111;font:11px/1.4 Arial,sans-serif}header{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;border-bottom:1px solid #777;padding-bottom:7px;margin-bottom:8px}h1{margin:0;font:700 22px Georgia,serif}header p{margin:2px 0}svg{display:block;width:100%;max-height:72vh;border:1px solid #999;background:white}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:9px}th,td{border:1px solid #aaa;padding:4px;text-align:left;vertical-align:top}th{background:#eee}.note{margin-top:8px;color:#555}
+  </style></head><body><header><div><h1>${xml(state.name)}</h1><p>OHMIC Foundry™ Protected CAD Studio</p></div><div><p>Sheet: ${xml(fmt(state.sheet.w))} × ${xml(fmt(state.sheet.h))} ${xml(UNIT_LABEL[state.displayUnit])}</p><p>Scale note: ${xml(state.scale)} · ${visible.length} visible objects</p><p>Printed: ${xml(new Date().toLocaleString())}</p></div></header>${buildSVG()}${partRows?`<h2>Model-Based Definition Schedule</h2><table><thead><tr><th>Part</th><th>Object</th><th>Assembly</th><th>Material</th><th>Tolerance</th><th>Layer</th></tr></thead><tbody>${partRows}</tbody></table>`:""}<p class="note">Concept-planning output. Independently verify engineering, code, manufacturing, permitting, and construction requirements.</p><script>setTimeout(()=>window.print(),260);<\/script></body></html>`;
+  win.document.write(doc);
+  win.document.close();
+}
+$$("[data-export]").forEach(b=>b.onclick=()=>({computer:saveToComputer,json:exportJSON,print:printDrawing,svg:exportSVG,png:exportPNG,dxf:exportDXF,csv:exportPartSchedule}[b.dataset.export])());
 $("#importInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(f.size>15*1024*1024){toast("Project JSON is too large.");e.target.value="";return}try{const raw=JSON.parse(await f.text()),payload=raw.schema==="ohmic-cad"&&raw.data?raw.data:raw;const result=sanitizeProject(payload);saveRecovery("Before project import");replaceState(result.project,{fitView:true,mark:true});closeModal("exportModal");toast(result.warnings.length?`Imported with ${result.warnings.length} repair warning(s).`:"Project imported safely.",4000)}catch(err){toast("That file is not a valid safe OHMIC CAD project.",4500)}finally{e.target.value=""}};
 function renderRecovery(){const host=$("#recoveryList");host.replaceChildren();const items=recoveryItems();if(!items.length){const e=document.createElement("div");e.className="empty";e.textContent="No recovery snapshots.";host.append(e);return}for(const item of items){const row=document.createElement("div");row.className="project-row";const info=document.createElement("button");info.className="project-btn";const a=document.createElement("span");a.textContent=item.reason;const d=document.createElement("small");d.textContent=new Date(item.ts).toLocaleString();info.append(a,d);info.onclick=()=>{if(confirm("Restore this snapshot? The current project will be snapshotted first.")){saveRecovery("Before restoring snapshot");const result=sanitizeProject(item.data);replaceState(result.project,{fitView:true,mark:true});closeModal("recoveryModal");toast("Recovery snapshot restored.")}};const dl=button("JSON");dl.onclick=()=>download(`ohmic_recovery_${item.ts}.json`,new Blob([JSON.stringify({schema:"ohmic-cad",schemaVersion:2,data:item.data},null,2)],{type:"application/json"}));row.append(info,dl);host.append(row)}}
 $("#recoveryBtn").onclick=()=>{renderRecovery();openModal("recoveryModal")};
+
+async function renderVersions(){
+  const host=$("#versionList");
+  host.replaceChildren();
+  let versions=[];
+  try{
+    versions=(await dbGetAll(VERSION_STORE)).filter(item=>item.project===state.name).sort((a,b)=>String(b.savedAt).localeCompare(String(a.savedAt)));
+  }catch{}
+  if(!versions.length){
+    const empty=document.createElement("div");
+    empty.className="empty";
+    empty.textContent=`No explicit saved versions are available for “${state.name}”. Use Save Local to create one.`;
+    host.append(empty);
+    return;
+  }
+  for(const version of versions){
+    const row=document.createElement("div");
+    row.className="project-row";
+    const restoreBtn=document.createElement("button");
+    restoreBtn.className="project-btn";
+    const label=document.createElement("span");
+    label.textContent=version.project;
+    const date=document.createElement("small");
+    date.textContent=new Date(version.savedAt).toLocaleString();
+    restoreBtn.append(label,date);
+    restoreBtn.onclick=()=>{
+      if(!confirm("Restore this saved version? The current drawing will be added to Recovery first."))return;
+      saveRecovery("Before restoring saved version");
+      const result=sanitizeProject(version.data);
+      replaceState(result.project,{fitView:true,mark:true});
+      closeModal("versionModal");
+      toast("Saved version restored.");
+    };
+    const dl=button("JSON");
+    dl.onclick=()=>download(`${safeName()}_version_${String(version.savedAt).replace(/[:.]/g,"-")}.json`,new Blob([JSON.stringify({schema:"ohmic-cad",schemaVersion:OHMIC_SCHEMA_VERSION,exportedAt:new Date().toISOString(),data:version.data},null,2)],{type:"application/json"}));
+    row.append(restoreBtn,dl);
+    host.append(row);
+  }
+}
+async function openVersionHistory(){
+  await renderVersions();
+  openModal("versionModal");
+}
+$("#versionsBtn").onclick=openVersionHistory;
+$("#versionHistoryBtn").onclick=openVersionHistory;
+
+function generateConstraintLayout(){
+  const width=clamp(Math.abs(finite($("#genWidth").value,10000)),100,MAX_SHEET_MM);
+  const height=clamp(Math.abs(finite($("#genHeight").value,7000)),100,MAX_SHEET_MM);
+  const margin=clamp(Math.abs(finite($("#genMargin").value,500)),0,MAX_SHEET_MM/4);
+  const rows=clamp(Math.round(finite($("#genRows").value,2)),1,20);
+  const cols=clamp(Math.round(finite($("#genCols").value,3)),1,20);
+  const gap=clamp(Math.abs(finite($("#genGap").value,150)),0,MAX_SHEET_MM/4);
+  const wall=clamp(Math.abs(finite($("#genWall").value,120)),1,2000);
+  const door=clamp(Math.abs(finite($("#genDoor").value,900)),100,5000);
+  const prefix=safeText($("#genPrefix").value||"Room",40);
+  const usableW=width-gap*(cols-1),usableH=height-gap*(rows-1);
+  if(usableW<=0||usableH<=0)return toast("The gaps are larger than the available layout dimensions.",4200);
+  const cellW=usableW/cols,cellH=usableH/rows;
+  if(cellW<200||cellH<200)return toast("Each generated room must be at least 200 mm in both directions.",4200);
+  const objectEstimate=rows*cols*($("#genDoors").checked?3:2);
+  if((!$("#genReplace").checked?state.objects.length:0)+objectEstimate>MAX_OBJECTS)return toast("This generated layout would exceed the protected object limit.",4200);
+  if(state.objects.length&&!$("#genReplace").checked&&!confirm("Append the generated layout to the current drawing?"))return;
+  saveRecovery("Before generative layout");
+  if($("#genReplace").checked){
+    state.objects=[];
+    state.selected=null;
+  }
+  state.sheet={w:Math.min(MAX_SHEET_MM,width+margin*2),h:Math.min(MAX_SHEET_MM,height+margin*2)};
+  let count=1;
+  for(let row=0;row<rows;row++){
+    for(let col=0;col<cols;col++){
+      const x=margin+col*(cellW+gap),y=margin+row*(cellH+gap);
+      const rect={id:uid(),type:"rect",x,y,w:cellW,h:cellH,stroke:"#162536",fill:"#ffffff",lineWidth:wall,layer:"walls",label:`${prefix} ${count}`,assembly:"Generated Layout"};
+      state.objects.push(rect);
+      state.objects.push({id:uid(),type:"text",x:x+cellW*.08,y:y+cellH*.18,text:`${prefix} ${count}`,fontSize:Math.max(110,Math.min(260,cellH*.09)),rotation:0,stroke:"#162536",fill:"#ffffff",lineWidth:10,layer:"annotations",label:`${prefix} ${count}`});
+      if($("#genDoors").checked){
+        const doorWidth=Math.min(door,cellW*.65);
+        state.objects.push({id:uid(),type:"door",x:x+(cellW-doorWidth)/2,y:y,w:doorWidth,h:100,stroke:"#162536",fill:"#ffffff",lineWidth:20,layer:"openings",label:`${prefix} ${count} Door`,assembly:"Generated Layout"});
+      }
+      count++;
+    }
+  }
+  pushHistory();
+  refreshPanels();
+  fit();
+  closeModal("generativeModal");
+  toast(`Generated ${rows*cols} editable room${rows*cols===1?"":"s"}.`,3200);
+}
+$("#generativeBtn").onclick=()=>openModal("generativeModal");
+$("#generateLayoutBtn").onclick=generateConstraintLayout;
+
+$("#downloadBtn").onclick=saveToComputer;
+$("#sidebarDownloadBtn").onclick=saveToComputer;
+$("#printBtn").onclick=printDrawing;
+$("#sidebarPrintBtn").onclick=printDrawing;
+
 function setLayout(mode){if(mode==="wide")app.classList.toggle("wide");if(mode==="focus")app.classList.toggle("focus");if(app.classList.contains("focus"))app.classList.remove("wide");try{localStorage.setItem(LAYOUT_KEY,JSON.stringify({wide:app.classList.contains("wide"),focus:app.classList.contains("focus"),side:getComputedStyle(document.documentElement).getPropertyValue("--side-width")}))}catch{}updateUI();setTimeout(resize,40)}
 $("#wideBtn").onclick=()=>setLayout("wide");$("#focusBtn").onclick=()=>setLayout("focus");$("#sidebarWideBtn").onclick=()=>setLayout("wide");$("#sidebarFocusBtn").onclick=()=>setLayout("focus");$("#sideBtn").onclick=()=>$("#sidebar").classList.toggle("open");
 $("#fullBtn").onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch{toast("Fullscreen is unavailable in this browser.")}};
@@ -559,4 +931,3 @@ init();
 </script>
 </body>
 </html>
-
