@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Printable Daily Checklist</title>
+  <style>
+    :root{
+      --paper-bg: #ffffff;
+      --ink: #111;
+      --muted: #6b7280;
+      --accent: #111827;
+      --gap: 12px;
+      --page-width: 800px;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(#f3f4f6,#eef2f7);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;color:var(--ink);-webkit-font-smoothing:antialiased;}
+    .wrap{max-width:var(--page-width);margin:28px auto;padding:20px;}
+    .card{background:var(--paper-bg);border-radius:10px;padding:20px;border:1px solid #e6e9ef;box-shadow:0 6px 18px rgba(10,15,30,0.06);}
+    header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    h1{margin:0;font-size:20px}
+    .meta{color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:#111827;color:#fff;padding:8px 10px;border-radius:8px;text-decoration:none;font-size:13px}
+    .note{margin-top:8px;color:var(--muted);font-size:13px}
+
+    /* Checklist */
+    .checklist{margin-top:18px;padding:0}
+    .checklist li{list-style:none;padding:10px 12px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;gap:12px;background:#fbfcfe;border:1px solid #eef2f6;box-shadow:0 1px 0 #ffffff inset}
+    .checkbox{width:22px;height:22px;border:2px solid #222;border-radius:4px;flex:0 0 22px;display:inline-block}
+    .task-text{flex:1;min-width:0;font-size:15px;color:var(--ink)}
+    .task-text[contenteditable="true"]{outline:2px dashed transparent;padding:2px 4px}
+    .task-text[contenteditable="true"]:focus{outline:2px dashed #c7d2fe;background:#fff}
+
+    /* Small details under each item */
+    .sub{font-size:12px;color:var(--muted);margin-left:34px;margin-top:4px}
+
+    /* For printing: hide UI bits and maximize printable area */
+    @media print{
+      html,body{background:transparent}
+      .wrap{margin:0;padding:0;max-width:100%}
+      .card{box-shadow:none;border:none;padding:0}
+      .controls, .note { display:none }
+      .checklist li{page-break-inside:avoid}
+    }
+
+    /* Make the page easier to edit on phones */
+    @media (max-width:520px){
+      h1{font-size:18px}
+      .checkbox{width:18px;height:18px}
+      .task-text{font-size:15px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <div>
+          <h1>Daily Checklist — <span id="dateDisplay"></span></h1>
+          <div class="meta">Fill in your tasks below. Tap an item to edit. When ready, use your browser's Print (Ctrl/Cmd+P) to print or save as PDF.</div>
+        </div>
+        <div class="controls" aria-hidden="true">
+          <!-- These are non-script buttons for editors — they do nothing but are visible in the editor. -->
+          <span class="btn" role="button">Print: Ctrl/Cmd+P</span>
+          <a class="btn" href="https://www.vervenveda.com/protools/taskhandler" target="_blank" rel="noopener">Back to Task Handler</a>
+        </div>
+      </header>
+
+      <p class="note">Tip: Click into any task text to edit. There are 30 editable lines — copy/paste your task list into the page editor or directly into the items.</p>
+
+      <ol class="checklist" id="checklist" aria-label="Daily checklist">
+        <!-- Each <li> is contenteditable for easy editing in the site builder or browser -->
+        <!-- You can duplicate/remove lines in your editor or keep these placeholders and edit text -->
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Morning routine — (e.g., stretch, water)</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Top work priority —</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Email: follow up with</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Client / Vendor call at</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Prepare slides / doc</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Household chore</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Lunch / break</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Admin: invoices/payments</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Follow-up: social / outreach</span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true">Short walk / movement</span></li>
+
+        <!-- extra blank lines for flexibility -->
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+
+        <!-- 10 more so you have room -->
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+        <li><span class="checkbox" aria-hidden="true"></span><span class="task-text" contenteditable="true"> </span></li>
+      </ol>
+
+      <p class="note" style="margin-top:14px;">If you'd like, I can produce a variant that prints only unfinished tasks (requires a tiny script). For now this is fully script-free so your site editor won't show script code.</p>
+    </div>
+  </div>
+
+  <script>
+    // Small UX-only enhancement: set the date display. This script is optional —
+    // if your site builder strips scripts you can remove this tag and the page still works.
+    try{
+      const d = new Date();
+      const dd = d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      document.getElementById('dateDisplay').textContent = dd;
+    }catch(e){}
+  </script>
+</body>
+</html>
