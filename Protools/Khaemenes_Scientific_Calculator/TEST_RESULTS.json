@@ -1,0 +1,147 @@
+{
+  "version": "4.1.0",
+  "checks_total": 24,
+  "checks_passed": 24,
+  "checks_failed": 0,
+  "html_lines": 1591,
+  "html_ids": 32,
+  "script_element_references": 29,
+  "parser_domain_tests": 30,
+  "extended_parser_tests": 6,
+  "deployable_assets": [
+    "Khaemenes_Scientific_Calculator_index.html",
+    "Khaemenes_Scientific_Calculator_manifest.webmanifest",
+    "Khaemenes_Scientific_Calculator_service-worker.js",
+    "Khaemenes_Scientific_Calculator_icon-192.png",
+    "Khaemenes_Scientific_Calculator_icon-512.png"
+  ],
+  "sha256": {
+    "Khaemenes_Scientific_Calculator_index.html": "484fc51d2992f0faac114aa993e2dfacf3f6424d5335cec06d5f4ba07bbf95ea",
+    "Khaemenes_Scientific_Calculator_manifest.webmanifest": "8eecc1e4f584406c6ca64ae69dc0042e14eaf34899fc60bea19d208227fbf75e",
+    "Khaemenes_Scientific_Calculator_service-worker.js": "c2462bbe6f82b000067cb8d63e0f84594c03a06865a777dc2acf57142e232486",
+    "Khaemenes_Scientific_Calculator_icon-192.png": "86ec27ab5fa34873b70cae7676109b541c4c1d9aaf6aa0c15154dae7e9ce5be2",
+    "Khaemenes_Scientific_Calculator_icon-512.png": "794384694af8f4c033bd9db37838a59b10beb31f2fa11b4dc0fb1e732d12fc43"
+  },
+  "checks": [
+    {
+      "name": "No duplicate HTML IDs",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Required interactive elements present",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "All $() element references resolve",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Application JavaScript syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Service worker JavaScript syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Manifest JSON parses",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Manifest local assets exist",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Service-worker cache targets exist",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Service worker remains passive for unrelated Protools",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Version metadata updated",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Legacy storage key preserved",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Euler button uses unambiguous internal constant",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Scientific notation and Euler constant tokenizer separated",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Implicit multiplication accepts following numbers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Desktop expression editor is visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Import size and history limits present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Shifted accessibility labels update",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Theme and haptic toggles expose state",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Built-in self-test available",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Install and offline files connected",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Accurate display precision wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "No eval or Function execution",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Forbidden personal credit absent",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "30 built-in parser/domain tests and 6 extended tests",
+      "pass": true,
+      "detail": "Khaemenes Calculator self-test { version: '4.1.0', total: 30, passed: 30, failed: 0, failures: [] }\n{\n  \"version\": \"4.1.0\",\n  \"total\": 30,\n  \"passed\": 30,\n  \"failed\": 0,\n  \"failures\": []\n}\nEXTRA_PASS 6"
+    }
+  ]
+}

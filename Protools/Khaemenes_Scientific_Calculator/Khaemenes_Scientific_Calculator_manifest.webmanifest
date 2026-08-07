@@ -1,0 +1,27 @@
+{
+  "id": "./Khaemenes_Scientific_Calculator_index.html",
+  "name": "Khaemenes Scientific Calculator",
+  "short_name": "Khaemenes Calc",
+  "description": "Safe offline scientific computation with precedence, trigonometry, percentages, memory, history, editable expressions, and built-in validation.",
+  "start_url": "./Khaemenes_Scientific_Calculator_index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e1117",
+  "theme_color": "#11151c",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "Khaemenes_Scientific_Calculator_icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "Khaemenes_Scientific_Calculator_icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
