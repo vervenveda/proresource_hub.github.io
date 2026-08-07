@@ -1,0 +1,268 @@
+{
+  "version": 1,
+  "sourceId": "verve.proresources",
+  "name": "ProReSources Hub",
+  "classification": "professional-practical",
+  "mentorSearchable": true,
+  "audiences": [
+    "high",
+    "higher-learning",
+    "adult",
+    "parent"
+  ],
+  "roles": [
+    "student",
+    "parent",
+    "educator"
+  ],
+  "homepage": "https://vervenveda.com/proresource_hub.github.io/",
+  "repository": "vervenveda/proresource_hub.github.io",
+  "resources": [
+    {
+      "id": "proresources-home",
+      "title": "ProReSources Hub",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "professional",
+        "productivity",
+        "technology"
+      ],
+      "skills": [],
+      "tags": [
+        "resources",
+        "tools"
+      ],
+      "mentorEligible": true,
+      "featured": true
+    },
+    {
+      "id": "daily-spark",
+      "title": "DailySpark™ Task Studio",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/Protools/DailySpark%E2%84%A2_task_studio_index.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "productivity"
+      ],
+      "skills": [
+        "planning",
+        "task-management"
+      ],
+      "tags": [
+        "planner",
+        "tasks"
+      ],
+      "mentorEligible": true,
+      "minutes": 15,
+      "energy": "steady"
+    },
+    {
+      "id": "khae-clean",
+      "title": "KhaeClean™",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/Protools/KhaeClean%E2%84%A2_index.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "technology"
+      ],
+      "skills": [
+        "file-organization",
+        "digital-tools"
+      ],
+      "tags": [
+        "utility",
+        "cleanup"
+      ],
+      "mentorEligible": true,
+      "minutes": 10,
+      "energy": "steady"
+    },
+    {
+      "id": "khae-zip",
+      "title": "KhaeZip™",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/Protools/KhaeZip%E2%84%A2_index.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "technology"
+      ],
+      "skills": [
+        "file-management"
+      ],
+      "tags": [
+        "utility",
+        "archive"
+      ],
+      "mentorEligible": true,
+      "minutes": 10,
+      "energy": "steady"
+    },
+    {
+      "id": "ohmic-cad",
+      "title": "Ohmic CAD Studio",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/Protools/Ohmic_CAD_Studio.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "engineering",
+        "design",
+        "technology"
+      ],
+      "skills": [
+        "cad",
+        "design"
+      ],
+      "tags": [
+        "engineering",
+        "cad"
+      ],
+      "mentorEligible": true,
+      "minutes": 30,
+      "energy": "focused"
+    },
+    {
+      "id": "prose",
+      "title": "PROSE™ Writing Studio",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/Protools/PROSE_index.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "writing",
+        "productivity"
+      ],
+      "skills": [
+        "writing",
+        "editing"
+      ],
+      "tags": [
+        "editor",
+        "writing"
+      ],
+      "mentorEligible": true,
+      "minutes": 30,
+      "energy": "focused"
+    },
+    {
+      "id": "plera-search-gate",
+      "title": "PLERA™ Search Gate",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/Protools/PLERA%E2%84%A2%20Search%20Gate_index.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult",
+        "parent"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "research"
+      ],
+      "skills": [
+        "research-navigation"
+      ],
+      "tags": [
+        "search",
+        "research"
+      ],
+      "mentorEligible": true,
+      "minutes": 10,
+      "energy": "curious",
+      "classification": "research-information",
+      "requiresFreshnessCheck": true
+    },
+    {
+      "id": "scientific-calculator",
+      "title": "Khaemenes Scientific Calculator",
+      "description": "",
+      "url": "https://vervenveda.com/proresource_hub.github.io/Protools/Khaemenes_Scientific_Calculator/Khaemenes_Scientific_Calculator_index.html",
+      "audiences": [
+        "high",
+        "higher-learning",
+        "adult"
+      ],
+      "roles": [
+        "student",
+        "parent",
+        "educator"
+      ],
+      "domains": [
+        "mathematics",
+        "science"
+      ],
+      "skills": [
+        "calculation"
+      ],
+      "tags": [
+        "calculator",
+        "math",
+        "science"
+      ],
+      "mentorEligible": true,
+      "minutes": 10,
+      "energy": "focused"
+    }
+  ]
+}
