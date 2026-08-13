@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Evidence & Citation Studio — research provenance workspace with contained Lab Resource Cloud companion.">
 <meta name="theme-color" content="#111821">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Evidence & Citation Studio — Research Provenance Workspace</title>
 <style>
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#09111a}
@@ -23,5 +23,49 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#09111a}
 <span id="khaeMiniAgiDot" aria-hidden="true">•</span>
 <iframe id="studioCore" src="studio-core.html" title="Evidence & Citation Studio"></iframe>
 <a id="labCloudLauncher" href="lab-resource-cloud.html" aria-label="Open Khaemenes Lab Resource Cloud">● Lab Resource Cloud</a>
+<script>
+(()=>{
+  "use strict";
+  const frame=document.getElementById("studioCore");
+  const HASH_LIMIT=64*1024*1024;
+  function safeHttp(value,base){
+    try{const u=new URL(value,base);return u.protocol==="http:"||u.protocol==="https:"}catch{return false}
+  }
+  frame.addEventListener("load",()=>{
+    const win=frame.contentWindow,doc=frame.contentDocument;
+    if(!win||!doc)return;
+
+    const recovery=doc.getElementById("unlockImportButton");
+    if(recovery)recovery.onclick=()=>{window.location.href="recovery.html"};
+
+    const sourceFile=doc.getElementById("sourceFile");
+    if(sourceFile)sourceFile.addEventListener("change",event=>{
+      const file=event.target.files?.[0];
+      if(!file||file.size<=HASH_LIMIT)return;
+      event.preventDefault();event.stopImmediatePropagation();
+      event.target.value="";
+      const name=doc.getElementById("sourceFileName"),hash=doc.getElementById("sourceHash");
+      if(name)name.value="";if(hash)hash.value="";
+      win.alert("For browser stability, Evidence Studio currently hashes local files up to 64 MB. Larger files can still be cited by metadata or preserved separately.");
+    },true);
+
+    const sourceTable=doc.getElementById("sourceTableBody");
+    function sanitizeSourceLinks(){
+      if(!sourceTable)return;
+      sourceTable.querySelectorAll("a[href]").forEach(a=>{
+        const raw=a.getAttribute("href")||"";
+        if(safeHttp(raw,win.location.href))return;
+        a.removeAttribute("href");a.removeAttribute("target");
+        a.setAttribute("aria-disabled","true");
+        a.title="Stored location is metadata only; clickable source links are limited to http(s).";
+      });
+    }
+    if(sourceTable){
+      sanitizeSourceLinks();
+      new MutationObserver(sanitizeSourceLinks).observe(sourceTable,{childList:true,subtree:true,attributes:true,attributeFilter:["href"]});
+    }
+  });
+})();
+</script>
 </body>
 </html>
