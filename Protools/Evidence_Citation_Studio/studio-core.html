@@ -1,0 +1,1351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Evidence & Citation Studio is a local-first professional research workspace for claims, sources, quotations, evidence relationships, provenance, citation drafts, timelines, bibliographies, and portable research exports.">
+<meta name="theme-color" content="#111821">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Evidence & Citation Studio — Research Provenance Workspace</title>
+<style>
+:root{
+  --display:"Gaspacho","Cormorant Garamond",Georgia,serif;
+  --brand:"Cinzel","Aboreto",Georgia,serif;
+  --ui:"Brandon Grotesque","Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+
+  --night:#09111a;
+  --night2:#111f2d;
+  --night3:#192c3e;
+  --panel:rgba(14,27,39,.96);
+  --panel2:rgba(23,42,57,.92);
+  --paper:#fbf7ee;
+  --ink:#f5f1e9;
+  --muted:#b3bec5;
+  --faint:#7d8d96;
+  --blue:#79c7d6;
+  --blue2:#a8e4eb;
+  --gold:#d5b36e;
+  --gold2:#efd79a;
+  --sage:#86b79b;
+  --sage2:#bfe4cb;
+  --violet:#9e90d3;
+  --rose:#cf889e;
+  --good:#79d5a4;
+  --warn:#e4bb6c;
+  --bad:#df7b89;
+  --line:rgba(121,199,214,.18);
+  --line-gold:rgba(213,179,110,.24);
+  --shadow:0 25px 78px rgba(0,0,0,.39);
+  --radius:15px;
+  --side:248px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--ink);font-family:var(--ui);letter-spacing:.004em;
+  background:
+    radial-gradient(circle at 11% -4%,rgba(158,144,211,.15),transparent 32rem),
+    radial-gradient(circle at 91% 8%,rgba(121,199,214,.13),transparent 31rem),
+    radial-gradient(circle at 50% 105%,rgba(213,179,110,.08),transparent 43rem),
+    linear-gradient(145deg,var(--night),#04090f 78%)
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;
+  background-image:
+    linear-gradient(rgba(121,199,214,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(121,199,214,.12) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:linear-gradient(to bottom,#000,transparent 90%)
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid rgba(121,199,214,.78);outline-offset:3px}
+.skip{position:fixed;top:-70px;left:14px;z-index:10000;padding:10px 13px;border-radius:8px;background:#faf5ea;color:#10202b;font-weight:700}
+.skip:focus{top:14px}
+
+.app{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:var(--side) minmax(0,1fr)}
+.sidebar{
+  position:sticky;top:0;height:100vh;overflow:auto;padding:14px 11px;
+  border-right:1px solid var(--line);background:rgba(6,13,21,.92);backdrop-filter:blur(16px)
+}
+.brand{padding:13px;border:1px solid var(--line-gold);border-radius:13px;background:linear-gradient(145deg,rgba(121,199,214,.08),rgba(158,144,211,.07))}
+.brand-mark{
+  width:46px;height:46px;border:1px solid rgba(239,215,154,.46);border-radius:13px;
+  display:grid;place-items:center;background:rgba(255,255,255,.035);color:var(--gold2);
+  font:700 .62rem var(--brand);letter-spacing:.08em
+}
+.brand strong{display:block;margin-top:11px;font:600 .75rem var(--brand);letter-spacing:.11em;text-transform:uppercase}
+.brand span{display:block;margin-top:4px;color:var(--muted);font-size:.60rem;line-height:1.48}
+.nav{display:grid;gap:5px;margin-top:12px}
+.nav button{
+  min-height:39px;padding:8px 10px;border:1px solid transparent;border-radius:8px;
+  text-align:left;background:transparent;color:#d8dfe2;font-size:.65rem;font-weight:650
+}
+.nav button:hover{border-color:var(--line);background:rgba(255,255,255,.035)}
+.nav button.active{border-color:rgba(213,179,110,.37);background:rgba(213,179,110,.09);color:var(--gold2)}
+.sidebar-links{display:grid;gap:5px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.sidebar-links a{
+  min-height:35px;padding:7px 9px;border:1px solid rgba(255,255,255,.055);border-radius:7px;
+  display:flex;align-items:center;justify-content:space-between;text-decoration:none;
+  color:var(--muted);background:rgba(255,255,255,.02);font-size:.57rem
+}
+.sidebar-links a:hover{color:var(--blue2);border-color:var(--line)}
+.local-note{
+  margin-top:13px;padding:11px;border:1px solid rgba(228,187,108,.22);border-radius:10px;
+  color:#dbc9a5;background:rgba(63,48,23,.22);font-size:.55rem;line-height:1.55
+}
+
+.main{min-width:0;padding:14px 17px 48px}
+.topbar{
+  position:sticky;top:8px;z-index:50;min-height:58px;padding:8px 10px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:12px;background:rgba(8,17,27,.89);
+  backdrop-filter:blur(17px);box-shadow:0 12px 34px rgba(0,0,0,.19)
+}
+.topbar strong{font:600 1.12rem var(--display)}
+.spacer{flex:1}
+.button{
+  min-height:35px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;
+  background:rgba(255,255,255,.035);color:#dde3e6;font-size:.60rem;font-weight:700;text-decoration:none
+}
+.button:hover{border-color:rgba(239,215,154,.46);background:rgba(255,255,255,.065)}
+.button.primary{border:0;color:#071713;background:linear-gradient(145deg,#abe5df,#69b9b0)}
+.button.gold{border:0;color:#171108;background:linear-gradient(145deg,var(--gold2),#c79547)}
+.button.violet{border:0;color:#120d1b;background:linear-gradient(145deg,#c7bdf1,#9281ce)}
+.button.danger{border-color:rgba(223,123,137,.28);background:rgba(125,42,59,.34);color:#ffdce3}
+.button.small{min-height:28px;padding:5px 7px;font-size:.50rem}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;padding:5px 7px;border:1px solid var(--line);
+  border-radius:999px;color:#cad2d7;background:rgba(255,255,255,.025);font-size:.51rem;font-weight:700
+}
+.badge.good{border-color:rgba(121,213,164,.27);color:#bae9cf}
+.badge.warn{border-color:rgba(228,187,108,.29);color:#ead49d}
+.badge.bad{border-color:rgba(223,123,137,.29);color:#f0adb8}
+.badge.violet{border-color:rgba(158,144,211,.30);color:#d5cbef}
+
+.view{display:none}.view.active{display:block}
+.hero{
+  margin-top:12px;padding:25px;border:1px solid var(--line);border-radius:18px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(158,144,211,.10),transparent 25rem),
+    radial-gradient(circle at 0% 100%,rgba(121,199,214,.07),transparent 25rem),
+    linear-gradient(145deg,rgba(18,36,51,.96),rgba(8,18,29,.95));box-shadow:var(--shadow)
+}
+.eyebrow{color:var(--gold2);font:600 .56rem var(--brand);letter-spacing:.2em;text-transform:uppercase}
+.hero h1{margin:7px 0 8px;font:600 clamp(2.35rem,5vw,4.45rem)/.94 var(--display)}
+.hero p{max-width:860px;margin:0;color:var(--muted);font-size:.72rem;line-height:1.7}
+.seal{
+  width:146px;height:146px;border:1px solid rgba(239,215,154,.45);border-radius:50%;
+  display:grid;place-items:center;align-content:center;gap:5px;
+  background:
+    radial-gradient(circle at 35% 24%,rgba(255,255,255,.15),transparent 35%),
+    linear-gradient(145deg,rgba(121,199,214,.18),rgba(158,144,211,.16));
+  box-shadow:inset 0 0 30px rgba(213,179,110,.08),0 18px 45px rgba(0,0,0,.30)
+}
+.seal strong{font:600 1.02rem var(--brand);color:var(--gold2);letter-spacing:.12em}
+.seal small{font-size:.46rem;line-height:1.5;text-align:center;letter-spacing:.16em;color:#d8dfe2}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:11px}
+.metric{min-height:72px;padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.metric span{display:block;color:var(--faint);font-size:.50rem;letter-spacing:.1em;text-transform:uppercase}
+.metric strong{display:block;margin-top:6px;font:600 1.32rem var(--display)}
+
+.section{margin-top:12px;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:11px}
+.section-head h2{margin:0;font:600 1.34rem var(--display)}
+.section-head p{max-width:700px;margin:3px 0 0;color:var(--muted);font-size:.60rem;line-height:1.56}
+.toolbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.search{min-width:240px;flex:1}
+input,select,textarea{
+  min-height:36px;padding:7px 9px;border:1px solid rgba(121,199,214,.19);border-radius:7px;
+  background:#07111c;color:var(--ink);font-size:.62rem
+}
+textarea{min-height:92px;resize:vertical}
+.field{display:grid;gap:4px}
+.field label{color:#afbac0;font-size:.51rem;font-weight:700;letter-spacing:.04em}
+.field.wide{grid-column:1/-1}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.check{
+  min-height:36px;padding:7px 9px;border:1px solid rgba(255,255,255,.065);border-radius:7px;
+  display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.56rem;background:rgba(255,255,255,.02)
+}
+.check input{width:auto;min-height:auto;accent-color:var(--blue)}
+.statusline{
+  min-height:39px;padding:9px 10px;border:1px solid rgba(255,255,255,.065);border-radius:8px;
+  color:var(--muted);background:rgba(255,255,255,.02);font-size:.56rem;line-height:1.46
+}
+.statusline[data-kind="good"]{border-color:rgba(121,213,164,.26);color:#bae8cf}
+.statusline[data-kind="warn"]{border-color:rgba(228,187,108,.28);color:#ead39b}
+.statusline[data-kind="bad"]{border-color:rgba(223,123,137,.29);color:#f0acb8}
+
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.card{padding:13px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.024)}
+.card h3{margin:0;font:600 1rem var(--display)}
+.card p{margin:6px 0 0;color:var(--muted);font-size:.57rem;line-height:1.54}
+.card small{display:block;margin-top:5px;color:var(--faint);font-size:.49rem;line-height:1.45}
+.card code{display:block;margin-top:8px;padding:7px;border-radius:6px;background:#060d17;color:#cbd5d9;font-family:var(--mono);font-size:.50rem;overflow-wrap:anywhere}
+.card-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.project-card.active{border-color:rgba(239,215,154,.43);background:rgba(213,179,110,.07)}
+.card-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-title strong{font:600 .78rem var(--display)}
+.pill-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}
+
+.table-wrap{overflow:auto;border:1px solid rgba(255,255,255,.065);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:980px}
+th,td{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;vertical-align:top;font-size:.57rem}
+th{position:sticky;top:0;z-index:2;background:#12263a;color:#b7c3c8;font-size:.49rem;letter-spacing:.09em;text-transform:uppercase}
+tr:hover td{background:rgba(255,255,255,.018)}
+td strong{font-size:.61rem}
+.small{display:block;margin-top:3px;color:var(--faint);font-size:.49rem;line-height:1.42}
+.row-actions{display:flex;gap:4px;flex-wrap:wrap}
+.empty{padding:22px;text-align:center;color:var(--faint);font-size:.63rem}
+
+.project-header{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;
+  padding:14px;border:1px solid var(--line-gold);border-radius:12px;background:linear-gradient(145deg,rgba(158,144,211,.06),rgba(121,199,214,.04))
+}
+.project-header h2{margin:0;font:600 1.7rem var(--display)}
+.project-header p{margin:4px 0 0;color:var(--muted);font-size:.60rem;line-height:1.55}
+.project-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}
+.summary-cell{padding:9px;border:1px solid rgba(255,255,255,.06);border-radius:8px;background:rgba(255,255,255,.02)}
+.summary-cell span{display:block;color:var(--faint);font-size:.47rem;text-transform:uppercase;letter-spacing:.09em}
+.summary-cell strong{display:block;margin-top:5px;font:600 .87rem var(--display)}
+
+.claim-card{padding:12px;border:1px solid rgba(255,255,255,.065);border-radius:10px;background:rgba(255,255,255,.022)}
+.claim-card + .claim-card{margin-top:7px}
+.claim-card h3{margin:0;font:600 1rem var(--display)}
+.claim-card p{margin:6px 0 0;color:var(--muted);font-size:.57rem;line-height:1.53}
+.claim-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.claim-status-unexamined{color:#b6c2c8}
+.claim-status-partial{color:#e0c482}
+.claim-status-supported{color:#aee0bf}
+.claim-status-disputed{color:#e4b36f}
+.claim-status-contradicted{color:#ef9cac}
+.claim-status-inconclusive{color:#c9bfe8}
+.claim-status-outdated{color:#a6a6a6}
+
+.matrix-grid{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:8px;overflow:auto}
+.matrix-column{min-width:220px;padding:10px;border:1px solid rgba(255,255,255,.065);border-radius:9px;background:rgba(255,255,255,.022)}
+.matrix-column h3{margin:0 0 7px;font:600 .88rem var(--display)}
+.matrix-item{padding:8px;border:1px solid rgba(255,255,255,.055);border-radius:7px;background:#0b1723;margin-top:6px}
+.matrix-item strong{font-size:.57rem}
+.matrix-item p{margin:4px 0 0;color:var(--muted);font-size:.52rem;line-height:1.45}
+
+.timeline{display:grid;gap:7px}
+.timeline-item{
+  position:relative;padding:10px 11px 10px 17px;border:1px solid rgba(255,255,255,.065);
+  border-radius:9px;background:rgba(255,255,255,.022)
+}
+.timeline-item::before{content:"";position:absolute;left:7px;top:13px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.timeline-item strong{font-size:.61rem}
+.timeline-item p{margin:4px 0 0;color:var(--muted);font-size:.55rem;line-height:1.5}
+.timeline-item small{display:block;margin-top:4px;color:var(--faint);font-size:.48rem}
+
+.citation-output{
+  min-height:330px;padding:18px;border:1px solid rgba(213,179,110,.24);border-radius:10px;
+  background:#fbf8f0;color:#2a302d;font-family:Georgia,"Times New Roman",serif;font-size:.72rem;line-height:1.65;overflow:auto
+}
+.citation-output h1,.citation-output h2,.citation-output h3{font-family:var(--display)}
+.citation-output .entry{margin:0 0 1em;padding-left:2em;text-indent:-2em}
+.citation-output .warning{color:#8a615c;font-style:italic}
+.codebox{width:100%;min-height:360px;font-family:var(--mono);font-size:.55rem;line-height:1.5}
+
+dialog{
+  width:min(860px,calc(100% - 24px));max-height:88vh;overflow:auto;padding:0;
+  border:1px solid rgba(121,199,214,.32);border-radius:15px;background:#0d1d2b;color:var(--ink);box-shadow:var(--shadow)
+}
+dialog::backdrop{background:rgba(1,5,9,.76);backdrop-filter:blur(5px)}
+.dialog-head{position:sticky;top:0;z-index:2;padding:13px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;background:#10283a}
+.dialog-head h2{margin:0;font:600 1.3rem var(--display)}
+.dialog-body{padding:14px}
+.dialog-actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:12px}
+.warning{
+  padding:10px 11px;border:1px solid rgba(228,187,108,.25);border-left:3px solid var(--warn);
+  border-radius:8px;background:rgba(69,51,23,.22);color:#dfcda8;font-size:.56rem;line-height:1.55
+}
+.lock-screen{
+  position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:18px;
+  background:radial-gradient(circle at 50% 0%,rgba(158,144,211,.18),transparent 35rem),rgba(3,8,13,.98)
+}
+.lock-card{
+  width:min(540px,100%);padding:25px;border:1px solid var(--line-gold);border-radius:18px;
+  background:#0d1d2b;box-shadow:var(--shadow);text-align:center
+}
+.lock-card h1{margin:0;font:600 2.1rem var(--display)}
+.lock-card p{color:var(--muted);font-size:.67rem;line-height:1.65}
+.lock-card input{width:100%;margin-top:8px}
+.toast{
+  position:fixed;right:18px;bottom:18px;z-index:9500;max-width:380px;padding:10px 13px;
+  border:1px solid var(--line);border-radius:9px;background:#10283a;color:#e7ecee;box-shadow:var(--shadow);
+  font-size:.60rem;opacity:0;transform:translateY(10px);pointer-events:none;transition:.18s
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+footer{margin-top:15px;padding:20px 8px 4px;text-align:center;color:var(--faint);font-size:.54rem;line-height:1.72}
+footer strong{color:var(--gold2);font:600 .61rem var(--brand);letter-spacing:.08em}
+
+@media(max-width:1150px){
+  :root{--side:210px}
+  .metrics{grid-template-columns:repeat(3,1fr)}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:1fr 1fr}
+  .project-summary-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:800px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto}
+  .nav{grid-template-columns:repeat(3,1fr)}
+  .nav button{text-align:center}
+  .main{padding:8px}
+  .hero{grid-template-columns:1fr;text-align:center}
+  .hero .seal{margin:auto}
+  .cards,.form-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .nav{grid-template-columns:1fr 1fr}
+  .metrics,.project-summary-grid{grid-template-columns:1fr 1fr}
+  .topbar strong{width:100%}
+  .button{flex:1}
+  .hero,.section{padding:11px}
+  .project-header{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff;color:#111}
+  .sidebar,.topbar,.view,.toast,.lock-screen{display:none!important}
+  #printArea{display:block!important;padding:0}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#mainContent">Skip to the research workspace</a>
+
+<div class="lock-screen" id="lockScreen" hidden>
+  <div class="lock-card">
+    <div class="seal"><strong>ECS</strong><small>CLAIMS<br>SOURCES<br>PROVENANCE</small></div>
+    <h1>Evidence & Citation Studio</h1>
+    <p>This local research workspace is encrypted in this browser. Enter the passphrase to open the project library.</p>
+    <input id="unlockPassphrase" type="password" autocomplete="current-password" placeholder="Workspace passphrase">
+    <div class="dialog-actions" style="justify-content:center">
+      <button class="button primary" id="unlockButton" type="button">Unlock Workspace</button>
+      <button class="button" id="unlockImportButton" type="button">Import Backup</button>
+    </div>
+    <div class="statusline" id="unlockStatus">The passphrase is never transmitted.</div>
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">ECS</div>
+      <strong>Evidence & Citation Studio</strong>
+      <span>Claims · sources · context · provenance · citations</span>
+    </div>
+
+    <nav class="nav" id="sideNavigation" aria-label="Studio sections">
+      <button class="active" type="button" data-view="dashboard">Overview</button>
+      <button type="button" data-view="projects">Research Projects</button>
+      <button type="button" data-view="brief">Project Brief</button>
+      <button type="button" data-view="claims">Claim Board</button>
+      <button type="button" data-view="sources">Source Library</button>
+      <button type="button" data-view="evidence">Evidence Matrix</button>
+      <button type="button" data-view="quotes">Quotation Notebook</button>
+      <button type="button" data-view="timeline">Research Timeline</button>
+      <button type="button" data-view="citations">Citation Workshop</button>
+      <button type="button" data-view="exports">Research Exports</button>
+      <button type="button" data-view="settings">Protection & Backup</button>
+    </nav>
+
+    <div class="sidebar-links">
+      <a href="PLERA_Search_index.html"><span>PLERA Search Gate</span><span>↗</span></a>
+      <a href="PROSE_index.html"><span>PROSE Editorial Hub</span><span>↗</span></a>
+      <a href="https://vervenveda.github.io/Arshif.github.io/" target="_blank" rel="noopener noreferrer"><span>ARSHIF Archives</span><span>↗</span></a>
+      <a href="https://vervenveda.github.io/theverifier.github.io/" target="_blank" rel="noopener noreferrer"><span>The Verifier</span><span>↗</span></a>
+      <a href="https://vervenveda.github.io/firmament.github.io/" target="_blank" rel="noopener noreferrer"><span>Firmament Law</span><span>↗</span></a>
+      <a href="KhaeZip™ Protected Archive Studio_index.html"><span>KhaeZip Archive Studio</span><span>↗</span></a>
+    </div>
+
+    <div class="local-note"><strong>Local-first:</strong> projects remain in this browser unless exported. Important research should be backed up and preserved outside browser storage.</div>
+  </aside>
+
+  <main class="main" id="mainContent">
+    <div class="topbar">
+      <strong id="viewTitle">Research Overview</strong>
+      <span class="badge" id="workspaceBadge">Local workspace</span>
+      <span class="badge good" id="saveBadge">Saved</span>
+      <span class="badge" id="selectedProjectBadge">No project selected</span>
+      <span class="spacer"></span>
+      <button class="button primary" id="newProjectButton" type="button">New Project</button>
+      <button class="button gold" id="addSourceQuickButton" type="button">Add Source</button>
+      <button class="button" id="lockButton" type="button">Lock</button>
+    </div>
+
+    <section class="view active" id="view-dashboard">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Research provenance · transparent claims · portable evidence records</div>
+          <h1>Evidence & Citation Studio</h1>
+          <p>Build a transparent path from research question to source, from source to evidence, and from evidence to a carefully qualified conclusion. The studio does not decide truth automatically; it preserves the record that allows a researcher or reader to see how an assessment was reached.</p>
+        </div>
+        <div class="seal"><strong>ECS</strong><small>QUESTION<br>EVIDENCE<br>CONTEXT</small></div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><span>Projects</span><strong id="metricProjects">0</strong></div>
+        <div class="metric"><span>Claims</span><strong id="metricClaims">0</strong></div>
+        <div class="metric"><span>Sources</span><strong id="metricSources">0</strong></div>
+        <div class="metric"><span>Evidence links</span><strong id="metricEvidence">0</strong></div>
+        <div class="metric"><span>Unexamined claims</span><strong id="metricUnexamined">0</strong></div>
+        <div class="metric"><span>Sources needing review</span><strong id="metricReview">0</strong></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><div><h2>Research health</h2><p>Flags claims without evidence, sources without publication dates, missing access dates, incomplete provenance, and unsupported assessments.</p></div><button class="button primary" id="runAuditButton" type="button">Run Project Audit</button></div>
+        <div class="timeline" id="auditTimeline"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><div><h2>Recently updated projects</h2><p>Continue from the last locally protected research point.</p></div></div>
+        <div class="cards" id="recentProjectCards"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-projects">
+      <div class="section">
+        <div class="section-head"><div><h2>Research Projects</h2><p>Each project contains its own question, scope, claims, sources, evidence relationships, quotations, and exports.</p></div></div>
+        <div class="toolbar">
+          <input class="search" id="projectSearch" type="search" placeholder="Search title, question, jurisdiction, researcher, or tags…">
+          <select id="projectStatusFilter"><option value="all">All projects</option><option value="active">Active</option><option value="paused">Paused</option><option value="complete">Complete</option><option value="archived">Archived</option></select>
+          <button class="button primary" id="newProjectButton2" type="button">New Project</button>
+        </div>
+        <div class="cards" id="projectCards"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-brief">
+      <div class="section">
+        <div id="briefEmpty" class="empty">Select or create a research project.</div>
+        <div id="briefContent" hidden>
+          <div class="project-header" id="briefProjectHeader"></div>
+          <form id="briefForm" style="margin-top:10px">
+            <div class="form-grid">
+              <div class="field wide"><label for="briefTitle">Project title</label><input id="briefTitle" required maxlength="180"></div>
+              <div class="field wide"><label for="briefQuestion">Primary research question</label><textarea id="briefQuestion" required maxlength="5000"></textarea></div>
+              <div class="field wide"><label for="briefPurpose">Purpose and intended audience</label><textarea id="briefPurpose" maxlength="4000"></textarea></div>
+              <div class="field"><label for="briefResearcher">Researcher or team</label><input id="briefResearcher" maxlength="180"></div>
+              <div class="field"><label for="briefJurisdiction">Jurisdiction or geographic scope</label><input id="briefJurisdiction" maxlength="180"></div>
+              <div class="field"><label for="briefDateRange">Time period under review</label><input id="briefDateRange" maxlength="180" placeholder="Examples: 2019–2026; Colonial Florida; Current law"></div>
+              <div class="field"><label for="briefStatus">Project status</label><select id="briefStatus"><option value="active">Active</option><option value="paused">Paused</option><option value="complete">Complete</option><option value="archived">Archived</option></select></div>
+              <div class="field"><label for="briefTags">Tags</label><input id="briefTags" maxlength="600" placeholder="policy, history, law, education…"></div>
+              <div class="field"><label for="briefCitationStyle">Default citation style</label><select id="briefCitationStyle"><option value="apa">APA 7 draft</option><option value="mla">MLA 9 draft</option><option value="chicago">Chicago bibliography draft</option><option value="plain">Plain source record</option></select></div>
+              <div class="field wide"><label for="briefScope">Scope, exclusions, definitions, and known limitations</label><textarea id="briefScope" maxlength="6000"></textarea></div>
+              <div class="field wide"><label for="briefMethod">Research method and review standard</label><textarea id="briefMethod" maxlength="6000" placeholder="How sources are selected, compared, dated, verified, and assessed."></textarea></div>
+            </div>
+            <div class="warning" style="margin-top:10px"><strong>Document uncertainty.</strong> A project should preserve limitations, conflicting evidence, missing records, and changes over time rather than force every claim into a definitive conclusion.</div>
+            <div class="dialog-actions"><button class="button primary" type="submit">Save Project Brief</button></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-claims">
+      <div class="section">
+        <div class="section-head"><div><h2>Claim Board</h2><p>Break a large question into reviewable claims. Status describes the current evidence record, not an automatic truth verdict.</p></div><button class="button gold" id="addClaimButton" type="button">Add Claim</button></div>
+        <div id="claimEmpty" class="empty">Select a project to create claims.</div>
+        <div id="claimBoard" hidden></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-sources">
+      <div class="section">
+        <div class="section-head"><div><h2>Source Library</h2><p>Record bibliographic metadata, source type, primary or secondary status, dates, location, provenance, reliability concerns, and optional file hashes.</p></div><button class="button gold" id="addSourceButton" type="button">Add Source</button></div>
+        <div id="sourceEmpty" class="empty">Select a project to build a source library.</div>
+        <div id="sourceContent" hidden>
+          <div class="toolbar">
+            <input class="search" id="sourceSearch" type="search" placeholder="Search title, author, publisher, URL, tags, or notes…">
+            <select id="sourceTypeFilter"><option value="all">All source types</option></select>
+            <select id="sourceReviewFilter"><option value="all">All review states</option><option value="reviewed">Reviewed</option><option value="needs-review">Needs review</option></select>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Source</th><th>Type</th><th>Dates</th><th>Provenance</th><th>Review</th><th>Claims</th><th>Actions</th></tr></thead><tbody id="sourceTableBody"></tbody></table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-evidence">
+      <div class="section">
+        <div class="section-head"><div><h2>Evidence Matrix</h2><p>Connect a source to a claim as supporting, opposing, contextual, or insufficient evidence. Preserve the researcher’s reasoning and confidence separately.</p></div><button class="button gold" id="addEvidenceButton" type="button">Link Evidence</button></div>
+        <div id="evidenceEmpty" class="empty">Select a project with at least one claim and one source.</div>
+        <div id="evidenceContent" hidden>
+          <div class="toolbar">
+            <select id="matrixClaimFilter"><option value="all">All claims</option></select>
+          </div>
+          <div class="matrix-grid" id="evidenceMatrix"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-quotes">
+      <div class="section">
+        <div class="section-head"><div><h2>Quotation Notebook</h2><p>Store short, researcher-selected excerpts with exact page, paragraph, timestamp, or section locations. Respect copyright and quotation limits.</p></div><button class="button gold" id="addQuoteButton" type="button">Add Quotation</button></div>
+        <div id="quoteEmpty" class="empty">Select a project to record quotations.</div>
+        <div class="timeline" id="quoteTimeline" hidden></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-timeline">
+      <div class="section">
+        <div class="section-head"><div><h2>Research Timeline</h2><p>Track source publication, access, file import, claim creation, evidence linking, assessment changes, and project milestones.</p></div></div>
+        <div id="timelineEmpty" class="empty">Select a project to view its timeline.</div>
+        <div class="timeline" id="researchTimeline" hidden></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-citations">
+      <div class="section">
+        <div class="section-head"><div><h2>Citation Workshop</h2><p>Generate draft bibliography entries from recorded metadata. Review them against the current official style manual before publication.</p></div></div>
+        <div id="citationEmpty" class="empty">Select a project to prepare citations.</div>
+        <div id="citationContent" hidden>
+          <div class="toolbar">
+            <select id="citationStyle"><option value="apa">APA 7 draft</option><option value="mla">MLA 9 draft</option><option value="chicago">Chicago bibliography draft</option><option value="plain">Plain source record</option></select>
+            <select id="citationSort"><option value="author">Sort by author</option><option value="title">Sort by title</option><option value="date">Sort by publication date</option></select>
+            <button class="button primary" id="generateCitationsButton" type="button">Generate Bibliography</button>
+            <button class="button" id="copyCitationsButton" type="button">Copy Text</button>
+            <button class="button gold" id="downloadCitationsButton" type="button">Download HTML</button>
+          </div>
+          <div class="citation-output" id="citationOutput">Generate a bibliography from the current source library.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-exports">
+      <div class="section">
+        <div class="section-head"><div><h2>Portable Research Exports</h2><p>Move the research record into PROSE, ARSHIF, The Verifier, or KhaeZip without losing the relationship between claims and sources.</p></div></div>
+        <div id="exportEmpty" class="empty">Select a project to export its research record.</div>
+        <div id="exportContent" hidden>
+          <div class="toolbar">
+            <select id="exportFormat"><option value="json">Complete research JSON</option><option value="markdown">PROSE-ready Markdown</option><option value="html">Research report HTML</option><option value="manifest">ARSHIF provenance manifest</option><option value="csv">Evidence matrix CSV</option></select>
+            <button class="button primary" id="generateExportButton" type="button">Generate Export</button>
+            <button class="button" id="copyExportButton" type="button">Copy</button>
+            <button class="button gold" id="downloadExportButton" type="button">Download</button>
+          </div>
+          <textarea class="codebox" id="exportOutput" spellcheck="false" placeholder="Generated export will appear here."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-settings">
+      <div class="section">
+        <div class="section-head"><div><h2>Workspace Protection & Backup</h2><p>Optional encryption protects research stored in this browser. Important projects should also be exported and archived independently.</p></div></div>
+        <div class="cards">
+          <div class="card"><h3 id="protectionHeading">Unprotected local workspace</h3><p id="protectionDescription">Projects are stored locally as readable JSON in this browser profile.</p><div class="card-actions"><button class="button gold" id="protectWorkspaceButton" type="button">Protect with Passphrase</button><button class="button danger" id="removeProtectionButton" type="button" hidden>Remove Protection</button></div></div>
+          <div class="card"><h3>Complete Workspace Backup</h3><p>Export or import every project, source, claim, quotation, evidence link, citation setting, and provenance record.</p><div class="card-actions"><button class="button primary" id="exportBackupButton" type="button">Export Backup</button><button class="button" id="importBackupButton" type="button">Import Backup</button><input id="backupFile" type="file" accept=".json,application/json" hidden></div></div>
+          <div class="card"><h3>Persistent Browser Storage</h3><p>Ask the browser to reduce the chance that local data is evicted. This is not guaranteed.</p><div class="card-actions"><button class="button violet" id="persistStorageButton" type="button">Request Persistent Storage</button></div><small id="storageEstimate">Storage estimate not yet checked.</small></div>
+          <div class="card"><h3>Workspace Reset</h3><p>Erase every local research project after exporting a backup.</p><div class="card-actions"><button class="button danger" id="resetWorkspaceButton" type="button">Erase Local Workspace</button></div></div>
+        </div>
+        <div class="warning" style="margin-top:10px"><strong>Citation notice:</strong> generated citations are drafting aids. Source types, institutional authors, archival records, statutes, court opinions, datasets, audiovisual works, translated works, and unusual publication histories may require manual formatting.</div>
+      </div>
+    </section>
+
+    <footer><strong>Evidence & Citation Studio · ProReSources</strong><br>Verve N Veda · Khaemenes Academy · Jennifer Kay Pearl · All Rights Reserved 2026<br>Local-first research provenance · Transparent evidence relationships · Portable project exports</footer>
+  </main>
+</div>
+
+<dialog id="projectDialog">
+  <div class="dialog-head"><h2 id="projectDialogTitle">New Research Project</h2><span class="spacer"></span><button class="button" type="button" data-close="projectDialog">Close</button></div>
+  <form class="dialog-body" id="projectForm">
+    <input type="hidden" id="projectId">
+    <div class="form-grid">
+      <div class="field wide"><label for="projectTitle">Project title</label><input id="projectTitle" required maxlength="180"></div>
+      <div class="field wide"><label for="projectQuestion">Primary research question</label><textarea id="projectQuestion" required maxlength="5000"></textarea></div>
+      <div class="field"><label for="projectResearcher">Researcher or team</label><input id="projectResearcher" maxlength="180"></div>
+      <div class="field"><label for="projectJurisdiction">Jurisdiction or geographic scope</label><input id="projectJurisdiction" maxlength="180"></div>
+      <div class="field"><label for="projectStatus">Status</label><select id="projectStatus"><option value="active">Active</option><option value="paused">Paused</option><option value="complete">Complete</option><option value="archived">Archived</option></select></div>
+      <div class="field wide"><label for="projectTags">Tags</label><input id="projectTags" maxlength="600" placeholder="policy, history, science, education…"></div>
+    </div>
+    <div class="dialog-actions"><button class="button primary" type="submit">Save Project</button></div>
+  </form>
+</dialog>
+
+<dialog id="claimDialog">
+  <div class="dialog-head"><h2>Claim Record</h2><span class="spacer"></span><button class="button" type="button" data-close="claimDialog">Close</button></div>
+  <form class="dialog-body" id="claimForm">
+    <input type="hidden" id="claimId">
+    <div class="form-grid">
+      <div class="field wide"><label for="claimText">Claim</label><textarea id="claimText" required maxlength="5000"></textarea></div>
+      <div class="field"><label for="claimStatus">Current assessment</label><select id="claimStatus"><option value="unexamined">Unexamined</option><option value="partial">Partially supported</option><option value="supported">Strongly supported</option><option value="disputed">Disputed</option><option value="contradicted">Contradicted</option><option value="inconclusive">Inconclusive</option><option value="outdated">Outdated</option></select></div>
+      <div class="field"><label for="claimImportance">Importance</label><select id="claimImportance"><option value="central">Central</option><option value="supporting">Supporting</option><option value="background">Background</option></select></div>
+      <div class="field"><label for="claimDate">Claim date or period</label><input id="claimDate" maxlength="180"></div>
+      <div class="field wide"><label for="claimAssessment">Assessment reasoning, limitations, and missing evidence</label><textarea id="claimAssessment" maxlength="6000"></textarea></div>
+      <div class="field wide"><label for="claimTags">Tags</label><input id="claimTags" maxlength="500"></div>
+    </div>
+    <div class="dialog-actions"><button class="button primary" type="submit">Save Claim</button></div>
+  </form>
+</dialog>
+
+<dialog id="sourceDialog">
+  <div class="dialog-head"><h2>Source Record</h2><span class="spacer"></span><button class="button" type="button" data-close="sourceDialog">Close</button></div>
+  <form class="dialog-body" id="sourceForm">
+    <input type="hidden" id="sourceId">
+    <div class="form-grid">
+      <div class="field wide"><label for="sourceTitle">Title</label><input id="sourceTitle" required maxlength="500"></div>
+      <div class="field"><label for="sourceAuthor">Author or creator</label><input id="sourceAuthor" maxlength="300"></div>
+      <div class="field"><label for="sourceOrganization">Organization or institutional author</label><input id="sourceOrganization" maxlength="300"></div>
+      <div class="field"><label for="sourceType">Source type</label><select id="sourceType"></select></div>
+      <div class="field"><label for="sourceLevel">Source level</label><select id="sourceLevel"><option value="primary">Primary source</option><option value="secondary">Secondary source</option><option value="tertiary">Tertiary source</option><option value="unknown">Not yet classified</option></select></div>
+      <div class="field"><label for="sourceReview">Review state</label><select id="sourceReview"><option value="needs-review">Needs review</option><option value="reviewed">Reviewed</option></select></div>
+      <div class="field"><label for="sourcePublisher">Publisher</label><input id="sourcePublisher" maxlength="300"></div>
+      <div class="field"><label for="sourcePublicationDate">Publication date</label><input id="sourcePublicationDate" type="date"></div>
+      <div class="field"><label for="sourceAccessDate">Access date</label><input id="sourceAccessDate" type="date"></div>
+      <div class="field wide"><label for="sourceUrl">Original URL, DOI, archive identifier, or repository location</label><input id="sourceUrl" maxlength="1200"></div>
+      <div class="field"><label for="sourceEdition">Edition, volume, issue, report number, or version</label><input id="sourceEdition" maxlength="300"></div>
+      <div class="field"><label for="sourceLanguage">Language</label><input id="sourceLanguage" maxlength="120"></div>
+      <div class="field"><label for="sourceJurisdiction">Jurisdiction or geographic scope</label><input id="sourceJurisdiction" maxlength="180"></div>
+      <div class="field wide"><label for="sourceSummary">Summary and relevance</label><textarea id="sourceSummary" maxlength="6000"></textarea></div>
+      <div class="field wide"><label for="sourceReliability">Reliability, recency, methodology, conflicts, bias, or authenticity concerns</label><textarea id="sourceReliability" maxlength="6000"></textarea></div>
+      <div class="field wide"><label for="sourceTags">Tags</label><input id="sourceTags" maxlength="600"></div>
+      <div class="field wide"><label for="sourceFile">Optional local file for SHA-256 provenance</label><input id="sourceFile" type="file"></div>
+      <div class="field"><label for="sourceFileName">Recorded local filename</label><input id="sourceFileName" maxlength="500" readonly></div>
+      <div class="field wide"><label for="sourceHash">SHA-256</label><input id="sourceHash" maxlength="100" readonly></div>
+    </div>
+    <div class="warning" style="margin-top:10px">The selected file is not stored inside the project. Only its filename, size, media type, and SHA-256 hash are recorded.</div>
+    <div class="dialog-actions"><button class="button primary" type="submit">Save Source</button></div>
+  </form>
+</dialog>
+
+<dialog id="evidenceDialog">
+  <div class="dialog-head"><h2>Evidence Relationship</h2><span class="spacer"></span><button class="button" type="button" data-close="evidenceDialog">Close</button></div>
+  <form class="dialog-body" id="evidenceForm">
+    <input type="hidden" id="evidenceId">
+    <div class="form-grid">
+      <div class="field wide"><label for="evidenceClaim">Claim</label><select id="evidenceClaim"></select></div>
+      <div class="field wide"><label for="evidenceSource">Source</label><select id="evidenceSource"></select></div>
+      <div class="field"><label for="evidencePosition">Relationship</label><select id="evidencePosition"><option value="supporting">Supporting</option><option value="opposing">Opposing</option><option value="contextual">Contextual</option><option value="insufficient">Insufficient / ambiguous</option></select></div>
+      <div class="field"><label for="evidenceStrength">Researcher confidence</label><select id="evidenceStrength"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div>
+      <div class="field"><label for="evidenceLocation">Page, paragraph, timestamp, section, or record ID</label><input id="evidenceLocation" maxlength="300"></div>
+      <div class="field wide"><label for="evidenceReasoning">Reasoning: how this source bears on this claim</label><textarea id="evidenceReasoning" required maxlength="6000"></textarea></div>
+      <div class="field wide"><label for="evidenceLimitations">Limitations, counterpoints, missing context, or conditions</label><textarea id="evidenceLimitations" maxlength="5000"></textarea></div>
+    </div>
+    <div class="dialog-actions"><button class="button primary" type="submit">Save Evidence Link</button></div>
+  </form>
+</dialog>
+
+<dialog id="quoteDialog">
+  <div class="dialog-head"><h2>Quotation Record</h2><span class="spacer"></span><button class="button" type="button" data-close="quoteDialog">Close</button></div>
+  <form class="dialog-body" id="quoteForm">
+    <input type="hidden" id="quoteId">
+    <div class="form-grid">
+      <div class="field wide"><label for="quoteSource">Source</label><select id="quoteSource"></select></div>
+      <div class="field wide"><label for="quoteText">Short quotation or excerpt</label><textarea id="quoteText" required maxlength="5000"></textarea></div>
+      <div class="field"><label for="quoteLocation">Page, paragraph, timestamp, section, or record ID</label><input id="quoteLocation" required maxlength="300"></div>
+      <div class="field"><label for="quoteDate">Date recorded</label><input id="quoteDate" type="date"></div>
+      <div class="field"><label for="quoteClaim">Related claim, optional</label><select id="quoteClaim"><option value="">No linked claim</option></select></div>
+      <div class="field wide"><label for="quoteNotes">Research notes and context</label><textarea id="quoteNotes" maxlength="4000"></textarea></div>
+    </div>
+    <div class="warning" style="margin-top:10px">Record only the amount reasonably needed for research, criticism, commentary, teaching, or verification. Copyright rules vary by work and use.</div>
+    <div class="dialog-actions"><button class="button primary" type="submit">Save Quotation</button></div>
+  </form>
+</dialog>
+
+<dialog id="protectionDialog">
+  <div class="dialog-head"><h2>Protect Research Workspace</h2><span class="spacer"></span><button class="button" type="button" data-close="protectionDialog">Close</button></div>
+  <form class="dialog-body" id="protectionForm">
+    <p style="color:var(--muted);font-size:.62rem;line-height:1.6">Create a local passphrase. The studio encrypts browser storage with PBKDF2-HMAC-SHA256 and AES-GCM. There is no password-recovery service.</p>
+    <div class="form-grid">
+      <div class="field wide"><label for="newPassphrase">Passphrase</label><input id="newPassphrase" type="password" minlength="12" autocomplete="new-password" required></div>
+      <div class="field wide"><label for="confirmPassphrase">Confirm passphrase</label><input id="confirmPassphrase" type="password" minlength="12" autocomplete="new-password" required></div>
+    </div>
+    <div class="dialog-actions"><button class="button gold" type="submit">Encrypt Workspace</button></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="printArea" hidden></div>
+
+<script>
+(()=>{
+"use strict";
+
+const VERSION="1.0.0";
+const STORAGE_PLAIN="evidence_citation_studio_state_v1";
+const STORAGE_META="evidence_citation_studio_vault_meta_v1";
+const STORAGE_CIPHER="evidence_citation_studio_vault_cipher_v1";
+const PBKDF2_ITERATIONS=600000;
+const MAX_IMPORT_BYTES=24*1024*1024;
+const MAX_HASH_FILE_BYTES=512*1024*1024;
+const $=selector=>document.querySelector(selector);
+const $$=selector=>Array.from(document.querySelectorAll(selector));
+const uid=()=>crypto.randomUUID?crypto.randomUUID():"ecs-"+Date.now()+"-"+Math.random().toString(36).slice(2);
+const nowIso=()=>new Date().toISOString();
+const today=()=>nowIso().slice(0,10);
+const enc=new TextEncoder(),dec=new TextDecoder();
+
+const SOURCE_TYPES=[
+  "Book","Journal article","News article","Government document","Law or regulation","Court opinion",
+  "Academic paper","Report","Dataset","Archive record","Manuscript or letter","Website","Web page",
+  "Interview","Oral history","Video","Audio","Photograph or image","Map","Encyclopedia or reference",
+  "Social media post","Press release","Personal communication","Other"
+];
+
+let state=null;
+let sessionKey=null;
+let saveTimer=0;
+let auditFindings=[];
+let currentBibliography={html:"",text:"",filename:"bibliography.html"};
+let currentExport={text:"",filename:"research_project.json",type:"application/json"};
+
+function clone(value){return JSON.parse(JSON.stringify(value))}
+function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
+function safeText(value,max=1000){return String(value??"").trim().slice(0,max)}
+function asArray(value){return Array.isArray(value)?value:[]}
+function projectById(id=state.selectedProjectId){return state.projects.find(project=>project.id===id)||null}
+function selectedProject(){return projectById()}
+function displayDate(value){if(!value)return "—";const date=new Date(value+"T00:00:00");return Number.isNaN(date.getTime())?value:date.toLocaleDateString()}
+function fileNameSafe(value){return safeText(value,180).replace(/[\\/:*?"<>|]+/g,"-").replace(/\s+/g,"_")||"research_project"}
+function bytesToBase64(bytes){let binary="";for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(binary)}
+function base64ToBytes(value){const binary=atob(value),out=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)out[i]=binary.charCodeAt(i);return out}
+function isProtected(){return !!localStorage.getItem(STORAGE_META)&&!!localStorage.getItem(STORAGE_CIPHER)}
+function sourceById(project,id){return project.sources.find(source=>source.id===id)||null}
+function claimById(project,id){return project.claims.find(claim=>claim.id===id)||null}
+
+function blankProject(input={}){
+  return normalizeProject({
+    id:uid(),title:input.title||"Untitled Research Project",question:input.question||"",
+    researcher:input.researcher||"",jurisdiction:input.jurisdiction||"",status:input.status||"active",
+    tags:input.tags||[],createdAt:nowIso(),updatedAt:nowIso()
+  });
+}
+function blankState(){
+  return {schema:"evidence-citation-studio-workspace",schemaVersion:1,appVersion:VERSION,updatedAt:nowIso(),selectedProjectId:"",projects:[],settings:{}};
+}
+function normalizeSource(source){
+  const item=source&&typeof source==="object"?source:{};
+  return {
+    id:safeText(item.id||uid(),120),title:safeText(item.title||"Untitled Source",500),
+    author:safeText(item.author||"",300),organization:safeText(item.organization||"",300),
+    type:SOURCE_TYPES.includes(item.type)?item.type:"Other",level:["primary","secondary","tertiary","unknown"].includes(item.level)?item.level:"unknown",
+    review:item.review==="reviewed"?"reviewed":"needs-review",publisher:safeText(item.publisher||"",300),
+    publicationDate:safeText(item.publicationDate||"",20),accessDate:safeText(item.accessDate||"",20),
+    url:safeText(item.url||"",1200),edition:safeText(item.edition||"",300),language:safeText(item.language||"",120),
+    jurisdiction:safeText(item.jurisdiction||"",180),summary:safeText(item.summary||"",6000),
+    reliability:safeText(item.reliability||"",6000),tags:asArray(item.tags).map(value=>safeText(value,80)).filter(Boolean).slice(0,40),
+    fileName:safeText(item.fileName||"",500),fileSize:Number(item.fileSize)||0,fileType:safeText(item.fileType||"",180),
+    sha256:safeText(item.sha256||"",100),createdAt:item.createdAt||nowIso(),updatedAt:item.updatedAt||nowIso()
+  };
+}
+function normalizeProject(project){
+  const item=project&&typeof project==="object"?project:{};
+  return {
+    id:safeText(item.id||uid(),120),title:safeText(item.title||"Untitled Research Project",180),
+    question:safeText(item.question||"",5000),purpose:safeText(item.purpose||"",4000),researcher:safeText(item.researcher||"",180),
+    jurisdiction:safeText(item.jurisdiction||"",180),dateRange:safeText(item.dateRange||"",180),
+    status:["active","paused","complete","archived"].includes(item.status)?item.status:"active",
+    tags:asArray(item.tags).map(value=>safeText(value,80)).filter(Boolean).slice(0,40),
+    citationStyle:["apa","mla","chicago","plain"].includes(item.citationStyle)?item.citationStyle:"apa",
+    scope:safeText(item.scope||"",6000),method:safeText(item.method||"",6000),
+    claims:asArray(item.claims).slice(0,1000).map(claim=>({
+      id:safeText(claim.id||uid(),120),text:safeText(claim.text||"",5000),
+      status:["unexamined","partial","supported","disputed","contradicted","inconclusive","outdated"].includes(claim.status)?claim.status:"unexamined",
+      importance:["central","supporting","background"].includes(claim.importance)?claim.importance:"supporting",
+      date:safeText(claim.date||"",180),assessment:safeText(claim.assessment||"",6000),
+      tags:asArray(claim.tags).map(value=>safeText(value,80)).filter(Boolean).slice(0,30),
+      createdAt:claim.createdAt||nowIso(),updatedAt:claim.updatedAt||nowIso()
+    })),
+    sources:asArray(item.sources).slice(0,3000).map(normalizeSource),
+    evidence:asArray(item.evidence).slice(0,10000).map(link=>({
+      id:safeText(link.id||uid(),120),claimId:safeText(link.claimId||"",120),sourceId:safeText(link.sourceId||"",120),
+      position:["supporting","opposing","contextual","insufficient"].includes(link.position)?link.position:"contextual",
+      strength:["high","medium","low"].includes(link.strength)?link.strength:"medium",
+      location:safeText(link.location||"",300),reasoning:safeText(link.reasoning||"",6000),
+      limitations:safeText(link.limitations||"",5000),createdAt:link.createdAt||nowIso(),updatedAt:link.updatedAt||nowIso()
+    })),
+    quotes:asArray(item.quotes).slice(0,5000).map(quote=>({
+      id:safeText(quote.id||uid(),120),sourceId:safeText(quote.sourceId||"",120),claimId:safeText(quote.claimId||"",120),
+      text:safeText(quote.text||"",5000),location:safeText(quote.location||"",300),date:safeText(quote.date||"",20),
+      notes:safeText(quote.notes||"",4000),createdAt:quote.createdAt||nowIso(),updatedAt:quote.updatedAt||nowIso()
+    })),
+    events:asArray(item.events).slice(0,10000).map(event=>({
+      id:safeText(event.id||uid(),120),date:event.date||nowIso(),type:safeText(event.type||"event",80),text:safeText(event.text||"",1000)
+    })),
+    createdAt:item.createdAt||nowIso(),updatedAt:item.updatedAt||nowIso()
+  };
+}
+function normalizeState(input){
+  if(!input||input.schema!=="evidence-citation-studio-workspace")throw new Error("Unsupported Evidence & Citation Studio backup.");
+  return {
+    schema:"evidence-citation-studio-workspace",schemaVersion:1,appVersion:VERSION,updatedAt:nowIso(),
+    selectedProjectId:safeText(input.selectedProjectId||"",120),
+    projects:asArray(input.projects).slice(0,500).map(normalizeProject),
+    settings:input.settings&&typeof input.settings==="object"?input.settings:{}
+  };
+}
+function addEvent(project,type,text){
+  project.events.push({id:uid(),date:nowIso(),type:safeText(type,80),text:safeText(text,1000)});
+  if(project.events.length>10000)project.events=project.events.slice(-10000);
+}
+async function deriveKey(passphrase,salt){
+  const material=await crypto.subtle.importKey("raw",enc.encode(passphrase),{name:"PBKDF2"},false,["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:PBKDF2_ITERATIONS,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+async function encryptState(value,key){
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const cipher=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc.encode(JSON.stringify(value)));
+  return {iv:bytesToBase64(iv),cipher:bytesToBase64(new Uint8Array(cipher))};
+}
+async function decryptState(record,key){
+  const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv:base64ToBytes(record.iv)},key,base64ToBytes(record.cipher));
+  return normalizeState(JSON.parse(dec.decode(plain)));
+}
+function setSaved(saved){
+  const badge=$("#saveBadge");badge.textContent=saved?"Saved":"Saving…";badge.className="badge "+(saved?"good":"warn");
+}
+async function saveNow(){
+  if(!state)return;
+  state.updatedAt=nowIso();
+  if(isProtected()){
+    if(!sessionKey)throw new Error("Protected workspace is locked.");
+    localStorage.setItem(STORAGE_CIPHER,JSON.stringify(await encryptState(state,sessionKey)));
+  }else localStorage.setItem(STORAGE_PLAIN,JSON.stringify(state));
+  setSaved(true);
+}
+function scheduleSave(){
+  setSaved(false);clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveNow().catch(error=>toast("Save failed: "+error.message)),320);
+}
+function toast(message){
+  const node=$("#toast");node.textContent=message;node.classList.add("show");
+  clearTimeout(node._timer);node._timer=setTimeout(()=>node.classList.remove("show"),2900);
+}
+function download(name,text,type="application/json"){
+  const url=URL.createObjectURL(new Blob([text],{type:type+";charset=utf-8"}));
+  const anchor=document.createElement("a");anchor.href=url;anchor.download=name;document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function setSelectedProject(id){
+  state.selectedProjectId=state.projects.some(project=>project.id===id)?id:"";
+  scheduleSave();renderAll();
+}
+function updateProject(project,eventType="",eventText=""){
+  project.updatedAt=nowIso();
+  if(eventType&&eventText)addEvent(project,eventType,eventText);
+  scheduleSave();renderAll();
+}
+
+function switchView(name){
+  $$(".view").forEach(view=>view.classList.toggle("active",view.id==="view-"+name));
+  $$("#sideNavigation button").forEach(button=>button.classList.toggle("active",button.dataset.view===name));
+  const titles={dashboard:"Research Overview",projects:"Research Projects",brief:"Project Brief",claims:"Claim Board",sources:"Source Library",evidence:"Evidence Matrix",quotes:"Quotation Notebook",timeline:"Research Timeline",citations:"Citation Workshop",exports:"Research Exports",settings:"Protection & Backup"};
+  $("#viewTitle").textContent=titles[name]||"Evidence & Citation Studio";
+}
+
+function evidenceForClaim(project,claimId){return project.evidence.filter(link=>link.claimId===claimId)}
+function evidenceForSource(project,sourceId){return project.evidence.filter(link=>link.sourceId===sourceId)}
+function statusLabel(status){return ({unexamined:"Unexamined",partial:"Partially supported",supported:"Strongly supported",disputed:"Disputed",contradicted:"Contradicted",inconclusive:"Inconclusive",outdated:"Outdated"})[status]||status}
+function statusClass(status){return "claim-status-"+status}
+function renderMetrics(){
+  const projects=state.projects;
+  $("#metricProjects").textContent=String(projects.length);
+  $("#metricClaims").textContent=String(projects.reduce((sum,project)=>sum+project.claims.length,0));
+  $("#metricSources").textContent=String(projects.reduce((sum,project)=>sum+project.sources.length,0));
+  $("#metricEvidence").textContent=String(projects.reduce((sum,project)=>sum+project.evidence.length,0));
+  $("#metricUnexamined").textContent=String(projects.reduce((sum,project)=>sum+project.claims.filter(claim=>claim.status==="unexamined").length,0));
+  $("#metricReview").textContent=String(projects.reduce((sum,project)=>sum+project.sources.filter(source=>source.review==="needs-review").length,0));
+}
+function auditProject(project=selectedProject()){
+  const findings=[];
+  if(!project){findings.push({kind:"warn",title:"No project selected",text:"Select a project to run a focused research audit."});auditFindings=findings;renderAudit();return findings;}
+  if(!project.question)findings.push({kind:"bad",title:"Missing research question",text:"The project has no primary research question."});
+  if(!project.method)findings.push({kind:"warn",title:"Method not documented",text:"Record how sources are selected, compared, and assessed."});
+  if(!project.claims.length)findings.push({kind:"warn",title:"No claims",text:"Break the research question into reviewable claims."});
+  if(!project.sources.length)findings.push({kind:"warn",title:"No sources",text:"Add source records and provenance metadata."});
+  for(const claim of project.claims){
+    const links=evidenceForClaim(project,claim.id);
+    if(!links.length)findings.push({kind:"bad",title:"Claim has no evidence links",text:claim.text.slice(0,180)});
+    if(claim.status!=="unexamined"&&!claim.assessment)findings.push({kind:"warn",title:"Assessment lacks reasoning",text:claim.text.slice(0,180)});
+    if(claim.status==="supported"&&!links.some(link=>link.position==="supporting"))findings.push({kind:"bad",title:"Supported claim lacks supporting evidence",text:claim.text.slice(0,180)});
+    if(["disputed","contradicted"].includes(claim.status)&&!links.some(link=>link.position==="opposing"))findings.push({kind:"warn",title:"Disputed claim lacks opposing evidence link",text:claim.text.slice(0,180)});
+  }
+  for(const source of project.sources){
+    if(!source.author&&!source.organization)findings.push({kind:"warn",title:"Source lacks author or organization",text:source.title});
+    if(!source.publicationDate)findings.push({kind:"warn",title:"Source lacks publication date",text:source.title});
+    if(source.url&&!source.accessDate)findings.push({kind:"warn",title:"Online source lacks access date",text:source.title});
+    if(source.review==="needs-review")findings.push({kind:"warn",title:"Source still needs review",text:source.title});
+    if(source.fileName&&!source.sha256)findings.push({kind:"bad",title:"Imported file lacks SHA-256",text:source.fileName});
+  }
+  for(const link of project.evidence){
+    if(!claimById(project,link.claimId)||!sourceById(project,link.sourceId))findings.push({kind:"bad",title:"Orphaned evidence relationship",text:link.id});
+    if(!link.reasoning)findings.push({kind:"warn",title:"Evidence link lacks reasoning",text:link.id});
+  }
+  if(!findings.length)findings.push({kind:"good",title:"Project structure passed",text:"No missing claims, orphaned evidence links, undated online sources, or unsupported assessments were found."});
+  auditFindings=findings;renderAudit();return findings;
+}
+function renderAudit(){
+  const host=$("#auditTimeline");host.replaceChildren();
+  for(const item of auditFindings){
+    const div=document.createElement("div");div.className="timeline-item";
+    div.innerHTML=`<strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.text)}</p><small>${escapeHtml(item.kind)}</small>`;
+    host.append(div);
+  }
+  if(!auditFindings.length)host.innerHTML='<div class="empty">Run the project audit to review research structure.</div>';
+}
+function buildProjectCard(project){
+  const card=document.createElement("article");card.className="card project-card"+(project.id===state.selectedProjectId?" active":"");
+  card.innerHTML=`<div class="card-title"><strong>${escapeHtml(project.title)}</strong><span class="badge ${project.status==="active"?"good":project.status==="paused"?"warn":"violet"}">${escapeHtml(project.status)}</span></div><p>${escapeHtml(project.question||"No research question recorded.")}</p><div class="pill-row"><span class="badge">${project.claims.length} claims</span><span class="badge">${project.sources.length} sources</span><span class="badge">${project.evidence.length} evidence links</span></div><small>Updated ${new Date(project.updatedAt).toLocaleString()}</small><div class="card-actions"><button class="button primary small" data-select-project="${project.id}">Open</button><button class="button small" data-edit-project="${project.id}">Quick edit</button></div>`;
+  return card;
+}
+function renderRecentProjects(){
+  const host=$("#recentProjectCards");host.replaceChildren();
+  const projects=[...state.projects].sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt))).slice(0,9);
+  for(const project of projects)host.append(buildProjectCard(project));
+  if(!projects.length)host.innerHTML='<div class="empty">No research projects have been created.</div>';
+}
+function renderProjects(){
+  const query=$("#projectSearch").value.trim().toLowerCase(),status=$("#projectStatusFilter").value;
+  const projects=state.projects.filter(project=>{
+    const text=[project.title,project.question,project.researcher,project.jurisdiction,project.purpose,...project.tags].join(" ").toLowerCase();
+    return (!query||text.includes(query))&&(status==="all"||project.status===status);
+  }).sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
+  const host=$("#projectCards");host.replaceChildren();
+  for(const project of projects)host.append(buildProjectCard(project));
+  if(!projects.length)host.innerHTML='<div class="empty">No projects match the current filters.</div>';
+}
+function projectHeaderHtml(project){
+  return `<div><h2>${escapeHtml(project.title)}</h2><p>${escapeHtml(project.question||"No research question")} · ${escapeHtml(project.status)} · ${escapeHtml(project.researcher||"Researcher not entered")}</p></div><div class="card-actions"><button class="button" data-edit-project="${project.id}">Quick Edit</button><button class="button danger" data-delete-project="${project.id}">Delete Project</button></div>`;
+}
+function renderBrief(){
+  const project=selectedProject();
+  $("#briefEmpty").hidden=!!project;$("#briefContent").hidden=!project;
+  if(!project)return;
+  $("#briefProjectHeader").innerHTML=projectHeaderHtml(project);
+  $("#briefTitle").value=project.title;$("#briefQuestion").value=project.question;$("#briefPurpose").value=project.purpose;
+  $("#briefResearcher").value=project.researcher;$("#briefJurisdiction").value=project.jurisdiction;$("#briefDateRange").value=project.dateRange;
+  $("#briefStatus").value=project.status;$("#briefTags").value=project.tags.join(", ");$("#briefCitationStyle").value=project.citationStyle;
+  $("#briefScope").value=project.scope;$("#briefMethod").value=project.method;
+}
+function renderClaims(){
+  const project=selectedProject();$("#claimEmpty").hidden=!!project;$("#claimBoard").hidden=!project;
+  const host=$("#claimBoard");host.replaceChildren();if(!project)return;
+  const claims=[...project.claims].sort((a,b)=>({central:0,supporting:1,background:2}[a.importance]-{central:0,supporting:1,background:2}[b.importance])||String(b.updatedAt).localeCompare(String(a.updatedAt)));
+  for(const claim of claims){
+    const links=evidenceForClaim(project,claim.id);
+    const counts={supporting:0,opposing:0,contextual:0,insufficient:0};links.forEach(link=>counts[link.position]++);
+    const card=document.createElement("article");card.className="claim-card";
+    card.innerHTML=`<div class="card-title"><h3>${escapeHtml(claim.text)}</h3><span class="${statusClass(claim.status)}">${escapeHtml(statusLabel(claim.status))}</span></div><p>${escapeHtml(claim.assessment||"No assessment reasoning recorded.")}</p><div class="claim-meta"><span class="badge">${escapeHtml(claim.importance)}</span><span class="badge good">${counts.supporting} supporting</span><span class="badge bad">${counts.opposing} opposing</span><span class="badge violet">${counts.contextual} contextual</span><span class="badge warn">${counts.insufficient} insufficient</span></div><div class="card-actions"><button class="button small" data-edit-claim="${claim.id}">Edit</button><button class="button gold small" data-link-claim="${claim.id}">Link Evidence</button><button class="button danger small" data-delete-claim="${claim.id}">Delete</button></div>`;
+    host.append(card);
+  }
+  if(!claims.length)host.innerHTML='<div class="empty">No claims recorded.</div>';
+}
+function fillSourceTypeFilter(){
+  const select=$("#sourceTypeFilter"),current=select.value;select.innerHTML='<option value="all">All source types</option>';
+  for(const type of SOURCE_TYPES){const option=document.createElement("option");option.value=type;option.textContent=type;select.append(option);}
+  if(Array.from(select.options).some(option=>option.value===current))select.value=current;
+}
+function renderSources(){
+  const project=selectedProject();$("#sourceEmpty").hidden=!!project;$("#sourceContent").hidden=!project;
+  const body=$("#sourceTableBody");body.replaceChildren();if(!project)return;
+  const query=$("#sourceSearch").value.trim().toLowerCase(),type=$("#sourceTypeFilter").value,review=$("#sourceReviewFilter").value;
+  const sources=project.sources.filter(source=>{
+    const text=[source.title,source.author,source.organization,source.publisher,source.url,source.summary,source.reliability,...source.tags].join(" ").toLowerCase();
+    return (!query||text.includes(query))&&(type==="all"||source.type===type)&&(review==="all"||source.review===review);
+  }).sort((a,b)=>a.title.localeCompare(b.title));
+  for(const source of sources){
+    const links=evidenceForSource(project,source.id);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td><strong>${escapeHtml(source.title)}</strong><span class="small">${escapeHtml(source.author||source.organization||"No creator recorded")} · ${escapeHtml(source.publisher||"Publisher not recorded")}</span></td><td>${escapeHtml(source.type)}<span class="small">${escapeHtml(source.level)}</span></td><td>Published ${displayDate(source.publicationDate)}<span class="small">Accessed ${displayDate(source.accessDate)}</span></td><td>${source.sha256?`<span class="badge good">SHA-256</span><span class="small">${escapeHtml(source.fileName)} · ${escapeHtml(source.sha256.slice(0,20))}…</span>`:`<span class="badge warn">Metadata only</span><span class="small">${escapeHtml(source.url||"No location recorded")}</span>`}</td><td><span class="badge ${source.review==="reviewed"?"good":"warn"}">${escapeHtml(source.review)}</span><span class="small">${escapeHtml(source.reliability||"No review notes")}</span></td><td>${links.length}</td><td><div class="row-actions"><button class="button small" data-edit-source="${source.id}">Edit</button>${source.url?`<a class="button small" href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">Open</a>`:""}<button class="button danger small" data-delete-source="${source.id}">Delete</button></div></td>`;
+    body.append(tr);
+  }
+  if(!sources.length)body.innerHTML='<tr><td colspan="7" class="empty">No sources match the current filters.</td></tr>';
+}
+function populateClaimOptions(select,includeAll=false){
+  const project=selectedProject(),current=select.value;select.replaceChildren();
+  if(includeAll){const option=document.createElement("option");option.value="all";option.textContent="All claims";select.append(option);}
+  if(select.id==="quoteClaim"){const option=document.createElement("option");option.value="";option.textContent="No linked claim";select.append(option);}
+  for(const claim of project?.claims||[]){const option=document.createElement("option");option.value=claim.id;option.textContent=claim.text.slice(0,160);select.append(option);}
+  if(Array.from(select.options).some(option=>option.value===current))select.value=current;
+}
+function populateSourceOptions(select){
+  const project=selectedProject(),current=select.value;select.replaceChildren();
+  for(const source of project?.sources||[]){const option=document.createElement("option");option.value=source.id;option.textContent=source.title.slice(0,180);select.append(option);}
+  if(Array.from(select.options).some(option=>option.value===current))select.value=current;
+}
+function renderEvidence(){
+  const project=selectedProject(),ready=project&&project.claims.length&&project.sources.length;
+  $("#evidenceEmpty").hidden=!!ready;$("#evidenceContent").hidden=!ready;
+  const host=$("#evidenceMatrix");host.replaceChildren();if(!ready)return;
+  populateClaimOptions($("#matrixClaimFilter"),true);
+  const filter=$("#matrixClaimFilter").value;
+  const columns=[
+    ["supporting","Supporting evidence"],["opposing","Opposing evidence"],["contextual","Context and background"],["insufficient","Insufficient or ambiguous"]
+  ];
+  for(const [position,label] of columns){
+    const column=document.createElement("section");column.className="matrix-column";column.innerHTML=`<h3>${label}</h3>`;
+    const links=project.evidence.filter(link=>link.position===position&&(filter==="all"||link.claimId===filter));
+    for(const link of links){
+      const claim=claimById(project,link.claimId),source=sourceById(project,link.sourceId);
+      const item=document.createElement("article");item.className="matrix-item";
+      item.innerHTML=`<strong>${escapeHtml(claim?.text||"Missing claim")}</strong><p>${escapeHtml(source?.title||"Missing source")}<br>${escapeHtml(link.reasoning)}${link.location?`<br>Location: ${escapeHtml(link.location)}`:""}</p><div class="card-actions"><button class="button small" data-edit-evidence="${link.id}">Edit</button><button class="button danger small" data-delete-evidence="${link.id}">Delete</button></div>`;
+      column.append(item);
+    }
+    if(!links.length)column.insertAdjacentHTML("beforeend",'<div class="empty">No evidence links.</div>');
+    host.append(column);
+  }
+}
+function renderQuotes(){
+  const project=selectedProject();$("#quoteEmpty").hidden=!!project;$("#quoteTimeline").hidden=!project;
+  const host=$("#quoteTimeline");host.replaceChildren();if(!project)return;
+  const quotes=[...project.quotes].sort((a,b)=>String(b.date||b.createdAt).localeCompare(String(a.date||a.createdAt)));
+  for(const quote of quotes){
+    const source=sourceById(project,quote.sourceId),claim=claimById(project,quote.claimId);
+    const div=document.createElement("article");div.className="timeline-item";
+    div.innerHTML=`<strong>${escapeHtml(source?.title||"Missing source")}</strong><p>“${escapeHtml(quote.text)}”</p><small>${escapeHtml(quote.location)} · ${displayDate(quote.date)}${claim?` · Claim: ${escapeHtml(claim.text.slice(0,100))}`:""}</small>${quote.notes?`<p>${escapeHtml(quote.notes)}</p>`:""}<div class="card-actions"><button class="button small" data-edit-quote="${quote.id}">Edit</button><button class="button danger small" data-delete-quote="${quote.id}">Delete</button></div>`;
+    host.append(div);
+  }
+  if(!quotes.length)host.innerHTML='<div class="empty">No quotations recorded.</div>';
+}
+function renderTimeline(){
+  const project=selectedProject();$("#timelineEmpty").hidden=!!project;$("#researchTimeline").hidden=!project;
+  const host=$("#researchTimeline");host.replaceChildren();if(!project)return;
+  const events=[...project.events].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  for(const event of events){
+    const div=document.createElement("article");div.className="timeline-item";
+    div.innerHTML=`<strong>${escapeHtml(event.type)}</strong><p>${escapeHtml(event.text)}</p><small>${new Date(event.date).toLocaleString()}</small>`;
+    host.append(div);
+  }
+  if(!events.length)host.innerHTML='<div class="empty">No timeline events recorded.</div>';
+}
+function renderCitationControls(){
+  const project=selectedProject();$("#citationEmpty").hidden=!!project;$("#citationContent").hidden=!project;
+  if(project)$("#citationStyle").value=project.citationStyle;
+}
+function renderExportControls(){
+  const project=selectedProject();$("#exportEmpty").hidden=!!project;$("#exportContent").hidden=!project;
+}
+function renderSelectedBadge(){
+  const project=selectedProject();$("#selectedProjectBadge").textContent=project?project.title:"No project selected";$("#selectedProjectBadge").className="badge "+(project?"good":"");
+}
+async function renderStorage(){
+  const protectedWorkspace=isProtected();
+  $("#workspaceBadge").textContent=protectedWorkspace?"Encrypted workspace":"Local workspace";
+  $("#workspaceBadge").className="badge "+(protectedWorkspace?"good":"warn");
+  $("#protectionHeading").textContent=protectedWorkspace?"Encrypted local workspace":"Unprotected local workspace";
+  $("#protectionDescription").textContent=protectedWorkspace?"Research data is encrypted at rest in this browser. The key exists only while this session is unlocked.":"Projects are stored locally as readable JSON in this browser profile.";
+  $("#protectWorkspaceButton").hidden=protectedWorkspace;$("#removeProtectionButton").hidden=!protectedWorkspace;
+  try{
+    if(navigator.storage?.estimate){
+      const estimate=await navigator.storage.estimate(),persisted=navigator.storage.persisted?await navigator.storage.persisted():false;
+      $("#storageEstimate").textContent=`${((estimate.usage||0)/1048576).toFixed(1)} MB used of approximately ${((estimate.quota||0)/1048576).toFixed(0)} MB · ${persisted?"persistent":"best effort"}`;
+    }
+  }catch{}
+}
+function renderAll(){
+  renderMetrics();renderAudit();renderRecentProjects();renderProjects();renderBrief();renderClaims();renderSources();
+  renderEvidence();renderQuotes();renderTimeline();renderCitationControls();renderExportControls();renderSelectedBadge();renderStorage();
+}
+
+function openProjectDialog(id=""){
+  const project=id?projectById(id):null;
+  $("#projectDialogTitle").textContent=project?"Quick Edit Project":"New Research Project";
+  $("#projectId").value=project?.id||"";$("#projectTitle").value=project?.title||"";$("#projectQuestion").value=project?.question||"";
+  $("#projectResearcher").value=project?.researcher||"";$("#projectJurisdiction").value=project?.jurisdiction||"";
+  $("#projectStatus").value=project?.status||"active";$("#projectTags").value=(project?.tags||[]).join(", ");$("#projectDialog").showModal();
+}
+function openClaimDialog(id=""){
+  const project=selectedProject();if(!project)return toast("Select a project first.");
+  const claim=id?claimById(project,id):null;
+  $("#claimId").value=claim?.id||"";$("#claimText").value=claim?.text||"";$("#claimStatus").value=claim?.status||"unexamined";
+  $("#claimImportance").value=claim?.importance||"supporting";$("#claimDate").value=claim?.date||"";
+  $("#claimAssessment").value=claim?.assessment||"";$("#claimTags").value=(claim?.tags||[]).join(", ");$("#claimDialog").showModal();
+}
+function fillSourceTypes(){
+  for(const selector of ["#sourceType","#sourceTypeFilter"]){
+    const select=$(selector),current=select.value;select.replaceChildren();
+    if(selector.endsWith("Filter")){const all=document.createElement("option");all.value="all";all.textContent="All source types";select.append(all);}
+    for(const type of SOURCE_TYPES){const option=document.createElement("option");option.value=type;option.textContent=type;select.append(option);}
+    if(Array.from(select.options).some(option=>option.value===current))select.value=current;
+  }
+}
+function openSourceDialog(id=""){
+  const project=selectedProject();if(!project)return toast("Select a project first.");
+  fillSourceTypes();
+  const source=id?sourceById(project,id):null;
+  $("#sourceId").value=source?.id||"";$("#sourceTitle").value=source?.title||"";$("#sourceAuthor").value=source?.author||"";
+  $("#sourceOrganization").value=source?.organization||"";$("#sourceType").value=source?.type||"Web page";$("#sourceLevel").value=source?.level||"unknown";
+  $("#sourceReview").value=source?.review||"needs-review";$("#sourcePublisher").value=source?.publisher||"";
+  $("#sourcePublicationDate").value=source?.publicationDate||"";$("#sourceAccessDate").value=source?.accessDate||today();
+  $("#sourceUrl").value=source?.url||"";$("#sourceEdition").value=source?.edition||"";$("#sourceLanguage").value=source?.language||"";
+  $("#sourceJurisdiction").value=source?.jurisdiction||"";$("#sourceSummary").value=source?.summary||"";
+  $("#sourceReliability").value=source?.reliability||"";$("#sourceTags").value=(source?.tags||[]).join(", ");
+  $("#sourceFile").value="";$("#sourceFileName").value=source?.fileName||"";$("#sourceHash").value=source?.sha256||"";
+  $("#sourceFile").dataset.size=String(source?.fileSize||0);$("#sourceFile").dataset.type=source?.fileType||"";
+  $("#sourceDialog").showModal();
+}
+function openEvidenceDialog(id="",claimId=""){
+  const project=selectedProject();if(!project||!project.claims.length||!project.sources.length)return toast("Add at least one claim and one source first.");
+  populateClaimOptions($("#evidenceClaim"));populateSourceOptions($("#evidenceSource"));
+  const link=id?project.evidence.find(item=>item.id===id):null;
+  $("#evidenceId").value=link?.id||"";$("#evidenceClaim").value=link?.claimId||claimId||project.claims[0].id;
+  $("#evidenceSource").value=link?.sourceId||project.sources[0].id;$("#evidencePosition").value=link?.position||"supporting";
+  $("#evidenceStrength").value=link?.strength||"medium";$("#evidenceLocation").value=link?.location||"";
+  $("#evidenceReasoning").value=link?.reasoning||"";$("#evidenceLimitations").value=link?.limitations||"";$("#evidenceDialog").showModal();
+}
+function openQuoteDialog(id=""){
+  const project=selectedProject();if(!project||!project.sources.length)return toast("Add a source first.");
+  populateSourceOptions($("#quoteSource"));populateClaimOptions($("#quoteClaim"));
+  const quote=id?project.quotes.find(item=>item.id===id):null;
+  $("#quoteId").value=quote?.id||"";$("#quoteSource").value=quote?.sourceId||project.sources[0].id;$("#quoteText").value=quote?.text||"";
+  $("#quoteLocation").value=quote?.location||"";$("#quoteDate").value=quote?.date||today();$("#quoteClaim").value=quote?.claimId||"";
+  $("#quoteNotes").value=quote?.notes||"";$("#quoteDialog").showModal();
+}
+
+async function hashSelectedFile(file){
+  if(!file)return;
+  if(file.size>MAX_HASH_FILE_BYTES)throw new Error("File exceeds the 512 MB hashing limit.");
+  $("#sourceFileName").value=file.name;$("#sourceHash").value="Calculating SHA-256…";
+  const buffer=await file.arrayBuffer(),digest=await crypto.subtle.digest("SHA-256",buffer);
+  $("#sourceHash").value=Array.from(new Uint8Array(digest)).map(byte=>byte.toString(16).padStart(2,"0")).join("");
+  $("#sourceFile").dataset.size=String(file.size);$("#sourceFile").dataset.type=file.type||"";
+}
+function personOrOrganization(source){return source.author||source.organization||""}
+function yearFromDate(value){return value?value.slice(0,4):"n.d."}
+function italic(value){return `<em>${escapeHtml(value)}</em>`}
+function citationEntry(source,style){
+  const creator=personOrOrganization(source);
+  const year=yearFromDate(source.publicationDate);
+  const title=source.title||"Untitled source";
+  const publisher=source.publisher||"";
+  const url=source.url||"";
+  const accessed=source.accessDate?` Accessed ${displayDate(source.accessDate)}.`:"";
+  const edition=source.edition?` ${source.edition}.`:"";
+  if(style==="apa"){
+    const who=creator?escapeHtml(creator):escapeHtml(source.organization||"");
+    return `${who?who+". ":""}(${escapeHtml(year)}). ${italic(title)}.${edition}${publisher?" "+escapeHtml(publisher)+".":""}${url?" "+escapeHtml(url):""}`;
+  }
+  if(style==="mla"){
+    return `${creator?escapeHtml(creator)+". ":""}“${escapeHtml(title)}.” ${publisher?italic(publisher)+", ":""}${source.publicationDate?escapeHtml(source.publicationDate)+", ":""}${url?escapeHtml(url)+".":""}${accessed}`;
+  }
+  if(style==="chicago"){
+    return `${creator?escapeHtml(creator)+". ":""}${italic(title)}.${edition}${publisher?" "+escapeHtml(publisher)+",":""} ${source.publicationDate?escapeHtml(source.publicationDate)+".":""}${url?" "+escapeHtml(url)+".":""}`;
+  }
+  return `${escapeHtml(title)} | ${escapeHtml(creator||"No creator recorded")} | ${escapeHtml(source.type)} | ${escapeHtml(source.publicationDate||"No publication date")} | ${escapeHtml(url||source.fileName||"No location recorded")}`;
+}
+function generateBibliography(){
+  const project=selectedProject();if(!project)return;
+  const style=$("#citationStyle").value,sort=$("#citationSort").value;
+  let sources=[...project.sources];
+  if(sort==="author")sources.sort((a,b)=>personOrOrganization(a).localeCompare(personOrOrganization(b))||a.title.localeCompare(b.title));
+  if(sort==="title")sources.sort((a,b)=>a.title.localeCompare(b.title));
+  if(sort==="date")sources.sort((a,b)=>String(a.publicationDate).localeCompare(String(b.publicationDate))||a.title.localeCompare(b.title));
+  const entries=sources.map(source=>citationEntry(source,style));
+  const title=style==="apa"?"APA 7 Draft Bibliography":style==="mla"?"MLA 9 Draft Works Cited":style==="chicago"?"Chicago Draft Bibliography":"Plain Source Records";
+  const warning="Draft citations generated from entered metadata. Review unusual source types and current style guidance before publication.";
+  const html=`<h1>${escapeHtml(title)}</h1><p class="warning">${escapeHtml(warning)}</p>${entries.length?entries.map(entry=>`<div class="entry">${entry}</div>`).join(""):"<p>No sources recorded.</p>"}`;
+  const text=entries.map(entry=>{const div=document.createElement("div");div.innerHTML=entry;return div.textContent||""}).join("\n\n");
+  $("#citationOutput").innerHTML=html;
+  currentBibliography={html:`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(title)}</title><style>body{max-width:850px;margin:40px auto;padding:0 24px;font:16px/1.6 Georgia,serif;color:#222}.entry{margin:0 0 1em;padding-left:2em;text-indent:-2em}.warning{color:#7b5a52;font-style:italic}</style></head><body>${html}</body></html>`,text,filename:fileNameSafe(project.title)+"_bibliography.html"};
+}
+function projectMarkdown(project){
+  const lines=[`# ${project.title}`,"",`**Research question:** ${project.question}`,"",`**Researcher:** ${project.researcher||"Not entered"}`,`**Jurisdiction:** ${project.jurisdiction||"Not entered"}`,`**Status:** ${project.status}`,""];
+  if(project.purpose)lines.push("## Purpose","",project.purpose,"");
+  if(project.scope)lines.push("## Scope and Limitations","",project.scope,"");
+  if(project.method)lines.push("## Method","",project.method,"");
+  lines.push("## Claims","");
+  for(const claim of project.claims){
+    lines.push(`### ${claim.text}`,"",`- Assessment: ${statusLabel(claim.status)}`,`- Importance: ${claim.importance}`,claim.date?`- Date or period: ${claim.date}`:"",claim.assessment?`- Reasoning: ${claim.assessment}`:"","");
+    const links=evidenceForClaim(project,claim.id);
+    if(links.length){
+      lines.push("Evidence:");
+      for(const link of links){
+        const source=sourceById(project,link.sourceId);
+        lines.push(`- **${link.position} · ${link.strength}:** ${source?.title||"Missing source"}${link.location?` (${link.location})`:""} — ${link.reasoning}`);
+      }
+      lines.push("");
+    }
+  }
+  lines.push("## Source Library","");
+  for(const source of project.sources)lines.push(`- **${source.title}** — ${personOrOrganization(source)||"No creator recorded"}; ${source.type}; ${source.publicationDate||"No date"}; ${source.url||source.fileName||"No location"}`);
+  lines.push("");
+  return lines.filter(line=>line!==undefined).join("\n");
+}
+function researchReportHtml(project){
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(project.title)}</title><style>body{max-width:980px;margin:38px auto;padding:0 24px;font:16px/1.6 Georgia,serif;color:#222}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #bbb;text-align:left;vertical-align:top}.claim{margin:22px 0;padding:14px;border-left:4px solid #8b7451;background:#faf7ef}.meta{color:#666;font-size:14px}</style></head><body><h1>${escapeHtml(project.title)}</h1><p><strong>Research question:</strong> ${escapeHtml(project.question)}</p><p class="meta">Researcher: ${escapeHtml(project.researcher||"Not entered")} · Jurisdiction: ${escapeHtml(project.jurisdiction||"Not entered")} · Generated: ${new Date().toLocaleString()}</p><h2>Claims and Evidence</h2>${project.claims.map(claim=>`<section class="claim"><h3>${escapeHtml(claim.text)}</h3><p><strong>Assessment:</strong> ${escapeHtml(statusLabel(claim.status))}</p><p>${escapeHtml(claim.assessment||"No reasoning recorded.")}</p><ul>${evidenceForClaim(project,claim.id).map(link=>{const source=sourceById(project,link.sourceId);return `<li><strong>${escapeHtml(link.position)} · ${escapeHtml(link.strength)}</strong> — ${escapeHtml(source?.title||"Missing source")}: ${escapeHtml(link.reasoning)}</li>`}).join("")}</ul></section>`).join("")}<h2>Sources</h2><ol>${project.sources.map(source=>`<li>${citationEntry(source,project.citationStyle)}</li>`).join("")}</ol><p class="meta">Evidence & Citation Studio · Local-first research provenance record.</p></body></html>`;
+}
+function provenanceManifest(project){
+  return {
+    schema:"arshif-research-provenance-manifest",schemaVersion:1,generatedAt:nowIso(),
+    project:{id:project.id,title:project.title,question:project.question,researcher:project.researcher,jurisdiction:project.jurisdiction,dateRange:project.dateRange,status:project.status,tags:project.tags,createdAt:project.createdAt,updatedAt:project.updatedAt},
+    sourceRecords:project.sources.map(source=>({id:source.id,title:source.title,author:source.author,organization:source.organization,type:source.type,level:source.level,publisher:source.publisher,publicationDate:source.publicationDate,accessDate:source.accessDate,url:source.url,fileName:source.fileName,fileSize:source.fileSize,fileType:source.fileType,sha256:source.sha256,review:source.review})),
+    claims:project.claims.map(claim=>({id:claim.id,text:claim.text,status:claim.status,importance:claim.importance,date:claim.date})),
+    evidenceRelationships:project.evidence,
+    integrityNotice:"SHA-256 identifies the exact locally hashed file at the time it was selected. The file itself is not embedded in this manifest."
+  };
+}
+function csvCell(value){return `"${String(value??"").replace(/"/g,'""')}"`}
+function evidenceCsv(project){
+  const rows=[["Claim","Claim Status","Evidence Position","Confidence","Source","Source Type","Source Date","Location","Reasoning","Limitations","SHA-256"]];
+  for(const link of project.evidence){
+    const claim=claimById(project,link.claimId),source=sourceById(project,link.sourceId);
+    rows.push([claim?.text||"",claim?.status||"",link.position,link.strength,source?.title||"",source?.type||"",source?.publicationDate||"",link.location,link.reasoning,link.limitations,source?.sha256||""]);
+  }
+  return rows.map(row=>row.map(csvCell).join(",")).join("\n")+"\n";
+}
+function generateExport(){
+  const project=selectedProject();if(!project)return;
+  const format=$("#exportFormat").value,base=fileNameSafe(project.title);
+  if(format==="json")currentExport={text:JSON.stringify({schema:"evidence-citation-project",schemaVersion:1,exportedAt:nowIso(),project},null,2),filename:base+"_research.json",type:"application/json"};
+  if(format==="markdown")currentExport={text:projectMarkdown(project),filename:base+"_research.md",type:"text/markdown"};
+  if(format==="html")currentExport={text:researchReportHtml(project),filename:base+"_research_report.html",type:"text/html"};
+  if(format==="manifest")currentExport={text:JSON.stringify(provenanceManifest(project),null,2),filename:base+"_arshif_manifest.json",type:"application/json"};
+  if(format==="csv")currentExport={text:evidenceCsv(project),filename:base+"_evidence_matrix.csv",type:"text/csv"};
+  $("#exportOutput").value=currentExport.text;
+  toast("Research export generated.");
+}
+
+function renderFormOptions(){
+  fillSourceTypes();fillSourceTypeFilter();
+}
+$("#sideNavigation").addEventListener("click",event=>{const button=event.target.closest("[data-view]");if(button)switchView(button.dataset.view);});
+$("#newProjectButton").onclick=$("#newProjectButton2").onclick=()=>openProjectDialog();
+$("#addSourceQuickButton").onclick=$("#addSourceButton").onclick=()=>openSourceDialog();
+$("#projectSearch").addEventListener("input",renderProjects);$("#projectStatusFilter").addEventListener("change",renderProjects);
+$("#sourceSearch").addEventListener("input",renderSources);$("#sourceTypeFilter").addEventListener("change",renderSources);$("#sourceReviewFilter").addEventListener("change",renderSources);
+$("#matrixClaimFilter").addEventListener("change",renderEvidence);
+$("#runAuditButton").onclick=()=>{auditProject();toast("Project audit completed.");};
+
+document.addEventListener("click",event=>{
+  const select=event.target.closest("[data-select-project]");if(select){setSelectedProject(select.dataset.selectProject);switchView("brief");return;}
+  const editProject=event.target.closest("[data-edit-project]");if(editProject)return openProjectDialog(editProject.dataset.editProject);
+  const deleteProject=event.target.closest("[data-delete-project]");if(deleteProject&&confirm("Delete this entire research project?")){state.projects=state.projects.filter(project=>project.id!==deleteProject.dataset.deleteProject);if(state.selectedProjectId===deleteProject.dataset.deleteProject)state.selectedProjectId="";scheduleSave();auditFindings=[];renderAll();switchView("projects");return;}
+  const editClaim=event.target.closest("[data-edit-claim]");if(editClaim)return openClaimDialog(editClaim.dataset.editClaim);
+  const linkClaim=event.target.closest("[data-link-claim]");if(linkClaim)return openEvidenceDialog("",linkClaim.dataset.linkClaim);
+  const deleteClaim=event.target.closest("[data-delete-claim]");if(deleteClaim&&confirm("Delete this claim and its evidence links?")){const project=selectedProject();project.claims=project.claims.filter(claim=>claim.id!==deleteClaim.dataset.deleteClaim);project.evidence=project.evidence.filter(link=>link.claimId!==deleteClaim.dataset.deleteClaim);project.quotes.forEach(quote=>{if(quote.claimId===deleteClaim.dataset.deleteClaim)quote.claimId=""});updateProject(project,"claim deleted","A claim and its evidence links were removed.");return;}
+  const editSource=event.target.closest("[data-edit-source]");if(editSource)return openSourceDialog(editSource.dataset.editSource);
+  const deleteSource=event.target.closest("[data-delete-source]");if(deleteSource&&confirm("Delete this source, evidence links, and linked quotations?")){const project=selectedProject();project.sources=project.sources.filter(source=>source.id!==deleteSource.dataset.deleteSource);project.evidence=project.evidence.filter(link=>link.sourceId!==deleteSource.dataset.deleteSource);project.quotes=project.quotes.filter(quote=>quote.sourceId!==deleteSource.dataset.deleteSource);updateProject(project,"source deleted","A source and its dependent records were removed.");return;}
+  const editEvidence=event.target.closest("[data-edit-evidence]");if(editEvidence)return openEvidenceDialog(editEvidence.dataset.editEvidence);
+  const deleteEvidence=event.target.closest("[data-delete-evidence]");if(deleteEvidence&&confirm("Delete this evidence relationship?")){const project=selectedProject();project.evidence=project.evidence.filter(link=>link.id!==deleteEvidence.dataset.deleteEvidence);updateProject(project,"evidence unlinked","An evidence relationship was removed.");return;}
+  const editQuote=event.target.closest("[data-edit-quote]");if(editQuote)return openQuoteDialog(editQuote.dataset.editQuote);
+  const deleteQuote=event.target.closest("[data-delete-quote]");if(deleteQuote&&confirm("Delete this quotation record?")){const project=selectedProject();project.quotes=project.quotes.filter(quote=>quote.id!==deleteQuote.dataset.deleteQuote);updateProject(project,"quotation deleted","A quotation record was removed.");return;}
+  const close=event.target.closest("[data-close]");if(close)$("#"+close.dataset.close).close();
+});
+
+$("#projectForm").onsubmit=event=>{
+  event.preventDefault();const id=$("#projectId").value;let project=id?projectById(id):null;
+  if(!project){project=blankProject();state.projects.push(project);state.selectedProjectId=project.id;}
+  project.title=safeText($("#projectTitle").value,180);project.question=safeText($("#projectQuestion").value,5000);
+  project.researcher=safeText($("#projectResearcher").value,180);project.jurisdiction=safeText($("#projectJurisdiction").value,180);
+  project.status=$("#projectStatus").value;project.tags=$("#projectTags").value.split(",").map(value=>safeText(value,80)).filter(Boolean).slice(0,40);
+  $("#projectDialog").close();updateProject(project,id?"project updated":"project created",id?"Project quick details were updated.":"Research project created.");switchView("brief");toast(id?"Project updated.":"Research project created.");
+};
+$("#briefForm").onsubmit=event=>{
+  event.preventDefault();const project=selectedProject();if(!project)return;
+  project.title=safeText($("#briefTitle").value,180);project.question=safeText($("#briefQuestion").value,5000);project.purpose=safeText($("#briefPurpose").value,4000);
+  project.researcher=safeText($("#briefResearcher").value,180);project.jurisdiction=safeText($("#briefJurisdiction").value,180);project.dateRange=safeText($("#briefDateRange").value,180);
+  project.status=$("#briefStatus").value;project.tags=$("#briefTags").value.split(",").map(value=>safeText(value,80)).filter(Boolean).slice(0,40);project.citationStyle=$("#briefCitationStyle").value;
+  project.scope=safeText($("#briefScope").value,6000);project.method=safeText($("#briefMethod").value,6000);
+  updateProject(project,"brief updated","Project question, scope, or method was updated.");toast("Project brief saved.");
+};
+$("#addClaimButton").onclick=()=>openClaimDialog();
+$("#claimForm").onsubmit=event=>{
+  event.preventDefault();const project=selectedProject(),id=$("#claimId").value;let claim=id?claimById(project,id):null;
+  const data={id:id||uid(),text:safeText($("#claimText").value,5000),status:$("#claimStatus").value,importance:$("#claimImportance").value,date:safeText($("#claimDate").value,180),assessment:safeText($("#claimAssessment").value,6000),tags:$("#claimTags").value.split(",").map(value=>safeText(value,80)).filter(Boolean).slice(0,30),createdAt:claim?.createdAt||nowIso(),updatedAt:nowIso()};
+  if(claim)Object.assign(claim,data);else project.claims.push(data);$("#claimDialog").close();updateProject(project,id?"claim updated":"claim created",data.text.slice(0,300));toast("Claim saved.");
+};
+$("#sourceFile").onchange=async event=>{const file=event.target.files?.[0];if(!file)return;try{await hashSelectedFile(file);toast("SHA-256 calculated.");}catch(error){$("#sourceFile").value="";$("#sourceFileName").value="";$("#sourceHash").value="";alert(error.message);}};
+$("#sourceForm").onsubmit=event=>{
+  event.preventDefault();const project=selectedProject(),id=$("#sourceId").value;let source=id?sourceById(project,id):null;
+  const data=normalizeSource({
+    id:id||uid(),title:$("#sourceTitle").value,author:$("#sourceAuthor").value,organization:$("#sourceOrganization").value,type:$("#sourceType").value,
+    level:$("#sourceLevel").value,review:$("#sourceReview").value,publisher:$("#sourcePublisher").value,publicationDate:$("#sourcePublicationDate").value,
+    accessDate:$("#sourceAccessDate").value,url:$("#sourceUrl").value,edition:$("#sourceEdition").value,language:$("#sourceLanguage").value,
+    jurisdiction:$("#sourceJurisdiction").value,summary:$("#sourceSummary").value,reliability:$("#sourceReliability").value,
+    tags:$("#sourceTags").value.split(",").map(value=>safeText(value,80)).filter(Boolean),fileName:$("#sourceFileName").value,
+    fileSize:Number($("#sourceFile").dataset.size)||source?.fileSize||0,fileType:$("#sourceFile").dataset.type||source?.fileType||"",sha256:$("#sourceHash").value,
+    createdAt:source?.createdAt||nowIso(),updatedAt:nowIso()
+  });
+  if(source)Object.assign(source,data);else project.sources.push(data);$("#sourceDialog").close();updateProject(project,id?"source updated":"source added",data.title);toast("Source record saved.");
+};
+$("#addEvidenceButton").onclick=()=>openEvidenceDialog();
+$("#evidenceForm").onsubmit=event=>{
+  event.preventDefault();const project=selectedProject(),id=$("#evidenceId").value;let link=id?project.evidence.find(item=>item.id===id):null;
+  const data={id:id||uid(),claimId:$("#evidenceClaim").value,sourceId:$("#evidenceSource").value,position:$("#evidencePosition").value,strength:$("#evidenceStrength").value,location:safeText($("#evidenceLocation").value,300),reasoning:safeText($("#evidenceReasoning").value,6000),limitations:safeText($("#evidenceLimitations").value,5000),createdAt:link?.createdAt||nowIso(),updatedAt:nowIso()};
+  if(link)Object.assign(link,data);else project.evidence.push(data);$("#evidenceDialog").close();updateProject(project,id?"evidence updated":"evidence linked",`${data.position} evidence linked to a claim.`);toast("Evidence relationship saved.");
+};
+$("#addQuoteButton").onclick=()=>openQuoteDialog();
+$("#quoteForm").onsubmit=event=>{
+  event.preventDefault();const project=selectedProject(),id=$("#quoteId").value;let quote=id?project.quotes.find(item=>item.id===id):null;
+  const data={id:id||uid(),sourceId:$("#quoteSource").value,claimId:$("#quoteClaim").value,text:safeText($("#quoteText").value,5000),location:safeText($("#quoteLocation").value,300),date:$("#quoteDate").value,notes:safeText($("#quoteNotes").value,4000),createdAt:quote?.createdAt||nowIso(),updatedAt:nowIso()};
+  if(quote)Object.assign(quote,data);else project.quotes.push(data);$("#quoteDialog").close();updateProject(project,id?"quotation updated":"quotation recorded",data.text.slice(0,180));toast("Quotation saved.");
+};
+
+$("#generateCitationsButton").onclick=generateBibliography;
+$("#copyCitationsButton").onclick=async()=>{if(!currentBibliography.text)generateBibliography();try{await navigator.clipboard.writeText(currentBibliography.text);toast("Bibliography copied.");}catch{toast("Clipboard access blocked.");}};
+$("#downloadCitationsButton").onclick=()=>{if(!currentBibliography.html)generateBibliography();download(currentBibliography.filename,currentBibliography.html,"text/html");};
+$("#citationStyle").addEventListener("change",()=>{const project=selectedProject();if(project){project.citationStyle=$("#citationStyle").value;scheduleSave();}generateBibliography();});
+$("#citationSort").addEventListener("change",generateBibliography);
+
+$("#generateExportButton").onclick=generateExport;
+$("#copyExportButton").onclick=async()=>{if(!$("#exportOutput").value)generateExport();try{await navigator.clipboard.writeText($("#exportOutput").value);toast("Export copied.");}catch{toast("Clipboard access blocked.");}};
+$("#downloadExportButton").onclick=()=>{if(!$("#exportOutput").value)generateExport();download(currentExport.filename,currentExport.text,currentExport.type);};
+$("#exportFormat").addEventListener("change",generateExport);
+
+$("#protectWorkspaceButton").onclick=()=>$("#protectionDialog").showModal();
+$("#protectionForm").onsubmit=async event=>{
+  event.preventDefault();const first=$("#newPassphrase").value,second=$("#confirmPassphrase").value;
+  if(first.length<12)return alert("Use at least 12 characters.");if(first!==second)return alert("Passphrases do not match.");
+  try{
+    const salt=crypto.getRandomValues(new Uint8Array(16));sessionKey=await deriveKey(first,salt);
+    localStorage.setItem(STORAGE_META,JSON.stringify({schema:"evidence-citation-studio-vault",version:1,iterations:PBKDF2_ITERATIONS,salt:bytesToBase64(salt)}));
+    localStorage.removeItem(STORAGE_PLAIN);await saveNow();$("#protectionDialog").close();$("#newPassphrase").value=$("#confirmPassphrase").value="";
+    renderStorage();toast("Workspace encrypted.");
+  }catch(error){alert("Protection failed: "+error.message);}
+};
+$("#removeProtectionButton").onclick=async()=>{
+  if(!confirm("Remove local encryption and store the workspace as readable browser data?"))return;
+  localStorage.removeItem(STORAGE_META);localStorage.removeItem(STORAGE_CIPHER);sessionKey=null;localStorage.setItem(STORAGE_PLAIN,JSON.stringify(state));renderStorage();toast("Workspace protection removed.");
+};
+$("#lockButton").onclick=()=>{if(isProtected()){sessionKey=null;location.reload();}else toast("Protect the workspace first to use the lock.");};
+$("#unlockButton").onclick=async()=>{
+  const passphrase=$("#unlockPassphrase").value;if(!passphrase)return;
+  $("#unlockStatus").textContent="Deriving key and opening projects…";
+  try{
+    const meta=JSON.parse(localStorage.getItem(STORAGE_META)),record=JSON.parse(localStorage.getItem(STORAGE_CIPHER));
+    const key=await deriveKey(passphrase,base64ToBytes(meta.salt));state=await decryptState(record,key);sessionKey=key;
+    $("#lockScreen").hidden=true;$("#unlockPassphrase").value="";renderAll();$("#unlockStatus").textContent="Unlocked.";
+  }catch{$("#unlockStatus").textContent="Unable to unlock. Check the passphrase or import a valid backup.";}
+};
+$("#unlockPassphrase").addEventListener("keydown",event=>{if(event.key==="Enter")$("#unlockButton").click();});
+$("#unlockImportButton").onclick=()=>$("#backupFile").click();
+$("#exportBackupButton").onclick=()=>download("evidence_citation_studio_backup_"+today()+".json",JSON.stringify({...state,exportedAt:nowIso()},null,2));
+$("#importBackupButton").onclick=()=>$("#backupFile").click();
+$("#backupFile").onchange=async event=>{
+  const file=event.target.files?.[0];event.target.value="";if(!file)return;
+  if(file.size>MAX_IMPORT_BYTES)return alert("Backup exceeds the 24 MB protected import limit.");
+  try{
+    const imported=normalizeState(JSON.parse(await file.text()));
+    if(!confirm("Replace the current research workspace with this backup?"))return;
+    state=imported;await saveNow();auditFindings=[];renderAll();toast("Workspace backup imported.");
+  }catch(error){alert("Backup import failed: "+error.message);}
+};
+$("#persistStorageButton").onclick=async()=>{
+  if(!navigator.storage?.persist)return toast("Persistent storage is unavailable in this browser.");
+  try{const granted=await navigator.storage.persist();toast(granted?"Persistent storage granted.":"Browser retained best-effort storage.");renderStorage();}catch{toast("Persistent storage request failed.");}
+};
+$("#resetWorkspaceButton").onclick=async()=>{
+  if(!confirm("Erase every local research project? Export a backup first."))return;
+  if(!confirm("This cannot be undone. Erase the workspace now?"))return;
+  state=blankState();localStorage.removeItem(STORAGE_META);localStorage.removeItem(STORAGE_CIPHER);sessionKey=null;localStorage.setItem(STORAGE_PLAIN,JSON.stringify(state));auditFindings=[];renderAll();switchView("dashboard");toast("Local workspace erased.");
+};
+window.addEventListener("pagehide",()=>{if(state&&!isProtected())localStorage.setItem(STORAGE_PLAIN,JSON.stringify(state));});
+
+async function initialize(){
+  renderFormOptions();
+  if(isProtected()){$("#lockScreen").hidden=false;return;}
+  const raw=localStorage.getItem(STORAGE_PLAIN);
+  if(raw){try{state=normalizeState(JSON.parse(raw));}catch{state=blankState();}}
+  else state=blankState();
+  await saveNow();renderAll();
+}
+initialize().catch(error=>alert("Evidence & Citation Studio failed to initialize: "+error.message));
+})();
+</script>
+</body>
+</html>
