@@ -7,32 +7,26 @@
 - Audit refreshed: 2026-08-13
 - Canonical templates: **82**
 - Khaemenes Academic Core templates: **12**
+- Khaemenes Mathematics Core templates: **10**
 - Other Mini-Cloud extension templates: **1**
-- Templates available through PROSE: **95**
+- Templates available through PROSE: **105**
 - Canonical files missing: **0**
 - Unresolved duplicate or misspelled extras: **0**
 
-The canonical 82-template library remains unchanged. The Khaemenes Academic Core adds 12 reusable academic templates through the PROSE Template Mini-Cloud.
+The canonical 82-template library remains unchanged. Academic Core contributes 12 universal academic templates. Mathematics Core contributes 10 universal mathematics templates.
 
-### Academic Planning
-- Assignment Brief
-- Learning Goals Plan
-- Exam Review Plan
+## Mathematics Core
 
-### Study & Inquiry
-- Reading Response
-- Study Guide
-- Academic Notes
-- Seminar Discussion Guide
-- Problem Set
-
-### Assessment & Reflection
-- Assessment Rubric
-- Student Learning Reflection
-- Peer Review
-- Project Reflection
-
-The existing Daily Checklist remains available as a separate Mini-Cloud extension.
+- Worked Example
+- Mathematical Reasoning
+- Proof Framework
+- Mathematics Error Analysis
+- Graph & Data Investigation
+- Mathematical Modeling Task
+- Formula & Concept Organizer
+- Problem-Solving Journal
+- Mathematical Vocabulary & Conjecture
+- Mathematics Assessment Correction
 
 ## Library rules
 
@@ -45,4 +39,4 @@ The existing Daily Checklist remains available as a separate Mini-Cloud extensio
 
 ## Maintenance decision
 
-Keep the canonical 82 stable and grow future Khaemenes subject and grade-level libraries through Mini-Cloud packs and extensions.
+Keep the canonical 82 stable and grow Khaemenes subject, grade-level, and course-specific libraries through Mini-Cloud packs and extensions.
