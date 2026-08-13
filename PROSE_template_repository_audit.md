@@ -1,26 +1,17 @@
 # PROSE Template Repository Audit
 
-## Repository checked
+## Current verified state
 
 - Repository: `vervenveda/proresource_hub.github.io`
 - Branch: `main`
-- Audited head commit: `7e3fe21b70da749bff811bd9008230326bf76a34`
+- Audit refreshed: 2026-08-13
 - Canonical manifest: `templates/manifest.json`
-- GitHub manifest blob SHA: `baf05229b44ffe2552613d3a7d3bda8316bc1d09`
-- Rebuilt manifest blob SHA: `baf05229b44ffe2552613d3a7d3bda8316bc1d09`
-- Manifest match: **exact byte-for-byte match**
-
-## Verification summary
-
-- Canonical manifest entries: **82**
-- Unique template IDs: **82**
-- Unique canonical file references: **82**
+- Mini-Cloud registry: `templates/mini-cloud.json`
+- Canonical templates: **82**
+- Mini-Cloud extensions: **1**
+- Templates available through PROSE: **83**
 - Canonical files missing: **0**
-- HTML files observed in `templates/`: **91**
-- Unreferenced alternate or misspelled files: **9**
-- Manifest JSON status: **valid**
-- PROSE schema: `prose-template-library`
-- Schema version: `1`
+- Canonical spelling audit: **no obvious spelling typos found**
 
 ## Canonical category totals
 
@@ -33,38 +24,60 @@
 | Creative & Publishing | 14 |
 | Civic & Community | 10 |
 | Personal & Ceremonial | 10 |
-| **Total** | **82** |
+| **Canonical total** | **82** |
 
-## Unreferenced files found
+The Mini-Cloud currently adds `daily-checklist` under Projects & Operations, bringing the available library to **83 templates**.
 
-These files are present in the repository but are intentionally excluded from
-the canonical manifest because a corrected or preferred version already exists.
+## Content review
 
-| Extra repository file | Canonical manifest file | Finding |
-|---|---|---|
-| `after-action-revirew.html` | `after-action-review.html` | exact duplicate with misspelled filename |
-| `donor-thank-you.html` | `donor-thank-you-letter.html` | exact duplicate with alternate filename |
-| `employment-offer.html` | `offer-letter.html` | exact duplicate with alternate filename |
-| `letter-of-recommendation.html` | `recommendation-letter.html` | older incomplete alternate; canonical file is complete |
-| `meeting-brief-record.html` | `meeting-brief.html` | exact duplicate with alternate filename |
-| `memoire-chapter.html` | `memoir-chapter.html` | exact duplicate with misspelled filename |
-| `organizational-policy.html` | `policy-document.html` | exact duplicate with alternate filename |
-| `standard-operating-proceedure.html` | `standard-operating-procedure.html` | exact duplicate with misspelled filename |
-| `startegic-plan.html` | `strategic-plan.html` | exact duplicate with misspelled filename |
+All 82 canonical template bodies were reviewed for spelling, grammar, placeholder consistency, document structure, and obvious content inaccuracies. No obvious spelling typo was found in the canonical set.
 
-Eight pairs are byte-for-byte duplicates. The remaining alternate,
-`letter-of-recommendation.html`, is an older incomplete copy; the canonical
-`recommendation-letter.html` contains the complete closing contact block.
+Two accuracy refinements were applied:
 
-## Canonical manifest decision
+- `templates/public-records-request.html` now qualifies jurisdiction-dependent wording instead of presenting one public-records rule as universal.
+- `templates/appeal-letter.html` now tells the writer to verify the applicable filing deadline before describing an appeal as timely.
 
-The verified `manifest.json` contains the correct **82 canonical templates**.
-It should continue to reference only the corrected filenames. Adding the nine
-extra files to the manifest would create duplicate choices in PROSE and would
-preserve spelling errors.
+## Checklist correction
 
-## Recommended repository cleanup
+The misspelled noncanonical file `dialy-checklist.html` was removed. It has been replaced by `templates/daily-checklist.html`, a clean reusable PROSE template containing:
 
-After reviewing the map, remove the nine unreferenced files listed above. No
-canonical template needs to be renamed, and the verified manifest does not need
-a schema change.
+- date and primary focus
+- top priorities
+- task checklist
+- appointments and time-specific commitments
+- messages and follow-up
+- notes
+- end-of-day review
+
+## Previous duplicate cleanup
+
+The nine alternate or misspelled filenames recorded in the older audit are no longer present in the current `templates/` directory:
+
+- `after-action-revirew.html`
+- `donor-thank-you.html`
+- `employment-offer.html`
+- `letter-of-recommendation.html`
+- `meeting-brief-record.html`
+- `memoire-chapter.html`
+- `organizational-policy.html`
+- `standard-operating-proceedure.html`
+- `startegic-plan.html`
+
+The earlier audit is superseded by this document.
+
+## Mini-Cloud contract
+
+`templates/manifest.json` remains the stable 82-template canonical library. `templates/mini-cloud.json` provides the extension layer for future template packs.
+
+Current library rules:
+
+- same-site template resources
+- sanitized template HTML on load
+- duplicate template IDs rejected
+- category-aware organization
+- source files preserved
+- no fixed template-count ceiling
+
+## Maintenance decision
+
+Keep the 82-template canonical manifest stable and use the PROSE Template Mini-Cloud for future academic, research, publishing, professional, grade-level, and subject-specific template packs.
