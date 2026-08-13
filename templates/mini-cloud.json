@@ -10,6 +10,12 @@
       "title": "PROSE Core Template Library",
       "manifest": "manifest.json",
       "role": "canonical"
+    },
+    {
+      "id": "khaemenes-academic-core",
+      "title": "Khaemenes Academic Core",
+      "manifest": "packs/khaemenes-academic-core/manifest.json",
+      "role": "academic-foundation"
     }
   ],
   "extensions": [
