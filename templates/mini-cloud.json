@@ -24,15 +24,80 @@
       "title": "Daily Checklist",
       "defaultTitle": "Daily Checklist",
       "category": "Projects & Operations",
-      "tags": [
-        "checklist",
-        "daily planning",
-        "tasks",
-        "priorities",
-        "follow-up"
-      ],
       "description": "A clean daily planning checklist with top priorities, task tracking, appointments, follow-up, notes, and an end-of-day review.",
       "file": "daily-checklist.html"
+    },
+    {
+      "id": "reading-response",
+      "title": "Reading Response",
+      "defaultTitle": "Reading Response",
+      "category": "Study & Inquiry",
+      "description": "A reading response separating summary, supporting details, analysis, connections, questions, and reflection.",
+      "file": "packs/khaemenes-academic-core/reading-response.html"
+    },
+    {
+      "id": "study-guide",
+      "title": "Study Guide",
+      "defaultTitle": "Study Guide",
+      "category": "Study & Inquiry",
+      "description": "A flexible study guide for targets, concepts, vocabulary, practice, retrieval, weak areas, and next actions.",
+      "file": "packs/khaemenes-academic-core/study-guide.html"
+    },
+    {
+      "id": "academic-notes",
+      "title": "Academic Notes",
+      "defaultTitle": "Academic Notes",
+      "category": "Study & Inquiry",
+      "description": "A structured note sheet with an essential question, cue-and-note table, important details, questions, summary, and next step.",
+      "file": "packs/khaemenes-academic-core/academic-notes.html"
+    },
+    {
+      "id": "seminar-discussion",
+      "title": "Seminar Discussion Guide",
+      "defaultTitle": "Seminar Discussion Guide",
+      "category": "Study & Inquiry",
+      "description": "A seminar preparation and reflection guide with questions, support, discussion norms, and post-discussion reflection.",
+      "file": "packs/khaemenes-academic-core/seminar-discussion.html"
+    },
+    {
+      "id": "problem-set",
+      "title": "Problem Set",
+      "defaultTitle": "Problem Set",
+      "category": "Study & Inquiry",
+      "description": "A cross-disciplinary problem-set structure emphasizing visible reasoning, verification, transfer, and reflection.",
+      "file": "packs/khaemenes-academic-core/problem-set.html"
+    },
+    {
+      "id": "assessment-rubric",
+      "title": "Assessment Rubric",
+      "defaultTitle": "Assessment Rubric",
+      "category": "Assessment & Reflection",
+      "description": "A reusable rubric with criteria, performance descriptors, weighting, overall feedback, and learner response.",
+      "file": "packs/khaemenes-academic-core/assessment-rubric.html"
+    },
+    {
+      "id": "student-reflection",
+      "title": "Student Learning Reflection",
+      "defaultTitle": "Student Learning Reflection",
+      "category": "Assessment & Reflection",
+      "description": "A learner reflection connecting goals, evidence of learning, strengths, challenges, feedback, revision, and the next goal.",
+      "file": "packs/khaemenes-academic-core/student-reflection.html"
+    },
+    {
+      "id": "peer-review",
+      "title": "Peer Review",
+      "defaultTitle": "Peer Review",
+      "category": "Assessment & Reflection",
+      "description": "A respectful peer-review structure focused on purpose, strengths, clarity, support, questions, and one high-value revision.",
+      "file": "packs/khaemenes-academic-core/peer-review.html"
+    },
+    {
+      "id": "project-reflection",
+      "title": "Project Reflection",
+      "defaultTitle": "Project Reflection",
+      "category": "Assessment & Reflection",
+      "description": "A project reflection covering goals, process, learning, challenges, outcome, improvement, and transfer.",
+      "file": "packs/khaemenes-academic-core/project-reflection.html"
     }
   ],
   "policies": {
