@@ -1,0 +1,45 @@
+{
+  "schema": "prose-template-mini-cloud",
+  "schemaVersion": 1,
+  "title": "PROSE Template Mini-Cloud",
+  "description": "Public-safe registry for reusable PROSE document templates. The canonical repository manifest remains the primary source, while extension packs can be added without rewriting the core catalog.",
+  "basePath": "./",
+  "sources": [
+    {
+      "id": "core",
+      "title": "PROSE Core Template Library",
+      "manifest": "manifest.json",
+      "role": "canonical"
+    }
+  ],
+  "extensions": [
+    {
+      "id": "daily-checklist",
+      "title": "Daily Checklist",
+      "defaultTitle": "Daily Checklist",
+      "category": "Projects & Operations",
+      "tags": [
+        "checklist",
+        "daily planning",
+        "tasks",
+        "priorities",
+        "follow-up"
+      ],
+      "description": "A clean daily planning checklist with top priorities, task tracking, appointments, follow-up, notes, and an end-of-day review.",
+      "file": "daily-checklist.html"
+    }
+  ],
+  "policies": {
+    "sameOriginOnly": true,
+    "sanitizeTemplateHtmlOnLoad": true,
+    "preserveSourceFiles": true,
+    "rejectDuplicateIds": true,
+    "categoryAware": true,
+    "hardTemplateLimit": null
+  },
+  "futurePacks": {
+    "enabled": true,
+    "directory": "packs/",
+    "purpose": "Subject, grade-level, academic, research, publishing, and professional template packs may be registered here without exposing private runtime architecture."
+  }
+}
