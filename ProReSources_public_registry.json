@@ -4,53 +4,300 @@
   "generatedFrom": "Current Protools inventory supplied by Jennifer Kay Pearl",
   "toolBase": "./Protools/",
   "liveTools": [
-    {"id":"333-network","title":"333 Network","category":"network","path":"333_network/index.html","resolvedRelativeRoute":"./Protools/333_network/index.html"},
-    {"id":"hollo","title":"HOLLO™ — 333 Direct Connect","category":"network","path":"HOLLO™ 333 Direct Connect_index.html","resolvedRelativeRoute":"./Protools/HOLLO™ 333 Direct Connect_index.html"},
-    {"id":"kansee","title":"KANSEE™ — 333 Meeting Rooms","category":"network","path":"KANSEE™ 333 Meeting Rooms_index.html","resolvedRelativeRoute":"./Protools/KANSEE™ 333 Meeting Rooms_index.html"},
-    {"id":"bazaar-live","title":"Bazaar Art Live — 333 Social Feed","category":"media","path":"Bazaar Art Live 333 Social Feedindex.html","resolvedRelativeRoute":"./Protools/Bazaar Art Live 333 Social Feedindex.html"},
-    {"id":"daily-spark","title":"DailySpark™ Task Studio","category":"productivity","path":"DailySpark™_task_studio_index.html","resolvedRelativeRoute":"./Protools/DailySpark™_task_studio_index.html"},
-    {"id":"evidence-studio","title":"Evidence & Citation Studio","category":"research","path":"Evidence_Citation_Studio/index.html","resolvedRelativeRoute":"./Protools/Evidence_Citation_Studio/index.html"},
-    {"id":"lab-resource-cloud","title":"Lab Resource Cloud","category":"research","path":"Evidence_Citation_Studio/lab-resource-cloud.html","resolvedRelativeRoute":"./Protools/Evidence_Citation_Studio/lab-resource-cloud.html","presentation":"violet","companionTo":"evidence-studio","description":"Contained local-first lab and lesson resource intake, review, directory, and manifest workspace."},
-    {"id":"plera-search","title":"PLERA™ Search Gate","category":"research","path":"PLERA™ Search Gate_index.html","resolvedRelativeRoute":"./Protools/PLERA™ Search Gate_index.html"},
-    {"id":"fleapit","title":"FleaPit™ Media Hub","category":"media","path":"FleaPit™_media_hub_Index.html","resolvedRelativeRoute":"./Protools/FleaPit™_media_hub_Index.html"},
-    {"id":"fleapit-protected","title":"FleaPit™ Protected Media Hub","category":"media","path":"FleaPit™ Protected Media Hub_index.html","resolvedRelativeRoute":"./Protools/FleaPit™ Protected Media Hub_index.html"},
-    {"id":"harmony-haven","title":"Harmony's Haven Studio™ Multi-Track","category":"audio","path":"Harmony's Haven Studio™ Multi-Track_index.html","resolvedRelativeRoute":"./Protools/Harmony's Haven Studio™ Multi-Track_index.html"},
-    {"id":"khaeclean","title":"KhaeClean™","category":"code","path":"KhaeClean™_index.html","resolvedRelativeRoute":"./Protools/KhaeClean™_index.html"},
-    {"id":"khaezip","title":"KhaeZip™","category":"files","path":"KhaeZip™_index.html","resolvedRelativeRoute":"./Protools/KhaeZip™_index.html"},
-    {"id":"ohmic-gateway","title":"OHMIC Foundry™ CAD Gateway","category":"design","path":"Ohmic_CAD_index.html","resolvedRelativeRoute":"./Protools/Ohmic_CAD_index.html"},
-    {"id":"ohmic-studio","title":"OHMIC Foundry™ Protected CAD Studio","category":"design","path":"Ohmic_CAD_Studio.html","resolvedRelativeRoute":"./Protools/Ohmic_CAD_Studio.html"},
-    {"id":"prose-gateway","title":"PROSE™ Editorial & Inspiration Gateway","category":"writing","path":"PROSE_index.html","resolvedRelativeRoute":"./Protools/PROSE_index.html"},
-    {"id":"prose","title":"PROSE™ Sovereign Editorial Suite","category":"writing","path":"PROSE™ editingsuite_index.html","resolvedRelativeRoute":"./Protools/PROSE™ editingsuite_index.html"},
-    {"id":"sixbit-gateway","title":"SixBit Bun — Protected Asset Gateway","category":"assets","path":"SixBit_Bun_index.html","resolvedRelativeRoute":"./Protools/SixBit_Bun_index.html"},
-    {"id":"sixbit-studio","title":"SixBit Bun — Image-to-Code Studio","category":"assets","path":"SixBit_Bun_Studio_index.html","resolvedRelativeRoute":"./Protools/SixBit_Bun_Studio_index.html"}
+    {
+      "id": "333-network",
+      "title": "333 Network",
+      "category": "network",
+      "path": "333_network/index.html",
+      "resolvedRelativeRoute": "./Protools/333_network/index.html"
+    },
+    {
+      "id": "hollo",
+      "title": "HOLLO™ — 333 Direct Connect",
+      "category": "network",
+      "path": "HOLLO™ 333 Direct Connect_index.html",
+      "resolvedRelativeRoute": "./Protools/HOLLO™ 333 Direct Connect_index.html"
+    },
+    {
+      "id": "kansee",
+      "title": "KANSEE™ — 333 Meeting Rooms",
+      "category": "network",
+      "path": "KANSEE™ 333 Meeting Rooms_index.html",
+      "resolvedRelativeRoute": "./Protools/KANSEE™ 333 Meeting Rooms_index.html"
+    },
+    {
+      "id": "bazaar-live",
+      "title": "Bazaar Art Live — 333 Social Feed",
+      "category": "media",
+      "path": "Bazaar Art Live 333 Social Feedindex.html",
+      "resolvedRelativeRoute": "./Protools/Bazaar Art Live 333 Social Feedindex.html"
+    },
+    {
+      "id": "daily-spark",
+      "title": "DailySpark™ Task Studio",
+      "category": "productivity",
+      "path": "DailySpark™_task_studio_index.html",
+      "resolvedRelativeRoute": "./Protools/DailySpark™_task_studio_index.html"
+    },
+    {
+      "id": "evidence-studio",
+      "title": "Evidence & Citation Studio",
+      "category": "research",
+      "path": "Evidence_Citation_Studio/index.html",
+      "resolvedRelativeRoute": "./Protools/Evidence_Citation_Studio/index.html"
+    },
+    {
+      "id": "lab-resource-cloud",
+      "title": "Lab Resource Cloud",
+      "category": "research",
+      "path": "Evidence_Citation_Studio/lab-resource-cloud.html",
+      "resolvedRelativeRoute": "./Protools/Evidence_Citation_Studio/lab-resource-cloud.html",
+      "presentation": "violet",
+      "companionTo": "evidence-studio",
+      "description": "Contained local-first lab and lesson resource intake, review, directory, and manifest workspace."
+    },
+    {
+      "id": "plera-search",
+      "title": "PLERA™ Search Gate",
+      "category": "research",
+      "path": "PLERA™ Search Gate_index.html",
+      "resolvedRelativeRoute": "./Protools/PLERA™ Search Gate_index.html"
+    },
+    {
+      "id": "fleapit",
+      "title": "FleaPit™ Media Hub",
+      "category": "media",
+      "path": "FleaPit™_media_hub_Index.html",
+      "resolvedRelativeRoute": "./Protools/FleaPit™_media_hub_Index.html"
+    },
+    {
+      "id": "fleapit-protected",
+      "title": "FleaPit™ Protected Media Hub",
+      "category": "media",
+      "path": "FleaPit™ Protected Media Hub_index.html",
+      "resolvedRelativeRoute": "./Protools/FleaPit™ Protected Media Hub_index.html"
+    },
+    {
+      "id": "harmony-haven",
+      "title": "Harmony's Haven Studio™ Multi-Track",
+      "category": "audio",
+      "path": "Harmony's Haven Studio™ Multi-Track_index.html",
+      "resolvedRelativeRoute": "./Protools/Harmony's Haven Studio™ Multi-Track_index.html"
+    },
+    {
+      "id": "khaeclean",
+      "title": "KhaeClean™",
+      "category": "code",
+      "path": "KhaeClean™_index.html",
+      "resolvedRelativeRoute": "./Protools/KhaeClean™_index.html"
+    },
+    {
+      "id": "khaezip",
+      "title": "KhaeZip™",
+      "category": "files",
+      "path": "KhaeZip™_index.html",
+      "resolvedRelativeRoute": "./Protools/KhaeZip™_index.html"
+    },
+    {
+      "id": "ohmic-gateway",
+      "title": "OHMIC Foundry™ CAD Gateway",
+      "category": "design",
+      "path": "Ohmic_CAD_index.html",
+      "resolvedRelativeRoute": "./Protools/Ohmic_CAD_index.html"
+    },
+    {
+      "id": "ohmic-studio",
+      "title": "OHMIC Foundry™ Protected CAD Studio",
+      "category": "design",
+      "path": "Ohmic_CAD_Studio.html",
+      "resolvedRelativeRoute": "./Protools/Ohmic_CAD_Studio.html"
+    },
+    {
+      "id": "prose-gateway",
+      "title": "PROSE™ Editorial & Inspiration Gateway",
+      "category": "writing",
+      "path": "PROSE_index.html",
+      "resolvedRelativeRoute": "./Protools/PROSE_index.html"
+    },
+    {
+      "id": "prose",
+      "title": "PROSE™ Sovereign Editorial Suite",
+      "category": "writing",
+      "path": "PROSE™ editingsuite_index.html",
+      "resolvedRelativeRoute": "./Protools/PROSE™ editingsuite_index.html"
+    },
+    {
+      "id": "sixbit-gateway",
+      "title": "SixBit Bun — Protected Asset Gateway",
+      "category": "assets",
+      "path": "SixBit_Bun_index.html",
+      "resolvedRelativeRoute": "./Protools/SixBit_Bun_index.html"
+    },
+    {
+      "id": "sixbit-studio",
+      "title": "SixBit Bun — Image-to-Code Studio",
+      "category": "assets",
+      "path": "SixBit_Bun_Studio_index.html",
+      "resolvedRelativeRoute": "./Protools/SixBit_Bun_Studio_index.html"
+    }
   ],
   "futureProjects": [
-    {"id":"pdf-forge","title":"PDF Forge","category":"files","description":"PDF workbench for merging, splitting, compressing, rearranging, annotating, signing, redacting, and exporting documents."},
-    {"id":"ledger-light","title":"LedgerLight Finance Studio","category":"business","description":"Professional workspace for invoices, estimates, budgets, expenses, cash-flow views, reconciliation, and business reports."},
-    {"id":"proposal-studio","title":"Proposal & Contract Studio","category":"business","description":"Guided builder for proposals, scopes of work, service agreements, amendments, and reusable business terms."},
-    {"id":"data-lens","title":"DataLens CSV Workbench","category":"business","description":"Local analytics studio for CSV cleanup, filtering, summaries, charts, comparisons, validation, and export."},
-    {"id":"launch-map","title":"LaunchMap Project Studio","category":"productivity","description":"Project workspace combining milestones, calendars, Kanban boards, timelines, risks, dependencies, and launch checklists."},
-    {"id":"brand-foundry","title":"BrandFoundry","category":"design","description":"Identity and campaign studio for logos, palettes, typography, posters, social templates, and brand guidance."},
-    {"id":"form-craft","title":"FormCraft","category":"productivity","description":"Form, survey, intake, application, assessment, and printable questionnaire builder with local exports."},
-    {"id":"site-check","title":"SiteCheck Accessibility & Readiness Auditor","category":"code","description":"Check links, headings, contrast, labels, metadata, keyboard access, route readiness, and common deployment problems."},
-    {"id":"project-passport","title":"Portable Project Passport","category":"operations","description":"A common project manifest carrying identity, files, tasks, sources, rights, milestones, hashes, and related exports between Verve N Veda tools."},
-    {"id":"meeting-decision","title":"Meeting & Decision Studio","category":"operations","description":"Create agendas, attendance records, decisions, votes, action items, responsible parties, deadlines, and follow-up summaries."},
-    {"id":"caption-transcript","title":"Caption & Transcript Studio","category":"media","description":"Edit transcripts, speaker labels, timestamps, caption lines, reading speed, and SRT, VTT, TXT, or HTML exports."},
-    {"id":"rights-permissions","title":"Rights & Permissions Desk","category":"operations","description":"Track copyright, licenses, releases, permissions, attribution, territory, allowed uses, restrictions, and expiration dates."},
-    {"id":"grant-path","title":"GrantPath Program Studio","category":"business","description":"Organize grant eligibility, deadlines, narratives, budgets, attachments, outcomes, reporting duties, and submission readiness."},
-    {"id":"dispatch-studio","title":"Dispatch & Newsletter Studio","category":"publishing","description":"Prepare newsletters, announcements, press releases, invitations, mailing labels, recurring sections, and local mail-merge exports."},
-    {"id":"asset-ledger","title":"Asset & Collections Ledger","category":"operations","description":"Catalog artworks, equipment, archive materials, school property, inventory, condition reports, locations, values, and maintenance."},
-    {"id":"document-merge","title":"Document Merge Studio","category":"productivity","description":"Combine templates with CSV or JSON records to produce letters, certificates, labels, reports, badges, and acknowledgments."},
-    {"id":"policy-builder","title":"Policy & Procedure Builder","category":"operations","description":"Draft and maintain privacy notices, codes of conduct, accessibility statements, emergency plans, handbooks, and procedures."},
-    {"id":"outcome-reporter","title":"Outcome & Impact Reporter","category":"business","description":"Track goals, participation, volunteer hours, program milestones, expenses, evidence, outcomes, annual reports, and grant reporting."},
-    {"id":"storyboard","title":"Storyboard & Sequence Planner","category":"publishing","description":"Plan scenes, chapters, shots, illustration notes, dialogue, audio cues, image references, and visual sequence order."},
-    {"id":"voice-proof","title":"Voice & Read-Aloud Proofing Room","category":"writing","description":"Read writing aloud with sentence highlighting, pace estimates, pronunciation notes, repetition flags, and rehearsal copies."},
-    {"id":"portfolio-packager","title":"Professional Portfolio Packager","category":"publishing","description":"Combine biographies, résumés, project descriptions, work samples, images, press, references, and static portfolio exports."},
-    {"id":"memoir-studio","title":"Memoir Studio","category":"writing","description":"Organize life timelines, memories, people, places, private reflections, chapters, photographs, and narrative themes."},
-    {"id":"poetry-workroom","title":"Poetry Workroom","category":"writing","description":"Develop poems through forms, meter, imagery, revision layers, readings, collection sequencing, and publication preparation."},
-    {"id":"speech-builder","title":"Speech & Address Builder","category":"writing","description":"Plan audience, timing, argument, rhetoric, delivery notes, evidence, rehearsal, and printable speaking copies."},
-    {"id":"script-room","title":"Script Room","category":"writing","description":"Develop scenes, dialogue, characters, stage directions, production notes, revisions, and performance drafts."},
-    {"id":"children-story","title":"Children's Story Studio","category":"publishing","description":"Plan age-aware language, pages, read-aloud rhythm, illustration notes, characters, activities, and print-ready story layouts."}
+    {
+      "id": "pdf-forge",
+      "title": "PDF Forge",
+      "category": "files",
+      "description": "PDF workbench for merging, splitting, compressing, rearranging, annotating, signing, redacting, and exporting documents."
+    },
+    {
+      "id": "ledger-light",
+      "title": "LedgerLight Finance Studio",
+      "category": "business",
+      "description": "Professional workspace for invoices, estimates, budgets, expenses, cash-flow views, reconciliation, and business reports."
+    },
+    {
+      "id": "proposal-studio",
+      "title": "Proposal & Contract Studio",
+      "category": "business",
+      "description": "Guided builder for proposals, scopes of work, service agreements, amendments, and reusable business terms."
+    },
+    {
+      "id": "data-lens",
+      "title": "DataLens CSV Workbench",
+      "category": "business",
+      "description": "Local analytics studio for CSV cleanup, filtering, summaries, charts, comparisons, validation, and export."
+    },
+    {
+      "id": "launch-map",
+      "title": "LaunchMap Project Studio",
+      "category": "productivity",
+      "description": "Project workspace combining milestones, calendars, Kanban boards, timelines, risks, dependencies, and launch checklists."
+    },
+    {
+      "id": "brand-foundry",
+      "title": "BrandFoundry",
+      "category": "design",
+      "description": "Identity and campaign studio for logos, palettes, typography, posters, social templates, and brand guidance."
+    },
+    {
+      "id": "form-craft",
+      "title": "FormCraft",
+      "category": "productivity",
+      "description": "Form, survey, intake, application, assessment, and printable questionnaire builder with local exports."
+    },
+    {
+      "id": "site-check",
+      "title": "SiteCheck Accessibility & Readiness Auditor",
+      "category": "code",
+      "description": "Check links, headings, contrast, labels, metadata, keyboard access, route readiness, and common deployment problems."
+    },
+    {
+      "id": "project-passport",
+      "title": "Portable Project Passport",
+      "category": "operations",
+      "description": "A common project manifest carrying identity, files, tasks, sources, rights, milestones, hashes, and related exports between Verve N Veda tools."
+    },
+    {
+      "id": "meeting-decision",
+      "title": "Meeting & Decision Studio",
+      "category": "operations",
+      "description": "Create agendas, attendance records, decisions, votes, action items, responsible parties, deadlines, and follow-up summaries."
+    },
+    {
+      "id": "caption-transcript",
+      "title": "Caption & Transcript Studio",
+      "category": "media",
+      "description": "Edit transcripts, speaker labels, timestamps, caption lines, reading speed, and SRT, VTT, TXT, or HTML exports."
+    },
+    {
+      "id": "rights-permissions",
+      "title": "Rights & Permissions Desk",
+      "category": "operations",
+      "description": "Track copyright, licenses, releases, permissions, attribution, territory, allowed uses, restrictions, and expiration dates."
+    },
+    {
+      "id": "grant-path",
+      "title": "GrantPath Program Studio",
+      "category": "business",
+      "description": "Organize grant eligibility, deadlines, narratives, budgets, attachments, outcomes, reporting duties, and submission readiness."
+    },
+    {
+      "id": "dispatch-studio",
+      "title": "Dispatch & Newsletter Studio",
+      "category": "publishing",
+      "description": "Prepare newsletters, announcements, press releases, invitations, mailing labels, recurring sections, and local mail-merge exports."
+    },
+    {
+      "id": "asset-ledger",
+      "title": "Asset & Collections Ledger",
+      "category": "operations",
+      "description": "Catalog artworks, equipment, archive materials, school property, inventory, condition reports, locations, values, and maintenance."
+    },
+    {
+      "id": "document-merge",
+      "title": "Document Merge Studio",
+      "category": "productivity",
+      "description": "Combine templates with CSV or JSON records to produce letters, certificates, labels, reports, badges, and acknowledgments."
+    },
+    {
+      "id": "policy-builder",
+      "title": "Policy & Procedure Builder",
+      "category": "operations",
+      "description": "Draft and maintain privacy notices, codes of conduct, accessibility statements, emergency plans, handbooks, and procedures."
+    },
+    {
+      "id": "outcome-reporter",
+      "title": "Outcome & Impact Reporter",
+      "category": "business",
+      "description": "Track goals, participation, volunteer hours, program milestones, expenses, evidence, outcomes, annual reports, and grant reporting."
+    },
+    {
+      "id": "storyboard",
+      "title": "Storyboard & Sequence Planner",
+      "category": "publishing",
+      "description": "Plan scenes, chapters, shots, illustration notes, dialogue, audio cues, image references, and visual sequence order."
+    },
+    {
+      "id": "voice-proof",
+      "title": "Voice & Read-Aloud Proofing Room",
+      "category": "writing",
+      "description": "Read writing aloud with sentence highlighting, pace estimates, pronunciation notes, repetition flags, and rehearsal copies."
+    },
+    {
+      "id": "portfolio-packager",
+      "title": "Professional Portfolio Packager",
+      "category": "publishing",
+      "description": "Combine biographies, résumés, project descriptions, work samples, images, press, references, and static portfolio exports."
+    },
+    {
+      "id": "memoir-studio",
+      "title": "Memoir Studio",
+      "category": "writing",
+      "description": "Organize life timelines, memories, people, places, private reflections, chapters, photographs, and narrative themes."
+    },
+    {
+      "id": "poetry-workroom",
+      "title": "Poetry Workroom",
+      "category": "writing",
+      "description": "Develop poems through forms, meter, imagery, revision layers, readings, collection sequencing, and publication preparation."
+    },
+    {
+      "id": "speech-builder",
+      "title": "Speech & Address Builder",
+      "category": "writing",
+      "description": "Plan audience, timing, argument, rhetoric, delivery notes, evidence, rehearsal, and printable speaking copies."
+    },
+    {
+      "id": "script-room",
+      "title": "Script Room",
+      "category": "writing",
+      "description": "Develop scenes, dialogue, characters, stage directions, production notes, revisions, and performance drafts."
+    },
+    {
+      "id": "children-story",
+      "title": "Children's Story Studio",
+      "category": "publishing",
+      "description": "Plan age-aware language, pages, read-aloud rhythm, illustration notes, characters, activities, and print-ready story layouts."
+    }
   ],
   "notes": [
     "RouteKeeper and One Door are private Administration applications and are intentionally excluded.",
