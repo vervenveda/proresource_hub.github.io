@@ -47,6 +47,16 @@
       "resolvedRelativeRoute": "./Protools/Evidence_Citation_Studio/index.html"
     },
     {
+      "id": "lab-resource-cloud",
+      "title": "Lab Resource Cloud",
+      "category": "research",
+      "path": "Evidence_Citation_Studio/lab-resource-cloud.html",
+      "resolvedRelativeRoute": "./Protools/Evidence_Citation_Studio/lab-resource-cloud.html",
+      "presentation": "violet",
+      "companionTo": "evidence-studio",
+      "description": "Contained local-first lab and lesson resource intake, review, directory, and manifest workspace."
+    },
+    {
       "id": "plera-search",
       "title": "PLERA™ Search Gate",
       "category": "research",
@@ -292,6 +302,7 @@
   "notes": [
     "RouteKeeper and One Door are private Administration applications and are intentionally excluded.",
     "The Evidence & Citation Studio public card uses Evidence_Citation_Studio/index.html.",
+    "Lab Resource Cloud is a violet companion tool to Evidence & Citation Studio and should appear beside it in directory renderers that honor the public registry.",
     "The extensionless root item named Evidence_Citation_Studio_index was not used as a public route."
   ]
 }
