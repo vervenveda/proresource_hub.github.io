@@ -1,0 +1,41 @@
+{
+  "schema": "prose-template-pack",
+  "schemaVersion": 1,
+  "id": "khaemenes-academic-core",
+  "title": "Khaemenes Academic Core",
+  "description": "Universal academic templates for planning, study, assessment, feedback, and reflection across subjects and grade levels.",
+  "categories": [
+    "Academic Planning",
+    "Study & Inquiry",
+    "Assessment & Reflection"
+  ],
+  "templates": [
+    {
+      "id": "assignment-brief",
+      "title": "Assignment Brief",
+      "defaultTitle": "Assignment Brief",
+      "category": "Academic Planning",
+      "tags": ["assignment", "learning targets", "success criteria", "submission", "student directions"],
+      "description": "A clear student-facing assignment framework with purpose, learning targets, evidence, process, permitted supports, success criteria, and submission details.",
+      "file": "assignment-brief.html"
+    },
+    {
+      "id": "learning-goals-plan",
+      "title": "Learning Goals Plan",
+      "defaultTitle": "Learning Goals Plan",
+      "category": "Academic Planning",
+      "tags": ["goals", "progress", "success criteria", "checkpoints", "reflection"],
+      "description": "A learner-centered goal plan connecting current evidence, specific goals, success criteria, action steps, resources, checkpoints, and reflection.",
+      "file": "learning-goals-plan.html"
+    },
+    {
+      "id": "exam-review-plan",
+      "title": "Exam Review Plan",
+      "defaultTitle": "Exam Review Plan",
+      "category": "Academic Planning",
+      "tags": ["exam", "review", "study plan", "error log", "retrieval practice"],
+      "description": "A structured assessment-review plan with scope, confidence tracking, study sessions, practice methods, error correction, and a final readiness check.",
+      "file": "exam-review-plan.html"
+    }
+  ]
+}
