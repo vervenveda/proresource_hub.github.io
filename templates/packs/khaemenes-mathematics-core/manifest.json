@@ -1,0 +1,95 @@
+{
+  "schema": "prose-template-pack",
+  "schemaVersion": 1,
+  "id": "khaemenes-mathematics-core",
+  "title": "Khaemenes Mathematics Core",
+  "description": "Universal mathematics templates for reasoning, proof, investigation, modeling, concepts, problem solving, error analysis, and revision across the Khaemenes mathematics continuum.",
+  "categories": [
+    "Reasoning & Proof",
+    "Investigation & Modeling",
+    "Concepts & Practice",
+    "Review & Mastery"
+  ],
+  "templates": [
+    {
+      "id": "math-worked-example",
+      "title": "Worked Example",
+      "defaultTitle": "Worked Example",
+      "category": "Concepts & Practice",
+      "description": "A worked-example framework separating givens, target, plan, visible work, checking, conclusion, and evidence type.",
+      "file": "worked-example.html"
+    },
+    {
+      "id": "mathematical-reasoning",
+      "title": "Mathematical Reasoning",
+      "defaultTitle": "Mathematical Reasoning",
+      "category": "Reasoning & Proof",
+      "description": "A structured reasoning page for claims, known information, representations, logical steps, counterexample checks, conclusions, and mathematical status.",
+      "file": "mathematical-reasoning.html"
+    },
+    {
+      "id": "proof-framework",
+      "title": "Proof Framework",
+      "defaultTitle": "Proof Framework",
+      "category": "Reasoning & Proof",
+      "description": "A formal proof scaffold for statement, hypotheses, strategy, justified steps, theorem dependencies, conclusion, and proof review.",
+      "file": "proof-framework.html"
+    },
+    {
+      "id": "math-error-analysis",
+      "title": "Mathematics Error Analysis",
+      "defaultTitle": "Mathematics Error Analysis",
+      "category": "Review & Mastery",
+      "description": "An error-analysis page identifying the first incorrect step, error type, mathematical cause, corrected work, verification, and transfer rule.",
+      "file": "error-analysis.html"
+    },
+    {
+      "id": "graph-data-investigation",
+      "title": "Graph & Data Investigation",
+      "defaultTitle": "Graph & Data Investigation",
+      "category": "Investigation & Modeling",
+      "description": "A graph and data investigation for inputs, representations, observed features, calculations, interpretation, limitations, and result type.",
+      "file": "data-graph-study.html"
+    },
+    {
+      "id": "mathematical-modeling-task",
+      "title": "Mathematical Modeling Task",
+      "defaultTitle": "Mathematical Modeling Task",
+      "category": "Investigation & Modeling",
+      "description": "A modeling framework for context, variables, assumptions, mathematical representation, work, interpretation, checking, limitations, and revision.",
+      "file": "math-model-study.html"
+    },
+    {
+      "id": "formula-concept-organizer",
+      "title": "Formula & Concept Organizer",
+      "defaultTitle": "Formula & Concept Organizer",
+      "category": "Concepts & Practice",
+      "description": "A concept reference for definitions, formulas or relationships, symbols, units, conditions, representations, examples, errors, and connections.",
+      "file": "concept-reference.html"
+    },
+    {
+      "id": "problem-solving-journal",
+      "title": "Problem-Solving Journal",
+      "defaultTitle": "Problem-Solving Journal",
+      "category": "Concepts & Practice",
+      "description": "A mathematical problem-solving journal preserving first ideas, representations, false starts, revisions, insights, current results, and next moves.",
+      "file": "problem-solving-journal.html"
+    },
+    {
+      "id": "math-vocabulary-conjecture",
+      "title": "Mathematical Vocabulary & Conjecture",
+      "defaultTitle": "Mathematical Vocabulary & Conjecture",
+      "category": "Reasoning & Proof",
+      "description": "A vocabulary and conjecture page connecting precise definitions, examples, patterns, conjectures, tested evidence, counterexample searches, and status.",
+      "file": "vocabulary-conjecture.html"
+    },
+    {
+      "id": "math-assessment-correction",
+      "title": "Mathematics Assessment Correction",
+      "defaultTitle": "Mathematics Assessment Correction",
+      "category": "Review & Mastery",
+      "description": "A correction form connecting an original response to the identified issue, corrected reasoning, corrected result, verification, and learning note.",
+      "file": "assessment-correction.html"
+    }
+  ]
+}
