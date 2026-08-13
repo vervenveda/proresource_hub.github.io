@@ -5,71 +5,36 @@
 - Repository: `vervenveda/proresource_hub.github.io`
 - Branch: `main`
 - Audit refreshed: 2026-08-13
-- Canonical manifest: `templates/manifest.json`
-- Mini-Cloud registry: `templates/mini-cloud.json`
 - Canonical templates: **82**
-- Mini-Cloud extensions: **1**
-- Templates available through PROSE: **83**
+- Khaemenes Academic Core templates: **12**
+- Other Mini-Cloud extension templates: **1**
+- Templates available through PROSE: **95**
 - Canonical files missing: **0**
-- Canonical spelling audit: **no obvious spelling typos found**
+- Unresolved duplicate or misspelled extras: **0**
 
-## Canonical category totals
+The canonical 82-template library remains unchanged. The Khaemenes Academic Core adds 12 reusable academic templates through the PROSE Template Mini-Cloud.
 
-| Category | Templates |
-|---|---:|
-| Career & Employment | 13 |
-| Business & Nonprofit | 12 |
-| Projects & Operations | 13 |
-| Research & Education | 10 |
-| Creative & Publishing | 14 |
-| Civic & Community | 10 |
-| Personal & Ceremonial | 10 |
-| **Canonical total** | **82** |
+### Academic Planning
+- Assignment Brief
+- Learning Goals Plan
+- Exam Review Plan
 
-The Mini-Cloud currently adds `daily-checklist` under Projects & Operations, bringing the available library to **83 templates**.
+### Study & Inquiry
+- Reading Response
+- Study Guide
+- Academic Notes
+- Seminar Discussion Guide
+- Problem Set
 
-## Content review
+### Assessment & Reflection
+- Assessment Rubric
+- Student Learning Reflection
+- Peer Review
+- Project Reflection
 
-All 82 canonical template bodies were reviewed for spelling, grammar, placeholder consistency, document structure, and obvious content inaccuracies. No obvious spelling typo was found in the canonical set.
+The existing Daily Checklist remains available as a separate Mini-Cloud extension.
 
-Two accuracy refinements were applied:
-
-- `templates/public-records-request.html` now qualifies jurisdiction-dependent wording instead of presenting one public-records rule as universal.
-- `templates/appeal-letter.html` now tells the writer to verify the applicable filing deadline before describing an appeal as timely.
-
-## Checklist correction
-
-The misspelled noncanonical file `dialy-checklist.html` was removed. It has been replaced by `templates/daily-checklist.html`, a clean reusable PROSE template containing:
-
-- date and primary focus
-- top priorities
-- task checklist
-- appointments and time-specific commitments
-- messages and follow-up
-- notes
-- end-of-day review
-
-## Previous duplicate cleanup
-
-The nine alternate or misspelled filenames recorded in the older audit are no longer present in the current `templates/` directory:
-
-- `after-action-revirew.html`
-- `donor-thank-you.html`
-- `employment-offer.html`
-- `letter-of-recommendation.html`
-- `meeting-brief-record.html`
-- `memoire-chapter.html`
-- `organizational-policy.html`
-- `standard-operating-proceedure.html`
-- `startegic-plan.html`
-
-The earlier audit is superseded by this document.
-
-## Mini-Cloud contract
-
-`templates/manifest.json` remains the stable 82-template canonical library. `templates/mini-cloud.json` provides the extension layer for future template packs.
-
-Current library rules:
+## Library rules
 
 - same-site template resources
 - sanitized template HTML on load
@@ -80,4 +45,4 @@ Current library rules:
 
 ## Maintenance decision
 
-Keep the 82-template canonical manifest stable and use the PROSE Template Mini-Cloud for future academic, research, publishing, professional, grade-level, and subject-specific template packs.
+Keep the canonical 82 stable and grow future Khaemenes subject and grade-level libraries through Mini-Cloud packs and extensions.
