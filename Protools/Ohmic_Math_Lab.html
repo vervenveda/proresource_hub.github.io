@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="OHMIC Mathematics Lab extends the local-first OHMIC CAD Studio with course-aware mathematical diagramming, topology analysis, provenance, and Khaemenes Lab Resource export.">
+<meta name="theme-color" content="#09111b">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; frame-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>OHMIC Mathematics Lab · Khaemenes Higher Learning</title>
+<link rel="stylesheet" href="ohmic-math/math-lab.css">
+</head>
+<body>
+<!-- 🟣 KHAEMENES MATHEMATICS LAB / OHMIC CAPSULE SEAM -->
+<span id="khaeMathDot" aria-hidden="true">•</span>
+<div class="app">
+  <header class="topbar">
+    <a class="brand" href="Ohmic_CAD_index.html"><span class="mark">Ω</span><span><strong>OHMIC Mathematics Lab</strong><small>Advanced geometry · topology · mathematical physics</small></span></a>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">ProReSources</a><span>›</span><a href="Ohmic_CAD_index.html">OHMIC</a><span>›</span><strong>Mathematics Lab</strong></nav>
+    <span class="spacer"></span>
+    <span class="status" id="bridgeStatus">Connecting to CAD core…</span>
+    <a class="button" href="Ohmic_CAD_Studio.html">Open Standard CAD</a>
+  </header>
+
+  <main class="workspace">
+    <section class="cad-shell" aria-label="OHMIC CAD workspace">
+      <iframe id="cadFrame" src="Ohmic_CAD_Studio.html" title="OHMIC CAD Studio mathematical drawing engine"></iframe>
+    </section>
+
+    <aside class="math-panel" aria-label="Mathematics Lab controls">
+      <div class="panel-head">
+        <div class="eyebrow">Khaemenes Higher Learning</div>
+        <h1>Mathematics Lab</h1>
+        <p>Course-aware constructions remain editable OHMIC drawings. Mathematical diagnostics support reasoning; they do not certify proof.</p>
+      </div>
+
+      <div class="route-grid">
+        <label>Mode<select id="modeSelect"></select></label>
+        <label>Unit<input id="routeUnit" value="01" maxlength="20"></label>
+        <label>Week<input id="routeWeek" value="01" maxlength="20"></label>
+        <label>Session<input id="routeLesson" value="U01-W01-D03" maxlength="80"></label>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="construct" type="button">Construct</button>
+        <button class="tab" data-tab="analyze" type="button">Analyze</button>
+        <button class="tab" data-tab="course" type="button">Course Map</button>
+        <button class="tab purple" data-tab="export" type="button">Resource</button>
+      </div>
+
+      <section class="tab-panel active" id="tab-construct">
+        <div class="mode-card" id="modeDescription"></div>
+        <div id="surfaceTools">
+          <label>Polygon edge word<input id="polygonWord" value="a b a^-1 b^-1" maxlength="300" spellcheck="false"></label>
+          <div class="button-grid"><button id="buildPolygon" class="primary" type="button">Build Polygon Schema</button><button id="analyzePolygon" type="button">Analyze Quotient</button></div>
+          <div class="preset-grid">
+            <button data-word="a a^-1">Sphere</button><button data-word="a b a^-1 b^-1">Torus</button><button data-word="a a">Projective Plane</button><button data-word="a b a^-1 b">Klein Bottle</button>
+          </div>
+        </div>
+        <div class="placement-tools">
+          <h2>Mathematical Marks</h2>
+          <p>Place course-aware objects directly on the CAD sheet. The next canvas click completes point placement; segment placement uses two clicks.</p>
+          <div class="button-grid"><button id="placePoint" type="button">Place Point</button><button id="placeSegment" type="button">Place Segment / Vector</button></div>
+          <label>Object role<select id="roleSelect"></select></label>
+          <label>Label<input id="mathLabel" maxlength="120" placeholder="v₁, crossing +, saddle, event P…"></label>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-analyze">
+        <div class="analysis" id="analysisOutput">Build or load a mathematical construction, then run its available diagnostics.</div>
+        <div class="notice"><strong>Evidence rule:</strong> a CAD diagram, visualization, numerical invariant, or computational observation may support a mathematical argument, but it is not automatically a proof.</div>
+      </section>
+
+      <section class="tab-panel" id="tab-course">
+        <div class="course-list" id="courseList"></div>
+      </section>
+
+      <section class="tab-panel" id="tab-export">
+        <label>Contributor<input id="contributor" maxlength="180" placeholder="Student / researcher name"></label>
+        <label>Resource title<input id="resourceTitle" maxlength="220" value="OHMIC Mathematical Construction"></label>
+        <label>Summary<textarea id="resourceSummary" maxlength="3000" rows="4">Editable OHMIC mathematical construction with course routing and local provenance.</textarea></label>
+        <div class="button-grid"><button id="downloadMathProject" type="button">Download OHMIC Math JSON</button><button id="exportLabResource" class="purple" type="button">Export to Lab Resource Cloud</button></div>
+        <p class="small">The Lab Resource package enters the review inbox as <strong>submitted</strong>. Directory approval remains a separate human review action.</p>
+      </section>
+    </aside>
+  </main>
+</div>
+<script src="ohmic-math/math-bridge.js"></script>
+<script src="ohmic-math/math-lab.js"></script>
+</body>
+</html>
