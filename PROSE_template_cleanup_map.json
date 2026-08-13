@@ -1,82 +1,29 @@
 {
   "repository": "vervenveda/proresource_hub.github.io",
   "branch": "main",
-  "headCommit": "7e3fe21b70da749bff811bd9008230326bf76a34",
+  "verifiedDate": "2026-08-13",
   "canonicalManifest": "templates/manifest.json",
+  "miniCloudRegistry": "templates/mini-cloud.json",
   "canonicalTemplateCount": 82,
-  "actualHtmlFilesObserved": 91,
-  "unreferencedExtraFiles": [
-    {
-      "extra_file": "after-action-revirew.html",
-      "canonical_file": "after-action-review.html",
-      "status": "exact duplicate with misspelled filename",
-      "extra_blob_sha": "c4a818d5b92eee1d2d6277ea1cae690724f5a53f",
-      "canonical_blob_sha": "c4a818d5b92eee1d2d6277ea1cae690724f5a53f",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "donor-thank-you.html",
-      "canonical_file": "donor-thank-you-letter.html",
-      "status": "exact duplicate with alternate filename",
-      "extra_blob_sha": "b2040a506d45796cb179249843fb948958954a19",
-      "canonical_blob_sha": "b2040a506d45796cb179249843fb948958954a19",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "employment-offer.html",
-      "canonical_file": "offer-letter.html",
-      "status": "exact duplicate with alternate filename",
-      "extra_blob_sha": "bc58eb950846835c854553c817ebed428cacdb9d",
-      "canonical_blob_sha": "bc58eb950846835c854553c817ebed428cacdb9d",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "letter-of-recommendation.html",
-      "canonical_file": "recommendation-letter.html",
-      "status": "older incomplete alternate; canonical file is complete",
-      "extra_blob_sha": "f435be31a2941eb4efa8b1b1e9a3d3bba5db300f",
-      "canonical_blob_sha": "38638f6a4535c01212a78faa0df542b28b73be0e",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "meeting-brief-record.html",
-      "canonical_file": "meeting-brief.html",
-      "status": "exact duplicate with alternate filename",
-      "extra_blob_sha": "f85ebb5e1973563c776f07bf152a0d111ac1ec22",
-      "canonical_blob_sha": "f85ebb5e1973563c776f07bf152a0d111ac1ec22",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "memoire-chapter.html",
-      "canonical_file": "memoir-chapter.html",
-      "status": "exact duplicate with misspelled filename",
-      "extra_blob_sha": "4c456388175fa84cf12489aa0c7002cb474907a9",
-      "canonical_blob_sha": "4c456388175fa84cf12489aa0c7002cb474907a9",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "organizational-policy.html",
-      "canonical_file": "policy-document.html",
-      "status": "exact duplicate with alternate filename",
-      "extra_blob_sha": "4171e3c6147fffebfdedc917e6a5540fb84831af",
-      "canonical_blob_sha": "4171e3c6147fffebfdedc917e6a5540fb84831af",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "standard-operating-proceedure.html",
-      "canonical_file": "standard-operating-procedure.html",
-      "status": "exact duplicate with misspelled filename",
-      "extra_blob_sha": "578478aac482d63019f40d2b12145fa4ddb1b029",
-      "canonical_blob_sha": "578478aac482d63019f40d2b12145fa4ddb1b029",
-      "safe_to_remove_after_review": true
-    },
-    {
-      "extra_file": "startegic-plan.html",
-      "canonical_file": "strategic-plan.html",
-      "status": "exact duplicate with misspelled filename",
-      "extra_blob_sha": "21fc8ecc2ddc6d039a8f21ce49ee53e4ab4576d1",
-      "canonical_blob_sha": "21fc8ecc2ddc6d039a8f21ce49ee53e4ab4576d1",
-      "safe_to_remove_after_review": true
-    }
-  ]
+  "miniCloudExtensionCount": 1,
+  "availableTemplateCount": 83,
+  "canonicalFilesMissing": 0,
+  "resolvedHistoricalExtras": [
+    "after-action-revirew.html",
+    "donor-thank-you.html",
+    "employment-offer.html",
+    "letter-of-recommendation.html",
+    "meeting-brief-record.html",
+    "memoire-chapter.html",
+    "organizational-policy.html",
+    "standard-operating-proceedure.html",
+    "startegic-plan.html"
+  ],
+  "resolvedCurrentTypo": {
+    "removed": "dialy-checklist.html",
+    "replacement": "daily-checklist.html",
+    "registeredAs": "mini-cloud-extension"
+  },
+  "unreferencedExtraFiles": [],
+  "status": "clean"
 }
