@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Khaemenes Lab Resource Cloud — local-first contained resource intake, review, directory, and portable lab package builder for Evidence & Citation Studio.">
+<meta name="theme-color" content="#0c1c2f">
+<meta name="color-scheme" content="light">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Khaemenes Lab Resource Cloud · Evidence & Citation Studio</title>
+<style>
+:root{
+  --navy:#0c1c2f;--navy2:#143149;--night:#07131f;--paper:#f5f1e8;--white:#fffdf9;
+  --ink:#172438;--muted:#667382;--gold:#b89a61;--gold2:#e5d5b0;--sage:#6f8374;
+  --sage2:#e5ece6;--blue:#527fa3;--blue2:#e7eef5;--rose:#9a5d63;--line:rgba(23,36,56,.14);
+  --shadow:0 22px 55px rgba(12,28,47,.11);--r:7px;--r2:14px;--max:1240px;
+  --display:"Cinzel",Georgia,"Times New Roman",serif;
+  --sans:"Brandon Grotesque","Montserrat","Avenir Next",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-width:300px;color:var(--ink);font:15px/1.65 var(--sans);
+  background:
+    radial-gradient(circle at 8% 0,rgba(184,154,97,.08),transparent 28rem),
+    radial-gradient(circle at 94% 3%,rgba(82,127,163,.09),transparent 30rem),
+    linear-gradient(180deg,#fbf8f2,var(--paper));}
+a{color:inherit}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.shell{width:min(calc(100% - 34px),var(--max));margin:auto}
+.topbar{position:sticky;top:0;z-index:1000;background:rgba(12,28,47,.97);color:white;border-bottom:1px solid rgba(255,255,255,.13);backdrop-filter:blur(16px)}
+.top-inner{min-height:62px;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.seal{width:46px;height:38px;display:grid;place-items:center;border:1px solid rgba(229,213,176,.68);border-radius:var(--r);background:linear-gradient(145deg,#fff8dd,#c6a96c);color:var(--ink);font:600 10px var(--display);letter-spacing:.09em}
+.brand strong{display:block;font:500 15px var(--display);letter-spacing:.08em;text-transform:uppercase}
+.brand small{display:block;margin-top:3px;color:rgba(255,255,255,.62);font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+.top-actions{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap}
+.btn{min-height:38px;padding:8px 11px;border:1px solid var(--line);border-radius:var(--r);background:white;color:var(--ink);font-weight:650;text-decoration:none}
+.btn:hover{transform:translateY(-1px)}
+.btn.dark{color:white;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18)}
+.btn.gold{background:linear-gradient(145deg,#f0ddb3,#c8a15f);border-color:transparent}
+.btn.sage{background:var(--sage2);border-color:rgba(111,131,116,.25)}
+.btn.rose{background:#f6e8ea;border-color:rgba(154,93,99,.22);color:#703b42}
+.btn.small{min-height:31px;padding:5px 8px;font-size:12px}
+.breadcrumbs{padding:10px 0;color:#e7edf3;background:linear-gradient(90deg,var(--night),var(--navy2),var(--night));font-size:12px}
+.breadcrumbs a{text-decoration:none;color:var(--gold2)}
+.hero{padding:54px 0 34px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,.6fr);gap:30px;align-items:center}
+.eyebrow{color:#765f34;font:600 11px var(--display);letter-spacing:.18em;text-transform:uppercase}
+h1,h2,h3{font-family:var(--display);font-weight:500}
+h1{font-size:clamp(2.25rem,5vw,4.35rem);line-height:1.02;margin:9px 0 15px}
+.hero p{max-width:820px;color:var(--muted);font-size:16px}
+.hero-card{padding:20px;border:1px solid var(--line);border-radius:var(--r2);background:rgba(255,255,255,.76);box-shadow:var(--shadow)}
+.hero-card strong{display:block;font-family:var(--display);font-size:22px}
+.hero-card p{font-size:13px;margin:7px 0 0}
+.notice{padding:11px 12px;border:1px solid rgba(184,154,97,.28);border-radius:var(--r);background:#fff8e7;color:#684f21}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 0 22px}
+.metric{padding:15px;border:1px solid var(--line);border-radius:var(--r2);background:rgba(255,255,255,.80)}
+.metric span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.09em}
+.metric strong{display:block;margin-top:4px;font:500 30px var(--display)}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 13px}
+.tab{border:1px solid var(--line);border-radius:var(--r);padding:8px 11px;background:rgba(255,255,255,.7);color:var(--ink);font-weight:700}
+.tab.active{background:var(--navy);color:white}
+.panel{display:none;padding:18px;border:1px solid var(--line);border-radius:var(--r2);background:rgba(255,255,255,.86);box-shadow:0 10px 35px rgba(12,28,47,.06);margin-bottom:26px}
+.panel.active{display:block}
+.panel-head{display:flex;gap:15px;align-items:end;justify-content:space-between;margin-bottom:14px}
+.panel-head h2{margin:0;font-size:27px}
+.panel-head p{margin:3px 0 0;color:var(--muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.toolbar input,.toolbar select{min-height:38px;flex:1;min-width:180px}
+input,select,textarea{width:100%;border:1px solid rgba(23,36,56,.18);border-radius:var(--r);background:white;color:var(--ink);padding:8px 9px}
+textarea{min-height:105px;resize:vertical}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:10px}
+.span12{grid-column:span 12}.span8{grid-column:span 8}.span6{grid-column:span 6}.span4{grid-column:span 4}.span3{grid-column:span 3}
+.card{padding:14px;border:1px solid var(--line);border-radius:var(--r);background:white}
+.card h3{margin:0;font-size:18px}
+.card p{margin:6px 0;color:var(--muted)}
+.meta{font-size:12px;color:var(--muted)}
+.pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.pill{display:inline-flex;padding:4px 7px;border-radius:999px;border:1px solid var(--line);font-size:11px;background:#fafafa}
+.pill.good{background:#eef7f0;color:#356249}.pill.warn{background:#fff6df;color:#725622}.pill.bad{background:#fae9ea;color:#7c3e45}.pill.blue{background:var(--blue2);color:#365b79}
+.card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.empty{padding:28px;border:1px dashed rgba(23,36,56,.25);border-radius:var(--r);text-align:center;color:var(--muted);background:#faf8f3}
+.directory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.assistant{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:12px}
+.command-box{padding:15px;border:1px solid var(--line);border-radius:var(--r2);background:linear-gradient(145deg,#10283e,#07131f);color:white}
+.command-box h3{margin-top:0}
+.command-box input{background:rgba(255,255,255,.95)}
+.output{min-height:240px;padding:15px;border:1px solid var(--line);border-radius:var(--r2);background:#f9f7f2;white-space:pre-wrap;font-family:var(--mono);font-size:13px}
+footer{padding:34px 0 50px;color:var(--muted);text-align:center;font-size:12px}
+dialog{width:min(920px,calc(100% - 28px));max-height:90vh;padding:0;border:0;border-radius:14px;box-shadow:0 30px 100px rgba(0,0,0,.32);color:var(--ink)}
+dialog::backdrop{background:rgba(4,12,20,.68);backdrop-filter:blur(4px)}
+.dialog-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--navy);color:white}
+.dialog-head h2{margin:0;font-size:22px}
+.dialog-close{margin-left:auto;width:37px;height:37px;border:1px solid rgba(255,255,255,.22);border-radius:var(--r);background:rgba(255,255,255,.07);color:white;font-size:20px}
+.dialog-body{padding:16px;overflow:auto}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.field{display:grid;gap:4px}
+.field label{font-size:12px;font-weight:750;color:#53606d}
+.field.wide{grid-column:1/-1}
+.field.two{grid-column:span 2}
+.dialog-actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.file-list{display:grid;gap:6px;margin-top:8px}
+.file-item{display:flex;justify-content:space-between;gap:8px;padding:8px;border:1px solid var(--line);border-radius:var(--r);background:#fafafa;font-size:12px}
+.detail-grid{display:grid;grid-template-columns:180px minmax(0,1fr);gap:6px 12px}
+.detail-grid dt{font-weight:750;color:#52606d}.detail-grid dd{margin:0}
+@media(max-width:900px){
+ .hero-grid,.assistant{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.directory-grid{grid-template-columns:1fr 1fr}
+ .span8,.span6,.span4,.span3{grid-column:span 12}.form-grid{grid-template-columns:1fr}.field.two{grid-column:1/-1}
+}
+@media(max-width:620px){
+ .shell{width:min(calc(100% - 20px),var(--max))}.top-inner{align-items:flex-start;padding:10px 0;flex-wrap:wrap}.top-actions{margin-left:0;width:100%}
+ .metrics,.directory-grid{grid-template-columns:1fr}.hero{padding-top:32px}.detail-grid{grid-template-columns:1fr}.detail-grid dt{margin-top:7px}
+}
+@media print{.topbar,.breadcrumbs,.tabs,.toolbar,.btn,.card-actions,footer{display:none!important}.panel{display:block!important;box-shadow:none;border:0}.hero{padding:10px 0}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="shell top-inner">
+    <a class="brand" href="index.html">
+      <span class="seal">KHL</span>
+      <span><strong>Khaemenes Lab Resource Cloud</strong><small>Evidence & Citation Studio · Contained Resource Intake</small></span>
+    </a>
+    <div class="top-actions">
+      <button class="btn dark" id="newResourceTop">New Resource</button>
+      <button class="btn dark" id="importTop">Import Submission</button>
+      <a class="btn dark" href="index.html">Evidence Studio</a>
+    </div>
+  </div>
+</header>
+
+<nav class="breadcrumbs">
+  <div class="shell">
+    <a href="../../index.html">ProReSources</a> ›
+    <a href="index.html">Evidence & Citation Studio</a> ›
+    <span>Lab Resource Cloud</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="shell hero-grid">
+    <div>
+      <div class="eyebrow">Contained Academic Resource Infrastructure</div>
+      <h1>Lab Resource Cloud<br>& Directory Intelligence</h1>
+      <p>Create, submit, review, preserve, and route future lesson resources without automatically publishing them. Student packages enter a review inbox; approved materials move into the local directory and can later be registered for NAIB or course-specific discovery.</p>
+      <div class="notice"><strong>Local-first:</strong> this page has no network connection. “Cloud” means the browser’s local IndexedDB resource vault. Nothing uploads or syncs unless a future backend is deliberately connected.</div>
+    </div>
+    <aside class="hero-card">
+      <strong>One contained resource file</strong>
+      <p>A <code>.khae-lab-resource.json</code> package can contain lesson routing metadata, evidence notes, mathematical status, citations, review history, and optional embedded attachments with SHA-256 provenance.</p>
+    </aside>
+  </div>
+</section>
+
+<main class="shell">
+  <section class="metrics">
+    <div class="metric"><span>Approved Directory</span><strong id="metricApproved">0</strong></div>
+    <div class="metric"><span>Review Inbox</span><strong id="metricInbox">0</strong></div>
+    <div class="metric"><span>Attachments</span><strong id="metricFiles">0</strong></div>
+    <div class="metric"><span>Courses Represented</span><strong id="metricCourses">0</strong></div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-panel="directory">Resource Directory</button>
+    <button class="tab" data-panel="inbox">Review Inbox</button>
+    <button class="tab" data-panel="builder">Package Builder</button>
+    <button class="tab" data-panel="assistant">Directory Assistant</button>
+    <button class="tab" data-panel="settings">Storage & Export</button>
+  </div>
+
+  <section class="panel active" id="panel-directory">
+    <div class="panel-head">
+      <div><h2>Approved Resource Directory</h2><p>Only resources deliberately promoted from review are listed here.</p></div>
+      <button class="btn gold" id="newResourceButton">Create Resource</button>
+    </div>
+    <div class="toolbar">
+      <input id="directorySearch" placeholder="Search title, course, topic, tag, contributor…">
+      <select id="directoryCourse"><option value="">All courses</option></select>
+      <select id="directoryType"><option value="">All resource types</option></select>
+    </div>
+    <div class="directory-grid" id="directoryGrid"></div>
+  </section>
+
+  <section class="panel" id="panel-inbox">
+    <div class="panel-head">
+      <div><h2>Submission Review Inbox</h2><p>Imported student or contributor packages remain quarantined here until you approve them.</p></div>
+      <button class="btn" id="importSubmissionButton">Import .khae-lab-resource.json</button>
+    </div>
+    <input id="submissionFile" type="file" accept=".json,application/json" hidden>
+    <div class="directory-grid" id="inboxGrid"></div>
+  </section>
+
+  <section class="panel" id="panel-builder">
+    <div class="panel-head">
+      <div><h2>Contained Package Builder</h2><p>Build a portable lab/resource submission for future lessons, research, or instructor review.</p></div>
+      <button class="btn gold" id="builderNew">Open Builder</button>
+    </div>
+    <div class="grid">
+      <article class="card span6">
+        <h3>Student / Contributor Submission</h3>
+        <p>Create a package with course placement, resource type, research references, mathematical status, provenance notes, and optional attachments.</p>
+        <div class="card-actions"><button class="btn sage" id="studentBuilder">Create Submission</button></div>
+      </article>
+      <article class="card span6">
+        <h3>Instructor Evidence Addition</h3>
+        <p>Use the same package structure for newly introduced evidence, lab designs, datasets, diagrams, instructor notes, or source updates.</p>
+        <div class="card-actions"><button class="btn sage" id="instructorBuilder">Create Instructor Resource</button></div>
+      </article>
+      <article class="card span12">
+        <h3>Package boundary</h3>
+        <p>The package records what the resource <em>is</em>, where it belongs, and what evidence supports it. A mathematical theorem is not marked “proved” merely because a citation exists. Mathematical status and evidence status are separate fields.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-assistant">
+    <div class="panel-head">
+      <div><h2>Local Directory Assistant</h2><p>A rule-based mini-AGI shell for organizing and locating resources. It does not claim generative reasoning or external knowledge.</p></div>
+    </div>
+    <div class="assistant">
+      <div class="command-box">
+        <h3>Command Console</h3>
+        <input id="assistantInput" placeholder='Try: help, stats, show inbox, find topology'>
+        <div class="card-actions"><button class="btn gold" id="runAssistant">Run</button></div>
+        <p class="meta" style="color:#d5dde4">Commands: help · stats · show inbox · show directory · review needed · find &lt;term&gt; · course &lt;term&gt; · new resource · export directory</p>
+      </div>
+      <div class="output" id="assistantOutput">Directory assistant ready.</div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-settings">
+    <div class="panel-head">
+      <div><h2>Storage, Manifest & Preservation</h2><p>Keep the local directory portable and auditable.</p></div>
+    </div>
+    <div class="grid">
+      <article class="card span4"><h3>Persistent Storage</h3><p>Ask the browser to reduce the chance that IndexedDB data is evicted.</p><div class="card-actions"><button class="btn sage" id="persistButton">Request Persistence</button></div><p class="meta" id="storageStatus">Not checked.</p></article>
+      <article class="card span4"><h3>Directory Manifest</h3><p>Export approved metadata without embedded attachment bytes for course/NAIB registration.</p><div class="card-actions"><button class="btn sage" id="exportManifest">Export Manifest</button></div></article>
+      <article class="card span4"><h3>Full Cloud Backup</h3><p>Export every resource, inbox record, review note, and embedded attachment.</p><div class="card-actions"><button class="btn sage" id="exportBackup">Export Backup</button><button class="btn" id="importBackup">Import Backup</button></div><input id="backupFile" type="file" accept=".json,application/json" hidden></article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="shell"><strong>Khaemenes Lab Resource Cloud · Evidence & Citation Studio</strong><br>Local-first academic resource intake · review before promotion · portable provenance</div>
+</footer>
+
+<dialog id="resourceDialog">
+  <div class="dialog-head"><h2 id="resourceDialogTitle">Create Lab Resource Package</h2><button class="dialog-close" data-close="resourceDialog" aria-label="Close">×</button></div>
+  <form class="dialog-body" id="resourceForm">
+    <input type="hidden" id="resourceId">
+    <input type="hidden" id="resourceAudienceMode" value="student">
+    <div class="form-grid">
+      <div class="field wide"><label for="resourceTitle">Resource title</label><input id="resourceTitle" required maxlength="220"></div>
+      <div class="field"><label for="resourceContributor">Contributor / student</label><input id="resourceContributor" maxlength="180"></div>
+      <div class="field"><label for="resourceContributorRole">Contributor role</label><select id="resourceContributorRole"><option>student</option><option>educator</option><option>researcher</option><option>instructor</option><option>other</option></select></div>
+      <div class="field"><label for="resourceType">Resource type</label><select id="resourceType"></select></div>
+
+      <div class="field two"><label for="resourceCourse">Course / program</label><input id="resourceCourse" maxlength="220" placeholder="Advanced Geometric Topology"></div>
+      <div class="field"><label for="resourceCourseId">Course ID</label><input id="resourceCourseId" maxlength="100" placeholder="KH-HL-AGTGMP"></div>
+      <div class="field"><label for="resourceUnit">Unit</label><input id="resourceUnit" maxlength="40"></div>
+      <div class="field"><label for="resourceWeek">Week</label><input id="resourceWeek" maxlength="40"></div>
+      <div class="field"><label for="resourceLesson">Lesson / session</label><input id="resourceLesson" maxlength="120"></div>
+
+      <div class="field"><label for="claimType">Claim / content type</label><select id="claimType"></select></div>
+      <div class="field"><label for="mathStatus">Mathematical status</label><select id="mathStatus"></select></div>
+      <div class="field"><label for="evidenceStatus">Evidence status</label><select id="evidenceStatus"></select></div>
+
+      <div class="field wide"><label for="resourceSummary">Summary / proposed use</label><textarea id="resourceSummary" required maxlength="7000"></textarea></div>
+      <div class="field wide"><label for="resourceInstructions">Lab instructions, method, or learner activity</label><textarea id="resourceInstructions" maxlength="10000"></textarea></div>
+      <div class="field wide"><label for="resourceEvidence">Evidence / provenance note</label><textarea id="resourceEvidence" maxlength="8000" placeholder="What supports this resource? What remains uncertain?"></textarea></div>
+      <div class="field wide"><label for="resourceCitations">Source / citation references — one per line</label><textarea id="resourceCitations" maxlength="12000"></textarea></div>
+      <div class="field wide"><label for="resourceLimitations">Limitations, counterexamples, safety notes, or review concerns</label><textarea id="resourceLimitations" maxlength="8000"></textarea></div>
+      <div class="field wide"><label for="resourceTags">Tags — comma separated</label><input id="resourceTags" maxlength="1200" placeholder="topology, surfaces, quotient spaces, lab"></div>
+
+      <div class="field wide"><label for="resourceFiles">Optional contained attachments (maximum 8 MB each, 16 MB total)</label><input id="resourceFiles" type="file" multiple></div>
+      <div class="field wide"><div class="file-list" id="resourceFileList"></div></div>
+    </div>
+    <div class="notice" style="margin-top:12px"><strong>Submission rule:</strong> student/contributor packages export as <em>submitted</em>. They do not enter the approved directory until reviewed.</div>
+    <div class="dialog-actions">
+      <button class="btn" type="button" data-close="resourceDialog">Cancel</button>
+      <button class="btn sage" type="button" id="saveDraftResource">Save to Local Inbox</button>
+      <button class="btn gold" type="submit">Export Contained Package</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="detailDialog">
+  <div class="dialog-head"><h2>Resource Details</h2><button class="dialog-close" data-close="detailDialog" aria-label="Close">×</button></div>
+  <div class="dialog-body" id="detailBody"></div>
+</dialog>
+
+<dialog id="reviewDialog">
+  <div class="dialog-head"><h2>Review Submission</h2><button class="dialog-close" data-close="reviewDialog" aria-label="Close">×</button></div>
+  <div class="dialog-body">
+    <div id="reviewSummary"></div>
+    <div class="field wide" style="margin-top:12px"><label for="reviewNote">Reviewer note</label><textarea id="reviewNote" maxlength="6000"></textarea></div>
+    <div class="dialog-actions">
+      <button class="btn rose" id="rejectResource">Reject</button>
+      <button class="btn" id="keepReviewing">Keep Under Review</button>
+      <button class="btn gold" id="approveResource">Approve & Promote</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(()=>{
+"use strict";
+
+const APP_VERSION="1.0.0";
+const DB_NAME="khaemenes_lab_resource_cloud_v1";
+const DB_VERSION=1;
+const STORE="resources";
+const SETTINGS="settings";
+const RESOURCE_SCHEMA="khaemenes-lab-resource";
+const BACKUP_SCHEMA="khaemenes-lab-resource-cloud-backup";
+const MAX_FILE=8*1024*1024;
+const MAX_TOTAL=16*1024*1024;
+
+const RESOURCE_TYPES=[
+  "Lab activity","Dataset","Diagram or image set","Simulation record","Proof note","Worked example",
+  "Research note","Primary source packet","Citation/source update","Worksheet","Instructor note",
+  "Student investigation","Code or computational notebook","Other"
+];
+const CLAIM_TYPES=["Definition","Theorem","Lemma","Corollary","Conjecture","Computation","Experimental observation","Historical claim","Interpretive claim","Resource only"];
+const MATH_STATUSES=["not-applicable","cited-theorem","proved-in-submission","derived-in-submission","computationally-observed","conjectural","counterexample-found","unresolved"];
+const EVIDENCE_STATUSES=["unexamined","partially-supported","supported","contested","contradicted","inconclusive","not-applicable"];
+
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+const uid=()=>crypto.randomUUID?crypto.randomUUID():"khae-"+Date.now()+"-"+Math.random().toString(36).slice(2);
+const now=()=>new Date().toISOString();
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const clean=(v,max=1000)=>String(v??"").trim().slice(0,max);
+const tags=v=>String(v??"").split(",").map(x=>clean(x,80)).filter(Boolean).slice(0,60);
+const lines=v=>String(v??"").split(/\r?\n/).map(x=>clean(x,1200)).filter(Boolean).slice(0,100);
+const bytesToBase64=bytes=>{let s="";for(let i=0;i<bytes.length;i+=0x8000)s+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(s)};
+const base64ToBytes=value=>{const s=atob(value),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a};
+const fileSafe=v=>clean(v,120).replace(/[\\/:*?"<>|]+/g,"-").replace(/\s+/g,"_")||"resource";
+const fmtBytes=n=>n<1024?n+" B":n<1024*1024?(n/1024).toFixed(1)+" KB":(n/1024/1024).toFixed(1)+" MB";
+const statusClass=s=>s==="approved"?"good":s==="rejected"?"bad":"warn";
+
+let db=null;
+let currentReviewId=null;
+let stagedFiles=[];
+
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=()=>{
+      const d=req.result;
+      if(!d.objectStoreNames.contains(STORE)){
+        const store=d.createObjectStore(STORE,{keyPath:"id"});
+        store.createIndex("reviewState","review.state",{unique:false});
+        store.createIndex("course","routing.course",{unique:false});
+        store.createIndex("updatedAt","updatedAt",{unique:false});
+      }
+      if(!d.objectStoreNames.contains(SETTINGS)) d.createObjectStore(SETTINGS,{keyPath:"key"});
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error);
+  });
+}
+function txStore(name=STORE,mode="readonly"){return db.transaction(name,mode).objectStore(name)}
+function dbPut(value,storeName=STORE){return new Promise((resolve,reject)=>{const r=txStore(storeName,"readwrite").put(value);r.onsuccess=()=>resolve(value);r.onerror=()=>reject(r.error)})}
+function dbGet(id,storeName=STORE){return new Promise((resolve,reject)=>{const r=txStore(storeName).get(id);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
+function dbDelete(id){return new Promise((resolve,reject)=>{const r=txStore(STORE,"readwrite").delete(id);r.onsuccess=()=>resolve();r.onerror=()=>reject(r.error)})}
+function dbAll(storeName=STORE){return new Promise((resolve,reject)=>{const r=txStore(storeName).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})}
+
+async function hashBytes(bytes){
+  const digest=await crypto.subtle.digest("SHA-256",bytes);
+  return Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function fileRecord(file){
+  if(file.size>MAX_FILE) throw new Error(`${file.name} exceeds the 8 MB attachment limit.`);
+  const buffer=await file.arrayBuffer();
+  return {
+    id:uid(),name:clean(file.name,500),type:clean(file.type||"application/octet-stream",180),
+    size:file.size,sha256:await hashBytes(buffer),encoding:"base64",data:bytesToBase64(new Uint8Array(buffer))
+  };
+}
+async function stageSelectedFiles(fileList){
+  const files=Array.from(fileList||[]);
+  const total=files.reduce((n,f)=>n+f.size,0);
+  if(total>MAX_TOTAL) throw new Error("Selected attachments exceed the 16 MB total package limit.");
+  stagedFiles=[];
+  for(const f of files) stagedFiles.push(await fileRecord(f));
+  renderStagedFiles();
+}
+function renderStagedFiles(){
+  const host=$("#resourceFileList");host.replaceChildren();
+  for(const f of stagedFiles){
+    const div=document.createElement("div");div.className="file-item";
+    div.innerHTML=`<span><strong>${esc(f.name)}</strong><br><span class="meta">${esc(f.type)} · ${fmtBytes(f.size)} · SHA-256 ${esc(f.sha256.slice(0,18))}…</span></span><button class="btn small rose" type="button" data-remove-file="${f.id}">Remove</button>`;
+    host.append(div);
+  }
+  if(!stagedFiles.length)host.innerHTML='<div class="meta">No attachments selected.</div>';
+}
+function normalizeResource(raw={}){
+  const r=raw&&typeof raw==="object"?raw:{};
+  const routing=r.routing&&typeof r.routing==="object"?r.routing:{};
+  const content=r.content&&typeof r.content==="object"?r.content:{};
+  const scholarly=r.scholarly&&typeof r.scholarly==="object"?r.scholarly:{};
+  const review=r.review&&typeof r.review==="object"?r.review:{};
+  return {
+    schema:RESOURCE_SCHEMA,schemaVersion:1,appVersion:APP_VERSION,
+    id:clean(r.id||uid(),120),
+    title:clean(r.title||"Untitled Resource",220),
+    contributor:{name:clean(r.contributor?.name||"",180),role:clean(r.contributor?.role||"student",40)},
+    routing:{
+      course:clean(routing.course||"",220),courseId:clean(routing.courseId||"",100),
+      unit:clean(routing.unit||"",40),week:clean(routing.week||"",40),lesson:clean(routing.lesson||"",120)
+    },
+    resourceType:RESOURCE_TYPES.includes(r.resourceType)?r.resourceType:"Other",
+    scholarly:{
+      claimType:CLAIM_TYPES.includes(scholarly.claimType)?scholarly.claimType:"Resource only",
+      mathematicalStatus:MATH_STATUSES.includes(scholarly.mathematicalStatus)?scholarly.mathematicalStatus:"not-applicable",
+      evidenceStatus:EVIDENCE_STATUSES.includes(scholarly.evidenceStatus)?scholarly.evidenceStatus:"unexamined",
+      evidenceNote:clean(scholarly.evidenceNote||"",8000),
+      citations:Array.isArray(scholarly.citations)?scholarly.citations.map(x=>clean(x,1200)).filter(Boolean).slice(0,100):[],
+      limitations:clean(scholarly.limitations||"",8000)
+    },
+    content:{summary:clean(content.summary||"",7000),instructions:clean(content.instructions||"",10000),tags:Array.isArray(content.tags)?content.tags.map(x=>clean(x,80)).filter(Boolean).slice(0,60):[]},
+    attachments:Array.isArray(r.attachments)?r.attachments.slice(0,40).map(a=>({
+      id:clean(a.id||uid(),120),name:clean(a.name||"attachment",500),type:clean(a.type||"application/octet-stream",180),
+      size:Number(a.size)||0,sha256:clean(a.sha256||"",100),encoding:a.encoding==="base64"?"base64":"base64",data:clean(a.data||"",24000000)
+    })):[],
+    review:{
+      state:["submitted","under-review","approved","rejected","archived"].includes(review.state)?review.state:"submitted",
+      reviewer:clean(review.reviewer||"",180),note:clean(review.note||"",6000),
+      submittedAt:review.submittedAt||r.createdAt||now(),reviewedAt:review.reviewedAt||""
+    },
+    createdAt:r.createdAt||now(),updatedAt:r.updatedAt||now()
+  };
+}
+function resourceFromForm(){
+  return normalizeResource({
+    id:$("#resourceId").value||uid(),
+    title:$("#resourceTitle").value,
+    contributor:{name:$("#resourceContributor").value,role:$("#resourceContributorRole").value},
+    routing:{course:$("#resourceCourse").value,courseId:$("#resourceCourseId").value,unit:$("#resourceUnit").value,week:$("#resourceWeek").value,lesson:$("#resourceLesson").value},
+    resourceType:$("#resourceType").value,
+    scholarly:{claimType:$("#claimType").value,mathematicalStatus:$("#mathStatus").value,evidenceStatus:$("#evidenceStatus").value,
+      evidenceNote:$("#resourceEvidence").value,citations:lines($("#resourceCitations").value),limitations:$("#resourceLimitations").value},
+    content:{summary:$("#resourceSummary").value,instructions:$("#resourceInstructions").value,tags:tags($("#resourceTags").value)},
+    attachments:stagedFiles,
+    review:{state:$("#resourceAudienceMode").value==="instructor"?"under-review":"submitted",submittedAt:now()},
+    createdAt:now(),updatedAt:now()
+  });
+}
+function validatePackage(obj){
+  if(!obj||obj.schema!==RESOURCE_SCHEMA)throw new Error("Not a Khaemenes Lab Resource package.");
+  if(Number(obj.schemaVersion)!==1)throw new Error("Unsupported resource package version.");
+  const r=normalizeResource(obj);
+  const total=r.attachments.reduce((n,a)=>n+a.size,0);
+  if(total>MAX_TOTAL)throw new Error("Contained attachments exceed the 16 MB package limit.");
+  for(const a of r.attachments)if(a.size>MAX_FILE)throw new Error(`Attachment ${a.name} exceeds 8 MB.`);
+  return r;
+}
+async function verifyAttachments(resource){
+  for(const a of resource.attachments){
+    if(a.encoding!=="base64"||!a.data)continue;
+    const bytes=base64ToBytes(a.data);
+    const hash=await hashBytes(bytes);
+    if(a.sha256&&hash!==a.sha256)throw new Error(`Attachment provenance check failed for ${a.name}.`);
+    a.sha256=hash;a.size=bytes.length;
+  }
+  return resource;
+}
+function download(name,text,type="application/json"){
+  const url=URL.createObjectURL(new Blob([text],{type:type+";charset=utf-8"}));
+  const a=document.createElement("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1200);
+}
+function exportResource(resource){
+  const portable={...resource,updatedAt:now()};
+  download(fileSafe(resource.title)+".khae-lab-resource.json",JSON.stringify(portable,null,2));
+}
+function setOptions(select,items){
+  select.replaceChildren();
+  for(const item of items){const o=document.createElement("option");o.value=item;o.textContent=item;select.append(o)}
+}
+function resetResourceForm(mode="student"){
+  $("#resourceForm").reset();$("#resourceId").value="";$("#resourceAudienceMode").value=mode;
+  $("#resourceContributorRole").value=mode==="instructor"?"instructor":"student";
+  $("#resourceCourse").value="Advanced Geometric Topology";
+  $("#resourceCourseId").value="KH-HL-AGTGMP";
+  $("#resourceDialogTitle").textContent=mode==="instructor"?"Create Instructor Resource":"Create Student / Contributor Submission";
+  stagedFiles=[];renderStagedFiles();
+}
+function showBuilder(mode="student"){resetResourceForm(mode);$("#resourceDialog").showModal()}
+function cardHtml(r,inbox=false){
+  const route=[r.routing.course,r.routing.unit&&`Unit ${r.routing.unit}`,r.routing.week&&`Week ${r.routing.week}`,r.routing.lesson].filter(Boolean).join(" · ");
+  return `<h3>${esc(r.title)}</h3><p>${esc(r.content.summary||"No summary recorded.")}</p>
+    <div class="pills"><span class="pill blue">${esc(r.resourceType)}</span><span class="pill ${statusClass(r.review.state)}">${esc(r.review.state)}</span>
+    <span class="pill">${esc(r.scholarly.claimType)}</span><span class="pill">${esc(r.scholarly.mathematicalStatus)}</span></div>
+    <p class="meta">${esc(route||"Unrouted resource")}<br>${esc(r.contributor.name||"Contributor not recorded")} · ${r.attachments.length} attachment(s)</p>
+    <div class="card-actions"><button class="btn small" data-view="${r.id}">View</button>${inbox?`<button class="btn small gold" data-review="${r.id}">Review</button>`:`<button class="btn small sage" data-export="${r.id}">Export</button>`}</div>`;
+}
+async function renderAll(){
+  const all=await dbAll();
+  const approved=all.filter(r=>r.review.state==="approved");
+  const inbox=all.filter(r=>["submitted","under-review"].includes(r.review.state));
+  $("#metricApproved").textContent=approved.length;
+  $("#metricInbox").textContent=inbox.length;
+  $("#metricFiles").textContent=all.reduce((n,r)=>n+r.attachments.length,0);
+  $("#metricCourses").textContent=new Set(all.map(r=>r.routing.course).filter(Boolean)).size;
+  renderDirectory(approved);renderInbox(inbox);fillFilters(all);
+}
+function fillFilters(all){
+  const course=$("#directoryCourse"),type=$("#directoryType"),c=course.value,t=type.value;
+  const courses=[...new Set(all.map(r=>r.routing.course).filter(Boolean))].sort();
+  course.innerHTML='<option value="">All courses</option>'+courses.map(x=>`<option>${esc(x)}</option>`).join("");
+  type.innerHTML='<option value="">All resource types</option>'+RESOURCE_TYPES.map(x=>`<option>${esc(x)}</option>`).join("");
+  if(courses.includes(c))course.value=c;if(RESOURCE_TYPES.includes(t))type.value=t;
+}
+function renderDirectory(items){
+  const q=$("#directorySearch").value.trim().toLowerCase(),course=$("#directoryCourse").value,type=$("#directoryType").value;
+  const filtered=items.filter(r=>{
+    const hay=[r.title,r.contributor.name,r.routing.course,r.routing.courseId,r.routing.unit,r.routing.week,r.routing.lesson,r.resourceType,r.content.summary,...r.content.tags].join(" ").toLowerCase();
+    return(!q||hay.includes(q))&&(!course||r.routing.course===course)&&(!type||r.resourceType===type);
+  }).sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
+  const host=$("#directoryGrid");host.replaceChildren();
+  for(const r of filtered){const card=document.createElement("article");card.className="card";card.innerHTML=cardHtml(r,false);host.append(card)}
+  if(!filtered.length)host.innerHTML='<div class="empty">No approved resources match the current directory filters.</div>';
+}
+function renderInbox(items){
+  const host=$("#inboxGrid");host.replaceChildren();
+  for(const r of items.sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)))){const card=document.createElement("article");card.className="card";card.innerHTML=cardHtml(r,true);host.append(card)}
+  if(!items.length)host.innerHTML='<div class="empty">The review inbox is empty.</div>';
+}
+async function showDetail(id){
+  const r=await dbGet(id);if(!r)return;
+  const citations=r.scholarly.citations.length?`<ol>${r.scholarly.citations.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`:"<p>No citations recorded.</p>";
+  const files=r.attachments.length?`<ul>${r.attachments.map(a=>`<li><strong>${esc(a.name)}</strong> · ${fmtBytes(a.size)} · SHA-256 ${esc(a.sha256)}</li>`).join("")}</ul>`:"<p>No attachments.</p>";
+  $("#detailBody").innerHTML=`
+    <h2>${esc(r.title)}</h2>
+    <dl class="detail-grid">
+      <dt>Contributor</dt><dd>${esc(r.contributor.name||"—")} (${esc(r.contributor.role)})</dd>
+      <dt>Routing</dt><dd>${esc([r.routing.course,r.routing.courseId,r.routing.unit&&"Unit "+r.routing.unit,r.routing.week&&"Week "+r.routing.week,r.routing.lesson].filter(Boolean).join(" · ")||"—")}</dd>
+      <dt>Resource type</dt><dd>${esc(r.resourceType)}</dd>
+      <dt>Claim/content type</dt><dd>${esc(r.scholarly.claimType)}</dd>
+      <dt>Mathematical status</dt><dd>${esc(r.scholarly.mathematicalStatus)}</dd>
+      <dt>Evidence status</dt><dd>${esc(r.scholarly.evidenceStatus)}</dd>
+      <dt>Review state</dt><dd>${esc(r.review.state)}</dd>
+    </dl>
+    <h3>Summary</h3><p>${esc(r.content.summary||"—")}</p>
+    <h3>Instructions / method</h3><p>${esc(r.content.instructions||"—")}</p>
+    <h3>Evidence / provenance note</h3><p>${esc(r.scholarly.evidenceNote||"—")}</p>
+    <h3>Limitations</h3><p>${esc(r.scholarly.limitations||"—")}</p>
+    <h3>Citations</h3>${citations}
+    <h3>Contained attachments</h3>${files}
+    ${r.review.note?`<h3>Reviewer note</h3><p>${esc(r.review.note)}</p>`:""}
+    <div class="dialog-actions"><button class="btn sage" data-export="${r.id}">Export Package</button><button class="btn rose" data-delete="${r.id}">Delete Local Copy</button></div>`;
+  $("#detailDialog").showModal();
+}
+async function openReview(id){
+  const r=await dbGet(id);if(!r)return;currentReviewId=id;
+  $("#reviewNote").value=r.review.note||"";
+  $("#reviewSummary").innerHTML=`<h2>${esc(r.title)}</h2><p>${esc(r.content.summary)}</p><div class="pills"><span class="pill">${esc(r.routing.course||"Unrouted")}</span><span class="pill">${esc(r.resourceType)}</span><span class="pill">${esc(r.scholarly.mathematicalStatus)}</span><span class="pill">${r.attachments.length} attachment(s)</span></div>`;
+  $("#reviewDialog").showModal();
+}
+async function setReviewState(state){
+  const r=await dbGet(currentReviewId);if(!r)return;
+  r.review.state=state;r.review.note=clean($("#reviewNote").value,6000);r.review.reviewedAt=now();r.updatedAt=now();
+  await dbPut(r);$("#reviewDialog").close();await renderAll();
+}
+async function importSubmission(file){
+  if(!file)return;
+  if(file.size>24*1024*1024)throw new Error("Submission file exceeds the 24 MB import limit.");
+  const resource=await verifyAttachments(validatePackage(JSON.parse(await file.text())));
+  resource.id=uid();
+  resource.review={...resource.review,state:"submitted",submittedAt:now(),reviewedAt:""};
+  resource.updatedAt=now();
+  await dbPut(resource);await renderAll();
+}
+async function exportManifestFile(){
+  const all=(await dbAll()).filter(r=>r.review.state==="approved");
+  const resources=all.map(r=>({
+    id:r.id,title:r.title,description:r.content.summary,resourceType:r.resourceType,
+    routing:r.routing,tags:r.content.tags,mentorEligible:true,
+    scholarly:{claimType:r.scholarly.claimType,mathematicalStatus:r.scholarly.mathematicalStatus,evidenceStatus:r.scholarly.evidenceStatus},
+    contributor:r.contributor,attachmentManifest:r.attachments.map(a=>({name:a.name,type:a.type,size:a.size,sha256:a.sha256})),
+    reviewedAt:r.review.reviewedAt,updatedAt:r.updatedAt
+  }));
+  download("khaemenes_lab_resource_directory_manifest.json",JSON.stringify({
+    schema:"khaemenes-resource-directory-manifest",schemaVersion:1,generatedAt:now(),
+    source:"Evidence & Citation Studio · Lab Resource Cloud",inventoryAuthority:"local-reviewed-only",resources
+  },null,2));
+}
+async function exportBackupFile(){
+  const resources=await dbAll();
+  download("khaemenes_lab_resource_cloud_backup.json",JSON.stringify({schema:BACKUP_SCHEMA,schemaVersion:1,exportedAt:now(),resources},null,2));
+}
+async function importBackupFile(file){
+  if(!file)return;if(file.size>80*1024*1024)throw new Error("Backup exceeds the 80 MB import limit.");
+  const data=JSON.parse(await file.text());
+  if(data.schema!==BACKUP_SCHEMA||Number(data.schemaVersion)!==1)throw new Error("Unsupported Lab Resource Cloud backup.");
+  if(!confirm("Replace the current local Lab Resource Cloud with this backup?"))return;
+  const tx=db.transaction(STORE,"readwrite"),store=tx.objectStore(STORE);store.clear();
+  for(const raw of Array.isArray(data.resources)?data.resources:[])store.put(await verifyAttachments(normalizeResource(raw)));
+  await new Promise((res,rej)=>{tx.oncomplete=res;tx.onerror=()=>rej(tx.error)});
+  await renderAll();
+}
+function assistantLine(r){return `• ${r.title} — ${r.routing.course||"Unrouted"}${r.routing.unit?`, Unit ${r.routing.unit}`:""} · ${r.review.state}`}
+async function runAssistant(){
+  const input=$("#assistantInput").value.trim(),cmd=input.toLowerCase(),all=await dbAll();
+  let out="";
+  if(!cmd||cmd==="help")out='Commands:\nhelp\nstats\nshow inbox\nshow directory\nreview needed\nfind <term>\ncourse <term>\nnew resource\nexport directory';
+  else if(cmd==="stats")out=`Approved: ${all.filter(r=>r.review.state==="approved").length}\nInbox: ${all.filter(r=>["submitted","under-review"].includes(r.review.state)).length}\nRejected: ${all.filter(r=>r.review.state==="rejected").length}\nAttachments: ${all.reduce((n,r)=>n+r.attachments.length,0)}\nCourses: ${new Set(all.map(r=>r.routing.course).filter(Boolean)).size}`;
+  else if(cmd==="show inbox"){const x=all.filter(r=>["submitted","under-review"].includes(r.review.state));out=x.length?x.map(assistantLine).join("\n"):"Inbox is empty."}
+  else if(cmd==="show directory"){const x=all.filter(r=>r.review.state==="approved");out=x.length?x.map(assistantLine).join("\n"):"Approved directory is empty."}
+  else if(cmd==="review needed"){const x=all.filter(r=>["submitted","under-review"].includes(r.review.state)||r.scholarly.evidenceStatus==="unexamined");out=x.length?x.map(assistantLine).join("\n"):"No review-needed resources found."}
+  else if(cmd.startsWith("find ")){const term=cmd.slice(5).trim(),x=all.filter(r=>JSON.stringify([r.title,r.routing,r.resourceType,r.content.tags,r.content.summary,r.scholarly]).toLowerCase().includes(term));out=x.length?x.map(assistantLine).join("\n"):`No resources found for "${term}".`}
+  else if(cmd.startsWith("course ")){const term=cmd.slice(7).trim(),x=all.filter(r=>r.routing.course.toLowerCase().includes(term)||r.routing.courseId.toLowerCase().includes(term));out=x.length?x.map(assistantLine).join("\n"):`No course resources found for "${term}".`}
+  else if(cmd==="new resource"){showBuilder("student");out="Resource builder opened."}
+  else if(cmd==="export directory"){await exportManifestFile();out="Approved directory manifest exported."}
+  else out='Command not recognized. Type "help".';
+  $("#assistantOutput").textContent=out;$("#assistantInput").value="";
+}
+
+function switchPanel(name){
+  $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.panel===name));
+  $$(".panel").forEach(p=>p.classList.toggle("active",p.id==="panel-"+name));
+}
+document.addEventListener("click",async e=>{
+  const tab=e.target.closest("[data-panel]");if(tab)return switchPanel(tab.dataset.panel);
+  const close=e.target.closest("[data-close]");if(close)return $("#"+close.dataset.close).close();
+  const rm=e.target.closest("[data-remove-file]");if(rm){stagedFiles=stagedFiles.filter(f=>f.id!==rm.dataset.removeFile);renderStagedFiles();return}
+  const view=e.target.closest("[data-view]");if(view)return showDetail(view.dataset.view);
+  const rev=e.target.closest("[data-review]");if(rev)return openReview(rev.dataset.review);
+  const ex=e.target.closest("[data-export]");if(ex){const r=await dbGet(ex.dataset.export);if(r)exportResource(r);return}
+  const del=e.target.closest("[data-delete]");if(del&&confirm("Delete this local resource record?")){await dbDelete(del.dataset.delete);$("#detailDialog").close();await renderAll();return}
+});
+$("#resourceFiles").addEventListener("change",async e=>{try{await stageSelectedFiles(e.target.files)}catch(err){alert(err.message);e.target.value="";stagedFiles=[];renderStagedFiles()}});
+$("#resourceForm").addEventListener("submit",async e=>{
+  e.preventDefault();try{const r=resourceFromForm();exportResource(r);$("#resourceDialog").close()}catch(err){alert(err.message)}
+});
+$("#saveDraftResource").onclick=async()=>{try{const r=resourceFromForm();await dbPut(r);$("#resourceDialog").close();await renderAll();switchPanel("inbox")}catch(err){alert(err.message)}};
+$("#newResourceTop").onclick=$("#newResourceButton").onclick=$("#builderNew").onclick=$("#studentBuilder").onclick=()=>showBuilder("student");
+$("#instructorBuilder").onclick=()=>showBuilder("instructor");
+$("#importTop").onclick=$("#importSubmissionButton").onclick=()=>$("#submissionFile").click();
+$("#submissionFile").onchange=async e=>{const f=e.target.files?.[0];e.target.value="";try{await importSubmission(f);switchPanel("inbox")}catch(err){alert("Import failed: "+err.message)}};
+$("#approveResource").onclick=()=>setReviewState("approved");
+$("#rejectResource").onclick=()=>setReviewState("rejected");
+$("#keepReviewing").onclick=()=>setReviewState("under-review");
+$("#directorySearch").oninput=async()=>renderDirectory((await dbAll()).filter(r=>r.review.state==="approved"));
+$("#directoryCourse").onchange=async()=>renderDirectory((await dbAll()).filter(r=>r.review.state==="approved"));
+$("#directoryType").onchange=async()=>renderDirectory((await dbAll()).filter(r=>r.review.state==="approved"));
+$("#runAssistant").onclick=runAssistant;
+$("#assistantInput").addEventListener("keydown",e=>{if(e.key==="Enter")runAssistant()});
+$("#exportManifest").onclick=exportManifestFile;
+$("#exportBackup").onclick=exportBackupFile;
+$("#importBackup").onclick=()=>$("#backupFile").click();
+$("#backupFile").onchange=async e=>{const f=e.target.files?.[0];e.target.value="";try{await importBackupFile(f)}catch(err){alert("Backup import failed: "+err.message)}};
+$("#persistButton").onclick=async()=>{
+  if(!navigator.storage?.persist){$("#storageStatus").textContent="Persistent storage API unavailable.";return}
+  try{const granted=await navigator.storage.persist();$("#storageStatus").textContent=granted?"Persistent storage granted.":"Browser kept best-effort storage."}catch{$("#storageStatus").textContent="Persistence request failed."}
+};
+
+async function init(){
+  setOptions($("#resourceType"),RESOURCE_TYPES);setOptions($("#claimType"),CLAIM_TYPES);setOptions($("#mathStatus"),MATH_STATUSES);setOptions($("#evidenceStatus"),EVIDENCE_STATUSES);
+  renderStagedFiles();db=await openDB();await renderAll();
+  if(navigator.storage?.estimate){try{const x=await navigator.storage.estimate();$("#storageStatus").textContent=`Estimated usage ${fmtBytes(x.usage||0)} of ${fmtBytes(x.quota||0)} quota.`}catch{}}
+}
+init().catch(err=>alert("Lab Resource Cloud failed to initialize: "+err.message));
+})();
+</script>
+</body>
+</html>
