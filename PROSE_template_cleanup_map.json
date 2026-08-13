@@ -5,9 +5,12 @@
   "canonicalManifest": "templates/manifest.json",
   "miniCloudRegistry": "templates/mini-cloud.json",
   "canonicalTemplateCount": 82,
-  "miniCloudExtensionCount": 1,
-  "availableTemplateCount": 83,
+  "miniCloudSourceTemplateCount": 3,
+  "miniCloudExtensionCount": 10,
+  "khaemenesAcademicCoreCount": 12,
+  "availableTemplateCount": 95,
   "canonicalFilesMissing": 0,
+  "academicCoreIdCollisionsWithCanonical": 0,
   "resolvedHistoricalExtras": [
     "after-action-revirew.html",
     "donor-thank-you.html",
@@ -21,8 +24,7 @@
   ],
   "resolvedCurrentTypo": {
     "removed": "dialy-checklist.html",
-    "replacement": "daily-checklist.html",
-    "registeredAs": "mini-cloud-extension"
+    "replacement": "daily-checklist.html"
   },
   "unreferencedExtraFiles": [],
   "status": "clean"
