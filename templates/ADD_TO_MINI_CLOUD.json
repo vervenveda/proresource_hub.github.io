@@ -1,0 +1,6 @@
+{
+  "id": "khaemenes-scholarly-publishing",
+  "title": "Khaemenes Scholarly Publishing Core",
+  "manifest": "packs/khaemenes-scholarly-publishing/manifest.json",
+  "role": "higher-learning-publishing"
+}

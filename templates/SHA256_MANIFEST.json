@@ -1,0 +1,18 @@
+{
+  "README_UPLOAD.md": "62ce1ffd1a295aeed29d3b88020ca5d0703ca7d5423aa7f6f3963e00baea305a",
+  "ADD_TO_MINI_CLOUD.json": "19d33409a7023daf6de1f54d03e444c6f3fbfb58b40404a5f346c52fed408e8c",
+  "templates/packs/khaemenes-scholarly-publishing/source-commentary.html": "517bccd7afa45e4b68451c32e6464d88b257c742f41f30898f24800d81d11dda",
+  "templates/packs/khaemenes-scholarly-publishing/theorem-proof-exposition.html": "cbc74481e34a09335c36002751db8b2fbc261d249d1301cf7a90ac8f21877019",
+  "templates/packs/khaemenes-scholarly-publishing/research-brief.html": "58bc0b07a451a7f01ac222263a3eaf5c673874bead67b47957188614ff07f8f8",
+  "templates/packs/khaemenes-scholarly-publishing/final-examination.html": "44696eb0089483eac73509d80964712d18a92ec94e7989b9ec3389cd42e39595",
+  "templates/packs/khaemenes-scholarly-publishing/proof-workshop.html": "2cb690198a98603af7236dd21513fc346fe3551e11bc1430a0b67705c21e30ec",
+  "templates/packs/khaemenes-scholarly-publishing/course-reading.html": "e157505fabcb9660a0db57e17f436fb4eb3bec4fde4e12a48c0ffc40f85520a4",
+  "templates/packs/khaemenes-scholarly-publishing/manifest.json": "a3a04446420d61a5e1e5bb4f6e1ec7bbcf1559f072b65e7387c7fc0ea550f03c",
+  "templates/packs/khaemenes-scholarly-publishing/document-type-map.json": "5445917c8efb0eac6774aa8e4b7a68b7b0705b733ee14cdb9ec3ac3e51988852",
+  "templates/packs/khaemenes-scholarly-publishing/counterexample-studio.html": "e01c6ba2a296a9485cc63db933be07cf38f1bcea48bf1558c96db16866cf7dac",
+  "templates/packs/khaemenes-scholarly-publishing/mastery-assessment.html": "b671e48c141acc606e957308a94bcc3b58c163b9ed043ba2e5d5b137aea6bda2",
+  "templates/packs/khaemenes-scholarly-publishing/mathematical-investigation-lab.html": "826ada5daa16ef092589caf21e9c4fd91c738d83772d3eb3f6b34d00ad73c026",
+  "templates/packs/khaemenes-scholarly-publishing/midterm-examination.html": "121329a2ccd0d54147aa2adc149ee80b9296a6b2db2b75adc62dafd8a8ec1b71",
+  "templates/packs/khaemenes-scholarly-publishing/instructor-guide.html": "bc4641934c0c0056c68cb0523d89d3efa25d8318e769187c12d4e0607c2b044a",
+  "templates/packs/khaemenes-scholarly-publishing/solution-commentary.html": "08c12b9f4fb7662284578e165e7e49f195fc002bd106e7c3c933b9222e77a5e5"
+}
