@@ -1,0 +1,119 @@
+{
+  "schema": "khaemenes-scholarly-document-map",
+  "schemaVersion": 1,
+  "title": "Khaemenes Canonical Scholarly Document Types",
+  "documentTypes": [
+    {
+      "number": 1,
+      "name": "Course Reading",
+      "templateId": "khaemenes-course-reading",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 2,
+      "name": "Concept Reference",
+      "templateId": "formula-concept-organizer",
+      "sourcePack": "khaemenes-mathematics-core",
+      "status": "reuse"
+    },
+    {
+      "number": 3,
+      "name": "Theorem & Proof",
+      "templateId": "theorem-proof-exposition",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 4,
+      "name": "Worked Examples",
+      "templateId": "math-worked-example",
+      "sourcePack": "khaemenes-mathematics-core",
+      "status": "reuse"
+    },
+    {
+      "number": 5,
+      "name": "Problem Set",
+      "templateId": "problem-set",
+      "sourcePack": "khaemenes-academic-core/mini-cloud-extension",
+      "status": "reuse"
+    },
+    {
+      "number": 6,
+      "name": "Solution & Commentary",
+      "templateId": "solution-commentary",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 7,
+      "name": "Proof Workshop",
+      "templateId": "guided-proof-workshop",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 8,
+      "name": "Laboratory",
+      "templateId": "mathematical-investigation-lab",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 9,
+      "name": "Counterexample Studio",
+      "templateId": "counterexample-studio",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 10,
+      "name": "Study Guide",
+      "templateId": "study-guide",
+      "sourcePack": "khaemenes-academic-core/mini-cloud-extension",
+      "status": "reuse"
+    },
+    {
+      "number": 11,
+      "name": "Research Brief",
+      "templateId": "mathematical-research-brief",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 12,
+      "name": "Source Commentary",
+      "templateId": "scholarly-source-commentary",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 13,
+      "name": "Mastery Assessment",
+      "templateId": "khaemenes-mastery-assessment",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 14,
+      "name": "Midterm Examination",
+      "templateId": "khaemenes-midterm-examination",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 15,
+      "name": "Final Examination",
+      "templateId": "khaemenes-final-examination",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    },
+    {
+      "number": 16,
+      "name": "Instructor Guide",
+      "templateId": "khaemenes-instructor-guide",
+      "sourcePack": "khaemenes-scholarly-publishing",
+      "status": "new"
+    }
+  ]
+}

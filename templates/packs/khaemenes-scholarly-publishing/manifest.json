@@ -1,0 +1,200 @@
+{
+  "schema": "prose-template-pack",
+  "schemaVersion": 1,
+  "id": "khaemenes-scholarly-publishing",
+  "title": "Khaemenes Scholarly Publishing Core",
+  "description": "Higher-learning publishing templates for complete course readings, theorem exposition, proof workshops, mathematical investigations, counterexample work, research, assessments, solutions, and instructor guidance.",
+  "categories": [
+    "Course Materials",
+    "Reasoning & Proof",
+    "Investigation & Research",
+    "Assessment & Mastery",
+    "Instruction & Solutions"
+  ],
+  "templates": [
+    {
+      "id": "khaemenes-course-reading",
+      "title": "Course Reading",
+      "defaultTitle": "Course Reading",
+      "category": "Course Materials",
+      "tags": [
+        "course reading",
+        "lesson",
+        "instruction",
+        "free education",
+        "self study"
+      ],
+      "description": "A complete student-facing reading designed to carry essential instruction without requiring an outside textbook.",
+      "file": "course-reading.html"
+    },
+    {
+      "id": "theorem-proof-exposition",
+      "title": "Theorem & Proof Exposition",
+      "defaultTitle": "Theorem & Proof Exposition",
+      "category": "Reasoning & Proof",
+      "tags": [
+        "theorem",
+        "proof",
+        "lemma",
+        "hypotheses",
+        "proof audit"
+      ],
+      "description": "A formal exposition template for theorem statements, proof architecture, dependencies, complete proof, hypothesis audit, and interpretation.",
+      "file": "theorem-proof-exposition.html"
+    },
+    {
+      "id": "solution-commentary",
+      "title": "Solutions & Mathematical Commentary",
+      "defaultTitle": "Solutions & Mathematical Commentary",
+      "category": "Instruction & Solutions",
+      "tags": [
+        "solutions",
+        "answer key",
+        "reasoning",
+        "error analysis",
+        "self study"
+      ],
+      "description": "A solution set that explains strategy, visible reasoning, verification, common errors, and transferable ideas rather than only giving answers.",
+      "file": "solution-commentary.html"
+    },
+    {
+      "id": "guided-proof-workshop",
+      "title": "Guided Proof Workshop",
+      "defaultTitle": "Proof Workshop",
+      "category": "Reasoning & Proof",
+      "tags": [
+        "proof",
+        "workshop",
+        "scaffold",
+        "counterexample",
+        "revision"
+      ],
+      "description": "A learner-centered proof workshop moving from statement decoding and an independent attempt through graduated hints, proof audit, and revision.",
+      "file": "proof-workshop.html"
+    },
+    {
+      "id": "mathematical-investigation-lab",
+      "title": "Mathematical Investigation Laboratory",
+      "defaultTitle": "Mathematical Investigation Laboratory",
+      "category": "Investigation & Research",
+      "tags": [
+        "mathematics",
+        "lab",
+        "investigation",
+        "computation",
+        "construction",
+        "reproducibility"
+      ],
+      "description": "A mathematics-specific laboratory format that separates computation or visualization from proof and requires reproducible mathematical reasoning.",
+      "file": "mathematical-investigation-lab.html"
+    },
+    {
+      "id": "counterexample-studio",
+      "title": "Counterexample Studio",
+      "defaultTitle": "Counterexample Studio",
+      "category": "Reasoning & Proof",
+      "tags": [
+        "counterexample",
+        "claim",
+        "hypotheses",
+        "conjecture",
+        "logic"
+      ],
+      "description": "A structured environment for testing universal claims, searching boundary cases, verifying counterexamples, and repairing false statements.",
+      "file": "counterexample-studio.html"
+    },
+    {
+      "id": "mathematical-research-brief",
+      "title": "Mathematical Research Brief",
+      "defaultTitle": "Mathematical Research Brief",
+      "category": "Investigation & Research",
+      "tags": [
+        "research",
+        "theorem dependencies",
+        "literature",
+        "reproduction",
+        "open questions"
+      ],
+      "description": "A compact advanced-mathematics research brief connecting questions, known results, theorem dependencies, sources, examples, counterexamples, and next actions.",
+      "file": "research-brief.html"
+    },
+    {
+      "id": "scholarly-source-commentary",
+      "title": "Scholarly Source Commentary",
+      "defaultTitle": "Source Commentary",
+      "category": "Investigation & Research",
+      "tags": [
+        "source",
+        "citation",
+        "provenance",
+        "reliability",
+        "evidence"
+      ],
+      "description": "A source-by-source commentary for identifying claims, exact locations, authority, limitations, relationships to other sources, and provenance.",
+      "file": "source-commentary.html"
+    },
+    {
+      "id": "khaemenes-mastery-assessment",
+      "title": "Mastery Assessment",
+      "defaultTitle": "Mastery Assessment",
+      "category": "Assessment & Mastery",
+      "tags": [
+        "mastery",
+        "assessment",
+        "proof",
+        "transfer",
+        "defense",
+        "correction"
+      ],
+      "description": "An authentic mastery assessment combining conceptual precision, construction or computation, proof/counterexample, transfer, error analysis, and defense.",
+      "file": "mastery-assessment.html"
+    },
+    {
+      "id": "khaemenes-midterm-examination",
+      "title": "Midterm Examination",
+      "defaultTitle": "Midterm Examination",
+      "category": "Assessment & Mastery",
+      "tags": [
+        "midterm",
+        "exam",
+        "proof",
+        "computation",
+        "synthesis"
+      ],
+      "description": "A cumulative midterm structure aligned to conceptual, proof, computational, laboratory, and synthesis evidence.",
+      "file": "midterm-examination.html"
+    },
+    {
+      "id": "khaemenes-final-examination",
+      "title": "Final Examination",
+      "defaultTitle": "Final Examination",
+      "category": "Assessment & Mastery",
+      "tags": [
+        "final exam",
+        "proof",
+        "computation",
+        "lab",
+        "synthesis",
+        "defense"
+      ],
+      "description": "A full-course final examination structure emphasizing written proof, computation/construction, laboratory analysis, synthesis, and defense.",
+      "file": "final-examination.html"
+    },
+    {
+      "id": "khaemenes-instructor-guide",
+      "title": "Instructor / Independent-Learner Guide",
+      "defaultTitle": "Instructor / Independent-Learner Guide",
+      "category": "Instruction & Solutions",
+      "tags": [
+        "instructor",
+        "self study",
+        "rubric",
+        "misconceptions",
+        "hints",
+        "accessibility"
+      ],
+      "description": "A dual-purpose guide for instructors and independent learners containing sequence, misconceptions, graduated hints, solution notes, mastery evidence, and accessibility supports.",
+      "file": "instructor-guide.html"
+    }
+  ]
+}
