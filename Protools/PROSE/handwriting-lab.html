@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Prose Handwriting Lab — K through Higher Learning manuscript, cursive, shorthand, dictation, fluency, worksheets, signatures and longitudinal portfolio.">
+<title>Prose Handwriting Lab — K through Higher Learning</title>
+<style>
+:root{
+  --ink:#172129;--deep:#0f5e54;--teal:#138a82;--teal2:#dff3f1;--green:#138b35;--leaf:#eaf7ec;
+  --gold:#e6bd4e;--violet:#735cb9;--rose:#dc5a95;--paper:#fff;--soft:#f6f8f8;--line:#d7dfdf;--muted:#69767c;
+  --shadow:0 14px 36px rgba(21,54,60,.12)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#f1f6f4;color:var(--ink);font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1500px;margin:auto;background:#fff;min-height:100vh;border-left:1px solid #e1e7e4;border-right:1px solid #e1e7e4}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dde5e2}
+.nav{display:grid;grid-template-columns:260px 1fr auto;align-items:center;gap:14px;padding:12px 18px}
+.brand{display:flex;gap:10px;align-items:center}.brandMark{font-size:42px}.brand h1{margin:0;font:700 21px Georgia,serif;color:#111}.brand small{color:var(--green);font-weight:700}
+.navTabs{display:flex;justify-content:center;gap:4px;flex-wrap:wrap}.navTabs button{border:0;background:#fff;padding:10px 12px;border-radius:10px;color:#1f282b}.navTabs button.active{color:var(--green);box-shadow:inset 0 -3px 0 var(--green)}
+.levelBox{padding:9px 10px;border:1px solid #ccd7d4;border-radius:12px;background:#fff}
+.workspace{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:calc(100vh - 80px)}
+.sidebar{border-right:1px solid #dde5e2;background:#fbfcfc;padding:16px}
+.sideSection{border-bottom:1px solid #dfe7e4;padding-bottom:13px;margin-bottom:13px}.sideSection h3{margin:0 0 8px;color:var(--teal);font-size:.95rem;text-transform:uppercase;letter-spacing:.03em}
+.activityList{display:grid;gap:6px}.activityList button{display:flex;align-items:center;gap:10px;border:1px solid #d9e1df;border-radius:9px;background:#fff;padding:9px;text-align:left}.activityList button.on{background:linear-gradient(90deg,#0b8279,#14958a);color:#fff;border-color:#0b8279}
+.letterChooser{display:grid;grid-template-columns:auto 1fr auto;align-items:center;text-align:center}.letterChooser strong{font:700 44px Georgia,serif}.letterChooser button{border:1px solid #d6dedb;background:#fff;border-radius:9px;padding:8px 12px}
+.segment{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #d8e0de;border-radius:8px;overflow:hidden}.segment button{border:0;border-right:1px solid #d8e0de;background:#fff;padding:8px}.segment button:last-child{border-right:0}.segment button.on{background:var(--teal);color:#fff}
+.opt{display:grid;gap:5px;margin:9px 0}.opt label{font-size:.8rem}.opt select,.opt input[type=text]{width:100%;padding:8px;border:1px solid #d2dcda;border-radius:8px;background:#fff}
+.colors{display:flex;gap:10px}.colorDot{width:24px;height:24px;border-radius:50%;border:2px solid transparent}.colorDot.on{outline:2px solid var(--teal);outline-offset:2px}
+.toolrow{display:flex;gap:8px;flex-wrap:wrap}.toolrow button{border:1px solid #d5dfdc;background:#fff;border-radius:8px;padding:8px}.toolrow button.on{background:var(--teal);color:#fff}
+.primary{background:var(--green)!important;color:#fff!important;border-color:var(--green)!important}.wide{width:100%}
+.sideFooter{border:1px solid #c8e5ce;border-radius:10px;background:#f1fff3;padding:10px;color:#386540;font-size:.78rem}
+.main{padding:16px;background:#fff}
+.page{max-width:950px;margin:0 auto;border:2px solid #111;background:#fff;min-height:1220px;padding:30px 32px;position:relative}
+.nameRow{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:end}.lineField{display:flex;gap:8px;align-items:end;font:18px "Comic Sans MS","Trebuchet MS",sans-serif}.lineField span{display:inline-block;min-width:260px;border-bottom:1.5px solid #111;height:24px}.lineField.date span{min-width:170px}
+.pageTitle{text-align:center;margin:18px 0 12px}.pageTitle .script{font:76px/1 "Brush Script MT","Segoe Script",cursive}.pageTitle .block{font-weight:900;color:var(--teal);font-size:28px}.pageTitle p{margin:8px 0}
+.instructionBox{display:grid;grid-template-columns:1fr 1fr;gap:18px;border:1px solid #8c9696;border-radius:14px;padding:14px;margin:16px 0}.instructionBox h3{color:var(--teal);text-align:center;margin:0 0 6px}.demo{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center}.bigLetter{font:150px/1 "Brush Script MT","Segoe Script",cursive;text-align:center}.steps{font-size:.8rem}.steps div{display:flex;gap:7px;margin:8px 0}.stepNum{width:20px;height:20px;border-radius:50%;background:var(--teal);color:white;display:grid;place-items:center;font-size:.72rem}
+.tryBox{position:relative;height:155px}.tryModel{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;text-align:center;font:120px "Brush Script MT","Segoe Script",cursive;color:#111}.tryModel span:last-child{color:#d3d3d3}
+.guideline{height:82px;position:relative;margin:9px 0}.guideline:before,.guideline:after,.guideline .mid{content:"";position:absolute;left:0;right:0;border-top:1.4px solid #818a8a}.guideline:before{top:7px}.guideline .mid{top:50%;border-top:1.2px dashed #8aa9b0}.guideline:after{bottom:7px}.traceText{position:absolute;left:8px;bottom:10px;font:58px "Brush Script MT","Segoe Script",cursive;color:#c5c5c5;word-spacing:24px}
+.guideRows{margin-top:16px}.freeRow{height:94px;position:relative}.freeRow:before,.freeRow:after,.freeRow .mid{content:"";position:absolute;left:0;right:0;border-top:1.2px solid #a3aaaa}.freeRow:before{top:8px}.freeRow .mid{top:50%;border-top:1px dashed #aaa}.freeRow:after{bottom:8px}
+.flowers{position:absolute;right:25px;top:95px;font-size:42px}.gardenFooter{position:absolute;left:30px;right:30px;bottom:22px;display:flex;justify-content:space-between;align-items:end;color:#0b6c41}.growth{display:flex;gap:20px;align-items:end;font-size:24px}
+.quickbar{max-width:950px;margin:12px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}.quickcard{border:1px solid #d8e1de;border-radius:10px;padding:12px}.quickcard h4{margin:0 0 8px;color:var(--teal)}.quickactions{display:flex;gap:8px;flex-wrap:wrap}.quickactions button{border:1px solid #d5dedc;background:#fff;border-radius:8px;padding:8px}
+.lower{display:grid;grid-template-columns:1fr 1.6fr .5fr;gap:10px;padding:14px 16px;background:#fbfcfc;border-top:1px solid #e0e7e5}.statcard{border:1px solid #d8e1de;border-radius:10px;background:#fff;padding:12px}.statcard h4{margin:0 0 8px;color:var(--teal)}.stats{display:flex;justify-content:space-around;text-align:center}.stats strong{display:block;font-size:1.25rem}.portfolioStrip{display:flex;gap:8px;overflow:auto}.thumb{min-width:110px;border:1px solid #d8dfdd;border-radius:8px;padding:5px;background:#fff}.thumb img{width:100%;height:70px;object-fit:cover}.thumb small{display:block;font-size:.67rem}
+.streak{text-align:center}.streak .fire{font-size:40px}
+.footer{background:linear-gradient(90deg,#0b655c,#0b4d65);color:white;padding:10px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.78rem}
+.view{display:none}.view.active{display:block}
+.practiceStage{max-width:950px;margin:auto;border:2px solid #111;background:#fff;padding:24px}.canvasWrap{position:relative;height:500px}.canvasGuide{position:absolute;inset:0}.canvasGuide .mid{position:absolute;left:0;right:0;top:50%;border-top:1.2px dashed #78a2aa}.canvasGuide:before,.canvasGuide:after{content:"";position:absolute;left:0;right:0;border-top:1.4px solid #444}.canvasGuide:before{top:20%}.canvasGuide:after{bottom:20%}.canvasModel{position:absolute;inset:0;display:grid;place-items:center;font:240px "Brush Script MT","Segoe Script",cursive;color:#d7d7d7}canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.labGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.labCard{border:1px solid #d7dfdd;border-radius:12px;padding:14px}.connections{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.connections button{font:30px "Brush Script MT","Segoe Script",cursive;border:1px solid #d7dfdd;background:#fff;border-radius:8px;padding:10px}.dictationText{padding:12px;border-radius:10px;background:#f3fafc;border:1px solid #d5e6ea;text-align:center}.portfolioGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.portItem{border:1px solid #d7dfdd;border-radius:10px;padding:8px}.portItem img{width:100%}
+@media(max-width:1100px){.nav{grid-template-columns:1fr}.navTabs{justify-content:flex-start}.workspace{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid #dde5e2}.lower{grid-template-columns:1fr}.page{min-height:1050px}.quickbar{grid-template-columns:1fr}.labGrid{grid-template-columns:1fr}}
+@media(max-width:680px){.instructionBox{grid-template-columns:1fr}.page{padding:20px 16px}.nameRow{grid-template-columns:1fr}.lineField span{min-width:140px}.pageTitle .script{font-size:56px}.connections{grid-template-columns:repeat(2,1fr)}.portfolioGrid{grid-template-columns:1fr}.flowers{display:none}}
+@media print{
+ header,.sidebar,.quickbar,.lower,.footer,.no-print{display:none!important}.workspace{display:block}.main{padding:0}.page{border:1.5px solid #111;max-width:none;width:100%;min-height:0;box-shadow:none}.view{display:none!important}#worksheetView{display:block!important}
+}
+
+.eirenBand{max-width:1500px;margin:auto;padding:12px 18px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;background:linear-gradient(145deg,#fff,#fbf8ff);border-bottom:2px solid #e5d9ef}
+.eirenOrb{width:52px;height:52px;border:2px solid #e5d9ef;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:1.8rem}.eirenBand strong{font-family:Georgia,serif;color:#5b4a7e}.eirenBand p{margin:3px 0;color:var(--muted);font-size:.82rem}.eirenActions{display:flex;gap:6px;flex-wrap:wrap}.eirenActions button{border:1px solid #d9cfe6;background:#fff;border-radius:9px;padding:8px}
+.leftGuide .page,.leftGuide .practiceStage{border-left:7px solid #735cb9}.directionBadge{display:inline-block;color:#735cb9;font-weight:800;margin-left:6px}
+@media(max-width:700px){.eirenBand{grid-template-columns:auto 1fr}.eirenActions{grid-column:1/-1;justify-content:center}}
+
+/* ===== Lean Prose Handwriting Lab header ===== */
+header{
+  min-height:72px!important;
+  padding:8px 22px!important;
+  display:grid!important;
+  grid-template-columns:minmax(250px,1fr) auto auto!important;
+  align-items:center!important;
+  gap:18px!important;
+  background:rgba(255,255,255,.97)!important;
+  border-bottom:1px solid #dfe7e3!important;
+  box-shadow:0 2px 10px rgba(24,49,42,.035)!important;
+}
+.brand{gap:10px!important;align-items:center!important}
+.brand .logo,.brand>div:first-child{flex:0 0 auto}
+.brand h1{font-size:1.08rem!important;line-height:1.05!important;margin:0!important;letter-spacing:.01em}
+.brand small{font-size:.72rem!important;line-height:1.2!important;margin-top:3px!important;color:#087c58!important}
+.topnav{display:flex!important;align-items:stretch!important;justify-content:center!important;gap:5px!important;flex-wrap:nowrap!important}
+.topnav button{
+  min-width:96px!important;
+  min-height:50px!important;
+  padding:6px 10px!important;
+  border:1px solid transparent!important;
+  border-radius:11px!important;
+  background:transparent!important;
+  color:#26333b!important;
+  box-shadow:none!important;
+  font-size:.72rem!important;
+  line-height:1.15!important;
+  transition:background .15s,border-color .15s,transform .15s!important;
+}
+.topnav button:hover{background:#f7faf8!important;border-color:#dbe7e1!important;transform:translateY(-1px)}
+.topnav button.active,.topnav button.on{
+  background:#fff!important;
+  border-color:#16916a!important;
+  color:#087c58!important;
+  box-shadow:inset 0 -2px #16916a!important;
+}
+header select{
+  height:38px!important;
+  min-width:145px!important;
+  border:1px solid #d9e1de!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  padding:0 34px 0 11px!important;
+  font-size:.8rem!important;
+}
+.breadcrumbBar{
+  min-height:46px;
+  padding:6px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  background:#fff;
+  border-bottom:1px solid #e2e8e5;
+}
+.breadcrumbs{display:flex;align-items:center;gap:10px;min-width:0;color:#52616b;font-size:.78rem;white-space:nowrap;overflow:hidden}
+.breadcrumbs a{color:#344852;text-decoration:none}
+.breadcrumbs strong{color:#087c58;overflow:hidden;text-overflow:ellipsis}
+.breadcrumbs span{overflow:hidden;text-overflow:ellipsis}
+.breadcrumbClose{
+  flex:0 0 auto;
+  min-height:34px;
+  padding:5px 11px;
+  border:1px solid #d8dfdc;
+  border-radius:9px;
+  background:#fff;
+  color:#26333b;
+  font-weight:750;
+  cursor:pointer;
+  box-shadow:0 2px 7px rgba(20,40,34,.04);
+}
+.breadcrumbClose:hover{border-color:#9fb7ad;background:#f8fbf9}
+.eirenBand{padding-top:10px!important;padding-bottom:10px!important}
+@media(max-width:1100px){
+  header{grid-template-columns:1fr auto!important}
+  .topnav{grid-column:1/-1;order:3;overflow-x:auto;justify-content:flex-start;padding-bottom:2px}
+  .topnav button{min-width:92px!important}
+}
+@media(max-width:640px){
+  header{padding:7px 10px!important;gap:8px!important}
+  .brand small{display:none}
+  header select{min-width:124px!important}
+  .breadcrumbBar{padding:5px 10px}
+  .breadcrumbs{gap:6px;font-size:.72rem}
+  .breadcrumbClose span{display:none}
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="nav">
+<div class="brand"><div class="brandMark">🌿✒️</div><div><h1>Prose Handwriting Lab</h1><small>K–Higher Learning · Companion to PROSE Editorial Suite</small></div></div>
+<div class="navTabs">
+<button class="active" data-view="worksheet">📋<br>Worksheet Studio</button>
+<button data-view="practice">⚙️<br>Interactive Practice</button>
+<button data-view="cursive">ℒ<br>Cursive Lab</button>
+<button data-view="dictation">▥<br>Listen &amp; Write</button>
+<button data-view="shorthand">⌁<br>Shorthand</button><button data-view="portfolio">📖<br>Portfolio Growth</button>
+</div>
+<div><select class="levelBox" id="level"><option>Kindergarten</option><option>Elementary 1–2</option><option>Elementary 3–5</option><option>Middle School 6–8</option><option>High School 9–12</option><option>Higher Learning</option></select></div>
+</div>
+</header>
+<div class="breadcrumbBar no-print" aria-label="Breadcrumb">
+  <nav class="breadcrumbs">
+    <a href="#" id="crumbHome">ProTools</a><span>›</span>
+    <span>Prose Handwriting Lab</span><span>›</span>
+    <span id="crumbView">Worksheet Studio</span><span>›</span>
+    <strong id="crumbActivity">Single Letter Practice</strong>
+  </nav>
+  <button class="breadcrumbClose" id="breadcrumbClose" type="button" aria-label="Close Prose Handwriting Lab">× <span>Close</span></button>
+</div>
+
+
+<section class="eirenBand no-print">
+<div class="eirenOrb">🌸</div><div><strong>Eiren · Handwriting &amp; Fluency Mentor</strong><p id="eirenStatus">Choose a level and practice path. I will adapt the guidance from first letterforms through scholarly notes.</p></div>
+<div class="eirenActions"><button id="eirenCoach">🌸 Coach Me</button><button id="eirenHear">🔊 Hear Directions</button><button id="eirenStop">⏹ Stop</button></div>
+</section>
+<div class="workspace">
+<aside class="sidebar">
+<div class="sideSection"><h3>1. Choose Activity</h3><div class="activityList">
+<button class="on" data-activity="single">𝒜 Single Letter — Cursive / Print</button>
+<button data-activity="group">ABC Letter Families</button>
+<button data-activity="print">Aa Printing Letter Practice</button>
+<button data-activity="custom">✎ Custom Word / Name</button>
+<button data-jump="dictation">👂 Dictation — Listen & Write</button>
+<button data-jump="cursive">🔗 Cursive Connection Lab</button>
+<button data-jump="cursive">✍ Signature Studio</button><button data-jump="shorthand">⌁ Shorthand & Rapid Notes</button>
+</div></div>
+
+<div class="sideSection"><h3>2. Choose Letter</h3>
+<div class="letterChooser"><button id="prevLetter">‹</button><strong id="chosenLetter">A</strong><button id="nextLetter">›</button></div>
+<div class="segment"><button class="on" data-form="cursive">Cursive</button><button data-form="print">Print</button><button data-form="both">Both</button></div>
+</div>
+
+<div class="sideSection"><h3>3. Options</h3>
+<div class="opt"><label>Paper Style</label><select id="paperStyle"><option value="traditional">Traditional (Dashed Midline)</option><option value="simple">Simple Lines</option></select></div>
+<div class="opt"><label>Line Spacing</label><select id="lineSpace"><option value="wide">Wide</option><option value="regular">Regular</option><option value="narrow">Narrow</option></select></div>
+<div class="opt"><label>Custom word / name</label><input id="customWord" type="text" placeholder="Jennifer"></div>
+<div class="colors"><button class="colorDot on" data-color="#777" style="background:#777"></button><button class="colorDot" data-color="#138a82" style="background:#138a82"></button><button class="colorDot" data-color="#735cb9" style="background:#735cb9"></button><button class="colorDot" data-color="#dc5a95" style="background:#dc5a95"></button></div>
+<label style="display:block;margin-top:10px;font-size:.8rem"><input type="checkbox" id="showArrows" checked> Show direction arrows</label>
+<label style="display:block;margin-top:6px;font-size:.8rem"><input type="checkbox" id="leftHanded"> Left-handed guide</label>
+</div>
+
+<div class="sideSection"><h3>4. Tools</h3><div class="toolrow"><button class="on" id="penTool">🖊 Pen</button><button id="eraserTool">⌫ Erase</button><button id="undoTool">↶ Undo</button><button id="clearTool">🗑 Clear</button></div>
+<div class="opt"><label>Pen Size</label><input id="penSize" type="range" min="2" max="18" value="5"></div>
+<button class="primary wide" id="startPractice">Start Interactive Practice</button>
+<div class="actions"><button id="previewBtn">👁 Preview</button><button id="printBtn">🖨 Print / Save PDF</button></div>
+</div>
+<div class="sideFooter">🌱 Grow writing skills every day. Progress is private and stored locally on this device.</div>
+</aside>
+
+<main class="main">
+<section class="view active" id="worksheetView">
+<div class="page" id="worksheetPage">
+<div class="nameRow"><div class="lineField">Name: <span id="nameDisplay"></span></div><div class="lineField date">Date: <span id="dateDisplay"></span></div></div>
+<div class="pageTitle"><div class="script">Cursive</div><div class="block">WRITING PRACTICE</div><p>Trace and write the letter.</p></div>
+<div class="flowers">🌿🌼</div>
+<div class="instructionBox">
+<div><h3 id="howTitle">How to write capital A</h3><div class="demo"><div class="bigLetter" id="demoLetter">A</div><div class="steps" id="strokeSteps"></div></div></div>
+<div><h3>Try it here!</h3><div class="tryBox"><div class="tryModel"><span id="trySolid">A</span><span id="tryTrace">A</span></div><div class="guideline" style="position:absolute;inset:auto 0 20px 0"><span class="mid"></span></div></div></div>
+</div>
+<div class="guideRows" id="guideRows"></div>
+<div class="gardenFooter"><span>🌿 Practice today. Grow for life. 💙</span><div class="growth">🌱 🌷 🌻 🌺</div></div>
+</div>
+
+<div class="quickbar no-print">
+<div class="quickcard"><h4>Worksheet Settings</h4><div class="quickactions"><button>Letter Size</button><button>Portrait</button><button>Traditional Guidelines</button><button>Black &amp; White</button></div></div>
+<div class="quickcard"><h4>Quick Actions</h4><div class="quickactions"><button id="addPortfolioBtn">⭐ Add to Portfolio</button><button id="savePdfBtn">PDF Print</button><button id="sendPrinterBtn">🖨 Printer</button></div></div>
+</div>
+</section>
+
+<section class="view" id="practiceView">
+<div class="practiceStage">
+<h2 style="color:var(--teal);text-align:center">Interactive Practice</h2>
+<p style="text-align:center;color:var(--muted)">Trace with mouse, touch, or stylus. Use printed pages for pencil practice.</p>
+<div class="canvasWrap"><div class="canvasGuide"><span class="mid"></span></div><div class="canvasModel" id="canvasModel">A</div><canvas id="pad"></canvas></div>
+<div class="actions no-print"><button id="saveSampleBtn" class="primary">Save Growth Sample</button><button id="clearCanvasBtn">Clear</button></div>
+</div>
+</section>
+
+<section class="view" id="cursiveView">
+<div class="labGrid">
+<div class="labCard"><h2 style="color:var(--teal)">Cursive Connection Lab</h2><p>Practice joins and movement patterns instead of isolated letters only.</p><div class="connections" id="connections"></div><div class="opt"><label>Custom word or signature</label><input id="connectionInput" type="text" placeholder="Jennifer"></div><button id="useConnection" class="primary wide">Practice Connection</button></div>
+<div class="labCard"><h2 style="color:var(--teal)">Connection Practice</h2><div style="height:420px;position:relative"><div class="canvasGuide"><span class="mid"></span></div><div class="canvasModel" id="connectionModel">and</div><canvas id="connectionPad"></canvas></div><div class="actions"><button id="saveConnection" class="primary">Save Sample</button><button id="clearConnection">Clear</button></div></div>
+</div>
+</section>
+
+<section class="view" id="dictationView">
+<div class="labGrid">
+<div class="labCard"><h2 style="color:var(--teal)">Listen &amp; Write</h2><p>Hear the prompt, write it without looking, then reveal the text.</p><select id="dictationLevel" style="width:100%;padding:9px"><option value="foundation">Foundation Word</option><option value="word">Word</option><option value="sentence">Sentence</option><option value="academic">Academic Phrase</option><option value="scholarly">Scholarly Sentence</option></select><div class="actions"><button id="newDictation" class="primary">New Prompt</button><button id="hearAgain">🔊 Hear Again</button><button id="reveal">Reveal</button></div><div class="dictationText" id="dictationStatus">Choose New Prompt.</div></div>
+<div class="labCard"><div style="height:420px;position:relative"><div class="canvasGuide"><span class="mid"></span></div><canvas id="dictationPad"></canvas></div><div class="actions"><button id="saveDictation" class="primary">Save Sample</button><button id="clearDictation">Clear</button></div></div>
+</div>
+</section>
+
+<section class="view" id="shorthandView">
+<div class="labGrid">
+  <div class="labCard">
+    <h2 style="color:var(--teal)">Shorthand &amp; Rapid-Note Lab</h2>
+    <p>Build speed without sacrificing meaning. This Academy rapid-note pathway uses transparent abbreviations and symbols; it is not presented as Gregg or Pitman shorthand.</p>
+    <div class="opt"><label>Lesson</label><select id="shortLesson">
+      <option value="symbols">Core note symbols</option><option value="abbrev">Common abbreviations</option>
+      <option value="academic">Academic rapid notes</option><option value="lecture">Lecture capture</option>
+    </select></div>
+    <div class="dictationText" id="shortLessonText"></div>
+    <div class="actions"><button id="shortHear" class="primary">🌸 Eiren Dictates</button><button id="shortNew">New Drill</button><button id="shortReveal">Reveal Expansion</button></div>
+    <div class="dictationText" id="shortRevealText">Write the rapid-note version first.</div>
+  </div>
+  <div class="labCard">
+    <h2 style="color:var(--teal)">Rapid-Note Practice</h2>
+    <div style="height:420px;position:relative"><div class="canvasGuide"><span class="mid"></span></div><canvas id="shortPad"></canvas></div>
+    <div class="actions"><button id="saveShort" class="primary">Save Sample</button><button id="clearShort">Clear</button></div>
+  </div>
+</div>
+</section>
+
+<section class="view" id="portfolioView">
+<div class="labCard"><h2 style="color:var(--teal)">Growth Portfolio</h2><p>Keep representative handwriting samples across the year—or from Kindergarten through Higher Learning—to make growth visible.</p><div class="actions"><button id="exportPortfolio">Export JSON</button><button id="clearPortfolio">Clear Portfolio</button></div><div class="portfolioGrid" id="portfolioGrid"></div></div>
+</section>
+</main>
+</div>
+
+<div class="lower no-print">
+<div class="statcard"><h4>Today's Practice</h4><div class="stats"><div><strong id="minutesStat">0</strong>min</div><div><strong id="strokesStat">0</strong>strokes</div><div><strong id="lettersStat">1</strong>letters</div><div><strong id="linesStat">0</strong>lines</div></div></div>
+<div class="statcard"><h4>Growth Portfolio</h4><div class="portfolioStrip" id="portfolioStrip"></div></div>
+<div class="statcard streak"><h4>Streak</h4><div class="fire">🔥</div><strong id="streakStat">1</strong><div>Days</div></div>
+</div>
+
+<div class="footer no-print"><span>🔒 Private &amp; Secure</span><span>📴 Works Offline</span><span>🌐 No Internet Required</span><span>🌿 Prose Handwriting Lab</span></div>
+</div>
+
+<script>
+(()=>{"use strict";
+const $=id=>document.getElementById(id),KEY="khaemenes_prose_handwriting_lab_v6";
+const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const strokeData={
+A:["Start at the baseline; travel up to the top.","Return down toward the baseline.","Finish the cross-stroke or cursive exit stroke."],
+B:["Begin at the top and descend.","Return upward and form the upper curve.","Continue into the lower curve and finish cleanly."],
+C:["Begin near the top.","Curve back and around in one smooth motion.","Finish near the baseline with an open form."],
+D:["Begin with the downstroke.","Return to the top.","Form the outer curve and finish at the baseline."],
+E:["Begin with the main stroke.","Form the upper movement.","Complete the middle and lower movement with even spacing."],
+F:["Begin at the top and descend.","Add the upper stroke.","Finish with the middle stroke or cursive cross-stroke."],
+G:["Begin like C and curve around.","Continue below or along the baseline as the form requires.","Finish with a controlled closing or exit stroke."],
+H:["Make the first tall stroke.","Form the second stem or hump.","Finish with the cross/exit movement."],
+I:["Form the main vertical or entry stroke.","Finish at the baseline.","Add dots or cross-strokes only after the main form."],
+J:["Begin at the top.","Descend below or to the baseline and curve left.","Finish with the upper mark when required."],
+K:["Make the tall stem.","Return to the middle and angle outward.","Complete the lower diagonal/exit stroke."],
+L:["Begin at the top.","Descend smoothly.","Turn along the baseline into the finish."],
+M:["Make the first tall stroke.","Build the middle humps/diagonals with consistent height.","Finish at the baseline with an exit stroke."],
+N:["Make the first tall stroke.","Travel through the middle form.","Complete the final stem/hump and exit."],
+O:["Begin near the top.","Travel counterclockwise in a smooth oval.","Close the form and prepare the exit stroke."],
+P:["Make the tall downstroke.","Return to the top.","Form the upper bowl and finish cleanly."],
+Q:["Form an O-shaped oval first.","Close the oval.","Add the tail with a deliberate finish."],
+R:["Make the tall stem.","Form the upper bowl.","Continue into the diagonal leg or cursive exit."],
+S:["Begin near the top.","Curve one direction through the middle.","Reverse the curve and finish near the baseline."],
+T:["Make the principal downstroke.","Finish at the baseline.","Add the cross-stroke at the appropriate height."],
+U:["Descend into a rounded bottom.","Travel upward with even spacing.","Finish with the final stem/exit."],
+V:["Descend diagonally to the baseline.","Change direction at the point.","Rise smoothly to complete the form."],
+W:["Descend and rise through the first valley.","Repeat the controlled valley.","Finish at the upper endpoint or exit."],
+X:["Make the first diagonal.","Return to the top opposite side.","Cross with the second diagonal."],
+Y:["Form the upper fork or entry curve.","Join at the center.","Descend into the tail and finish cleanly."],
+Z:["Travel across the top.","Move diagonally down.","Finish across the baseline or with the cursive exit."]
+};
+const lowerStrokeData={
+a:["Begin at the midline and form a small oval.","Close the oval.","Add the short downstroke and exit."],
+b:["Begin at the top and descend to the baseline.","Retrace or return upward.","Form the lower bowl and exit."],
+c:["Begin near the midline.","Curve back and around.","Leave the form open and finish at the baseline."],
+d:["Form a small oval.","Rise to the top line.","Descend and finish with the exit stroke."],
+e:["Begin near the middle.","Enter the loop/opening.","Curve around and finish at the baseline."],
+f:["Begin above the midline.","Descend through the baseline when cursive requires.","Add the cross-stroke and exit."],
+g:["Form a small oval.","Descend below the baseline.","Loop or curve the descender and finish."],
+h:["Begin at the top and descend.","Return to the midline.","Form the hump and exit."],
+i:["Make the short downstroke and exit.","Lift the pen.","Place the dot above the stem."],
+j:["Descend below the baseline and curve.","Finish the lower stroke.","Place the dot above."],
+k:["Make the tall stem.","Return to the middle.","Form the arm and lower leg/exit."],
+l:["Begin at the top.","Descend in one controlled stroke.","Turn into the baseline exit."],
+m:["Enter and form the first hump.","Continue directly into the second hump.","Finish with an exit stroke."],
+n:["Enter and form one hump.","Return to the baseline.","Finish with an exit stroke."],
+o:["Form a small oval.","Close the oval.","Exit from the upper-right area in cursive."],
+p:["Begin at the midline and descend below baseline.","Return upward.","Form the bowl and exit."],
+q:["Form a small oval.","Descend below the baseline.","Finish the descender according to the selected hand."],
+r:["Enter to the midline.","Form the shoulder.","Exit toward the next letter."],
+s:["Begin near the midline.","Curve through the compact form.","Finish at the baseline with an exit."],
+t:["Make the tall or mid-height downstroke.","Finish at the baseline.","Add the cross-stroke."],
+u:["Descend into a rounded bottom.","Rise and repeat the short downstroke.","Finish with an exit."],
+v:["Descend to a narrow valley.","Rise smoothly.","Finish with the connecting exit."],
+w:["Form the first valley.","Continue into the second valley.","Finish with a controlled exit."],
+x:["Make the first diagonal/curved stroke.","Return to the opposite side.","Cross or complete the second stroke."],
+y:["Form the upper u-like shape.","Descend below the baseline.","Curve/loop the descender and finish."],
+z:["Form the upper stroke.","Move diagonally or through the cursive body.","Finish along/below the baseline as required."]
+};
+const connections=["ai","an","and","in","ing","oo","or","th","st","ll","tion","ment","br","ch","cl","cr","ea","ee","fl","fr","gr","ou","pr","qu","sh","tr","wh"];
+const dictation={
+foundation:["cat","sun","map","fish","tree","friend"],
+word:["garden","letter","pencil","wonder","science","history","observe","language"],
+sentence:["I can write clearly.","Curiosity helps us grow.","Practice builds fluency.","Clear notes help me think.","I revise my work with care."],
+academic:["claim, evidence, reasoning","cause and effect","compare and contrast","observe, record, conclude","thesis, evidence, analysis"],
+scholarly:["The seminar compared two competing interpretations.","Record the source before paraphrasing the argument.","A concise margin note can preserve the central question.","Legibility matters even when lecture notes are written quickly."]
+};
+let state={letter:"A",activity:"single",form:"cursive",traceColor:"#777",profile:{level:"Elementary 1–2",name:""},portfolio:[],stats:{strokes:0,lines:0,days:1,minutes:0,letters:0},tool:"pen",undo:[],sessionStart:Date.now()};
+try{Object.assign(state,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch{}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+function esc(x){return String(x||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function speak(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(t));const vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang||"")&&!/robot|novelty|whisper/i.test(v.name||""));u.voice=vs.find(v=>/samantha|aria|jenny|ava|victoria|karen|serena|moira|natural|enhanced|premium/i.test(v.name||""))||vs[0]||null;u.rate=.84;u.pitch=1.04;speechSynthesis.speak(u)}
+function levelCoach(){
+ const L=state.profile.level||"Elementary 1–2";
+ if(L==="Kindergarten")return "Use a comfortable grip. Start slowly, follow the model, and make one careful stroke at a time.";
+ if(L==="Elementary 1–2")return "Watch the baseline, letter height, and spaces. Build clear print first and begin smooth cursive movement.";
+ if(L==="Elementary 3–5")return "Aim for consistent size, spacing, slant, and joins. Let cursive become smooth rather than rushed.";
+ if(L==="Middle School 6–8")return "Balance speed with legibility. Practice fluent cursive, useful abbreviations, and clear classroom notes.";
+ if(L==="High School 9–12")return "Develop an efficient personal hand for notes, formal responses, annotation, signatures, and rapid capture.";
+ return "Practice a sustainable scholarly hand: lecture capture, marginalia, source notation, technical terms, and rapid notes that remain readable later.";
+}
+function updateEiren(){const t=levelCoach();$("eirenStatus").textContent=t}
+$("eirenCoach").onclick=()=>{updateEiren();speak($("eirenStatus").textContent)};
+$("eirenHear").onclick=()=>speak(levelCoach());
+$("eirenStop").onclick=()=>speechSynthesis.cancel();
+
+$("level").value=state.profile.level||"Elementary 1–2";
+$("level").onchange=e=>{state.profile.level=e.target.value;updateEiren();syncDictationToLevel();save()};
+document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>showView(b.dataset.view));
+document.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>showView(b.dataset.jump));
+function showView(v){document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===v));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===v+"View"));if(v==="practice")setTimeout(()=>mainPad.resize(),20);if(v==="cursive")setTimeout(()=>connectionPad.resize(),20);if(v==="dictation")setTimeout(()=>dictPad.resize(),20);if(v==="shorthand")setTimeout(()=>shortPad.resize(),20)}
+
+document.querySelectorAll("[data-activity]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-activity]").forEach(x=>x.classList.remove("on"));b.classList.add("on");state.activity=b.dataset.activity;if(state.activity==="custom")$("customWord").focus();renderWorksheet();save()});
+document.querySelectorAll("[data-form]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-form]").forEach(x=>x.classList.remove("on"));b.classList.add("on");state.form=b.dataset.form;renderWorksheet();save()});
+document.querySelectorAll("[data-color]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-color]").forEach(x=>x.classList.remove("on"));b.classList.add("on");state.traceColor=b.dataset.color;renderWorksheet();save()});
+$("prevLetter").onclick=()=>shiftLetter(-1);$("nextLetter").onclick=()=>shiftLetter(1);
+function shiftLetter(d){const i=letters.indexOf(state.letter);state.letter=letters[(i+d+letters.length)%letters.length];renderWorksheet();save()}
+$("customWord").oninput=()=>{if(state.activity==="custom")renderWorksheet()};
+$("showArrows").onchange=renderWorksheet;$("leftHanded").onchange=()=>{document.body.classList.toggle("leftGuide",$("leftHanded").checked);renderWorksheet()};$("paperStyle").onchange=renderWorksheet;$("lineSpace").onchange=renderWorksheet;
+
+function steps(letter,lower=false){const arr=(lower?lowerStrokeData[String(letter).toLowerCase()]:strokeData[String(letter).toUpperCase()])||["Begin at the appropriate writing line.","Follow the letterform smoothly.","Finish on or through the baseline as required."];return arr.map((x,i)=>`<div><span class="stepNum">${i+1}</span><span>${esc(x)}</span>${$("showArrows").checked?'<span class="directionBadge">→</span>':''}</div>`).join("")}
+function makeGuideline(content="",cursive=true){return `<div class="guideline" style="${$("lineSpace").value==="narrow"?"height:65px":$("lineSpace").value==="regular"?"height:75px":"height:90px"}"><span class="mid" style="${$("paperStyle").value==="simple"?"display:none":""}"></span>${content?`<span class="traceText" style="color:${state.traceColor};font-family:${cursive?'"Brush Script MT","Segoe Script",cursive':'Arial,sans-serif'}">${content}</span>`:""}</div>`}
+function renderWorksheet(){
+ const custom=$("customWord").value.trim(),L=state.letter,l=L.toLowerCase(),activity=state.activity;
+ $("chosenLetter").textContent=L;$("demoLetter").textContent=L;$("trySolid").textContent=L;$("tryTrace").textContent=L;$("howTitle").textContent=`How to write capital ${L}`;$("strokeSteps").innerHTML=steps(L,false);$("canvasModel").textContent=custom||L;
+ let rows="";
+ if(activity==="group"){const families=[["C","O","Q","G"],["L","I","T","J"],["A","M","N","V","W"],["B","P","R"],["E","F","H","K"],["S","U","X","Y","Z","D"]];const fi=Math.floor(letters.indexOf(L)/5)%families.length;families[fi].forEach(x=>{rows+=makeGuideline(`${x}  ${x}  ${x}  ${x}  ${x}`,true)+makeGuideline(`${x.toLowerCase()}  ${x.toLowerCase()}  ${x.toLowerCase()}  ${x.toLowerCase()}  ${x.toLowerCase()}`,true)});}
+ else if(activity==="print"){rows=makeGuideline(`${L} ${L} ${L} ${L} ${L} ${L}`,false)+makeGuideline(`${l} ${l} ${l} ${l} ${l} ${l}`,false)+makeGuideline("",false)+makeGuideline("",false)+makeGuideline("",false);}
+ else if(activity==="custom"){const t=custom||"Your Name";rows=makeGuideline(`${t}   ${t}`,true)+makeGuideline(`${t}   ${t}`,true)+makeGuideline("",true)+makeGuideline("",true)+makeGuideline("",true);}
+ else {rows=makeGuideline(`${L}  ${L}  ${L}  ${L}  ${L}  ${L}`,true)+makeGuideline(`${l}  ${l}  ${l}  ${l}  ${l}  ${l}`,true)+makeGuideline("",true)+makeGuideline("",true)+makeGuideline("",true)+makeGuideline("",true);}
+ $("guideRows").innerHTML=rows;
+ const isPrint=activity==="print"||state.form==="print";document.querySelectorAll(".bigLetter,.tryModel,.traceText").forEach(el=>{if(isPrint)el.style.fontFamily="Arial,sans-serif"});
+}
+$("printBtn").onclick=()=>window.print();$("savePdfBtn").onclick=()=>window.print();$("sendPrinterBtn").onclick=()=>window.print();$("previewBtn").onclick=()=>showView("worksheet");$("startPractice").onclick=()=>showView("practice");
+
+function makePad(id){
+ const c=$(id),ctx=c.getContext("2d"),o={c,ctx,paths:[],cur:null,down:false,tool:"pen"};
+ function resize(){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);redraw(o)}
+ function point(e){const r=c.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]}
+ c.onpointerdown=e=>{o.down=true;o.cur={pts:[point(e)],tool:state.tool||"pen",size:+$("penSize").value};o.paths.push(o.cur);try{c.setPointerCapture(e.pointerId)}catch{}};
+ c.onpointermove=e=>{if(!o.down)return;o.cur.pts.push(point(e));redraw(o)};
+ const finish=()=>{if(!o.down)return;o.down=false;if(o.cur&&o.cur.pts.length>1){state.stats.strokes=(state.stats.strokes||0)+1;state.stats.lines=(state.stats.lines||0)+1;save();renderStats()}};
+ c.onpointerup=finish;c.onpointercancel=finish;c.onpointerleave=finish;o.resize=resize;setTimeout(resize,20);return o
+}
+function redraw(o){
+ o.ctx.clearRect(0,0,o.c.clientWidth,o.c.clientHeight);o.ctx.lineCap="round";o.ctx.lineJoin="round";
+ o.paths.forEach(path=>{const p=path.pts||path;if(p.length<2)return;o.ctx.save();o.ctx.globalCompositeOperation=path.tool==="eraser"?"destination-out":"source-over";o.ctx.beginPath();o.ctx.strokeStyle="#111";o.ctx.lineWidth=path.tool==="eraser"?Math.max(18,(path.size||5)*3):(path.size||+$("penSize").value);o.ctx.moveTo(...p[0]);p.slice(1).forEach(q=>o.ctx.lineTo(...q));o.ctx.stroke();o.ctx.restore()})
+}
+function clearPad(o){o.paths=[];redraw(o)}
+const mainPad=makePad("pad"),connectionPad=makePad("connectionPad"),dictPad=makePad("dictationPad"),shortPad=makePad("shortPad");addEventListener("resize",()=>[mainPad,connectionPad,dictPad,shortPad].forEach(x=>x.resize()));
+$("clearCanvasBtn").onclick=()=>clearPad(mainPad);$("clearTool").onclick=()=>clearPad(mainPad);$("undoTool").onclick=()=>{mainPad.paths.pop();redraw(mainPad)};
+$("penTool").onclick=()=>{state.tool="pen";$("penTool").classList.add("on");$("eraserTool").classList.remove("on")};$("eraserTool").onclick=()=>{state.tool="eraser";$("eraserTool").classList.add("on");$("penTool").classList.remove("on")};
+
+function addSample(kind,label,pad){state.portfolio.unshift({id:Date.now(),date:new Date().toLocaleDateString(),level:state.profile.level,kind,label,image:pad.c.toDataURL("image/png")});state.portfolio=state.portfolio.slice(0,50);save();renderPortfolio()}
+$("saveSampleBtn").onclick=()=>addSample("practice",$("canvasModel").textContent,mainPad);$("addPortfolioBtn").onclick=()=>{showView("practice");setTimeout(()=>addSample("worksheet",state.activity+" "+state.letter,mainPad),80)};
+$("connections").innerHTML=connections.map(x=>`<button data-conn="${x}">${x}</button>`).join("");document.querySelectorAll("[data-conn]").forEach(b=>b.onclick=()=>{$("connectionModel").textContent=b.dataset.conn;clearPad(connectionPad)});
+$("useConnection").onclick=()=>{const v=$("connectionInput").value.trim();if(v)$("connectionModel").textContent=v};$("clearConnection").onclick=()=>clearPad(connectionPad);$("saveConnection").onclick=()=>addSample("cursive",$("connectionModel").textContent,connectionPad);
+
+function syncDictationToLevel(){const L=state.profile.level;const v=L==="Kindergarten"?"foundation":L==="Elementary 1–2"?"word":L==="Elementary 3–5"?"sentence":L==="Middle School 6–8"?"sentence":L==="High School 9–12"?"academic":"scholarly";$("dictationLevel").value=v}
+let currentDict="";
+$("newDictation").onclick=()=>{const arr=dictation[$("dictationLevel").value];currentDict=arr[Math.floor(Math.random()*arr.length)];$("dictationStatus").textContent="Listen carefully. Write before revealing.";clearPad(dictPad);speak(currentDict)};$("hearAgain").onclick=()=>{if(currentDict)speak(currentDict)};$("reveal").onclick=()=>{$("dictationStatus").textContent=currentDict||"Choose New Prompt."};$("clearDictation").onclick=()=>clearPad(dictPad);$("saveDictation").onclick=()=>{if(currentDict)addSample("dictation",currentDict,dictPad)};
+
+
+const shortDrills={
+ symbols:[
+  {rapid:"→",full:"leads to / therefore"},{rapid:"↑",full:"increase / improve"},{rapid:"↓",full:"decrease / reduce"},
+  {rapid:"vs",full:"versus / compared with"},{rapid:"w/",full:"with"},{rapid:"w/o",full:"without"},{rapid:"b/c",full:"because"}
+ ],
+ abbrev:[
+  {rapid:"govt",full:"government"},{rapid:"info",full:"information"},{rapid:"dept",full:"department"},
+  {rapid:"approx",full:"approximately"},{rapid:"ex",full:"example"},{rapid:"esp",full:"especially"},{rapid:"imp",full:"important"}
+ ],
+ academic:[
+  {rapid:"cause → effect",full:"cause leads to effect"},{rapid:"claim + ev → concl",full:"claim plus evidence leads to a conclusion"},
+  {rapid:"compare A vs B",full:"compare A with B"},{rapid:"obs → rec → concl",full:"observe, record, then conclude"}
+ ],
+ lecture:[
+  {rapid:"Main q: why change? 3 causes → econ / soc / pol",full:"Main question: why did change occur? Three causes: economic, social, and political."},
+  {rapid:"Author arg ≠ data; check src + method",full:"The author's argument does not fully match the data; check the source and method."},
+  {rapid:"Theory A vs B → diff assumptions",full:"Theory A compared with Theory B: identify their different assumptions."}
+ ]
+};
+let currentShort=null;
+function renderShort(){
+ const bank=shortDrills[$("shortLesson").value]||shortDrills.symbols;currentShort=bank[Math.floor(Math.random()*bank.length)];
+ $("shortLessonText").textContent=`Rapid note: ${currentShort.rapid}`;$("shortRevealText").textContent="Write the rapid-note version first.";clearPad(shortPad)
+}
+$("shortLesson").onchange=renderShort;$("shortNew").onclick=renderShort;$("shortHear").onclick=()=>currentShort&&speak(currentShort.full);
+$("shortReveal").onclick=()=>{$("shortRevealText").textContent=currentShort?`Expansion: ${currentShort.full}`:"Choose a drill."};
+$("clearShort").onclick=()=>clearPad(shortPad);$("saveShort").onclick=()=>currentShort&&addSample("shorthand",currentShort.rapid,shortPad);
+
+
+function renderStats(){
+ const mins=Math.max(0,Math.floor((Date.now()-(state.sessionStart||Date.now()))/60000));state.stats.minutes=mins;
+ $("minutesStat").textContent=mins;$("strokesStat").textContent=state.stats.strokes||0;$("linesStat").textContent=state.stats.lines||0;
+ $("lettersStat").textContent=Math.max(1,new Set((state.portfolio||[]).map(x=>x.label)).size);
+}
+setInterval(renderStats,30000);
+
+function renderPortfolio(){const a=state.portfolio||[];$("portfolioGrid").innerHTML=a.length?a.map(x=>`<div class="portItem"><img src="${x.image}" alt=""><strong>${esc(x.label)}</strong><div style="font-size:.72rem;color:#68777b">${esc(x.kind)} · ${esc(x.level)} · ${esc(x.date)}</div></div>`).join(""):`<p>No samples saved yet.</p>`;$("portfolioStrip").innerHTML=a.slice(0,6).map(x=>`<div class="thumb"><img src="${x.image}"><small>${esc(x.date)}</small><small>${esc(x.label)}</small></div>`).join("");$("strokesStat").textContent=state.stats.strokes||0;$("linesStat").textContent=state.stats.lines||0;$("streakStat").textContent=state.stats.days||1}
+$("exportPortfolio").onclick=()=>{const b=new Blob([JSON.stringify({schema:"khaemenes-prose-handwriting-lab-v6",profile:state.profile,portfolio:state.portfolio},null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="prose-handwriting-lab-portfolio.json";a.click();setTimeout(()=>URL.revokeObjectURL(u),500)};$("clearPortfolio").onclick=()=>{if(confirm("Remove all saved handwriting samples?")){state.portfolio=[];save();renderPortfolio()}};
+
+syncDictationToLevel();updateEiren();renderWorksheet();renderPortfolio();renderStats();renderShort();
+})();
+
+/* ===== Breadcrumb navigation ===== */
+const crumbLabels={
+  worksheet:"Worksheet Studio",practice:"Interactive Practice",cursive:"Cursive Lab",
+  dictation:"Listen & Write",shorthand:"Shorthand",portfolio:"Portfolio Growth"
+};
+function updateBreadcrumb(view){
+  const cv=document.getElementById("crumbView");
+  const ca=document.getElementById("crumbActivity");
+  if(cv) cv.textContent=crumbLabels[view]||"Worksheet Studio";
+  if(ca){
+    if(view==="worksheet"){
+      const active=document.querySelector('[data-activity].active,[data-activity].on');
+      ca.textContent=active ? active.textContent.replace(/\s+/g," ").trim() : "Single Letter Practice";
+    } else ca.textContent=crumbLabels[view]||"";
+  }
+}
+document.getElementById("breadcrumbClose")?.addEventListener("click",()=>{
+  if(history.length>1) history.back();
+  else location.href="../";
+});
+document.getElementById("crumbHome")?.addEventListener("click",e=>{e.preventDefault();location.href="../";});
+document.querySelectorAll("[data-view]").forEach(b=>b.addEventListener("click",()=>updateBreadcrumb(b.dataset.view)));
+document.querySelectorAll("[data-activity]").forEach(b=>b.addEventListener("click",()=>setTimeout(()=>updateBreadcrumb("worksheet"),0)));
+updateBreadcrumb("worksheet");
+
+</script>
+<script src="/assets/vnv-beta-link.js" defer></script>
+<div class="footer no-print"><span>Khaemenes Academy · ProResources · ProTools</span><span>PROSE Handwriting Lab · Companion to PROSE Editorial Suite</span><span>Local-first learning</span></div>
+</body>
+</html>
