@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Empire Systems Lab — a sovereign, local-first forensic historical systems reconstruction tool for evidence-centered inquiry.">
+<title>Empire Systems Lab™ | ProReSources ProTools</title>
+<style>
+:root{
+  --bg:#0b1020;--panel:#121a2d;--panel2:#19243b;--line:#31415f;--text:#eef3ff;--muted:#a5b2cd;
+  --purple:#9e88ff;--teal:#66d7c7;--gold:#efc878;--danger:#ff9191;--good:#83e3ad;--radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 12% 0%,#241d4a55,transparent 30%),var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}
+button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:9px 11px;cursor:pointer}
+button:hover{border-color:var(--purple)}
+button.primary{background:var(--purple);border-color:transparent;color:#fff;font-weight:800}
+input,textarea,select{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:9px}
+textarea{min-height:100px;resize:vertical}
+label{display:grid;gap:5px;color:var(--muted);font-size:12px}
+header{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;padding:10px 14px;background:#0d1424ee;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.brand{display:flex;gap:10px;align-items:center}.mark{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--purple);border-radius:12px;color:var(--purple);font-weight:900}.brand small{display:block;color:var(--muted)}.push{margin-left:auto}
+.shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 61px)}
+nav{border-right:1px solid var(--line);padding:12px;background:#0e1525;position:sticky;top:61px;height:calc(100vh - 61px);overflow:auto}
+nav h4{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:15px 7px 5px}
+nav button{width:100%;text-align:left;background:transparent;border-color:transparent;margin:2px 0}
+nav button.active,nav button:hover{background:var(--panel2);border-color:var(--line)}
+main{padding:17px;min-width:0}.page{display:none}.page.active{display:block}
+.hero,.card{border:1px solid var(--line);background:linear-gradient(145deg,var(--panel),#151f34);border-radius:var(--radius);padding:15px;margin-bottom:13px}
+.hero{padding:25px}.hero h1{font-size:clamp(31px,5vw,55px);line-height:1;margin:0 0 10px}.hero p{max-width:900px;color:var(--muted);font-size:16px}
+.rule{border-left:4px solid var(--gold);background:#211e18;padding:12px;border-radius:8px;margin-top:14px}
+.chain{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:17px}.pill{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:7px 10px;font-weight:700}.arrow{color:var(--teal)}
+.grid{display:grid;gap:12px}.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:repeat(3,1fr)}.four{grid-template-columns:repeat(4,1fr)}
+.card h2,.card h3{margin:0 0 9px}.muted{color:var(--muted)}.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px}.kpi strong{display:block;font-size:26px}
+.control{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:10px;margin:8px 0}.control-head{display:flex;justify-content:space-between;gap:10px}.control output{font-weight:900;color:var(--teal)}input[type=range]{padding:0}
+.progress{height:9px;background:#30405a;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--teal))}
+.metric{display:grid;grid-template-columns:1fr 65px;gap:8px;align-items:center;margin:10px 0}
+.bars{height:170px;display:flex;align-items:flex-end;gap:3px;background:#080e19;border:1px solid var(--line);border-radius:10px;padding:8px}.bars i{flex:1;background:linear-gradient(var(--purple),var(--teal));border-radius:3px 3px 0 0}
+.item{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:11px;margin:8px 0}.item h3{margin:0 0 5px}
+.timeline{border-left:2px solid var(--line);padding-left:17px}.event{position:relative;margin-bottom:14px}.event:before{content:"";position:absolute;left:-23px;top:6px;width:10px;height:10px;background:var(--purple);border-radius:50%}
+footer{padding:14px;text-align:center;color:var(--muted);border-top:1px solid var(--line)}
+@media(max-width:900px){.shell{grid-template-columns:1fr}nav{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);display:flex;gap:5px;overflow:auto}nav h4{display:none}nav button{width:auto;white-space:nowrap}.two,.three,.four{grid-template-columns:1fr}}
+@media print{header,nav,button{display:none!important}.shell{display:block}.page{display:block!important;page-break-after:always}main{padding:0}.hero,.card{background:white;color:black;border:1px solid #999}.muted{color:#444}body{background:white;color:black}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand"><div class="mark">E</div><div><b>EMPIRE SYSTEMS LAB™</b><small>Forensic Historical Systems Reconstruction · ProReSources ProTools</small></div></div>
+<div class="push"></div><button id="saveTop">Save Local</button><button id="printTop">Print Report</button>
+</header>
+<div class="shell">
+<nav>
+<h4>Investigation</h4>
+<button class="active" data-page="overview">Overview</button>
+<button data-page="model">System Model</button>
+<button data-page="results">Results</button>
+<button data-page="compare">Compare Scenarios</button>
+<button data-page="cases">Historical Cases</button>
+<h4>Evidence</h4>
+<button data-page="causation">Causation Lab</button>
+<button data-page="agency">Resistance & Agency</button>
+<button data-page="timeline">Evidence Timeline</button>
+<button data-page="notes">Forensic Notebook</button>
+<h4>Workspace</h4>
+<button id="exportBtn">Export Workspace</button>
+<button id="importBtn">Import Workspace</button><input id="importFile" type="file" accept=".json" hidden>
+<button id="resetBtn">Reset</button>
+</nav>
+<main>
+<section id="overview" class="page active">
+<div class="hero"><h1>Empire as a system.</h1><p>Investigate how material capacity, economic incentives, logistics, political structures, ideology, coercion, collaboration, resistance, geography, and human agency can interact in imperial systems.</p>
+<div class="chain"><span class="pill">Industrial capacity</span><span class="arrow">→</span><span class="pill">Resource demand</span><span class="arrow">→</span><span class="pill">Trade</span><span class="arrow">→</span><span class="pill">Transportation</span><span class="arrow">→</span><span class="pill">Military advantage</span><span class="arrow">→</span><span class="pill">Political leverage</span><span class="arrow">→</span><span class="pill">Collaboration / resistance</span><span class="arrow">→</span><span class="pill">Consequences</span></div>
+<div class="rule"><b>Model behavior ≠ historical causation.</b><br>The model tells us what its assumptions produce. History tells us what happened. Evidence allows us to argue why.</div></div>
+<div class="grid three"><div class="kpi">Expansion pressure<strong id="homePressure">—</strong></div><div class="kpi">Resistance potential<strong id="homeResistance">—</strong></div><div class="kpi">Model sensitivity<strong id="homeSensitivity">—</strong></div></div>
+<div class="card" style="margin-top:12px"><h2>Investigation protocol</h2><p class="muted">Change variables deliberately. Record what the simulation does. Form a historical question. Locate evidence. Consider alternative explanations. Examine local actors, collaboration, resistance, ideology, coercion, contingency, and unintended consequences before making a causal argument.</p></div>
+</section>
+<section id="model" class="page"><div class="grid two"><div class="card"><h2>Material & Structural Variables</h2><div id="structControls"></div></div><div class="card"><h2>Political & Social Variables</h2><div id="socialControls"></div></div></div><div class="card"><label>Scenario name<input id="scenarioName" value="Untitled Investigation"></label><div style="margin-top:10px"><button class="primary" id="runBtn">Run Model</button> <button id="monteBtn">Monte Carlo Sensitivity</button> <button id="saveScenarioBtn">Save Scenario</button></div></div></section>
+<section id="results" class="page"><div class="grid four"><div class="kpi">Expansion pressure<strong id="pressure">—</strong></div><div class="kpi">Logistical reach<strong id="reach">—</strong></div><div class="kpi">Political leverage<strong id="leverage">—</strong></div><div class="kpi">Resistance potential<strong id="resistance">—</strong></div></div><div class="grid two" style="margin-top:12px"><div class="card"><h2>Pathway Breakdown</h2><div id="pathways"></div></div><div class="card"><h2>Uncertainty Exploration</h2><div class="bars" id="bars"></div><p class="muted" id="monteText">Run a sensitivity simulation to examine how changing assumptions affects model output.</p></div></div><div class="rule" id="guardrail">No simulation has been interpreted yet.</div></section>
+<section id="compare" class="page"><div class="card"><h2>Saved Scenario Comparison</h2><div id="scenarios"></div></div></section>
+<section id="cases" class="page"><div class="card"><h2>Historical Investigation Prompts</h2><p class="muted">Case prompts suggest questions, not predetermined causes.</p></div><div id="caseGrid" class="grid two"></div></section>
+<section id="causation" class="page"><div class="grid two"><div class="card"><h2>Model Observation</h2><textarea id="claim" placeholder="What does the simulation appear to show?"></textarea><h2 style="margin-top:12px">Historical Evidence Required</h2><textarea id="evidence" placeholder="What evidence would be required before making a historical causal claim?"></textarea></div><div class="card"><h2>Causal Discipline</h2><label><span><input type="checkbox" style="width:auto"> Correlation separated from causation</span></label><label><span><input type="checkbox" style="width:auto"> Alternative explanations considered</span></label><label><span><input type="checkbox" style="width:auto"> Local actors considered</span></label><label><span><input type="checkbox" style="width:auto"> Collaboration and resistance treated as agency</span></label><label><span><input type="checkbox" style="width:auto"> Ideology and coercion considered</span></label><label><span><input type="checkbox" style="width:auto"> Missing evidence identified</span></label><div class="rule">A plausible mechanism is not, by itself, proof of historical causation.</div></div></div></section>
+<section id="agency" class="page"><div class="grid two"><div class="card"><h2>Resistance & Agency Variables</h2><div id="agencyControls"></div></div><div class="card"><h2>Agency Lens</h2><ul class="muted"><li>Who possessed meaningful choices?</li><li>What constrained those choices?</li><li>Who negotiated, collaborated, resisted, accommodated, or changed sides?</li><li>How did geography and local knowledge matter?</li><li>How did imperial actors adapt to resistance?</li><li>Which voices may be absent from official records?</li></ul></div></div></section>
+<section id="timeline" class="page"><div class="card"><h2>Evidence Timeline</h2><div class="grid three"><label>Date / year<input id="eventDate"></label><label>Event<input id="eventTitle"></label><label>Evidence type<select id="eventType"><option>Primary source</option><option>Economic</option><option>Political</option><option>Military</option><option>Resistance</option><option>Ideological</option><option>Other</option></select></label></div><label style="margin-top:8px">Why it matters<textarea id="eventText"></textarea></label><button id="addEvent">Add Event</button></div><div class="card"><div class="timeline" id="timelineList"></div></div></section>
+<section id="notes" class="page"><div class="grid two"><div class="card"><h2>Forensic Notebook</h2><label>Title<input id="noteTitle"></label><label>Observation<textarea id="noteObservation"></textarea></label><label>Evidence / source<textarea id="noteEvidence"></textarea></label><label>Uncertainty / alternative explanation<textarea id="noteUncertainty"></textarea></label><button id="addNote">Save Note</button></div><div class="card"><h2>Saved Notes</h2><div id="noteList"></div></div></div></section>
+</main></div>
+<footer>Empire Systems Lab™ · ProReSources ProTools · Sovereign Historical Inquiry · Local-first educational workspace</footer>
+<script>
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],KEY="empire_systems_lab_public_v1",uid=()=>Date.now()+"_"+Math.random().toString(16).slice(2);
+const defaults={industrial:60,resources:65,finance:60,trade:55,transport:55,military:55,medicine:45,geography:50,fragmentation:45,alliances:45,ideology:55,coercion:60,diplomacy:45,resOrg:55,resResources:45,terrain:50,legitimacy:50,communication:45};
+let state=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{vars:{...defaults},scenarios:[],timeline:[],notes:[]}}catch{return{vars:{...defaults},scenarios:[],timeline:[],notes:[]}}})();let last=null;
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+$$("[data-page]").forEach(b=>b.onclick=()=>{$$(".page").forEach(p=>p.classList.toggle("active",p.id===b.dataset.page));$$("[data-page]").forEach(x=>x.classList.toggle("active",x===b))});
+function control(parent,k,n,h){let d=document.createElement("div");d.className="control";d.innerHTML=`<div class="control-head"><span><b>${n}</b><small class="muted"><br>${h}</small></span><output id="${k}Out">${state.vars[k]}</output></div><input id="${k}" type="range" min="0" max="100" value="${state.vars[k]}">`;parent.appendChild(d);$("#"+k).oninput=e=>{state.vars[k]=+e.target.value;$("#"+k+"Out").value=e.target.value;save()}}
+[["industrial","Industrial capacity","Production scale and manufactured output."],["resources","Resource demand","Demand for raw materials, markets, or strategic inputs."],["finance","Finance & credit","Capacity to fund investment and sustained operations."],["trade","Trade integration","Commercial networks and market access."],["transport","Transportation","Ships, railways, roads, canals, ports, and supply."],["military","Military advantage","Weapons, organization, communications, and operational capacity."],["medicine","Medicine & disease environment","Capacity to operate across unfamiliar disease environments."],["geography","Geographic accessibility","Terrain, climate, distance, rivers, coasts, and chokepoints."]].forEach(x=>control($("#structControls"),...x));
+[["fragmentation","Political divisions","Competing authorities, rivalries, and divided political structures."],["alliances","Local alliances","Partnerships, intermediaries, merchants, rulers, and military allies."],["ideology","Imperial ideology","National, racial, religious, strategic, or civilizing justifications."],["coercion","Coercive capacity","Threat, force, punitive action, or imposed agreements."],["diplomacy","Diplomatic leverage","Treaties, recognition, debt, bargaining, and interstate pressure."]].forEach(x=>control($("#socialControls"),...x));
+[["resOrg","Resistance organization","Leadership, coordination, institutions, and mobilization."],["resResources","Resistance resources","Material support, weapons, food, finance, allies, and safe areas."],["terrain","Defensive terrain","Geographic barriers and local environmental knowledge."],["legitimacy","Political legitimacy","Capacity to mobilize and sustain support."],["communication","Communication networks","Information sharing, messengers, print, roads, and other networks."]].forEach(x=>control($("#agencyControls"),...x));
+const clamp=v=>Math.max(0,Math.min(100,v));
+function model(v=state.vars){let economic=clamp(v.industrial*.28+v.resources*.24+v.finance*.22+v.trade*.26),reach=clamp(v.transport*.30+v.finance*.18+v.medicine*.15+v.geography*.16+v.military*.21),leverage=clamp(v.military*.22+v.diplomacy*.22+v.alliances*.20+v.fragmentation*.14+v.finance*.12+v.coercion*.10),resistance=clamp(v.resOrg*.28+v.resResources*.22+v.terrain*.20+v.legitimacy*.18+v.communication*.12-v.alliances*.08-v.fragmentation*.08),ideology=clamp(v.ideology*.55+v.resources*.20+v.trade*.15+v.coercion*.10),pressure=clamp(economic*.26+reach*.24+leverage*.24+ideology*.18+v.coercion*.08-resistance*.18);return{economic,reach,leverage,resistance,ideology,pressure}}
+function render(r){last=r;let p=v=>Math.round(v)+"%";$("#pressure").textContent=$("#homePressure").textContent=p(r.pressure);$("#reach").textContent=p(r.reach);$("#leverage").textContent=p(r.leverage);$("#resistance").textContent=$("#homeResistance").textContent=p(r.resistance);$("#pathways").innerHTML=[["Economic pressure",r.economic],["Logistical reach",r.reach],["Political leverage",r.leverage],["Ideological drive",r.ideology],["Resistance potential",r.resistance]].map(([n,v])=>`<div class="metric"><div><b>${n}</b><div class="progress"><span style="width:${v}%"></span></div></div><b>${p(v)}</b></div>`).join("");$("#guardrail").innerHTML=`The current assumptions produce <b>${p(r.pressure)}</b> expansion pressure and <b>${p(r.resistance)}</b> resistance potential. These values describe model behavior only. Historical causation requires independent evidence connecting real actors, institutions, decisions, and events.`}
+$("#runBtn").onclick=()=>{render(model());document.querySelector('[data-page="results"]').click()};
+function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+$("#monteBtn").onclick=()=>{let a=[];for(let i=0;i<1000;i++){let v={};for(let[k,x]of Object.entries(state.vars))v[k]=clamp(x+randn()*5);a.push(model(v).pressure)}a.sort((x,y)=>x-y);let bins=Array(20).fill(0);a.forEach(x=>bins[Math.min(19,Math.floor(x/5))]++);let max=Math.max(...bins),mean=a.reduce((x,y)=>x+y)/a.length,lo=a[50],hi=a[950];$("#bars").innerHTML=bins.map(x=>`<i style="height:${Math.max(2,x/max*100)}%"></i>`).join("");$("#monteText").textContent=`1,000 sensitivity runs · mean ${mean.toFixed(1)}% · 90% model interval ${lo.toFixed(1)}–${hi.toFixed(1)}%. This represents sensitivity to assumptions, not a statistical confidence interval for historical truth.`;$("#homeSensitivity").textContent=(hi-lo).toFixed(1)+" pts";render(model());document.querySelector('[data-page="results"]').click()};
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function scenarios(){let el=$("#scenarios");el.innerHTML=state.scenarios.length?state.scenarios.map(s=>`<div class="item"><h3>${esc(s.name)}</h3><p class="muted">Expansion pressure ${Math.round(s.result.pressure)}% · Reach ${Math.round(s.result.reach)}% · Leverage ${Math.round(s.result.leverage)}% · Resistance ${Math.round(s.result.resistance)}%</p><button data-load="${s.id}">Load</button> <button data-del="${s.id}">Delete</button></div>`).join(""):`<p class="muted">No saved scenarios yet.</p>`;$$("[data-load]").forEach(b=>b.onclick=()=>{let s=state.scenarios.find(x=>x.id===b.dataset.load);state.vars={...s.vars};Object.entries(state.vars).forEach(([k,v])=>{if($("#"+k)){$("#"+k).value=v;$("#"+k+"Out").value=v}});$("#scenarioName").value=s.name;render(s.result);document.querySelector('[data-page="model"]').click()});$$("[data-del]").forEach(b=>b.onclick=()=>{state.scenarios=state.scenarios.filter(x=>x.id!==b.dataset.del);save();scenarios()})}
+$("#saveScenarioBtn").onclick=()=>{let r=last||model();state.scenarios.unshift({id:uid(),name:$("#scenarioName").value||"Untitled Investigation",vars:{...state.vars},result:r});save();scenarios()};
+const cases=[["British India","Investigate company rule, finance, transportation, local alliances, political structures, 1857, revenue systems, and later nationalist movements."],["Congo Free State","Examine resource demand, concession systems, coercion, logistics, resistance, testimony, and international reform campaigns."],["French Algeria","Explore conquest, settler interests, land, coercion, terrain, resistance, political legitimacy, and decolonization."],["Scramble for Africa","Compare medicine, transport, industrial demand, diplomacy, ideology, local alliances, African political systems, and resistance across regions."],["Meiji Japan and Imperial Expansion","Apply the same analytical framework to a non-European imperial power and examine modernization, regional competition, colonial administration, and resistance."],["Ethiopia and Adwa","Test a high-resistance scenario and investigate political cohesion, diplomacy, terrain, arms access, organization, and legitimacy."],["Southeast Asia","Compare differing outcomes across Burma, Vietnam, Siam, Indonesia, and the Philippines."],["Informal Empire","Explore influence through finance, trade, diplomacy, and political leverage without assuming direct territorial annexation."]];
+$("#caseGrid").innerHTML=cases.map(([n,d])=>`<div class="card"><h2>${n}</h2><p class="muted">${d}</p><button data-case="${n}">Begin Investigation</button></div>`).join("");$$("[data-case]").forEach(b=>b.onclick=()=>{$("#scenarioName").value=b.dataset.case+" Investigation";document.querySelector('[data-page="model"]').click()});
+function timeline(){let a=[...state.timeline].sort((x,y)=>String(x.date).localeCompare(String(y.date)));$("#timelineList").innerHTML=a.length?a.map(e=>`<div class="event"><small class="muted">${esc(e.date)} · ${esc(e.type)}</small><h3>${esc(e.title)}</h3><p class="muted">${esc(e.text)}</p><button data-de="${e.id}">Delete</button></div>`).join(""):`<p class="muted">No evidence events yet.</p>`;$$("[data-de]").forEach(b=>b.onclick=()=>{state.timeline=state.timeline.filter(x=>x.id!==b.dataset.de);save();timeline()})}
+$("#addEvent").onclick=()=>{if(!$("#eventDate").value||!$("#eventTitle").value)return alert("Add a date/year and event.");state.timeline.push({id:uid(),date:$("#eventDate").value,title:$("#eventTitle").value,type:$("#eventType").value,text:$("#eventText").value});save();timeline();$("#eventTitle").value=$("#eventText").value=""};
+function notes(){let el=$("#noteList");el.innerHTML=state.notes.length?state.notes.map(n=>`<div class="item"><h3>${esc(n.title)}</h3><p>${esc(n.observation)}</p><p class="muted"><b>Evidence:</b> ${esc(n.evidence)}<br><b>Uncertainty:</b> ${esc(n.uncertainty)}</p><button data-dn="${n.id}">Delete</button></div>`).join(""):`<p class="muted">No notebook entries yet.</p>`;$$("[data-dn]").forEach(b=>b.onclick=()=>{state.notes=state.notes.filter(x=>x.id!==b.dataset.dn);save();notes()})}
+$("#addNote").onclick=()=>{state.notes.unshift({id:uid(),title:$("#noteTitle").value||"Untitled Note",observation:$("#noteObservation").value,evidence:$("#noteEvidence").value,uncertainty:$("#noteUncertainty").value});save();notes();$("#noteTitle").value=$("#noteObservation").value=$("#noteEvidence").value=$("#noteUncertainty").value=""};
+$("#saveTop").onclick=()=>{save();alert("Workspace saved locally in this browser.")};$("#printTop").onclick=()=>print();
+$("#exportBtn").onclick=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}));a.download="Empire_Systems_Lab_Workspace.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$("#importBtn").onclick=()=>$("#importFile").click();$("#importFile").onchange=async e=>{try{state=JSON.parse(await e.target.files[0].text());save();location.reload()}catch{alert("That workspace file could not be imported.")}};
+$("#resetBtn").onclick=()=>{if(confirm("Erase this locally stored Empire Systems Lab workspace?")){localStorage.removeItem(KEY);location.reload()}};
+render(model());scenarios();timeline();notes();save();
+</script>
+</body></html>
+Empire_Systems_Lab_index.html
+HTML
+Empire_Systems_Lab_README.md
+Document
