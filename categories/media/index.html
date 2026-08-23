@@ -24,4 +24,6 @@ tickerBtn.onclick=()=>{ticker.classList.toggle("paused");const p=ticker.classLis
 const overlay=document.getElementById("overlay");function openMenu(){overlay.classList.add("open");document.body.classList.add("menu-open")}function closeMenu(){overlay.classList.remove("open");document.body.classList.remove("menu-open")}
 document.getElementById("menuBtn").onclick=openMenu;document.getElementById("closeBtn").onclick=closeMenu;overlay.onclick=e=>{if(e.target===overlay)closeMenu()};document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu()});
 document.getElementById("categorySelect").onchange=e=>{if(e.target.value)location.href=e.target.value};
-</script></body></html>
+</script>
+<script src="/assets/vnv-beta-link.js" defer></script>
+</body></html>
