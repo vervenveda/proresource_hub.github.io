@@ -440,7 +440,7 @@ function receiveReadingPractice(){
 
  // Consume only the expected short vocabulary payload, then clear URL history.
  try{history.replaceState(null,"",location.pathname+location.search)}catch{}
- if(!word||word.length>80||/[\\x00-\\x1f]/.test(word))return;
+ if(!word||Array.from(word).length>80||Array.from(word).some(ch=>ch.charCodeAt(0)<32))return;
  if(!Object.prototype.hasOwnProperty.call(handwritingPracticeLanguages,code))return;
  $("handwritingPracticeLanguage").value=code;
  $("customWord").value=word;
