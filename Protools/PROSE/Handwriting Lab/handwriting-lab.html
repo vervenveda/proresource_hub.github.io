@@ -224,6 +224,13 @@ header select{
 <div class="nameRow"><div class="lineField">Name: <span id="nameDisplay"></span></div><div class="lineField date">Date: <span id="dateDisplay"></span></div></div>
 <div class="pageTitle"><div class="script">Cursive</div><div class="block">WRITING PRACTICE</div><p>Trace and write the letter.</p></div>
 <div class="flowers">🌿🌼</div>
+<div id="bilingualWritingCard" hidden style="border:1px solid #d7dfdf;border-radius:7px;padding:14px;margin:12px 0;text-align:center;overflow-wrap:anywhere">
+  <strong>Bilingual Vocabulary Practice</strong>
+  <p id="bilingualSource" style="font-size:1.3rem;margin:8px 0"></p>
+  <p id="bilingualTranslation" style="font-size:1.1rem;margin:8px 0"></p>
+  <small>Reviewed translation supplied by the Linguistics reader. Practice the spelling; stroke instructions are not validated for all scripts.</small>
+</div>
+
 <div class="instructionBox">
 <div><h3 id="howTitle">How to write capital A</h3><div class="demo"><div class="bigLetter" id="demoLetter">A</div><div class="steps" id="strokeSteps"></div></div></div>
 <div><h3>Try it here!</h3><div class="tryBox"><div class="tryModel"><span id="trySolid">A</span><span id="tryTrace">A</span></div><div class="guideline" style="position:absolute;inset:auto 0 20px 0"><span class="mid"></span></div></div></div>
@@ -416,12 +423,23 @@ function receiveReadingPractice(){
  if(!fragment.startsWith("vnv-practice="))return;
  const params=new URLSearchParams(fragment);
  const word=(params.get("vnv-practice")||"").trim(),code=params.get("lang")||"en";
+ const translated=(params.get("translation")||"").trim().slice(0,120),targetCode=params.get("targetLang")||"";
+
  // Consume only the expected short vocabulary payload, then clear URL history.
  try{history.replaceState(null,"",location.pathname+location.search)}catch{}
  if(!word||word.length>80||/[\\x00-\\x1f]/.test(word))return;
  if(!Object.prototype.hasOwnProperty.call(handwritingPracticeLanguages,code))return;
  $("handwritingPracticeLanguage").value=code;
  $("customWord").value=word;
+ if(translated&&/^[a-z]{2}$/.test(targetCode)){
+  const card=$("bilingualWritingCard");
+  $("bilingualSource").textContent=word;
+  $("bilingualSource").lang=code;
+  $("bilingualTranslation").textContent=translated;
+  $("bilingualTranslation").lang=targetCode;
+  $("bilingualTranslation").dir=targetCode==="ar"?"rtl":"ltr";
+  card.hidden=false;
+ }
  $("customWord").lang=code;
  $("handwritingPracticeLanguage").dispatchEvent(new Event("change"));
  const activity=document.querySelector('[data-activity="custom"]');
