@@ -198,7 +198,13 @@ header select{
 <div class="sideSection"><h3>3. Options</h3>
 <div class="opt"><label>Paper Style</label><select id="paperStyle"><option value="traditional">Traditional (Dashed Midline)</option><option value="simple">Simple Lines</option></select></div>
 <div class="opt"><label>Line Spacing</label><select id="lineSpace"><option value="wide">Wide</option><option value="regular">Regular</option><option value="narrow">Narrow</option></select></div>
-<div class="opt"><label>Custom word / name</label><input id="customWord" type="text" placeholder="Jennifer"></div>
+<div class="opt"><label for="handwritingPracticeLanguage">Practice language (Latin-script starter)</label>
+<select id="handwritingPracticeLanguage">
+<option value="en">English</option><option value="es">Spanish</option><option value="fr">French</option><option value="de">German</option><option value="pt">Portuguese</option><option value="it">Italian</option>
+</select></div>
+<div class="opt"><label for="customWord">Custom word / name</label><input id="customWord" type="text" maxlength="80" placeholder="Choose a practice word" autocomplete="off"></div>
+<p id="handwritingLanguageNote" style="font-size:.84rem;line-height:1.5" role="status" aria-live="polite">Use familiar Latin-script words. Cursive stroke lessons remain English-alphabet demonstrations; accents and letter variants require separate instruction.</p>
+<button class="primary wide" id="handwritingUseVocabulary" type="button">Practice Custom Vocabulary</button>
 <div class="colors"><button class="colorDot on" data-color="#777" style="background:#777"></button><button class="colorDot" data-color="#138a82" style="background:#138a82"></button><button class="colorDot" data-color="#735cb9" style="background:#735cb9"></button><button class="colorDot" data-color="#dc5a95" style="background:#dc5a95"></button></div>
 <label style="display:block;margin-top:10px;font-size:.8rem"><input type="checkbox" id="showArrows" checked> Show direction arrows</label>
 <label style="display:block;margin-top:6px;font-size:.8rem"><input type="checkbox" id="leftHanded"> Left-handed guide</label>
@@ -389,6 +395,20 @@ document.querySelectorAll("[data-form]").forEach(b=>b.onclick=()=>{document.quer
 document.querySelectorAll("[data-color]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-color]").forEach(x=>x.classList.remove("on"));b.classList.add("on");state.traceColor=b.dataset.color;renderWorksheet();save()});
 $("prevLetter").onclick=()=>shiftLetter(-1);$("nextLetter").onclick=()=>shiftLetter(1);
 function shiftLetter(d){const i=letters.indexOf(state.letter);state.letter=letters[(i+d+letters.length)%letters.length];renderWorksheet();save()}
+const handwritingPracticeLanguages={en:"English",es:"Spanish",fr:"French",de:"German",pt:"Portuguese",it:"Italian"};
+$("handwritingPracticeLanguage").addEventListener("change",()=>{
+ const code=$("handwritingPracticeLanguage").value;
+ $("customWord").lang=code;
+ $("handwritingLanguageNote").textContent=(handwritingPracticeLanguages[code]||"Latin-script")+" practice selected. Letter tracing models show general Latin forms; they do not teach language-specific letter shapes or accents.";
+});
+$("handwritingUseVocabulary").addEventListener("click",()=>{
+ const word=$("customWord").value.trim();
+ if(!word){$("handwritingLanguageNote").textContent="Enter or paste a practice word first."; $("customWord").focus();return;}
+ const button=document.querySelector('[data-activity="custom"]');
+ if(button)button.click();
+ else{state.activity="custom";renderWorksheet();}
+ $("handwritingLanguageNote").textContent="Practice word prepared. Review spelling and trace or print at your own pace.";
+});
 $("customWord").oninput=()=>{if(state.activity==="custom")renderWorksheet()};
 $("showArrows").onchange=renderWorksheet;$("leftHanded").onchange=()=>{document.body.classList.toggle("leftGuide",$("leftHanded").checked);renderWorksheet()};$("paperStyle").onchange=renderWorksheet;$("lineSpace").onchange=renderWorksheet;
 
@@ -400,7 +420,7 @@ function renderWorksheet(){
  let rows="";
  if(activity==="group"){const families=[["C","O","Q","G"],["L","I","T","J"],["A","M","N","V","W"],["B","P","R"],["E","F","H","K"],["S","U","X","Y","Z","D"]];const fi=Math.floor(letters.indexOf(L)/5)%families.length;families[fi].forEach(x=>{rows+=makeGuideline(`${x}  ${x}  ${x}  ${x}  ${x}`,true)+makeGuideline(`${x.toLowerCase()}  ${x.toLowerCase()}  ${x.toLowerCase()}  ${x.toLowerCase()}  ${x.toLowerCase()}`,true)});}
  else if(activity==="print"){rows=makeGuideline(`${L} ${L} ${L} ${L} ${L} ${L}`,false)+makeGuideline(`${l} ${l} ${l} ${l} ${l} ${l}`,false)+makeGuideline("",false)+makeGuideline("",false)+makeGuideline("",false);}
- else if(activity==="custom"){const t=custom||"Your Name";rows=makeGuideline(`${t}   ${t}`,true)+makeGuideline(`${t}   ${t}`,true)+makeGuideline("",true)+makeGuideline("",true)+makeGuideline("",true);}
+ else if(activity==="custom"){const t=custom||"Your Name";rows=makeGuideline(`${esc(t)}   ${esc(t)}`,false)+makeGuideline(`${esc(t)}   ${esc(t)}`,false)+makeGuideline("",true)+makeGuideline("",true)+makeGuideline("",true);}
  else {rows=makeGuideline(`${L}  ${L}  ${L}  ${L}  ${L}  ${L}`,true)+makeGuideline(`${l}  ${l}  ${l}  ${l}  ${l}  ${l}`,true)+makeGuideline("",true)+makeGuideline("",true)+makeGuideline("",true)+makeGuideline("",true);}
  $("guideRows").innerHTML=rows;
  const isPrint=activity==="print"||state.form==="print";document.querySelectorAll(".bigLetter,.tryModel,.traceText").forEach(el=>{if(isPrint)el.style.fontFamily="Arial,sans-serif"});
