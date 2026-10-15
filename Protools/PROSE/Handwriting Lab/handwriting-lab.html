@@ -229,6 +229,19 @@ header select{
   <p id="bilingualSource" style="font-size:1.3rem;margin:8px 0"></p>
   <p id="bilingualTranslation" style="font-size:1.1rem;margin:8px 0"></p>
   <small>Reviewed translation supplied by the Linguistics reader. Practice the spelling; stroke instructions are not validated for all scripts.</small>
+  <div class="actions no-print" aria-label="Bilingual pronunciation">
+    <button type="button" id="bilingualHearSource">Hear source</button>
+    <button type="button" id="bilingualHearTranslation">Hear translation</button>
+    <button type="button" id="bilingualStopVoice">Stop voice</button>
+  </div>
+  <p class="no-print" style="font-size:.85rem">Audio depends on voices installed or provided by your device or browser.</p>
+  <div class="no-print" style="margin-top:12px;text-align:left;border-top:1px solid #d7dfdf;padding-top:10px">
+    <label for="bilingualRecall">Recall practice: type the original word without looking above</label>
+    <input id="bilingualRecall" type="text" maxlength="80" autocomplete="off" style="width:100%;margin-top:7px">
+    <button type="button" id="bilingualCheckRecall">Check recall</button>
+    <p id="bilingualRecallStatus" role="status" aria-live="polite"></p>
+  </div>
+  <p style="font-size:.82rem">Print guidance: copy the displayed word onto the ruled lines. The Latin-script worksheet uses general guidelines; script-specific strokes and accents require separate instruction.</p>
 </div>
 
 <div class="instructionBox">
@@ -447,6 +460,29 @@ function receiveReadingPractice(){
  $("handwritingLanguageNote").textContent="Vocabulary received for optional practice. Nothing was saved to your handwriting portfolio.";
 }
 receiveReadingPractice();
+function bilingualSpeak(elementId){
+ const element=$(elementId),text=element?.textContent?.trim();
+ if(!text)return;
+ if(!window.speechSynthesis||typeof SpeechSynthesisUtterance==="undefined"){
+  $("bilingualRecallStatus").textContent="Speech is not supported by this browser.";return;
+ }
+ speechSynthesis.cancel();
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang=element.lang||"en";
+ utterance.rate=.85;
+ speechSynthesis.speak(utterance);
+}
+$("bilingualHearSource").addEventListener("click",()=>bilingualSpeak("bilingualSource"));
+$("bilingualHearTranslation").addEventListener("click",()=>bilingualSpeak("bilingualTranslation"));
+$("bilingualStopVoice").addEventListener("click",()=>window.speechSynthesis?.cancel());
+$("bilingualCheckRecall").addEventListener("click",()=>{
+ const answer=$("bilingualRecall").value.normalize("NFC").trim();
+ const expected=$("bilingualSource").textContent.normalize("NFC").trim();
+ const status=$("bilingualRecallStatus");
+ if(!answer){status.textContent="Write your recalled word first.";return}
+ status.textContent=answer===expected?"Correct spelling. Keep practicing your handwriting.":"Not an exact match yet. Review the original word and try again.";
+});
+
 
 $("showArrows").onchange=renderWorksheet;$("leftHanded").onchange=()=>{document.body.classList.toggle("leftGuide",$("leftHanded").checked);renderWorksheet()};$("paperStyle").onchange=renderWorksheet;$("lineSpace").onchange=renderWorksheet;
 
