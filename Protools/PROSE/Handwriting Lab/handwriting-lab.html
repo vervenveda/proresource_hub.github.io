@@ -410,6 +410,26 @@ $("handwritingUseVocabulary").addEventListener("click",()=>{
  $("handwritingLanguageNote").textContent="Practice word prepared. Review spelling and trace or print at your own pace.";
 });
 $("customWord").oninput=()=>{if(state.activity==="custom")renderWorksheet()};
+/* Opt-in vocabulary handoff: fragment stays out of HTTP requests; never auto-save a student record. */
+function receiveReadingPractice(){
+ const fragment=location.hash.slice(1);
+ if(!fragment.startsWith("vnv-practice="))return;
+ const params=new URLSearchParams(fragment);
+ const word=(params.get("vnv-practice")||"").trim(),code=params.get("lang")||"en";
+ // Consume only the expected short vocabulary payload, then clear URL history.
+ try{history.replaceState(null,"",location.pathname+location.search)}catch{}
+ if(!word||word.length>80||/[\\x00-\\x1f]/.test(word))return;
+ if(!Object.prototype.hasOwnProperty.call(handwritingPracticeLanguages,code))return;
+ $("handwritingPracticeLanguage").value=code;
+ $("customWord").value=word;
+ $("customWord").lang=code;
+ $("handwritingPracticeLanguage").dispatchEvent(new Event("change"));
+ const activity=document.querySelector('[data-activity="custom"]');
+ if(activity)activity.click();
+ $("handwritingLanguageNote").textContent="Vocabulary received for optional practice. Nothing was saved to your handwriting portfolio.";
+}
+receiveReadingPractice();
+
 $("showArrows").onchange=renderWorksheet;$("leftHanded").onchange=()=>{document.body.classList.toggle("leftGuide",$("leftHanded").checked);renderWorksheet()};$("paperStyle").onchange=renderWorksheet;$("lineSpace").onchange=renderWorksheet;
 
 function steps(letter,lower=false){const arr=(lower?lowerStrokeData[String(letter).toLowerCase()]:strokeData[String(letter).toUpperCase()])||["Begin at the appropriate writing line.","Follow the letterform smoothly.","Finish on or through the baseline as required."];return arr.map((x,i)=>`<div><span class="stepNum">${i+1}</span><span>${esc(x)}</span>${$("showArrows").checked?'<span class="directionBadge">→</span>':''}</div>`).join("")}
