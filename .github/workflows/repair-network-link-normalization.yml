@@ -1,0 +1,79 @@
+name: Repair Network Link Normalization
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/repair-network-link-normalization.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repair-proresources-network-links
+  cancel-in-progress: true
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Normalize moved 333 and KhaeZip destinations
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          pairs=[
+              ('../.https://vervenveda.github.io/333.github.io/','https://vervenveda.github.io/333.github.io/'),
+              ('KhaeZip™ Protected Archive Studio_index.html','KhaeZip™_index.html'),
+          ]
+          files=replacements=0
+          for p in Path(".").rglob("*.html"):
+              if any(part in {'.git','.github','node_modules','vendor'} for part in p.parts):
+                  continue
+              s=p.read_text(encoding="utf-8",errors="ignore")
+              n=s
+              local=0
+              for a,b in pairs:
+                  local += n.count(a)
+                  n=n.replace(a,b)
+              if n!=s:
+                  p.write_text(n,encoding="utf-8")
+                  files+=1
+                  replacements+=local
+          print(f"Normalized {replacements} stale network/archive link(s) across {files} file(s).")
+          PY
+
+      - name: Verify
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          bad=[]
+          for p in Path(".").rglob("*.html"):
+              if any(part in {'.git','.github','node_modules','vendor'} for part in p.parts):
+                  continue
+              s=p.read_text(encoding="utf-8",errors="ignore")
+              if '../.https://vervenveda.github.io/333.github.io/' in s:
+                  bad.append(str(p))
+              if 'KhaeZip™ Protected Archive Studio_index.html' in s:
+                  bad.append(str(p))
+          assert not bad, bad[:20]
+          print("ProReSources network-link regression PASS.")
+          PY
+
+      - name: Commit repairs
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- '*.html')" ]; then
+            echo "No network-link repairs needed."
+            exit 0
+          fi
+          git config user.name "ProReSources Repair"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html'
+          git commit -m "Normalize moved network and archive tool links"
+          git pull --rebase origin main
+          git push
