@@ -75,5 +75,12 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -- '*.html'
           git commit -m "Normalize moved network and archive tool links"
-          git pull --rebase origin main
-          git push
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push; then
+              exit 0
+            fi
+            echo "Push race on attempt $attempt; retrying after rebase."
+          done
+          echo "Unable to publish repairs after three rebased attempts." >&2
+          exit 1
