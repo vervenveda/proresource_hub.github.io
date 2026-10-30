@@ -2086,7 +2086,8 @@ printStaffBtn.onclick = ()=>{
   const printDocument = `<!doctype html><html><head><meta charset="utf-8"><title>${currentTrack.name}</title>
   <style>body{margin:32px;color:#111;font-family:Georgia,serif}h1{font-size:24px}p{color:#555;font:14px system-ui}svg{width:100%;height:auto;background:#fff;border:1px solid #bbb}svg line{stroke:#111!important}svg ellipse{fill:#111!important;stroke:#111!important}svg text{fill:#111!important}</style>
   </head><body><h1>${currentTrack.name}</h1><p>Harmony's Haven Studio™ · ${currentTrack.notes.length} recorded notes</p>${staffMain.innerHTML}
-  <script>setTimeout(()=>window.print(),180);<\/script></body></html>`;
+  <script>setTimeout(()=>window.print(),180);<\/script><script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
+</body></html>`;
   win.document.write(printDocument);
   win.document.close();
 };
@@ -2216,6 +2217,6 @@ window.addEventListener("beforeunload",()=>saveLocalProject("Project saved local
 
 
 </script>
-<script src="/assets/vnv-beta-link.js" defer></script>
+
 </body>
 </html>

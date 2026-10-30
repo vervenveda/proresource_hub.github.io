@@ -779,7 +779,7 @@ function printDrawing(){
     @page{size:landscape;margin:10mm}
     *{box-sizing:border-box}body{margin:0;color:#111;font:11px/1.4 Arial,sans-serif}header{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;border-bottom:1px solid #777;padding-bottom:7px;margin-bottom:8px}h1{margin:0;font:700 22px Georgia,serif}header p{margin:2px 0}svg{display:block;width:100%;max-height:72vh;border:1px solid #999;background:white}table{width:100%;border-collapse:collapse;margin-top:10px;font-size:9px}th,td{border:1px solid #aaa;padding:4px;text-align:left;vertical-align:top}th{background:#eee}.note{margin-top:8px;color:#555}
   </style></head><body><header><div><h1>${xml(state.name)}</h1><p>OHMIC Foundry™ Protected CAD Studio</p></div><div><p>Sheet: ${xml(fmt(state.sheet.w))} × ${xml(fmt(state.sheet.h))} ${xml(UNIT_LABEL[state.displayUnit])}</p><p>Scale note: ${xml(state.scale)} · ${visible.length} visible objects</p><p>Printed: ${xml(new Date().toLocaleString())}</p></div></header>${buildSVG()}${partRows?`<h2>Model-Based Definition Schedule</h2><table><thead><tr><th>Part</th><th>Object</th><th>Assembly</th><th>Material</th><th>Tolerance</th><th>Layer</th></tr></thead><tbody>${partRows}</tbody></table>`:""}<p class="note">Concept-planning output. Independently verify engineering, code, manufacturing, permitting, and construction requirements.</p><script>setTimeout(()=>window.print(),260);<\/script><script src="https://vervenveda.com/assets/vnv-support.js" defer></script>
-<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js" defer data-vnv-ecosystem-toolbar="1"></script>
+<script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body></html>`;
   win.document.write(doc);
   win.document.close();
