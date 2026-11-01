@@ -472,24 +472,6 @@ img,svg{max-width:100%}
 </div>
 <a class="skip-link" href="#catalog">Skip to professional tools</a>
 
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a class="brand" href="#top" aria-label="ProReSources home">
-      <span class="brand-mark" aria-hidden="true">PR</span>
-      <span class="brand-copy"><strong>ProReSources</strong><small>Professional Tool Matrix</small></span>
-    </a>
-
-    <nav class="header-actions" aria-label="Primary navigation">
-      <a class="header-link section-nav" href="#launch">Launchpad</a>
-      <a class="header-link section-nav" href="#catalog">Tools</a>
-      <a class="header-link section-nav" href="#roadmap">Roadmap</a>
-      <a class="header-link section-nav" href="#network">Network</a>
-      <a class="header-link home-link" href="https://vervenveda.github.io/">Verve N Veda</a>
-      <button class="menu-button" id="menuButton" type="button" aria-controls="networkDrawer" aria-expanded="false">Matrix Menu</button>
-    </nav>
-  </div>
-</header>
-
 <main id="top">
   <section class="hero" aria-labelledby="heroTitle">
     <div class="wrap hero-inner">
@@ -892,7 +874,7 @@ function openDrawer(){
   lastFocusedElement = document.activeElement;
   $("#networkDrawer").classList.add("open");
   $("#networkDrawer").setAttribute("aria-hidden","false");
-  $("#menuButton").setAttribute("aria-expanded","true");
+  $("#menuButton")?.setAttribute("aria-expanded","true");
   document.body.classList.add("menu-open");
   setTimeout(() => $("#drawerSearch").focus(), 80);
 }
@@ -900,7 +882,7 @@ function openDrawer(){
 function closeDrawer(){
   $("#networkDrawer").classList.remove("open");
   $("#networkDrawer").setAttribute("aria-hidden","true");
-  $("#menuButton").setAttribute("aria-expanded","false");
+  $("#menuButton")?.setAttribute("aria-expanded","false");
   document.body.classList.remove("menu-open");
   $("#drawerSearch").value = "";
   drawerCategory = "All";
@@ -950,7 +932,13 @@ $("#favoritesOnly").addEventListener("click", () => {
   filterTools();
 });
 
-$("#menuButton").addEventListener("click", openDrawer);
+$("#menuButton")?.addEventListener("click", openDrawer);
+document.addEventListener("click", event => {
+  const link=event.target.closest?.('a[href="#matrix-menu"]');
+  if(!link)return;
+  event.preventDefault();
+  openDrawer();
+});
 $("#closeDrawer").addEventListener("click", closeDrawer);
 $("#networkDrawer").addEventListener("click", event => {if(event.target === $("#networkDrawer")) closeDrawer();});
 $("#drawerSearch").addEventListener("input", renderDrawer);
@@ -975,7 +963,11 @@ document.addEventListener("keydown", event => {
 <script defer src="https://vervenveda.com/assets/vnv-external-landing.js"></script>
 
 <script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
-<script>VNV_HEADER.mount({replaceLegacy:true});</script>
+<script>VNV_HEADER.mount({"title":"ProReSources","subtitle":"Professional Tool Matrix","icon":"PR","home":"#top","actions":[{"label":"Launchpad","href":"#launch"},{"label":"Tools","href":"#catalog"},{"label":"Roadmap","href":"#roadmap"},{"label":"Matrix Menu","href":"#matrix-menu"},{"label":"Verve N Veda","href":"https://vervenveda.com/"}]});</script>
+<script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
+<script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
+<script>VNV_TICKER.autoPopulate({label:"ProReSources Quick Links",max:12});</script>
+<script>VNV_HEADER.mount({"title":"ProReSources","subtitle":"Professional Tool Matrix","icon":"PR","home":"#top","actions":[{"label":"Launchpad","href":"#launch"},{"label":"Tools","href":"#catalog"},{"label":"Roadmap","href":"#roadmap"},{"label":"Matrix Menu","href":"#matrix-menu"},{"label":"Verve N Veda","href":"https://vervenveda.com/"}]});</script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>
