@@ -132,4 +132,12 @@ if(window.VNV_HEADER?.mount){
 }
 </script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
+<!-- Opt-in read-only page audit; never runs for ordinary visitors. -->
+<script id="vnv-page-audit-optin-loader">
+if(new URLSearchParams(location.search).get("page_audit")==="1"){
+  const auditScript=document.createElement("script");
+  auditScript.src="./assets/vnv-page-audit-optin.js?v=1.0.0";
+  document.body.appendChild(auditScript);
+}
+</script>
 </body></html>
