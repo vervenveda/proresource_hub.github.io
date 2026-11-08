@@ -50,7 +50,7 @@ const catGrid=document.getElementById("catGrid"),toolGrid=document.getElementByI
 function catName(id){const x=CATS.find(c=>c[0]===id);return x?x[1]:id}
 function renderCats(){
  catGrid.innerHTML="";filter.innerHTML='<option value="all">All categories</option>';
- CATS.forEach((c,i)=>{const [id,title,desc]=c,count=TOOLS.filter(t=>t.category===id).length;
+ CATS.filter(c=>TOOLS.some(t=>t.category===c[0])).forEach((c,i)=>{const [id,title,desc]=c,count=TOOLS.filter(t=>t.category===id).length;
  const a=document.createElement("a");a.className="cat";a.href="#catalog";a.innerHTML=`<small>${String(i+1).padStart(2,"0")} · ${count} live</small><h3>${title}</h3><p>${desc}</p><span>View tools →</span>`;a.onclick=e=>{e.preventDefault();filter.value=id;renderTools();document.getElementById("catalog").scrollIntoView({behavior:"smooth"})};catGrid.appendChild(a);
  const o=document.createElement("option");o.value=id;o.textContent=title;filter.appendChild(o);});
 }
@@ -83,6 +83,31 @@ body{font-family:"Brandon Grotesque",Nunito,"Avenir Next",Arial,sans-serif;font-
 .tool p,.tool a,.cat p,.cat span,.section p.intro{font-size:max(16px,1em)}
 .tool a,.cat span{font-weight:400}
 @media(max-width:620px){.overlay .drawer{top:12px;max-height:calc(100vh - 24px)}}
+</style>
+<style id="vnv-proresources-even-grids-contrast-20261108">
+/* Balanced category grid: only categories containing real tools are rendered.
+   9 occupied categories = 3 complete desktop rows; on small screens, one card per row. */
+#categories{background:#243038;color:#f4f0e7;border-top:1px solid #394844;border-bottom:1px solid #394844}
+#categories .section h2,#categories h2{color:#f4f0e7}
+#categories .intro,#categories p.intro{color:#e5e0d4}
+#categories .cat{background:#f4f0e7;color:#243038;border:1px solid #a9a296;box-shadow:0 6px 18px rgba(4,9,11,.12)}
+#categories .cat h3,#categories .cat p{color:#243038}
+#categories .cat small{color:#765624}
+#categories .cat span{color:#243038;font-size:16px;font-weight:400}
+#categories .cat:hover,#categories .cat:focus-visible{border-color:#b48b45;outline-offset:3px}
+#catalog{background:#f4f0e7;color:#243038}
+#catalog h2{color:#243038}
+#catalog .intro{color:#465750}
+#catalog .tool{background:#fbf9f4;border:1px solid #c1b9aa;border-radius:7px}
+#catalog .tool h3,#catalog .tool p{color:#243038}
+#catalog .tool a{color:#243038;font-size:16px;font-weight:400}
+#catalog .tool small{color:#765624}
+#catalog .field{font-size:16px;color:#243038}
+#categories .cat-grid,#catalog .tool-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+#categories .cat,#catalog .tool{min-width:0}
+@media(max-width:760px){
+  #categories .cat-grid,#catalog .tool-grid{grid-template-columns:1fr}
+}
 </style>
 <!-- Verve N Veda Beta Program -->
 
