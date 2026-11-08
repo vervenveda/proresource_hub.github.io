@@ -30,37 +30,6 @@
 </style>
 </head>
 <body>
-<div class="vnv-global-strip" data-vnv-global-strip>
-  <a class="vnv-global-brand" href="https://vervenveda.com/" aria-label="Verve N Veda home">
-    <span class="vnv-global-mark">VNV</span>
-    <span class="vnv-global-copy"><strong>Verve N Veda</strong><small>Professional</small></span>
-  </a>
-  <nav class="vnv-global-links" aria-label="Verve N Veda network links">
-    <a href="https://vervenveda.com/proresource_hub.github.io/">This Hub</a>
-    <a href="https://vervenveda.com/#directory">Ecosystem Directory</a>
-    <a href="https://vervenveda.com/core/directory-agi/">Directory AGI</a>
-    <a href="https://vervenveda.com/cloud/">Public Cloud</a>
-  </nav>
-  <details class="vnv-global-menu">
-    <summary aria-label="Open Verve N Veda ecosystem menu"><span class="vnv-global-lines" aria-hidden="true"></span></summary>
-    <div class="vnv-global-panel">
-      <p>Ecosystem</p>
-      <a href="https://vervenveda.com/">Verve N Veda Gateway</a>
-      <a href="https://vervenveda.com/#directory">Complete Ecosystem Directory</a>
-      <a href="https://vervenveda.com/Khaemenes_Academy.github.io/">Khaemenes Academy</a>
-      <a href="https://vervenveda.com/PLERASearch.github.io/">PLERA Search</a>
-      <a href="https://vervenveda.com/theverifier.github.io/">The Verifier</a>
-      <a href="https://vervenveda.com/proresource_hub.github.io/">Professional Resources</a>
-      <a href="https://vervenveda.com/Arshif.github.io/">ARSHIF</a>
-    </div>
-  </details>
-</div>
-<header class="header"><div class="shell header-in">
-<a class="brand" href="./index.html"><span class="mark">P</span><span><strong>ProReSources</strong><small>Professional Tools</small></span></a>
-<nav class="nav"><a href="#categories" data-ticker>Categories</a><a href="#catalog" data-ticker>Current Tools</a><a href="https://vervenveda.com/" data-ticker>Verve N Veda</a></nav>
-<button class="menu" id="menuBtn" aria-label="Open menu"><span class="bars"></span></button>
-</div></header>
-
 <div class="overlay" id="overlay"><aside class="drawer">
 <div class="drawer-top"><div><div class="drawer-k">ProReSources Navigation</div><h2>Explore the toolkit</h2></div><button class="close" id="closeBtn">×</button></div>
 <input class="drawer-search" id="drawerSearch" placeholder="Find a category…">
@@ -68,7 +37,7 @@
 </aside></div>
 
 <main>
-<section class="hero"><div class="shell"><p class="eyebrow">Tools for serious work.</p><h1>ProReSources</h1><p class="lead">Research, writing, design, media, systems thinking, production, and technical work — organized with less noise and more room to think.</p><div class="note">Local-first where possible · browser-based · no unnecessary dependencies</div></div></section>
+<section class="hero"><div class="shell"><p class="eyebrow">Tools for serious work.</p><h1>ProReSources</h1><p class="lead">Research, writing, design, media, systems thinking, production, and technical work — organized with less noise and more room to think.</p><div class="note">Local-first where possible · browser-based · no unnecessary dependencies</div><div class="category-menu-action"><button type="button" id="menuBtn" class="category-trigger" aria-controls="overlay" aria-expanded="false">Browse categories</button></div></div></section>
 <section class="section" id="categories"><div class="shell"><h2>Explore by category</h2><p class="intro">A cleaner doorway into the existing ProTools collection.</p><div class="cat-grid" id="catGrid"></div></div></section>
 <section class="section catalog" id="catalog"><div class="shell"><h2>Current tools</h2><p class="intro">Live public tools, presented simply.</p><div class="filters"><input class="field" id="search" placeholder="Search tools…"><select class="field" id="filter"><option value="all">All categories</option></select></div><div class="tool-grid" id="toolGrid"></div><div class="empty" id="empty">No tools match this search.</div></div></section>
 </main>
@@ -96,16 +65,46 @@ function renderDrawer(q=""){
  drawerList.innerHTML="";
  CATS.filter(c=>(c[1]+" "+c[2]).toLowerCase().includes(q.toLowerCase())).forEach(c=>{const a=document.createElement("a");a.className="drawer-link";a.href="#catalog";a.innerHTML=`<div><strong>${c[1]}</strong><small>${c[2]}</small></div><span>→</span>`;a.onclick=e=>{e.preventDefault();filter.value=c[0];renderTools();closeMenu();document.getElementById("catalog").scrollIntoView({behavior:"smooth"})};drawerList.appendChild(a)});
 }
-const overlay=document.getElementById("overlay");function openMenu(){overlay.classList.add("open");document.body.classList.add("menu-open");drawerSearch.focus()}function closeMenu(){overlay.classList.remove("open");document.body.classList.remove("menu-open")}
+const overlay=document.getElementById("overlay");function openMenu(){overlay.classList.add("open");document.body.classList.add("menu-open");document.getElementById("menuBtn").setAttribute("aria-expanded","true");drawerSearch.focus()}function closeMenu(){overlay.classList.remove("open");document.body.classList.remove("menu-open");document.getElementById("menuBtn").setAttribute("aria-expanded","false");document.getElementById("menuBtn").focus()}
 document.getElementById("menuBtn").onclick=openMenu;document.getElementById("closeBtn").onclick=closeMenu;overlay.onclick=e=>{if(e.target===overlay)closeMenu()};document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu()});
 drawerSearch.oninput=()=>renderDrawer(drawerSearch.value);search.oninput=renderTools;filter.onchange=renderTools;
 renderCats();renderTools();renderDrawer();
 </script>
 
+<style id="vnv-proresources-header-parity">
+/* Keep the local category browser as a content tool, not a competing site hamburger. */
+body{font-family:"Brandon Grotesque",Nunito,"Avenir Next",Arial,sans-serif;font-size:16px}
+.category-menu-action{display:flex;justify-content:center;margin-top:22px}
+.category-trigger{min-height:44px;padding:9px 18px;border:1px solid #243038;border-radius:7px;background:#243038;color:#f4f0e7;font:400 16px/1.35 "Brandon Grotesque",Nunito,Arial,sans-serif;cursor:pointer}
+.category-trigger:focus-visible{outline:3px solid #b48b45;outline-offset:3px}
+.overlay{inset:0;z-index:2147483600}
+.overlay .drawer{top:16px;max-height:calc(100vh - 32px)}
+.hero h1,.section h2,.cat h3,.tool h3{font-family:Cinzel,Georgia,serif;font-weight:400}
+.tool p,.tool a,.cat p,.cat span,.section p.intro{font-size:max(16px,1em)}
+.tool a,.cat span{font-weight:400}
+@media(max-width:620px){.overlay .drawer{top:12px;max-height:calc(100vh - 24px)}}
+</style>
 <!-- Verve N Veda Beta Program -->
 
 <script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
 <script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
 <script>VNV_TICKER.autoPopulate({label:"ProReSources Quick Links",max:14});</script>
+<script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
+<script>
+if(window.VNV_HEADER?.mount){
+  VNV_HEADER.mount({
+    title:"ProReSources",
+    subtitle:"Professional Tools · Verve N Veda",
+    icon:"K",
+    home:"https://vervenveda.com/KhaemenesAcademy_Home.github.io/",
+    actions:[
+      {label:"Categories",href:"#categories"},
+      {label:"Current Tools",href:"#catalog"},
+      {label:"Academy Home",href:"https://vervenveda.com/KhaemenesAcademy_Home.github.io/"},
+      {label:"Verve N Veda",href:"https://vervenveda.com/"}
+    ]
+  });
+}
+</script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body></html>
