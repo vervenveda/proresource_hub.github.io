@@ -188,53 +188,63 @@ html[data-theme="light"] .key{border-color:rgba(23,35,45,.09);background:#f5f2ec
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
 </style>
-<style id="vnv-global-ecosystem-shell">
-.vnv-global-strip{position:relative;z-index:2147482000;min-height:38px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:5px 12px;border-bottom:1px solid rgba(160,140,100,.28);background:#121918;color:#eee8dc;font:400 12px/1.2 "Avenir Next",Avenir,"Segoe UI",Arial,sans-serif}
-.vnv-global-strip a{color:inherit;text-decoration:none}.vnv-global-brand{display:flex;align-items:center;gap:8px;white-space:nowrap}.vnv-global-mark{width:26px;height:26px;display:grid;place-items:center;border:1px solid rgba(238,232,220,.38);border-radius:7px;font:500 10px Georgia,serif}.vnv-global-copy{display:grid}.vnv-global-copy strong{font:500 11px Georgia,serif;letter-spacing:.08em;text-transform:uppercase}.vnv-global-copy small{margin-top:1px;color:#bdb5a6;font-size:9px;letter-spacing:.06em;text-transform:uppercase}
-.vnv-global-links{display:flex;align-items:center;justify-content:center;gap:10px;min-width:0;overflow:hidden;white-space:nowrap}.vnv-global-links a{color:#d8d1c5;font-size:10px;letter-spacing:.04em}.vnv-global-links a:hover,.vnv-global-links a:focus-visible{color:#fff}
-.vnv-global-menu{position:relative;justify-self:end}.vnv-global-menu summary{list-style:none;width:30px;height:30px;display:grid;place-items:center;border:1px solid rgba(238,232,220,.28);border-radius:7px;cursor:pointer}.vnv-global-menu summary::-webkit-details-marker{display:none}.vnv-global-lines,.vnv-global-lines:before,.vnv-global-lines:after{content:"";display:block;width:14px;height:1.5px;background:#eee8dc}.vnv-global-lines{position:relative}.vnv-global-lines:before,.vnv-global-lines:after{position:absolute;left:0}.vnv-global-lines:before{top:-5px}.vnv-global-lines:after{top:5px}
-.vnv-global-panel{position:absolute;right:0;top:36px;width:min(300px,calc(100vw - 20px));padding:10px;border:1px solid rgba(238,232,220,.22);border-radius:7px;background:#17201f;box-shadow:0 18px 40px rgba(0,0,0,.28)}.vnv-global-panel p{margin:3px 5px 8px;color:#aaa294;font-size:9px;letter-spacing:.1em;text-transform:uppercase}.vnv-global-panel a{display:block;padding:9px 10px;border-radius:5px;color:#eee8dc;font-size:11px}.vnv-global-panel a:hover,.vnv-global-panel a:focus-visible{background:#22302e}
-@media(max-width:760px){.vnv-global-strip{grid-template-columns:minmax(0,1fr) auto}.vnv-global-links{display:none}.vnv-global-copy small{display:none}}@media print{.vnv-global-strip{display:none!important}}
-</style>
-</head>
+
+<style id="vnv-ka-scientific-calculator-design-20261111">
+/* Presentation layer only; calculator computation, history and persistence stay unchanged. */
+:root{--bg:#10161c;--bg2:#19232b;--panel:#25313c;--panel2:#303c47;--screen:#0a1016;--ink:#fff8e9;--muted:#e1d6c4;--gold:#d6ba7c;--gold2:#f0d7a3;--blue:#536b84;--line:rgba(234,215,178,.31);--shadow:0 12px 34px rgba(0,0,0,.28)}
+html[data-theme="light"]{--bg:#eee9de;--bg2:#f4f0e7;--panel:#fffdf8;--panel2:#f5f0e6;--screen:#fffdf8;--ink:#243038;--muted:#48594e;--gold:#9a752d;--gold2:#795b25;--blue:#d6e1e8;--line:rgba(52,64,52,.32);--shadow:0 10px 28px rgba(52,41,31,.12)}
+body{padding:0 16px 50px!important;color:var(--ink);font:400 16px/1.55 "Brandon Grotesque",Nunito,"Avenir Next",system-ui,sans-serif}
+.app-shell{width:min(1120px,100%);margin:0 auto;padding:30px 0}
+.calculator-intro{text-align:center;max-width:850px;margin:0 auto 24px;padding:0 10px}
+.calculator-eyebrow{font:400 clamp(18px,2.5vw,24px)/1.45 Cinzel,Georgia,serif;color:var(--gold2);letter-spacing:.05em;margin:0 auto 6px}
+.calculator-intro h1{font:400 clamp(33px,4.4vw,55px)/1.2 Cinzel,Georgia,serif;margin:4px auto 10px;color:var(--ink)}
+.calculator-intro p:not(.calculator-eyebrow){font-size:17px;line-height:1.55;color:var(--muted);margin:0 auto}
+.calculator-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 17px;margin:0 0 14px;background:var(--panel);border:1px solid var(--line);border-radius:7px}
+.calculator-controls-label{font:400 18px/1.4 Cinzel,Georgia,serif}
+.head-actions{gap:9px;align-items:center}
+.icon-btn{min-height:44px;padding:9px 14px;border-radius:7px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:400 16px/1.3 "Brandon Grotesque",Nunito,Arial,sans-serif}
+.layout{grid-template-columns:minmax(0,740px) minmax(260px,310px);justify-content:center;gap:16px;width:100%}
+.calc,.drawer{border:2px solid var(--line);border-radius:7px;background:var(--panel);box-shadow:var(--shadow)}
+.calc{padding:19px}.drawer{top:18px;padding:17px}
+.top{font-size:16px!important;font-weight:400;letter-spacing:.02em;line-height:1.4;text-transform:none;color:var(--gold2);flex-wrap:wrap}
+.status-group{align-items:center;gap:12px}
+.screen{background:var(--screen);border:1px solid var(--gold);border-radius:7px;padding:17px;margin:12px 0 15px}
+#expr{color:var(--muted);font-size:18px}#disp{color:var(--ink);font-size:clamp(44px,6.5vw,70px)}
+.preview-note,.screen-meta,.screen-message,.copy-result{font-size:16px!important;line-height:1.45;color:var(--muted)}
+.screen-message{color:var(--gold2)}.screen-message.error{color:#ffafb7}
+.copy-result{min-height:44px;padding:7px 10px;border:1px solid var(--line);border-radius:7px}
+.key{height:61px;border-radius:7px;background:#384650;color:#fff8e9;border:1px solid #657583;font-size:18px!important;font-weight:500!important;padding:10px 5px 5px}
+.key.function{background:#35414b;color:#fff8e9}.key.operator{background:#506780;color:#fff8e9}.key.control{background:#58464d;color:#fff8e9}.key.memory{background:#3a444c;color:#f6e0ad}.key.danger{background:#a94b57;color:#fff8e9}.key.equals{background:#dcc17d;color:#17222b}
+.key small{font-size:16px!important;top:3px;left:5px;line-height:1;color:#f2d89d;font-weight:400}
+.secondary-strip .key{height:51px;font-size:16px!important}
+html[data-theme="light"] .key:not(.equals){background:#e7e8e5;color:#243038;border-color:#aeb8af}
+html[data-theme="light"] .key.function{background:#d8dfdc}html[data-theme="light"] .key.operator{background:#cfdeeb}html[data-theme="light"] .key.control{background:#e7dadf}html[data-theme="light"] .key.memory{background:#e3dac7;color:#243038}html[data-theme="light"] .key.danger{background:#9c4550;color:#fff8e9}html[data-theme="light"] .key small{color:#50432b}
+.drawer h2{font:400 24px/1.3 Cinzel,Georgia,serif;color:var(--gold2)}
+.drawer-head{flex-wrap:wrap;align-items:flex-start;gap:10px}
+.drawer-actions{gap:7px}
+.drawer-action,.history-actions button,.backup-row button{min-height:44px;padding:8px 10px;font-size:16px!important;font-weight:400;border-radius:7px;color:var(--ink);border:1px solid var(--line);background:var(--panel2)}
+.history{max-height:520px;gap:10px}.history-item{background:var(--panel2);border-color:var(--line);border-radius:7px;padding:12px}
+.history-expression,.history-result,.history-time,.history-empty{font-size:16px!important;line-height:1.5;color:var(--ink)}
+.history-expression,.history-time{color:var(--muted)}
+.help summary{font:400 18px/1.5 Cinzel,Georgia,serif;color:var(--gold2);padding:8px 0}
+.help-grid{grid-template-columns:1fr;gap:9px}.help-grid div{font-size:16px!important;line-height:1.55;padding:12px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);color:var(--ink)}
+.backup-row{gap:8px}.footer-note{font-size:16px!important;line-height:1.6;color:var(--muted);padding:12px 0}
+.mobile-expression{font-size:16px;min-height:48px;border-radius:7px}.toast{font-size:16px}
+@media(max-width:1000px){.layout{grid-template-columns:minmax(0,1fr) 280px}.calc{padding:14px}}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.app-shell{padding-top:22px}}
+@media(max-width:620px){body{padding:0 8px 26px!important}.app-shell{padding-top:16px}.calculator-controls{justify-content:center;text-align:center;padding:12px}.head-actions{justify-content:center}.calc{padding:10px}.key{height:52px;font-size:16px!important;padding:8px 3px 4px}.key small{font-size:13px!important}.secondary-strip .key{height:47px}.top{font-size:16px!important}.screen{padding:12px}.screen-meta{flex-wrap:wrap}}
+@media(max-width:430px){.key{height:48px;font-size:16px!important}.key small{display:none}.backup-row{grid-template-columns:1fr}}
+</style></head>
 <body>
-<div class="vnv-global-strip" data-vnv-global-strip>
-  <a class="vnv-global-brand" href="https://vervenveda.com/" aria-label="Verve N Veda home">
-    <span class="vnv-global-mark">VNV</span>
-    <span class="vnv-global-copy"><strong>Verve N Veda</strong><small>PROSE · Scientific Calculator</small></span>
-  </a>
-  <nav class="vnv-global-links" aria-label="Verve N Veda network links">
-    <a href="https://vervenveda.com/proresource_hub.github.io/Protools/Khaemenes_Scientific_Calculator/">This Page</a>
-    <a href="https://vervenveda.com/#directory">Ecosystem Directory</a>
-    <a href="https://vervenveda.com/core/directory-agi/">Directory AGI</a>
-    <a href="https://vervenveda.com/cloud/">Public Cloud</a>
-  </nav>
-  <details class="vnv-global-menu">
-    <summary aria-label="Open Verve N Veda ecosystem menu"><span class="vnv-global-lines" aria-hidden="true"></span></summary>
-    <div class="vnv-global-panel"><p>Ecosystem</p>
-      <a href="https://vervenveda.com/">Verve N Veda Gateway</a>
-      <a href="https://vervenveda.com/#directory">Complete Ecosystem Directory</a>
-      <a href="https://vervenveda.com/arcade.github.io/">Arcade</a>
-      <a href="https://vervenveda.com/proresource_hub.github.io/">Professional Resources</a>
-    </div>
-  </details>
-</div>
 <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
 <div class="app-shell">
-  <header class="site-head">
-    <div class="brand">
-      <div class="brand-mark" aria-hidden="true">KA</div>
-      <div class="brand-copy">
-        <strong>Khaemenes Scientific Calculator</strong>
-        <small>Verve N Veda Tools · Safe local computation · Version 4</small>
-      </div>
-    </div>
-    <div class="head-actions">
+  <div class="calculator-intro" aria-labelledby="calculatorTitle"><p class="calculator-eyebrow">Khaemenes Academy · Scientific Tools</p><h1 id="calculatorTitle">Scientific Calculator</h1><p>Precise local calculations · Accessible controls · Private history on this device</p></div>
+<div class="calculator-controls" aria-label="Calculator settings"><span class="calculator-controls-label">Workspace Settings</span><div class="head-actions">
       <button class="icon-btn" id="historyToggle" aria-controls="historyDrawer" aria-expanded="false">History</button>
       <button class="icon-btn" id="hapticBtn" data-optional="true">Haptic On</button>
       <button class="icon-btn" id="themeBtn">Light</button>
     </div>
-  </header>
+  </div>
 
   <main class="layout">
     <section class="calc" aria-label="Scientific calculator">
@@ -1409,6 +1419,11 @@ buildKeys();
 render();
 })();
 </script>
+<script src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
+<script src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js" data-vnv-ticker-autopopulate></script>
+<script>window.VNV_TICKER?.autoPopulate?.({label:"Scientific Calculator",max:14});</script>
+<script src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
+<script>window.VNV_HEADER?.mount?.({replaceLegacy:true,title:"Scientific Calculator",subtitle:"Khaemenes Academy · Professional Resources",icon:"KA",home:"https://vervenveda.com/proresource_hub.github.io/",actions:[{label:"CALCULATOR",href:"#calculatorTitle"},{label:"HISTORY",href:"#historyDrawer"},{label:"RESOURCES",href:"https://vervenveda.com/proresource_hub.github.io/"},{label:"ACADEMY",href:"https://vervenveda.com/Khaemenes_Academy.github.io/"}]});</script>
 <script src="https://vervenveda.com/assets/vnv-support.js" defer></script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
