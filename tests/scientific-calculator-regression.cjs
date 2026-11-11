@@ -47,7 +47,7 @@ const required=[
  "event.target?.closest?.","vnv-header-autopopulate.js"
 ];
 for(const key of required)assert.ok(html.includes(key),"Missing UI/storage contract: "+key);
-const inline=[...html.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/g)]
+const inline=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
  .map(m=>m[1]).filter(s=>s.trim());
 for(const [index,script] of inline.entries()){
  new vm.Script(script,{filename:"calculator-inline-"+index+".js"});
