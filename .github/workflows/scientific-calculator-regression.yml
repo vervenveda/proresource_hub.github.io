@@ -1,0 +1,25 @@
+name: Scientific Calculator Regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Protools/Khaemenes_Scientific_Calculator/index.html"
+      - "tests/scientific-calculator-regression.cjs"
+      - ".github/workflows/scientific-calculator-regression.yml"
+  pull_request:
+    paths:
+      - "Protools/Khaemenes_Scientific_Calculator/index.html"
+      - "tests/scientific-calculator-regression.cjs"
+  workflow_dispatch:
+jobs:
+  calculator-regression:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test shipped calculator parser and interface contracts
+        run: node tests/scientific-calculator-regression.cjs
