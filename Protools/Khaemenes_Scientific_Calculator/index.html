@@ -1429,6 +1429,14 @@ $("resetAllBtn").addEventListener("click",()=>{
 });
 
 document.addEventListener("keydown",event=>{
+  // Escape remains available inside History, even when focus is on its controls.
+  if(event.key === "Escape" && document.body.classList.contains("drawer-open")){
+    closeDrawer();
+    $("historyToggle").focus();
+    event.preventDefault();
+    return;
+  }
+  // Do not hijack typing, Space or Enter on page navigation or learning controls.
   if(event.target?.closest?.('button,a,input,select,textarea,[contenteditable="true"]')) return;
 
   const map = {
