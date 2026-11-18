@@ -1,0 +1,27 @@
+name: SixBit Bun x KhaeZip synthetic source roundtrip
+on:
+  push:
+    paths:
+      - 'Protools/SixBit_Bun_Studio_index.html'
+      - 'Protools/KhaeZip™_index.html'
+      - 'tests/sixbit-khaezip-source-roundtrip.test.mjs'
+      - '.github/workflows/sixbit-khaezip-source-roundtrip.yml'
+  pull_request:
+    paths:
+      - 'Protools/SixBit_Bun_Studio_index.html'
+      - 'Protools/KhaeZip™_index.html'
+      - 'tests/sixbit-khaezip-source-roundtrip.test.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  roundtrip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout sovereign tools
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Synthetic source-only archive roundtrip
+        run: node --test tests/sixbit-khaezip-source-roundtrip.test.mjs
