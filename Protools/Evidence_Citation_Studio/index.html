@@ -58,7 +58,17 @@ body > :is(#vnv333NetworkTicker,#vnvTickerAutoPopulate,#vnvHeaderAutoPopulate){w
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media print{body>:is(#vnv333NetworkTicker,#vnvTickerAutoPopulate,#vnvHeaderAutoPopulate),#vnv-language-rail,#labCloudLauncher{display:none!important}#main,#vnvKaCitationHero,#vnvKaCitationWorkspace{background:white!important;color:black!important}#vnvKaCitationHero :is(.eyebrow,h1,p){color:black!important}#vnvKaCitationFooter{background:white!important;color:black!important}#vnvKaCitationFooter a{color:black!important}}
 </style>
-</head>
+<style id="vnv-ka-citation-top-fix-v5">
+/* Responsive canonical chrome edges, consistent hero type, no duplicate support bar. */
+#vnvHeaderAutoPopulate{width:100%!important;max-width:none!important}
+#vnvHeaderAutoPopulate .vnv-header-inner{width:100%!important;max-width:none!important;margin:0!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;gap:12px!important;padding:8px clamp(14px,2.4vw,36px)!important;box-sizing:border-box}
+#vnvHeaderAutoPopulate .vnv-header-home{justify-self:start!important;text-align:left!important}
+#vnvHeaderAutoPopulate .vnv-header-menu-button{justify-self:end!important;margin-left:auto!important}
+#vnvKaCitationHero :is(.eyebrow,h1,p),.vnv-ka-workspace-heading :is(h2,p){text-align:center!important}
+.vnv-ka-hero-actions,.vnv-ka-workspace-actions{justify-content:center!important}
+#vnvKaCitationBreadcrumb{margin:0!important}
+@media(max-width:650px){#vnvHeaderAutoPopulate .vnv-header-inner{grid-template-columns:minmax(0,1fr) auto!important}#vnvHeaderAutoPopulate .vnv-header-menu-button{grid-column:-1}}
+</style></head>
 <body>
 <a class="vnv-ka-skip" href="#main">Skip to content</a>
 <div id="vnv-language-rail" role="group" aria-label="Page translation tools"></div>
@@ -120,7 +130,7 @@ body > :is(#vnv333NetworkTicker,#vnvTickerAutoPopulate,#vnvHeaderAutoPopulate){w
 </script>
 <footer id="vnvKaCitationFooter"><p>Verve N Veda · Khaemenes Academy</p><nav aria-label="Footer navigation"><a href="https://vervenveda.com/">VNV Home</a><a href="https://vervenveda.com/#directory">Ecosystem Directory</a><a href="https://vervenveda.com/Khaemenes_Academy.github.io/">Academy</a><a href="https://vervenveda.com/Khaemenes_High.github.io/courses/language-arts/english-9/learning-tools.html#literary-toolbox">Literary Toolkit</a><a href="https://vervenveda.com/privacy-policy.html">Privacy</a><a href="#main">Back to Top</a></nav><small>Free public education and research resources · © 2026</small></footer>
 <script src="https://vervenveda.com/assets/vnv-language.js" defer></script>
-<script src="https://vervenveda.com/assets/vnv-support.js" defer></script>
+<!-- Redundant global support strip retired: original 333 ticker remains authoritative. -->
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 <script id="vnv-ka-citation-canonical-v3">
 (()=>{"use strict";
