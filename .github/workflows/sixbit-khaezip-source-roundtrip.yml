@@ -6,6 +6,7 @@ on:
       - 'Protools/KhaeZip™_index.html'
       - 'tests/sixbit-khaezip-source-roundtrip.test.mjs'
       - 'tests/khaezip-kzp5-encryption-roundtrip.test.mjs'
+      - 'tests/sixbit-vnv-layout.test.mjs'
       - '.github/workflows/sixbit-khaezip-source-roundtrip.yml'
   pull_request:
     paths:
@@ -13,6 +14,7 @@ on:
       - 'Protools/KhaeZip™_index.html'
       - 'tests/sixbit-khaezip-source-roundtrip.test.mjs'
       - 'tests/khaezip-kzp5-encryption-roundtrip.test.mjs'
+      - 'tests/sixbit-vnv-layout.test.mjs'
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,4 +28,4 @@ jobs:
         with:
           persist-credentials: false
       - name: Synthetic source-only archive roundtrip
-        run: node --test tests/sixbit-khaezip-source-roundtrip.test.mjs tests/khaezip-kzp5-encryption-roundtrip.test.mjs
+        run: node --test tests/sixbit-khaezip-source-roundtrip.test.mjs tests/khaezip-kzp5-encryption-roundtrip.test.mjs tests/sixbit-vnv-layout.test.mjs
