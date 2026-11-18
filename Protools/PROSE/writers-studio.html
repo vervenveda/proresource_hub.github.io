@@ -118,12 +118,39 @@ footer.vnv-ka-prose-footer .footer-inner{display:block;text-align:center}
 <script defer src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
 <script defer src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js"></script>
 <script defer src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
+<style id="vnv-ka-prose-disclosures-v3">
+/* Page-specific learning setup: compact balanced grid and directly visible writing action. */
+.vnv-prose-step-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:16px;margin:0 auto 18px}
+.vnv-prose-disclosure{display:block;min-width:0;background:#FFFDF8;border:4px solid #202724;border-radius:7px;overflow:hidden}
+.vnv-prose-disclosure>summary{display:flex;align-items:center;justify-content:space-between;min-height:60px;padding:14px 18px;background:#202724;color:#FFF8E9;cursor:pointer;list-style:none;font:400 22px/1.35 Cinzel,Georgia,serif;text-align:left}
+.vnv-prose-disclosure>summary::-webkit-details-marker,.vnv-prose-mirror>summary::-webkit-details-marker{display:none}
+.vnv-prose-disclosure>summary::after,.vnv-prose-mirror>summary::after{content:"+";color:#E5C481;font:400 24px/1 Arial,sans-serif;margin-left:8px}
+.vnv-prose-disclosure[open]>summary::after,.vnv-prose-mirror[open]>summary::after{content:"−"}
+.vnv-prose-disclosure>summary:focus-visible,.vnv-prose-mirror>summary:focus-visible{outline:3px solid #B48B45;outline-offset:-4px}
+.vnv-prose-disclosure-inner{padding:20px;display:grid;gap:12px}
+.vnv-prose-explain{margin:0;font-size:16px;color:#47584e;line-height:1.55}
+.vnv-prose-disclosure .mode-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.vnv-prose-disclosure .mode-tabs button{min-width:0;white-space:normal;overflow-wrap:break-word}
+.vnv-prose-active-stage{max-width:100%;margin:0 auto;display:block;text-align:center}
+.vnv-prose-active-stage>h3{text-align:center}
+.vnv-prose-active-stage>p{max-width:72ch;margin:0 auto 18px}
+.vnv-prose-active-stage .choice-grid{text-align:left}
+.vnv-prose-mirror{align-self:start;padding:0!important;overflow:hidden}
+.vnv-prose-mirror>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;padding:16px 20px;min-height:60px;background:#202724;color:#FFF8E9;cursor:pointer;font:400 20px/1.35 Cinzel,Georgia,serif}
+.vnv-prose-mirror-inner{padding:20px}
+.vnv-prose-mirror .diagnostics{margin-bottom:12px}
+.studio-grid,.workspace{align-items:start}
+#vnv-language-rail,.studio-local-controls{display:none!important}
+body .choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+body .choice-grid>:last-child:nth-child(odd){grid-column:auto}
+@media(max-width:900px){.vnv-prose-step-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.vnv-prose-step-grid{grid-template-columns:1fr}.vnv-prose-disclosure>summary{font-size:20px}body .choice-grid{grid-template-columns:1fr}}
+@media print{.vnv-prose-disclosure-inner,.vnv-prose-mirror-inner{display:block!important}.vnv-prose-disclosure>summary,.vnv-prose-mirror>summary{color:#202724;background:white;border-bottom:1px solid #202724}}
+</style>
 </head>
 <body>
-<div id="vnv-language-rail" role="group" aria-label="Page translation tools"></div>
 <nav id="vnvKaProseTrail" aria-label="Breadcrumb"><a href="https://vervenveda.com/">VNV</a><span aria-hidden="true">›</span><a href="https://vervenveda.com/proresource_hub.github.io/">Resources</a><span aria-hidden="true">›</span><a href="https://vervenveda.com/Khaemenes_High.github.io/courses/language-arts/english-9/learning-tools.html#literary-toolbox">Literary Toolkit</a><span aria-hidden="true">›</span><span aria-current="page">Writer Studio</span></nav>
 <a class="skip" href="#main">Skip to main content</a>
-<div class="studio-local-controls" role="group" aria-label="Studio appearance"><button class="btn" id="themeBtn" type="button">Dark</button></div>
 
 <section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">Khaemenes Academy · Writing & Composition</p><h1>Writer's Grove</h1><p class="lead">Create original work with the Storybird Grove writing tools. Explore prompts, develop your draft, revise with purpose, and preserve your writing locally.</p><div class="hero-actions"><a class="btn" href="#studio">Begin Writing</a><a class="btn" href="#draft">Draft Pad</a><a class="btn" href="#nest">Writer’s Nest</a></div></div></div></section>
 
@@ -131,36 +158,49 @@ footer.vnv-ka-prose-footer .footer-inner{display:block;text-align:center}
 
 <main id="main">
 <section id="studio"><div class="wrap"><div class="section-head"><p class="eyebrow">Universal Constraint Engine</p><h2>Choose your level, path, and writing mode.</h2><p>The Monte Carlo Muse tests local combinations and returns one set of productive constraints. No network request is made, and no external AI writes the result.</p></div>
-<div class="grid studio-grid">
-<aside class="card panel">
-<h3>Learning Context</h3>
+<div class="vnv-prose-step-grid" aria-label="Optional writing setup">
+<details class="vnv-prose-disclosure">
+<summary>Learning Context</summary>
+<div class="vnv-prose-disclosure-inner">
+<p class="vnv-prose-explain">Choose your level and learning path when you want to customize a writing prompt.</p>
 <div class="field"><label for="levelSelect">Learning level</label><select id="levelSelect"></select></div>
 <div class="field"><label for="pathSelect">Writing / study path</label><select id="pathSelect"></select></div>
 <div class="path-card" id="pathCard"></div>
-<h3 style="margin-top:22px">Muse Controls</h3>
+</div></details>
+<details class="vnv-prose-disclosure">
+<summary>Muse Controls</summary>
+<div class="vnv-prose-disclosure-inner">
+<p class="vnv-prose-explain">Adjust how much variation your writing challenge uses.</p>
 <div class="field"><label for="trialRange">Monte Carlo trials · <span id="trialOut">88</span></label><input id="trialRange" type="range" min="11" max="222" step="1" value="88"></div>
 <div class="field"><label for="intensitySelect">Challenge intensity</label><select id="intensitySelect"><option value="support">Support</option><option value="core" selected>Core</option><option value="extension">Extension</option></select></div>
-<p class="mini">Locked cards survive rerolls. The score only ranks combination variety; it is not a grade or quality judgment.</p>
-</aside>
-
-<article class="card panel">
+<p class="mini">Locked cards survive rerolls. The score ranks combination variety, not student performance.</p>
+</div></details>
+<details class="vnv-prose-disclosure">
+<summary>Writing Modes</summary>
+<div class="vnv-prose-disclosure-inner">
+<p class="vnv-prose-explain">Select the genre that fits your task. Your own writing remains the assessed work.</p>
 <div class="mode-tabs" role="group" aria-label="Writing mode">
 <button class="btn" type="button" data-mode="verse" aria-pressed="true">Verse</button>
 <button class="btn" type="button" data-mode="narrative" aria-pressed="false">Narrative</button>
 <button class="btn" type="button" data-mode="analysis" aria-pressed="false">Analysis</button>
 <button class="btn" type="button" data-mode="argument" aria-pressed="false">Argument &amp; Inquiry</button>
 </div>
+</div></details>
+</div>
+<article class="card panel vnv-prose-active-stage" aria-label="Active writing challenge">
+<h3>Today's Writing Studio</h3>
+<p>Begin with the current writing mode, or expand the setup controls above to choose a different approach.</p>
 <div class="actions"><button class="btn primary" id="museBtn" type="button">Monte Carlo Muse</button><button class="btn" id="rerollBtn" type="button">Reroll Unlocked</button><button class="btn" id="clearLocksBtn" type="button">Clear Locks</button></div>
 <div class="status" id="status" role="status" aria-live="polite">Studio ready.</div>
 <div class="choice-grid" id="choiceGrid"></div>
 <div class="challenge" id="challenge"><p class="eyebrow">Generated Craft Challenge</p><h3>Ready when you are.</h3><p class="prompt">Ask the Muse for a constraint set. The actual writing remains yours.</p></div>
 </article>
-</div></div></section>
+</div></section>
 
 <section id="draft"><div class="wrap"><div class="section-head"><p class="eyebrow">Local Draft Pad</p><h2>Write the human part here.</h2><p>Your draft remains in this browser unless you export it. The Craft Mirror is descriptive only; it does not grade quality or originality.</p></div>
 <div class="workspace">
 <article class="card panel draft"><div class="field"><label for="draftTitle">Working title</label><input id="draftTitle" maxlength="140" placeholder="Untitled"></div><textarea id="draftText" spellcheck="true" aria-label="Writing draft" placeholder="Begin with an image, pressure, question, observation, claim, scene, or problem…"></textarea><div class="actions"><button class="btn primary" id="saveDraftBtn" type="button">Save to Writer's Nest</button><button class="btn" id="readBtn" type="button">Read Aloud</button><button class="btn" id="stopReadBtn" type="button">Stop</button><button class="btn" id="printBtn" type="button">Print Draft</button><button class="btn" id="copyPromptBtn" type="button">Copy Challenge</button></div></article>
-<aside class="card panel"><h3>Craft Mirror</h3><div class="diagnostics"><div class="diag"><strong>Words</strong><span id="wordCount">0</span></div><div class="diag"><strong>Lines / Paragraphs</strong><span id="lineCount">0</span></div><div class="diag"><strong>Repeated language</strong><span id="repeatWords">—</span></div><div class="diag"><strong>Concrete / sensory signals</strong><span id="senseCount">0 detected</span></div><div class="diag"><strong>Current mode</strong><span id="modeOut">Verse</span></div><div class="diag"><strong>Current level</strong><span id="levelOut">High School Core</span></div></div><p class="mini">Counts are clues, not verdicts. Repetition may be accidental—or a deliberate refrain. A long sentence may be unclear—or beautifully controlled. You decide.</p></aside>
+<details class="card panel vnv-prose-mirror"><summary>Craft Mirror · Optional Diagnostics</summary><div class="vnv-prose-mirror-inner"><div class="diagnostics"><div class="diag"><strong>Words</strong><span id="wordCount">0</span></div><div class="diag"><strong>Lines / Paragraphs</strong><span id="lineCount">0</span></div><div class="diag"><strong>Repeated language</strong><span id="repeatWords">—</span></div><div class="diag"><strong>Concrete / sensory signals</strong><span id="senseCount">0 detected</span></div><div class="diag"><strong>Current mode</strong><span id="modeOut">Verse</span></div><div class="diag"><strong>Current level</strong><span id="levelOut">High School Core</span></div></div><p class="mini">Counts are clues, not verdicts. Repetition can be intentional, and counts are not grades.</p></div></details>
 </div></div></section>
 
 <section id="nest"><div class="wrap"><div class="section-head"><p class="eyebrow">Private Writer's Nest</p><h2>Preserve drafts, experiments, and revisions.</h2><p>Save locally, favorite strong pieces, reload earlier work, and export a backup before changing devices or clearing browser data.</p></div><div class="actions"><button class="btn" id="showAllBtn" type="button">All</button><button class="btn" id="showFavBtn" type="button">Favorites</button><button class="btn" id="exportBtn" type="button">Export Backup</button><button class="btn" id="importBtn" type="button">Import Backup</button><input id="importFile" type="file" accept="application/json" hidden></div><div class="nest-grid" id="nestGrid"></div></div></section>
@@ -731,12 +771,12 @@ function speakDraft(){
   speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(`${$('draftTitle').value||'Untitled'}. ${body}`);u.rate=.92;speechSynthesis.speak(u);setStatus('Device narration is reading your draft.');
 }
 function applySettings(){
-  document.documentElement.dataset.theme=state.settings.theme;
+  document.documentElement.dataset.theme='light';
   document.body.classList.toggle('large',state.settings.large);
   document.body.classList.toggle('contrast',state.settings.contrast);
   document.body.classList.toggle('simple',state.settings.simple);
   document.body.classList.toggle('no-motion',state.settings.motion);
-  $('themeBtn').textContent=state.settings.theme==='light'?'Dark':'Light';
+  /* Academy parchment is the canonical presentation; archived theme preference stays in local state. */
   $('largeToggle').checked=state.settings.large;$('contrastToggle').checked=state.settings.contrast;$('simpleToggle').checked=state.settings.simple;$('motionToggle').checked=state.settings.motion;
 }
 function applyState(){
@@ -782,7 +822,7 @@ $('nestGrid').addEventListener('click',e=>{
 $('showAllBtn').addEventListener('click',()=>{nestFilter='all';renderNest()});$('showFavBtn').addEventListener('click',()=>{nestFilter='favorites';renderNest()});
 $('exportBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());
 $('importFile').addEventListener('change',e=>{importBackup(e.target.files?.[0]);e.target.value=''});
-$('themeBtn').addEventListener('click',()=>{state.settings.theme=state.settings.theme==='light'?'dark':'light';applySettings();saveState()});
+
 [['largeToggle','large'],['contrastToggle','contrast'],['simpleToggle','simple'],['motionToggle','motion']].forEach(([id,key])=>$(id).addEventListener('change',()=>{state.settings[key]=$(id).checked;applySettings();saveState()}));
 $('clearDraftBtn').addEventListener('click',async()=>{
   if(await ask('Clear Draft','Clear the current title and draft? Saved Nest copies remain.',[['Cancel',false,''],['Clear Draft',true,'danger']])){
@@ -802,7 +842,7 @@ setStatus('Writer’s Grove ready. Choose a level and path, lock what interests 
 window.StorybirdGroveUniversal={getState:()=>JSON.parse(JSON.stringify(state)),runMuse,exportBackup};
 })();
 </script>
-<script>(()=>{"use strict";function mount(){try{window.VNV333Ticker?.mount?.()}catch(e){console.warn("PROSE ticker",e)}try{if(!document.getElementById("vnvTickerAutoPopulate"))window.VNV_TICKER?.autoPopulate?.({before:"#vnv-language-rail",label:"Writer Studio · Quick Links",max:10,cleanLegacy:false})}catch(e){console.warn("PROSE auto ticker",e)}try{window.VNV_HEADER?.mount?.({title:"Writer's Grove",subtitle:"Khaemenes Academy · ProResources",home:"https://vervenveda.com/",actions:[{label:"Toolkit",href:"https://vervenveda.com/Khaemenes_High.github.io/courses/language-arts/english-9/learning-tools.html#literary-toolbox"}]})}catch(e){console.warn("PROSE official header",e)}}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount()})();</script>
+<script>(()=>{"use strict";function mount(){try{window.VNV333Ticker?.mount?.()}catch(e){console.warn("PROSE ticker",e)}try{if(!document.getElementById("vnvTickerAutoPopulate"))window.VNV_TICKER?.autoPopulate?.({before:"#vnvKaProseTrail",label:"Writer Studio · Quick Links",max:10,cleanLegacy:false})}catch(e){console.warn("PROSE auto ticker",e)}try{window.VNV_HEADER?.mount?.({title:"Writer's Grove",subtitle:"Khaemenes Academy · ProResources",home:"https://vervenveda.com/",actions:[{label:"Toolkit",href:"https://vervenveda.com/Khaemenes_High.github.io/courses/language-arts/english-9/learning-tools.html#literary-toolbox"}]})}catch(e){console.warn("PROSE official header",e)}}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount()})();</script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>
