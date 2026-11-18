@@ -399,6 +399,26 @@ dialog{border:3px solid #202724;border-radius:7px;background:#FFFDF8;color:#2027
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.app .sidebar{transition:none}}
 @media print{body,.app,.app .main,.main .section{background:#fff!important;color:black!important}.sidebar,.topbar,#e9StudioDrawerScrim,#e9StudioSectionsButton{display:none!important}.main .section{border:1px solid #333!important}}
 </style>
+<style id="vnv-ka-studio-alignment-v5">
+/* Scoped blueprint finishing rules. Protected lock-screen identity is unchanged. */
+.main #view-dashboard>.hero{display:block!important;text-align:center!important}
+.main #view-dashboard>.hero>div{max-width:850px;margin:0 auto!important;text-align:center}
+.main #view-dashboard>.hero :is(.eyebrow,h1,p){text-align:center!important;margin-left:auto!important;margin-right:auto!important}
+.app .main .section-head{justify-content:center!important;align-items:center!important;text-align:center!important}
+.app .main .section-head>div{width:100%;max-width:850px;margin-inline:auto!important}
+.app .main .section-head :is(h1,h2,h3,p){text-align:center!important;margin-left:auto!important;margin-right:auto!important}
+.app .main .metrics,.app .main .cards{justify-content:center;align-items:stretch}
+.app .main .metric{text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.app .main .metric :is(strong,span){text-align:center}
+.app .main :is(.card,.project-header,.summary-cell,.claim-card){text-align:center}
+.app .main :is(.card,.project-header,.summary-cell,.claim-card) :is(h2,h3,p){text-align:center}
+.app .main :is(.card-actions,.dialog-actions){justify-content:center!important;flex-wrap:wrap;gap:10px}
+.app .main .section-head button{margin-inline:auto}
+.app .main :is(button,.button){text-align:center;justify-content:center}
+.app .main .section-head p{max-width:74ch}
+@media(max-width:900px){.app .main .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:550px){.app .main .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
 </head>
 <body>
 <a class="skip" href="#mainContent">Skip to the research workspace</a>
@@ -473,7 +493,7 @@ dialog{border:3px solid #202724;border-radius:7px;background:#FFFDF8;color:#2027
           <h1>Evidence & Citation Studio</h1>
           <p>Build a transparent path from research question to source, from source to evidence, and from evidence to a carefully qualified conclusion. The studio does not decide truth automatically; it preserves the record that allows a researcher or reader to see how an assessment was reached.</p>
         </div>
-        <div class="seal"><strong>ECS</strong><small>QUESTION<br>EVIDENCE<br>CONTEXT</small></div>
+        
       </div>
 
       <div class="metrics">
