@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Storybird Grove Universal Writer's Studio — a sovereign, local-first writing catalyst for high school, adult, undergraduate, graduate-style, and independent learning.">
 <meta name="theme-color" content="#f4f0e8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; frame-src 'none'; object-src 'none'; font-src 'none'; media-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; object-src 'none'; font-src 'none'; media-src 'none'; base-uri 'none'; form-action 'none'">
 <title>Storybird Grove · Universal Writer's Studio</title>
 <style>
 :root{
@@ -54,29 +54,80 @@ body.simple .hero{padding-top:32px}body.simple .principles,body.simple .why{disp
 @media(max-width:560px){.mode-tabs{grid-template-columns:1fr}.wrap{width:min(100% - 20px,1180px)}}
 @media print{header,.studio-nav,.principles,.actions,.mode-tabs,.lock,.settings-grid,.modal{display:none!important}body{background:#fff;color:#111}.card,.choice,.challenge,.diag,.nest-item{box-shadow:none;background:#fff;color:#111;border-color:#999}.mini,.choice .why,.nest-item p,.diag span{color:#333!important}.wrap{width:100%}section{padding:18px 0}.draft textarea{min-height:600px;background:#fff;color:#111;border:1px solid #777}}
 </style>
-<style id="vnv-ka-prose-shell-v1">
-/* VNV_KA_PROSE_SHELL_V1: lightweight, CSP-compatible navigation and student-facing type floor. No draft data or local storage changes. */
-#vnvKaProseTrail{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;padding:12px 18px;background:#202724;color:#fff8e9;border-bottom:2px solid #b48b45;text-align:center;font:400 16px/1.45 "Avenir Next",Arial,sans-serif}
-#vnvKaProseTrail a{color:#fff8e9!important;font-size:16px!important}
-#vnvKaProseTrail span{font-size:16px}
-body .head{min-height:70px}
-body .brand small,body .btn.small,body .hero p,body :is(label,summary,button,select,textarea,input,.hint,.muted,.status){font-size:max(16px,1em)!important}
-body .btn{border-radius:7px;min-height:44px}
-body .wrap{max-width:1180px;margin-inline:auto}
-body footer{text-align:center}
-body footer a{font-size:16px}
-@media print{#vnvKaProseTrail{display:none}}
-</style>
+
 <script defer src="https://vervenveda.com/Khaemenes_High.github.io/courses/shared/high-school-class-tools-left-v1.js" data-english-course="english-9" data-ka-left-toolbar="canonical"></script>
+<style id="vnv-ka-prose-canonical-v2">
+/* Approved VNV/KA template · PROSE Writer Studio · one app-level presentation owner */
+:root{--bg:#F7F1E5;--panel:#FFFDF8;--panel2:#F7F1E5;--ink:#202724;--muted:#47584e;--line:#C7BBA3;--gold:#B48B45;--blue:#365d4c;--green:#4c7155;--shadow:none;--serif:Cinzel,Georgia,serif;--sans:"Brandon Grotesque",Nunito,"Avenir Next",Arial,sans-serif}
+html,body{background:#F7F1E5;color:#202724;min-width:320px;overflow-x:clip;font:400 18px/1.65 var(--sans)}
+body::before{display:none}
+.wrap{width:min(1120px,calc(100% - 40px));margin-inline:auto}
+body>:is(#vnv333NetworkTicker,#vnvTickerAutoPopulate,#vnvHeaderAutoPopulate){width:100%!important;max-width:none!important}
+#vnvHeaderAutoPopulate .vnv-header-inner{width:100%!important;max-width:none!important;margin-inline:0!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;padding:8px clamp(14px,2.4vw,36px)!important}
+#vnvHeaderAutoPopulate .vnv-header-home{justify-self:start!important}
+#vnvHeaderAutoPopulate .vnv-header-menu-button{justify-self:end!important}
+#vnv-language-rail{min-height:48px;display:flex;align-items:center;justify-content:center;background:#202724;border-bottom:1px solid #B48B45;color:#FFF8E9}
+#vnvKaProseTrail{margin:0;padding:12px 18px;display:flex;justify-content:center;flex-wrap:wrap;gap:9px;background:#34453c;color:#FFF8E9;font:400 16px/1.5 var(--sans)}
+#vnvKaProseTrail a,#vnvKaProseTrail span{color:#FFF8E9;font-size:16px}
+.studio-local-controls{display:flex;justify-content:flex-end;padding:8px 18px;background:#F7F1E5}
+.studio-local-controls .btn{min-height:44px;background:#202724;color:#FFF8E9;border-color:#B48B45;border-radius:7px;font-size:16px}
+.hero{padding:clamp(55px,7vw,86px) 16px;background:#202724;color:#FFF8E9;border:0;text-align:center}
+.hero-grid{display:block;max-width:1060px;text-align:center}
+.hero .eyebrow{margin:0 auto 12px;color:#E5C481;font:400 clamp(24px,3vw,33px)/1.3 var(--serif);letter-spacing:.02em;text-transform:none}
+.hero h1{margin:0 auto 18px;color:#FFF8E9;font:400 clamp(40px,6vw,66px)/1.13 var(--serif);text-align:center}
+.hero .lead{max-width:820px;margin:0 auto 22px;color:#FFF8E9;font:400 18px/1.7 var(--sans)}
+.hero-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+.hero-actions .btn{min-height:49px;border:1px solid #E5C481;border-radius:7px;background:#FFF8E9;color:#202724;font:400 16px/1.4 var(--sans);padding:11px 20px}
+.studio-nav{position:relative;top:auto;background:#202724;border-bottom:2px solid #B48B45}
+.studio-nav .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:14px 0}
+.studio-nav a{min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;background:#34453c;border:1px solid #B48B45;border-radius:7px;color:#FFF8E9!important;font-size:16px;padding:10px}
+main{background:#F7F1E5}
+main>section{padding:clamp(32px,5vw,60px) 0}
+main>section .wrap{max-width:1120px}
+section .section-head{text-align:center;margin:0 auto 22px;max-width:850px}
+section .section-head .eyebrow{font:400 24px/1.3 var(--serif);letter-spacing:0;text-transform:none;color:#7b5c22;margin:0 0 10px}
+section .section-head h2{font:400 clamp(32px,4vw,44px)/1.22 var(--serif);color:#202724;text-align:center;margin:0 auto 14px}
+section .section-head p{font:400 18px/1.65 var(--sans);color:#47584e;margin:0 auto}
+.grid{gap:16px}
+.studio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:#FFFDF8;border:4px solid #202724;border-radius:7px;box-shadow:none}
+.panel{padding:clamp(18px,2.5vw,28px)}
+.panel h3,.modal-card h2{font:400 clamp(24px,3vw,33px)/1.3 var(--serif);color:#202724;text-align:center}
+.principles,.path-card,.diag,.setting{background:#F7F1E5;border:1px solid #C7BBA3;border-radius:7px;box-shadow:none}
+.path-card strong{font:400 18px/1.5 var(--serif);color:#76561c}
+:is(p,label,.mini,.eyebrow,.path-card p,.setting span,.diag strong,.diag span,.status,small){font-size:16px!important;line-height:1.55}
+.field label{font-size:16px!important;letter-spacing:0;color:#202724;text-transform:none}
+.field :is(input,textarea,select),#draftText{min-height:44px;border:1px solid #9e927e;border-radius:7px;background:#FFFDF8;color:#202724;font:400 18px/1.55 var(--sans)}
+#draftText{min-height:360px}
+.btn{min-height:44px;padding:10px 14px;border-radius:7px;background:#202724;color:#FFF8E9;border:1px solid #B48B45;font:400 16px/1.4 var(--sans)}
+.btn.primary{background:#202724;color:#FFF8E9;border-color:#B48B45}
+.btn.small{min-height:44px;font-size:16px}
+.actions,.head-actions,.modal-actions{justify-content:center;gap:10px}
+:is(.card,.panel,.path-card) button{font-size:16px;min-height:44px}
+#nestGrid{gap:16px}
+footer.vnv-ka-prose-footer{background:#202724;color:#FFF8E9;text-align:center;padding:35px 18px 42px;border:0}
+footer.vnv-ka-prose-footer :is(p,a,small){color:#FFF8E9;font-size:16px}
+footer.vnv-ka-prose-footer nav{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 18px;margin:12px auto}
+footer.vnv-ka-prose-footer .footer-inner{display:block;text-align:center}
+:focus-visible{outline:3px solid #B48B45;outline-offset:3px}
+@media(max-width:800px){.studio-grid{grid-template-columns:1fr}.wrap{width:calc(100% - 28px)}}
+@media(max-width:620px){.studio-nav .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:48px 16px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{.studio-nav,.studio-local-controls,.hero-actions,#vnv-language-rail{display:none!important}body,main,main>section{background:white!important;color:black!important}}
+</style>
+<script defer src="https://vervenveda.com/assets/vnv-333-ticker.js"></script>
+<script defer src="https://vervenveda.com/assets/vnv-ticker-autopopulate.js"></script>
+<script defer src="https://vervenveda.com/assets/vnv-header-autopopulate.js"></script>
 </head>
 <body>
+<div id="vnv-language-rail" role="group" aria-label="Page translation tools"></div>
 <nav id="vnvKaProseTrail" aria-label="Breadcrumb"><a href="https://vervenveda.com/">VNV</a><span aria-hidden="true">›</span><a href="https://vervenveda.com/proresource_hub.github.io/">Resources</a><span aria-hidden="true">›</span><a href="https://vervenveda.com/Khaemenes_High.github.io/courses/language-arts/english-9/learning-tools.html#literary-toolbox">Literary Toolkit</a><span aria-hidden="true">›</span><span aria-current="page">Writer Studio</span></nav>
 <a class="skip" href="#main">Skip to main content</a>
-<header><div class="wrap head"><div class="brand"><span class="mark">SG</span><span><strong>Storybird Grove™</strong><small>Universal Writer's Studio</small></span></div><div class="head-actions"><button class="btn small" id="themeBtn" type="button">Dark</button></div></div></header>
+<div class="studio-local-controls" role="group" aria-label="Studio appearance"><button class="btn" id="themeBtn" type="button">Dark</button></div>
 
-<section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">ProResources · Sovereign Writing Studio</p><h1>Writer's Grove</h1><p class="lead">A universal, local-first studio for high school, adult learners, undergraduate work, graduate-style independent study, and creative practice. It generates <em>constraints and questions</em>—never completed student answers.</p></div><aside class="principles"><strong>Human authorship stays central.</strong><p>Lock what interests you. Reroll what does not. Let the Grove make the blank page smaller while you make the intellectual and creative decisions.</p></aside></div></section>
+<section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">Khaemenes Academy · Writing & Composition</p><h1>Writer's Grove</h1><p class="lead">Create original work with the Storybird Grove writing tools. Explore prompts, develop your draft, revise with purpose, and preserve your writing locally.</p><div class="hero-actions"><a class="btn" href="#studio">Begin Writing</a><a class="btn" href="#draft">Draft Pad</a><a class="btn" href="#nest">Writer’s Nest</a></div></div></div></section>
 
-<nav class="studio-nav"><div class="wrap"><a href="#studio">Studio</a><a href="#draft">Draft Pad</a><a href="#nest">Writer's Nest</a><a href="#settings">Settings &amp; Backup</a></div></nav>
+<nav class="studio-nav" aria-label="Writer Studio sections"><div class="wrap"><a href="#studio">Studio</a><a href="#draft">Draft</a><a href="#nest">Nest</a><a href="#settings">Settings</a></div></nav>
 
 <main id="main">
 <section id="studio"><div class="wrap"><div class="section-head"><p class="eyebrow">Universal Constraint Engine</p><h2>Choose your level, path, and writing mode.</h2><p>The Monte Carlo Muse tests local combinations and returns one set of productive constraints. No network request is made, and no external AI writes the result.</p></div>
@@ -114,10 +165,10 @@ body footer a{font-size:16px}
 
 <section id="nest"><div class="wrap"><div class="section-head"><p class="eyebrow">Private Writer's Nest</p><h2>Preserve drafts, experiments, and revisions.</h2><p>Save locally, favorite strong pieces, reload earlier work, and export a backup before changing devices or clearing browser data.</p></div><div class="actions"><button class="btn" id="showAllBtn" type="button">All</button><button class="btn" id="showFavBtn" type="button">Favorites</button><button class="btn" id="exportBtn" type="button">Export Backup</button><button class="btn" id="importBtn" type="button">Import Backup</button><input id="importFile" type="file" accept="application/json" hidden></div><div class="nest-grid" id="nestGrid"></div></div></section>
 
-<section id="settings"><div class="wrap"><div class="section-head"><p class="eyebrow">Accessibility &amp; Sovereignty</p><h2>Keep the studio private, portable, and readable.</h2></div><div class="card panel"><div class="settings-grid"><div class="setting"><label><span>Larger text</span><input id="largeToggle" type="checkbox"></label></div><div class="setting"><label><span>High contrast</span><input id="contrastToggle" type="checkbox"></label></div><div class="setting"><label><span>Simplified layout</span><input id="simpleToggle" type="checkbox"></label></div><div class="setting"><label><span>Reduce motion</span><input id="motionToggle" type="checkbox"></label></div></div><div class="actions" style="margin-top:14px"><button class="btn danger" id="clearDraftBtn" type="button">Clear Current Draft</button><button class="btn danger" id="clearNestBtn" type="button">Clear Writer's Nest</button></div><p class="mini">Single-file HTML/CSS/JavaScript. No external libraries, ads, analytics, cloud database, external AI service, frames, network fetches, or required account. Content Security Policy blocks outbound connections. Browser localStorage preserves drafts and settings.</p></div></div></section>
+<section id="settings"><div class="wrap"><div class="section-head"><p class="eyebrow">Accessibility &amp; Sovereignty</p><h2>Keep the studio private, portable, and readable.</h2></div><div class="card panel"><div class="settings-grid"><div class="setting"><label><span>Larger text</span><input id="largeToggle" type="checkbox"></label></div><div class="setting"><label><span>High contrast</span><input id="contrastToggle" type="checkbox"></label></div><div class="setting"><label><span>Simplified layout</span><input id="simpleToggle" type="checkbox"></label></div><div class="setting"><label><span>Reduce motion</span><input id="motionToggle" type="checkbox"></label></div></div><div class="actions" style="margin-top:14px"><button class="btn danger" id="clearDraftBtn" type="button">Clear Current Draft</button><button class="btn danger" id="clearNestBtn" type="button">Clear Writer's Nest</button></div><p class="mini">Self-contained writing engine. No external AI, analytics, account, or cloud database is used for writing. The writing engine runs locally and drafts remain in browser localStorage unless you export them. Shared Academy navigation may load public first-party scripts and links; it does not submit draft content.</p></div></div></section>
 </main>
 
-<footer><div class="wrap footer-inner"><span>Storybird Grove™ · Universal Writer's Studio</span><span>ProResources · local-first vanilla HTML/CSS/JS</span></div></footer>
+<footer class="vnv-ka-prose-footer"><div class="wrap footer-inner"><p>Verve N Veda · Khaemenes Academy</p><nav aria-label="Footer navigation"><a href="https://vervenveda.com/">VNV Home</a><a href="https://vervenveda.com/Khaemenes_High.github.io/courses/language-arts/english-9/learning-tools.html#literary-toolbox">Literary Toolkit</a><a href="https://vervenveda.com/proresource_hub.github.io/">ProResources</a><a href="#main">Back to Top</a></nav><small>Storybird Grove · Local-first writing and private draft backups · © 2026</small></div></footer>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><h2 id="modalTitle">Confirm</h2><p id="modalMessage"></p><div class="modal-actions" id="modalActions"></div></div></div>
 
 <script>
@@ -751,6 +802,7 @@ setStatus('Writer’s Grove ready. Choose a level and path, lock what interests 
 window.StorybirdGroveUniversal={getState:()=>JSON.parse(JSON.stringify(state)),runMuse,exportBackup};
 })();
 </script>
+<script>(()=>{"use strict";function mount(){try{window.VNV333Ticker?.mount?.()}catch(e){console.warn("PROSE ticker",e)}try{if(!document.getElementById("vnvTickerAutoPopulate"))window.VNV_TICKER?.autoPopulate?.({before:"#vnv-language-rail",label:"Writer Studio · Quick Links",max:10,cleanLegacy:false})}catch(e){console.warn("PROSE auto ticker",e)}try{window.VNV_HEADER?.mount?.({title:"Writer's Grove",subtitle:"Khaemenes Academy · ProResources",home:"https://vervenveda.com/",actions:[{label:"Toolkit",href:"https://vervenveda.com/Khaemenes_High.github.io/courses/language-arts/english-9/learning-tools.html#literary-toolbox"}]})}catch(e){console.warn("PROSE official header",e)}}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount()})();</script>
 <script src="https://vervenveda.com/assets/vnv-ecosystem-toolbar.js"></script>
 </body>
 </html>
